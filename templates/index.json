@@ -102,7 +102,7 @@
         "gap": 0,
         "section_width": "full-width",
         "section_height": "custom",
-        "section_height_custom": 89,
+        "section_height_custom": 90,
         "background_color": "rgba(0,0,0,0)",
         "corner_radius": 24,
         "corner_radius_position": "all",
