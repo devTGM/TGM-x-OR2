@@ -78,6 +78,17 @@
       "visible_if": "{{ block.settings.style_class == 'button-custom' }}"
     },
     {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.style_class == 'button-custom' }}"
+    },
+    {
       "type": "color",
       "id": "link_text_color",
       "label": "t:settings.link_text_color",

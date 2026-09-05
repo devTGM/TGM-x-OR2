@@ -23,7 +23,7 @@
     {{ block_settings.style_class }}
     {{ block_settings.style_class }}--{{ block.id }}
   "
-  style="{% render 'size-style', settings: block_settings %}"
+  style="{% render 'size-style', settings: block_settings %}{% if block_settings.style_class == 'button-custom' and block_settings.corner_radius != blank %}border-radius: {{ block_settings.corner_radius }}px;{% endif %}"
   {%- if block_settings.open_in_new_tab -%}
     target="_blank"
     rel="noopener noreferrer"
