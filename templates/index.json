@@ -548,11 +548,11 @@
     "slideshow_yJw4XX": {
       "type": "slideshow",
       "blocks": {
-        "slide_qR7xQU": {
+        "slide_6yYz8B": {
           "type": "_slide",
+          "name": "t:names.slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/the_modern.webp",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -572,10 +572,9 @@
             "padding-inline-end": 48
           },
           "blocks": {
-            "text_eLrJDz": {
+            "text_jrycLw": {
               "type": "text",
               "name": "t:names.heading",
-              "disabled": true,
               "settings": {
                 "text": "<h3>New arrivals</h3>",
                 "width": "fit-content",
@@ -599,9 +598,8 @@
               },
               "blocks": {}
             },
-            "text_Rxk4Lq": {
+            "text_mdEz8V": {
               "type": "text",
-              "disabled": true,
               "settings": {
                 "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
                 "width": "fit-content",
@@ -625,109 +623,7 @@
               },
               "blocks": {}
             },
-            "button_bdePd7": {
-              "type": "button",
-              "disabled": true,
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "custom_button_background": "{{ settings.color_palette.foreground }}",
-                "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "corner_radius": 0,
-                "link_text_color": "",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_eLrJDz",
-            "text_Rxk4Lq",
-            "button_bdePd7"
-          ]
-        },
-        "slide_aW98YW": {
-          "type": "_slide",
-          "disabled": true,
-          "settings": {
-            "media_type_1": "image",
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "background_color": "",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 48,
-            "padding-block-end": 48,
-            "padding-inline-start": 48,
-            "padding-inline-end": 48
-          },
-          "blocks": {
-            "text_LHHwrP": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2>Bestsellers</h2>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_aLgRzG": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_bHK4xe": {
+            "button_U4qUeU": {
               "type": "button",
               "settings": {
                 "label": "Shop now",
@@ -748,15 +644,14 @@
             }
           },
           "block_order": [
-            "text_LHHwrP",
-            "text_aLgRzG",
-            "button_bHK4xe"
+            "text_jrycLw",
+            "text_mdEz8V",
+            "button_U4qUeU"
           ]
         }
       },
       "block_order": [
-        "slide_qR7xQU",
-        "slide_aW98YW"
+        "slide_6yYz8B"
       ],
       "name": "t:names.slideshow_full_frame",
       "settings": {
@@ -766,6 +661,7 @@
         "slideshow_gap": 12,
         "corner_radius": 0,
         "slide_height": "medium",
+        "mobile_slide_ratio": "2/1",
         "content_position": "on-media",
         "background_color": "",
         "icons_style": "arrows_large",
@@ -1485,6 +1381,7 @@
         "slideshow_gap": 12,
         "corner_radius": 0,
         "slide_height": "medium",
+        "mobile_slide_ratio": "2/1",
         "content_position": "on-media",
         "background_color": "",
         "icons_style": "arrows_large",
@@ -1709,82 +1606,6 @@
         "padding-block-start": 40,
         "padding-block-end": 48
       }
-    },
-    "testimonial_carousel_p9WkLm": {
-      "type": "testimonial-carousel",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "headline": "Incredible fit and feel",
-            "text": "Hands down the best linen shirts I've ever bought. The breathable fabric and minimal silhouette are exactly what I was looking for.",
-            "author": "Kabir M.",
-            "location": "Mumbai",
-            "verified_buyer": true
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "headline": "Top notch quality",
-            "text": "The fabric drape is so flattering. Stitching, buttons, and finish all feel luxury grade. Will definitely be ordering more colors.",
-            "author": "Ananya P.",
-            "location": "Bengaluru",
-            "verified_buyer": true
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "headline": "My everyday go-to now",
-            "text": "Wore it all day in humid weather and it stayed crisp and comfortable. Truly lives up to the name On Repeat.",
-            "author": "Dev K.",
-            "location": "Delhi",
-            "verified_buyer": true
-          }
-        },
-        "testimonial_4": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "headline": "Worth every single rupee",
-            "text": "The subtle details, clean cut, and premium material make this stand out from fast fashion brands. Fast shipping too!",
-            "author": "Siddharth R.",
-            "location": "Pune",
-            "verified_buyer": true
-          }
-        },
-        "testimonial_5": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "headline": "Flawless craftsmanship",
-            "text": "Very impressed with the cut and fabric texture. Packaging was eco-friendly and thoughtful. 10/10 purchase.",
-            "author": "Meera T.",
-            "location": "Hyderabad",
-            "verified_buyer": true
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3",
-        "testimonial_4",
-        "testimonial_5"
-      ],
-      "settings": {
-        "heading": "What Our Customers Say",
-        "subheading": "Real reviews from verified shoppers",
-        "section_width": "page-width",
-        "scroll_speed": 35,
-        "card_radius": 12,
-        "padding-block-start": 48,
-        "padding-block-end": 56
-      }
     }
   },
   "order": [
@@ -1796,7 +1617,6 @@
     "shoppable_video_carousel_x9K2pL",
     "product_list_DjaYkA",
     "slideshow_jFQtpQ",
-    "product_list_DFVbcb",
-    "testimonial_carousel_p9WkLm"
+    "product_list_DFVbcb"
   ]
 }
