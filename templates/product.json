@@ -390,32 +390,6 @@
                 "text_trust_badges"
               ]
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "accordion_linen_specs": {
               "type": "accordion",
               "settings": {
@@ -425,11 +399,49 @@
                 "type_preset": "h6"
               },
               "blocks": {
+                "row_description": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Description",
+                    "open_by_default": true,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "text_description": {
+                      "type": "text",
+                      "settings": {
+                        "text": "{{ closest.product.description }}",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_description"
+                  ]
+                },
                 "row_composition": {
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "Fabric & Composition",
-                    "open_by_default": true,
+                    "open_by_default": false,
                     "icon": "none"
                   },
                   "blocks": {
@@ -515,6 +527,7 @@
                 }
               },
               "block_order": [
+                "row_description",
                 "row_composition",
                 "row_fit_sizing",
                 "row_care",
@@ -525,7 +538,6 @@
           "block_order": [
             "group_icgrde",
             "group_buying_card",
-            "text_aEtTtq",
             "accordion_linen_specs"
           ]
         }

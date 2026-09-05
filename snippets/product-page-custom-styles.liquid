@@ -538,9 +538,17 @@
     color: #3D3935 !important;
   }
 
-  .product-details .accordion .details-content p {
-    margin: 0 !important;
+  .product-details .accordion .details-content :is(p, ul, ol) {
+    margin: 0 0 10px 0 !important;
     line-height: 1.7 !important;
+  }
+
+  .product-details .accordion .details-content :is(p, ul, ol):last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .product-details .accordion .details-content ul {
+    padding-left: 18px !important;
   }
 
   .product-details .accordion .details-content strong {
