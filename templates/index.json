@@ -1709,6 +1709,82 @@
         "padding-block-start": 40,
         "padding-block-end": 48
       }
+    },
+    "testimonial_carousel_p9WkLm": {
+      "type": "testimonial-carousel",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Incredible fit and feel",
+            "text": "Hands down the best linen shirts I've ever bought. The breathable fabric and minimal silhouette are exactly what I was looking for.",
+            "author": "Kabir M.",
+            "location": "Mumbai",
+            "verified_buyer": true
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Top notch quality",
+            "text": "The fabric drape is so flattering. Stitching, buttons, and finish all feel luxury grade. Will definitely be ordering more colors.",
+            "author": "Ananya P.",
+            "location": "Bengaluru",
+            "verified_buyer": true
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "My everyday go-to now",
+            "text": "Wore it all day in humid weather and it stayed crisp and comfortable. Truly lives up to the name On Repeat.",
+            "author": "Dev K.",
+            "location": "Delhi",
+            "verified_buyer": true
+          }
+        },
+        "testimonial_4": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Worth every single rupee",
+            "text": "The subtle details, clean cut, and premium material make this stand out from fast fashion brands. Fast shipping too!",
+            "author": "Siddharth R.",
+            "location": "Pune",
+            "verified_buyer": true
+          }
+        },
+        "testimonial_5": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Flawless craftsmanship",
+            "text": "Very impressed with the cut and fabric texture. Packaging was eco-friendly and thoughtful. 10/10 purchase.",
+            "author": "Meera T.",
+            "location": "Hyderabad",
+            "verified_buyer": true
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3",
+        "testimonial_4",
+        "testimonial_5"
+      ],
+      "settings": {
+        "heading": "What Our Customers Say",
+        "subheading": "Real reviews from verified shoppers",
+        "section_width": "page-width",
+        "scroll_speed": 35,
+        "card_radius": 12,
+        "padding-block-start": 48,
+        "padding-block-end": 56
+      }
     }
   },
   "order": [
@@ -1720,6 +1796,7 @@
     "shoppable_video_carousel_x9K2pL",
     "product_list_DjaYkA",
     "slideshow_jFQtpQ",
-    "product_list_DFVbcb"
+    "product_list_DFVbcb",
+    "testimonial_carousel_p9WkLm"
   ]
 }
