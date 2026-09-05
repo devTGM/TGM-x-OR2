@@ -171,16 +171,20 @@
       "visible_if": "{{ block.settings.media_type_1 == 'image' }}"
     },
     {
-      "type": "image_picker",
-      "id": "image_1_mobile",
-      "label": "Mobile image (optional)",
-      "visible_if": "{{ block.settings.media_type_1 == 'image' }}"
-    },
-    {
       "type": "video",
       "id": "video_1",
       "label": "t:settings.video",
       "visible_if": "{{ block.settings.media_type_1 == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile media (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1_mobile",
+      "label": "Mobile image",
+      "info": "Leave blank to automatically adjust desktop banner in 2:1 size on mobile"
     },
     {
       "type": "header",
