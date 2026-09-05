@@ -575,6 +575,7 @@
     {% else %}
       --hero-border-radius: 0px;
     {% endif %}
+    --hero-side-padding: {{ section.settings.banner_side_padding | default: 0 }}px;
     {% if section.settings.section_height == 'custom' %}
       --hero-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == "full-screen" %}
@@ -786,6 +787,8 @@
 {% stylesheet %}
   .hero-wrapper {
     --hero-height-offset: 0px;
+    padding-inline: var(--hero-side-padding, 0px);
+    box-sizing: border-box;
   }
 
   /* Being extra specific in the selector for performance reasons */
@@ -800,6 +803,8 @@
   .hero {
     position: relative;
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+    border-radius: var(--hero-border-radius, 0);
+    overflow: hidden;
   }
 
   .hero[data-shopify-visual-preview] {
@@ -813,7 +818,6 @@
     overflow: hidden;
     border: var(--hero-border-width) var(--hero-border-style) rgb(var(--color-border-rgb) / var(--hero-border-opacity));
     border-radius: var(--hero-border-radius, 0);
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
     isolation: isolate;
     min-height: inherit;
     align-items: var(--vertical-alignment-mobile);
@@ -846,6 +850,7 @@
     grid-column: 1 / -1;
     grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
     border-radius: inherit;
+    overflow: hidden;
   }
 
   .hero--auto .hero__media {
@@ -868,9 +873,20 @@
     overflow: hidden;
     position: relative;
     border-radius: inherit;
+    width: 100%;
+    height: 100%;
+  }
+
+  picture.hero__media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: inherit;
   }
 
   .hero__media {
+    display: block;
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -1874,7 +1890,7 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
       "type": "select",
@@ -1882,15 +1898,26 @@
       "label": "Corner radius position",
       "options": [
         {
-          "value": "top",
-          "label": "Top corners only"
-        },
-        {
           "value": "all",
           "label": "All corners"
+        },
+        {
+          "value": "top",
+          "label": "Top corners only"
         }
       ],
-      "default": "top"
+      "default": "all"
+    },
+    {
+      "type": "range",
+      "id": "banner_side_padding",
+      "label": "Side spacing (card style)",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Adds spacing on left and right so the rounded edges of the banner are framed"
     },
     {
       "type": "checkbox",
