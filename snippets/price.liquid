@@ -19,19 +19,10 @@
   assign show_compare_price = false
   if compare_at_price > price
     assign show_compare_price = true
-  elsif template.name == 'product'
-    assign show_compare_price = true
-    if price > 0
-      assign compare_at_price = price | times: 2.8 | round: 0
-    else
-      assign compare_at_price = 699900
-    endif
   endif
 
   if product_resource == blank
-    assign price = 249900
-    assign compare_at_price = 699900
-    assign show_compare_price = true
+    assign price = 1999
   endif
 
   # Check if variant has volume pricing
@@ -98,50 +89,28 @@
     </span>
   {% else %}
     {% comment %} Standard pricing display: render only the active branch (regular or sale) {% endcomment %}
-    {% if is_product_card %}
-      {% if show_compare_price %}
-        {% if show_sale_price_first %}
-          <span class="price-item__group price">
-            <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-            {{ price | default: '&nbsp;' }}
-          </span>
-          <span class="price-item__group price-item--regular compare-at-price">
-            <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-            {{- compare_at_price -}}
-          </span>
-        {% else %}
-          <span class="price-item__group price-item--regular compare-at-price">
-            <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-            {{- compare_at_price -}}
-          </span>
-          <span class="price-item__group price">
-            <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-            {{ price | default: '&nbsp;' }}
-          </span>
-        {% endif %}
+    {% if show_compare_price %}
+      {% if show_sale_price_first %}
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          {{ price | default: '&nbsp;' }}
+        </span>
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          {{- compare_at_price -}}
+        </span>
       {% else %}
-        <span class="price">{{ price | default: '&nbsp;' }}</span>
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          {{- compare_at_price -}}
+        </span>
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          {{ price | default: '&nbsp;' }}
+        </span>
       {% endif %}
     {% else %}
-      {% comment %} Product page comparative pricing layout {% endcomment %}
-      <div class="price-comparison">
-        {% if show_compare_price %}
-          <div class="price-comparison__row price-comparison__regular">
-            <span class="price-comparison__label">Luxury Brands:</span>
-            <span class="price-item__group price-item--regular compare-at-price">
-              <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-              {{- compare_at_price -}}
-            </span>
-          </div>
-        {% endif %}
-        <div class="price-comparison__row price-comparison__sale">
-          <span class="price-comparison__label price-comparison__label--sale">Our Price:</span>
-          <span class="price-item__group price price-sale-highlight">
-            <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-            {{ price | default: '&nbsp;' }}
-          </span>
-        </div>
-      </div>
+      <span class="price">{{ price | default: '&nbsp;' }}</span>
     {% endif %}
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}

@@ -76,45 +76,32 @@
     line-height: 1 !important;
   }
 
-  /* 5. Luxury Comparative Price Block */
-  .product-details .price-comparison {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 4px !important;
-    margin-top: 4px !important;
-    margin-bottom: 12px !important;
-  }
-
-  .product-details .price-comparison__row {
-    display: flex !important;
-    align-items: baseline !important;
-    gap: 6px !important;
-    line-height: 1.35 !important;
-  }
-
-  .product-details .price-comparison__label {
-    font-size: 14.5px !important;
-    font-weight: 400 !important;
-    color: #374151 !important;
-  }
-
-  .product-details .price-comparison__regular .compare-at-price {
-    font-size: 14.5px !important;
-    color: #4b5563 !important;
-    text-decoration: line-through !important;
-    text-decoration-thickness: 1.5px !important;
-  }
-
-  .product-details .price-comparison__label--sale {
-    font-size: 15.5px !important;
+  /* 5. Clean Actual Price Display */
+  .product-details .price,
+  .product-details .price-item__group.price,
+  .product-details product-price .price {
+    font-size: 19px !important;
     font-weight: 600 !important;
-    color: #c25e36 !important;
+    color: #111827 !important;
+    letter-spacing: -0.01em !important;
+    display: inline-block !important;
+    line-height: 1.3 !important;
   }
 
-  .product-details .price-sale-highlight {
-    font-size: 17.5px !important;
-    font-weight: 700 !important;
-    color: #c25e36 !important;
+  .product-details .compare-at-price,
+  .product-details .price-item__group.compare-at-price {
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    color: #6b7280 !important;
+    text-decoration: line-through !important;
+    margin-left: 8px !important;
+    display: inline-block !important;
+  }
+
+  .product-details product-price {
+    margin-top: 2px !important;
+    margin-bottom: 12px !important;
+    display: block !important;
   }
 
   /* 6. Enclosed Buying Card Container */
