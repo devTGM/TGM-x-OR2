@@ -1,0 +1,635 @@
+﻿{% liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign section_width = section.settings.section_width | default: 'page-width'
+  assign card_radius = section.settings.card_radius | default: 12
+  assign speed = section.settings.scroll_speed | default: 35
+%}
+
+<div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
+
+<div
+  class="
+    section
+    section--{{ section_width }}
+    {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+    testimonial-section
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --tc-card-radius: {{ card_radius }}px;
+    --tc-speed: {{ speed }}s;
+  "
+>
+  <infinite-testimonial-carousel class="tc-carousel" data-speed="{{ speed }}">
+    <div class="tc-header">
+      <div class="tc-header__title-wrap">
+        {% if heading != blank %}
+          <h2 class="tc-header__title h3">{{ heading }}</h2>
+        {% endif %}
+        {% if subheading != blank %}
+          <p class="tc-header__subheading">{{ subheading }}</p>
+        {% endif %}
+      </div>
+
+      <div class="tc-header__controls">
+        <button
+          type="button"
+          class="tc-arrow tc-arrow--prev"
+          aria-label="Scroll left"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="tc-arrow tc-arrow--next"
+          aria-label="Scroll right"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tc-track-container" ref="trackContainer">
+      <div class="tc-track" ref="track">
+        <!-- Render cards twice for a continuous infinite marquee loop -->
+        {% for cycle_index in (1..2) %}
+          <div class="tc-group" aria-hidden="{% if cycle_index == 2 %}true{% else %}false{% endif %}">
+            {% for block in section.blocks %}
+              {% liquid
+                assign stars = block.settings.rating | default: 5
+                assign headline = block.settings.headline
+                assign quote = block.settings.text
+                assign author = block.settings.author
+                assign location = block.settings.location
+                assign is_verified = block.settings.verified_buyer
+                assign product = block.settings.product
+              %}
+
+              <div class="tc-card" {{ block.shopify_attributes }}>
+                <!-- Rating Stars -->
+                <div class="tc-card__rating" aria-label="{{ stars }} out of 5 stars">
+                  {% for i in (1..5) %}
+                    {% if i <= stars %}
+                      <svg class="tc-star tc-star--filled" width="16" height="16" viewBox="0 0 24 24" fill="#E69500" stroke="#E69500" stroke-width="1">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      </svg>
+                    {% else %}
+                      <svg class="tc-star tc-star--empty" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      </svg>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+                <!-- Review Headline -->
+                {% if headline != blank %}
+                  <h3 class="tc-card__headline">{{ headline }}</h3>
+                {% endif %}
+
+                <!-- Review Text -->
+                {% if quote != blank %}
+                  <p class="tc-card__quote">“{{ quote }}”</p>
+                {% endif %}
+
+                <!-- Review Footer: Author & Badge -->
+                <div class="tc-card__footer">
+                  <div class="tc-card__author-wrap">
+                    <div class="tc-card__author-info">
+                      <div class="tc-card__author-name-row">
+                        <span class="tc-card__author-name">{{ author | default: 'Happy Customer' }}</span>
+                        {% if is_verified %}
+                          <span class="tc-card__verified-badge" title="Verified Buyer">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <span>Verified</span>
+                          </span>
+                        {% endif %}
+                      </div>
+                      {% if location != blank %}
+                        <span class="tc-card__location">{{ location }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Optional Connected Product Pill -->
+                  {% if product != blank %}
+                    <a href="{{ product.url }}" class="tc-card__product-link">
+                      {% if product.featured_image != blank %}
+                        {{
+                          product.featured_image
+                          | image_url: width: 60, height: 60, crop: 'center'
+                          | image_tag: class: 'tc-card__product-thumb', loading: 'lazy'
+                        }}
+                      {% endif %}
+                      <span class="tc-card__product-title">{{ product.title }}</span>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </infinite-testimonial-carousel>
+</div>
+
+{% stylesheet %}
+  .testimonial-section {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .tc-carousel {
+    display: block;
+    width: 100%;
+  }
+
+  /* Header */
+  .tc-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .tc-header__title {
+    margin: 0;
+    font-family: var(--font-h3--family, var(--font-heading--family, inherit));
+    font-style: var(--font-h3--style, normal);
+    font-weight: var(--font-h3--weight, 700);
+    font-size: var(--font-h3--size, 2rem);
+    line-height: var(--font-h3--line-height, 1.2);
+    letter-spacing: var(--font-h3--letter-spacing, normal);
+    text-transform: var(--font-h3--case, none);
+    color: currentColor;
+  }
+
+  .tc-header__subheading {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .tc-header__controls {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .tc-header__controls {
+      display: flex;
+    }
+  }
+
+  .tc-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #ffffff;
+    color: #111111;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+
+  .tc-arrow:hover {
+    border-color: #111111;
+    background: #111111;
+    color: #ffffff;
+  }
+
+  /* Marquee Track Container */
+  .tc-track-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  }
+
+  .tc-track {
+    display: flex;
+    width: max-content;
+    gap: 16px;
+    will-change: transform;
+    animation: tc-marquee var(--tc-speed, 35s) linear infinite;
+  }
+
+  .tc-carousel:hover .tc-track {
+    animation-play-state: paused;
+  }
+
+  .tc-group {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  @keyframes tc-marquee {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(calc(-50% - 8px), 0, 0);
+    }
+  }
+
+  /* Card */
+  .tc-card {
+    position: relative;
+    width: 310px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22px 20px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--tc-card-radius, 12px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  @media screen and (min-width: 750px) {
+    .tc-card {
+      width: 340px;
+      padding: 24px 22px;
+    }
+  }
+
+  .tc-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.16);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Rating */
+  .tc-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 12px;
+  }
+
+  .tc-star {
+    flex-shrink: 0;
+  }
+
+  /* Headline */
+  .tc-card__headline {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #111111;
+  }
+
+  /* Quote */
+  .tc-card__quote {
+    margin: 0 0 16px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.72);
+    flex-grow: 1;
+  }
+
+  /* Footer */
+  .tc-card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .tc-card__author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .tc-card__author-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tc-card__author-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #111111;
+  }
+
+  .tc-card__verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #15803d;
+    background: #f0fdf4;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .tc-card__location {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  /* Connected Product Pill */
+  .tc-card__product-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    background: #f8f8f8;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #111111;
+    font-size: 0.75rem;
+    transition: background 0.15s ease;
+  }
+
+  .tc-card__product-link:hover {
+    background: #f0f0f0;
+  }
+
+  .tc-card__product-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .tc-card__product-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+{% endstylesheet %}
+
+<script>
+  if (!customElements.get('infinite-testimonial-carousel')) {
+    class InfiniteTestimonialCarousel extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('.tc-track');
+        this.prevBtn = this.querySelector('.tc-arrow--prev');
+        this.nextBtn = this.querySelector('.tc-arrow--next');
+
+        if (!this.track) return;
+
+        this.initControls();
+      }
+
+      initControls() {
+        let currentOffset = 0;
+        const step = 340;
+
+        if (this.prevBtn && this.nextBtn) {
+          this.prevBtn.addEventListener('click', () => {
+            this.track.style.animationPlayState = 'paused';
+            this.track.scrollBy({ left: -step, behavior: 'smooth' });
+          });
+
+          this.nextBtn.addEventListener('click', () => {
+            this.track.style.animationPlayState = 'paused';
+            this.track.scrollBy({ left: step, behavior: 'smooth' });
+          });
+        }
+      }
+    }
+
+    customElements.define('infinite-testimonial-carousel', InfiniteTestimonialCarousel);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial carousel",
+  "tag": "section",
+  "class": "shopify-section-testimonial-carousel",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real reviews from verified shoppers"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Animation"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Animation duration (seconds per loop)",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 35,
+      "info": "Lower is faster, higher is smoother and slower"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Review card",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Outstanding quality & perfect fit"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "The attention to detail and fabric quality is incredible. Fits true to size and looks effortlessly stylish. Highly recommended!"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "default": "Rahul S."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified_buyer",
+          "label": "Show verified buyer badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location or detail",
+          "default": "Mumbai · Verified Buyer"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Reviewed product (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial carousel",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Incredible fit and feel",
+            "text": "Hands down the best linen shirts I've ever bought. The breathable fabric and minimal silhouette are exactly what I was looking for.",
+            "author": "Kabir M.",
+            "location": "Mumbai",
+            "verified_buyer": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Top notch quality",
+            "text": "The fabric drape is so flattering. Stitching, buttons, and finish all feel luxury grade. Will definitely be ordering more colors.",
+            "author": "Ananya P.",
+            "location": "Bengaluru",
+            "verified_buyer": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "My everyday go-to now",
+            "text": "Wore it all day in humid weather and it stayed crisp and comfortable. Truly lives up to the name On Repeat.",
+            "author": "Dev K.",
+            "location": "Delhi",
+            "verified_buyer": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Worth every single rupee",
+            "text": "The subtle details, clean cut, and premium material make this stand out from fast fashion brands. Fast shipping too!",
+            "author": "Siddharth R.",
+            "location": "Pune",
+            "verified_buyer": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "headline": "Flawless craftsmanship",
+            "text": "Very impressed with the cut and fabric texture. Packaging was eco-friendly and thoughtful. 10/10 purchase.",
+            "author": "Meera T.",
+            "location": "Hyderabad",
+            "verified_buyer": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
