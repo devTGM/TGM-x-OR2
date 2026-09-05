@@ -15,6 +15,7 @@
         "text_YLPk4p": {
           "type": "text",
           "name": "t:names.heading",
+          "disabled": true,
           "settings": {
             "text": "<p>Browse our latest products</p>",
             "width": "fit-content",
@@ -41,6 +42,7 @@
         "button_H9gpTf": {
           "type": "button",
           "name": "t:names.button",
+          "disabled": true,
           "settings": {
             "label": "Shop all",
             "link": "shopify://collections/all",
@@ -87,7 +89,7 @@
         "section_height_custom": 100,
         "background_color": "rgba(0,0,0,0)",
         "toggle_overlay": true,
-        "overlay_color": "#12121266",
+        "overlay_color": "#12121200",
         "overlay_style": "solid",
         "gradient_direction": "to bottom",
         "blurred_reflection": false,
