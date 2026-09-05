@@ -102,8 +102,6 @@
         "gap": 0,
         "section_width": "full-width",
         "section_height": "responsive-ratio",
-        "hero_height_desktop": 900,
-        "hero_height_mobile": 680,
         "section_height_custom": 100,
         "background_color": "rgba(0,0,0,0)",
         "corner_radius": 24,
