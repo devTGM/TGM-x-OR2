@@ -1,0 +1,427 @@
+{%- liquid
+  assign desktop_image = blank
+  if section.settings.show_collection_image and collection.image != blank
+    assign desktop_image = collection.image
+  elsif section.settings.image != blank
+    assign desktop_image = section.settings.image
+  elsif collection.image != blank
+    assign desktop_image = collection.image
+  endif
+
+  assign mobile_image = section.settings.image_mobile
+
+  assign banner_ratio = section.settings.banner_ratio | default: '2/1'
+  assign ratio_parts = banner_ratio | split: '/'
+  assign r_w = ratio_parts[0] | times: 1.0
+  assign r_h = ratio_parts[1] | times: 1.0
+  if r_w > 0 and r_h > 0
+    assign ratio_css = r_w | append: ' / ' | append: r_h
+    assign mobile_pct = r_h | divided_by: r_w | times: 100
+  else
+    assign ratio_css = '2 / 1'
+    assign mobile_pct = 50
+  endif
+-%}
+
+{%- style -%}
+  .collection-banner-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__container {
+    width: 100%;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__media-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ ratio_css }};
+    min-height: {{ mobile_pct }}vw;
+    border-radius: {{ section.settings.corner_radius }}px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+  }
+
+  @media screen and (min-width: 750px) {
+    .collection-banner-{{ section.id }} .collection-banner__media-wrapper {
+      min-height: unset;
+    }
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__picture,
+  .collection-banner-{{ section.id }} .collection-banner__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position | default: 'center' }};
+    display: block;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    {%- if section.settings.toggle_overlay -%}
+      background: {{ section.settings.overlay_color }};
+      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    {%- else -%}
+      display: none;
+    {%- endif -%}
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(16px, 4vw, 40px);
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    pointer-events: none;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__content--center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__content--bottom-left {
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__content--bottom-center {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__content--top-left {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__title {
+    margin: 0;
+    color: inherit;
+    line-height: 1.15;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    word-break: break-word;
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__description {
+    margin: 8px 0 0 0;
+    max-width: 680px;
+    color: inherit;
+    opacity: 0.92;
+    line-height: 1.45;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+  }
+
+  .collection-banner-{{ section.id }} .collection-banner__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #232323 0%, #111111 100%);
+  }
+{%- endstyle -%}
+
+<div class="collection-banner-{{ section.id }} {% if section.settings.section_width == 'page-width' %}page-width{% endif %}">
+  <div class="collection-banner__container">
+    <div class="collection-banner__media-wrapper">
+      {%- if desktop_image != blank -%}
+        {%- if mobile_image != blank -%}
+          <picture class="collection-banner__picture">
+            <source
+              media="(max-width: 749px)"
+              srcset="
+                {%- for width in '400,600,800,1000,1200' | split: ',' -%}
+                  {{ mobile_image | image_url: width: width }} {{ width }}w{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              "
+              sizes="100vw"
+              width="{{ mobile_image.width }}"
+              height="{{ mobile_image.height }}"
+            >
+            {{
+              desktop_image
+              | image_url: width: 3840
+              | image_tag:
+                class: 'collection-banner__image',
+                widths: '600, 800, 1200, 1600, 2000, 2600, 3200, 3840',
+                sizes: '100vw',
+                loading: 'eager',
+                fetchpriority: 'high',
+                alt: collection.title | escape
+            }}
+          </picture>
+        {%- else -%}
+          {{
+            desktop_image
+            | image_url: width: 3840
+            | image_tag:
+              class: 'collection-banner__image',
+              widths: '600, 800, 1200, 1600, 2000, 2600, 3200, 3840',
+              sizes: '100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: collection.title | escape
+          }}
+        {%- endif -%}
+      {%- else -%}
+        <div class="collection-banner__placeholder"></div>
+      {%- endif -%}
+
+      <div class="collection-banner__overlay" aria-hidden="true"></div>
+
+      {%- if section.settings.show_title or section.settings.show_description -%}
+        <div class="collection-banner__content collection-banner__content--{{ section.settings.content_position | default: 'center' }}">
+          {%- if section.settings.show_title and collection.title != blank -%}
+            <{{ section.settings.heading_size | default: 'h1' }} class="collection-banner__title">
+              {{ collection.title }}
+            </{{ section.settings.heading_size | default: 'h1' }}>
+          {%- endif -%}
+
+          {%- if section.settings.show_description and collection.description != blank -%}
+            <div class="collection-banner__description rte">
+              {{ collection.description }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection banner",
+  "class": "collection-banner-section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Use collection featured image",
+      "info": "Uses the collection image set in Shopify Admin (Products > Collections)",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop banner fallback / custom image",
+      "info": "Used if collection has no image, or to override collection image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile banner image (optional)",
+      "info": "Leave blank to automatically adjust desktop banner in 2:1 size on mobile"
+    },
+    {
+      "type": "select",
+      "id": "banner_ratio",
+      "label": "Banner aspect ratio",
+      "options": [
+        {
+          "value": "2/1",
+          "label": "2:1 (Recommended)"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "3/1",
+          "label": "3:1"
+        }
+      ],
+      "default": "2/1",
+      "info": "Maintains exact 2:1 proportion on mobile and desktop"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image focal position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Content and text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Large (H1)"
+        },
+        {
+          "value": "h2",
+          "label": "Medium (H2)"
+        },
+        {
+          "value": "h3",
+          "label": "Small (H3)"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "top-left",
+          "label": "Top left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle_overlay",
+      "label": "Enable readability overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Layout and sizing"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection banner"
+    }
+  ]
+}
+{% endschema %}
