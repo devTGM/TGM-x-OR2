@@ -282,6 +282,31 @@
     },
     {
       "type": "select",
+      "id": "mobile_slide_ratio",
+      "label": "Mobile banner ratio (when no mobile image)",
+      "options": [
+        {
+          "value": "2/1",
+          "label": "2:1 (Half width)"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "1/1",
+          "label": "1:1 (Square)"
+        },
+        {
+          "value": "auto",
+          "label": "Adapt to desktop height"
+        }
+      ],
+      "default": "2/1",
+      "info": "Automatically adjusts desktop banners in 2:1 size on mobile screens"
+    },
+    {
+      "type": "select",
       "id": "content_position",
       "label": "t:settings.content_position",
       "options": [
