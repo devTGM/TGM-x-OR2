@@ -36,6 +36,73 @@
     flex-basis: 51%;
   }
 
+  .product-form-buttons--inline {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .product-form-buttons--inline > .quantity-selector-wrapper {
+    flex: 0 0 130px !important;
+    width: 130px !important;
+    max-width: 130px !important;
+    margin: 0 !important;
+  }
+
+  .product-form-buttons--inline .quantity-selector {
+    height: 48px !important;
+    border-radius: 12px !important;
+    border: 1px solid #e0e0e0 !important;
+    background-color: #ffffff !important;
+    width: 100% !important;
+  }
+
+  .product-form-buttons--inline > [data-testid='standalone-add-to-cart'],
+  .product-form-buttons--inline > span:has(add-to-cart-component),
+  .product-form-buttons--inline > add-to-cart-component {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .product-form-buttons--inline .add-to-cart-button {
+    height: 48px !important;
+    border-radius: 12px !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    padding-block: 0 !important;
+  }
+
+  .product-form-buttons--inline .add-to-cart-button:hover {
+    background-color: #222222 !important;
+    border-color: #222222 !important;
+  }
+
+  .product-form-buttons--inline .add-to-cart-icon {
+    width: 18px !important;
+    height: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .product-form-buttons--inline .add-to-cart-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: #ffffff !important;
+  }
+
   .product-form-buttons button {
     width: 100%;
     padding-block: var(--padding-lg);

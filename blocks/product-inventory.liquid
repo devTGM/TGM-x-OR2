@@ -33,8 +33,9 @@
     endif
   else
     if closest.product.selected_or_first_available_variant != null
-      assign status = 'in_stock'
-      assign translation_key = 'content.inventory_in_stock'
+      assign status = 'low'
+      assign show_quantity = true
+      assign inventory_quantity = 1
     else
       assign status = 'out_of_stock'
       assign translation_key = 'content.inventory_out_of_stock'
@@ -98,7 +99,7 @@
   }
 
   .product-inventory__icon-low {
-    color: var(--color-lowstock);
+    color: #e06d3b;
   }
 
   .product-inventory__icon-in_stock {

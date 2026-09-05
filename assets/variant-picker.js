@@ -231,6 +231,11 @@ export default class VariantPicker extends Component {
           }
 
           this.updateFieldsetCss(fieldsetIndex);
+
+          const selectedValueEl = fieldset.querySelector('.variant-option__selected-value');
+          if (selectedValueEl && target.value) {
+            selectedValueEl.textContent = target.value;
+          }
         }
       }
       target.checked = true;

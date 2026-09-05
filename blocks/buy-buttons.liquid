@@ -72,7 +72,7 @@
           <span class="buy-buttons-block__bar">
         {%- endif -%}
         <div
-          class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% endif %}"
+          class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% else %} product-form-buttons--inline{% endif %}"
           style="{% render 'spacing-style', settings: block_settings %}"
           ref="productFormButtons"
         >

@@ -7,13 +7,10 @@
 {% unless product_option.available %}
   <svg
     viewBox="0 0 100 46"
-    preserveAspectRatio="xMidYMid slice"
+    preserveAspectRatio="none"
     class="variant-option__strikethrough"
     aria-hidden="true"
   >
-    {% # 25deg %}
-    <line x1="100" y1="0" x2="0" y2="46" vector-effect="non-scaling-stroke" />
-    {% # duplicate line for motion overlay %}
-    <line x1="100" y1="0" x2="0" y2="46" vector-effect="non-scaling-stroke" />
+    <line x1="0" y1="46" x2="100" y2="0" vector-effect="non-scaling-stroke" />
   </svg>
 {% endunless %}
