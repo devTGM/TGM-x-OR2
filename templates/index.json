@@ -1540,11 +1540,47 @@
         "padding-block-start": 48,
         "padding-block-end": 56
       }
+    },
+    "brand_story_mK7vPq": {
+      "type": "brand-story",
+      "settings": {
+        "overline": "MINDFULLY CRAFTED",
+        "heading": "Breathable Linen. Designed for Warm Days.",
+        "story_text": "<p>At ON REPEAT, we believe true luxury lies in simplicity and tactile comfort. Crafted from 100% pure European flax, our linen garments are pre-washed for effortless drape, natural breathability, and enduring softness. Mindfully designed to be worn on repeat.</p>",
+        "button_label": "Explore Collection",
+        "button_link": "shopify://collections/all",
+        "section_width": "page-width",
+        "background_color": "{{ settings.color_palette.background }}",
+        "text_color": "{{ settings.color_palette.foreground }}",
+        "padding_top": 64,
+        "padding_bottom": 56
+      }
+    },
+    "fabric_education_wR9xLm": {
+      "type": "fabric-education",
+      "settings": {
+        "overline": "FABRIC INNOVATION",
+        "heading": "Why Linen?",
+        "subheading": "Nature's most intelligent fibre, designed for effortless warmth and tropical comfort.",
+        "card_1_title": "Naturally Breathable",
+        "card_1_text": "Hollow linen fibres allow continuous airflow, regulating your body temperature so you stay naturally cooler in the sun.",
+        "card_2_title": "Durable & Ever-Softening",
+        "card_2_text": "Three times stronger than cotton. Linen resists fraying and actually grows softer, more supple, and more luxurious with every wash.",
+        "card_3_title": "100% Pure Natural Flax",
+        "card_3_text": "Crafted from European flax with gentle environmental impact. Hypoallergenic, antibacterial, and completely kind to sensitive skin.",
+        "background_color": "{{ settings.color_palette.background }}",
+        "card_background": "#FFFFFF",
+        "text_color": "{{ settings.color_palette.foreground }}",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "product_list_fa6P9H",
+    "brand_story_mK7vPq",
+    "fabric_education_wR9xLm",
     "product_list_BcEdnq",
     "hero_cmya3X",
     "product_list_gRXzLJ",

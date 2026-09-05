@@ -154,7 +154,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p class=\"product-style-meta\">Style: <strong>Regular Fit</strong></p>",
+                    "text": "<p class=\"product-style-meta\">Style: <strong>Regular Fit</strong> &middot; Model: <strong>6'1\" (185 cm) wearing Size L</strong></p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -355,12 +355,39 @@
                     "quantity",
                     "add-to-cart"
                   ]
+                },
+                "text_trust_badges": {
+                  "type": "text",
+                  "name": "Trust Badges",
+                  "settings": {
+                    "text": "<div class=\"product-trust-badges\"><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg> Free Express Shipping</span><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect><circle cx=\"12\" cy=\"12\" r=\"2\"></circle><path d=\"M6 12h.01M18 12h.01\"></path></svg> COD Available</span><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"1 4 1 10 7 10\"></polyline><path d=\"M3.51 15a9 9 0 1 0 2.13-9.36L1 10\"></path></svg> Easy 7-Day Returns</span></div>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.9rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 4,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "variant_picker_R3rGDr",
                 "product_inventory_badge",
-                "buy_buttons_eYQEYi"
+                "buy_buttons_eYQEYi",
+                "text_trust_badges"
               ]
             },
             "text_aEtTtq": {
@@ -388,12 +415,118 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "accordion_linen_specs": {
+              "type": "accordion",
+              "settings": {
+                "icon": "caret",
+                "dividers": true,
+                "divider_color": "#E6E1DA",
+                "type_preset": "h6"
+              },
+              "blocks": {
+                "row_composition": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fabric & Composition",
+                    "open_by_default": true,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "text_composition": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>100% Pure European Flax Linen</strong><br>• Medium-weight 180 GSM woven fabric for optimal airflow and graceful drape.<br>• Garment-washed with gentle enzymes for lived-in softness from the very first wear.<br>• Naturally hypoallergenic, moisture-wicking, and heat-regulating for tropical warmth.</p>",
+                        "width": "100%",
+                        "type_preset": "paragraph"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_composition"
+                  ]
+                },
+                "row_fit_sizing": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fit & Sizing Details",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "text_fit_sizing": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>• <strong>Fit:</strong> Regular relaxed silhouette engineered for all-day comfort.<br>• <strong>Model Stats:</strong> Height 6'1\" (185 cm), wearing Size L.<br>• <strong>Craft Details:</strong> Natural mother-of-pearl buttons, clean French seams, curved shirt-tail hem.<br>• Fits true to standard sizing. If you prefer a loose, oversized fit, size up one size.</p>",
+                        "width": "100%",
+                        "type_preset": "paragraph"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_fit_sizing"
+                  ]
+                },
+                "row_care": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fabric Care Guide",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "text_care": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>• Machine wash cold (30°C) on a gentle or delicate cycle with mild detergent.<br>• Wash with similar colours. Do not use bleach or fabric softeners.<br>• Line dry in shade. Avoid tumble drying to preserve natural flax fiber strength.<br>• Warm iron while slightly damp if you desire a crisp finish, or embrace natural linen wrinkles for casual ease.</p>",
+                        "width": "100%",
+                        "type_preset": "paragraph"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_care"
+                  ]
+                },
+                "row_shipping": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Shipping, COD & Returns",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "text_shipping": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>• <strong>Free Express Shipping:</strong> Fast pan-India delivery within 2–5 business days.<br>• <strong>Cash on Delivery:</strong> Available across all serviceable pin codes in India.<br>• <strong>Hassle-Free Returns:</strong> 7-day seamless exchange or return from the date of delivery.<br>• For queries or size exchanges, chat with our concierge team anytime on WhatsApp.</p>",
+                        "width": "100%",
+                        "type_preset": "paragraph"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_shipping"
+                  ]
+                }
+              },
+              "block_order": [
+                "row_composition",
+                "row_fit_sizing",
+                "row_care",
+                "row_shipping"
+              ]
             }
           },
           "block_order": [
             "group_icgrde",
             "group_buying_card",
-            "text_aEtTtq"
+            "text_aEtTtq",
+            "accordion_linen_specs"
           ]
         }
       },

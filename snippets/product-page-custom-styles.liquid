@@ -461,4 +461,90 @@
     font-size: 15px !important;
     line-height: 1.65 !important;
   }
+
+  /* 13. Trust & Modern UX Badges (India-Optimized) */
+  .product-details .product-trust-badges {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    padding-top: 14px !important;
+    margin-top: 4px !important;
+    border-top: 1px solid #e5e7eb !important;
+    width: 100% !important;
+  }
+
+  .product-details .product-trust-badges .trust-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .product-details .product-trust-badges .trust-item svg {
+    color: #374151 !important;
+    flex-shrink: 0 !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-details .product-trust-badges {
+      gap: 8px 12px !important;
+    }
+    .product-details .product-trust-badges .trust-item {
+      font-size: 12px !important;
+    }
+  }
+
+  /* 14. Minimal Luxury Linen Specification Accordions */
+  .product-details .accordion {
+    margin-top: 16px !important;
+    border-top: 1px solid #E6E1DA !important;
+    width: 100% !important;
+  }
+
+  .product-details .accordion .details {
+    border-bottom: 1px solid #E6E1DA !important;
+    padding: 0 !important;
+  }
+
+  .product-details .accordion .details__header {
+    font-family: var(--font-heading--family), Georgia, serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+    color: #1C1C1C !important;
+    padding: 16px 0 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: color 0.15s ease !important;
+  }
+
+  .product-details .accordion .details__header:hover {
+    color: #000000 !important;
+  }
+
+  .product-details .accordion .details-content {
+    padding: 0 0 18px 0 !important;
+    font-family: var(--font-body--family), sans-serif !important;
+    font-size: 14.5px !important;
+    line-height: 1.7 !important;
+    color: #3D3935 !important;
+  }
+
+  .product-details .accordion .details-content p {
+    margin: 0 !important;
+    line-height: 1.7 !important;
+  }
+
+  .product-details .accordion .details-content strong {
+    font-weight: 600 !important;
+    color: #1C1C1C !important;
+  }
 {% endstylesheet %}

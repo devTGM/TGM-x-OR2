@@ -106,10 +106,10 @@
     "variant_button_width": "equal-width-buttons",
     "content_for_index": [],
     "color_palette": {
-      "background": "#ffffff",
-      "foreground": "#000000",
-      "color1": "#333333",
-      "color2": "#DFDFDF"
+      "background": "#FAF8F5",
+      "foreground": "#1C1C1C",
+      "color1": "#3D3935",
+      "color2": "#E6E1DA"
     }
   },
   "presets": {
@@ -208,10 +208,10 @@
       "variant_button_radius": 14,
       "variant_button_width": "equal-width-buttons",
       "color_palette": {
-        "background": "#ffffff",
-        "foreground": "#000000",
-        "color1": "#333333",
-        "color2": "#DFDFDF"
+        "background": "#FAF8F5",
+        "foreground": "#1C1C1C",
+        "color1": "#3D3935",
+        "color2": "#E6E1DA"
       }
     }
   }

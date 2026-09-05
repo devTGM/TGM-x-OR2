@@ -1,0 +1,216 @@
+﻿{% doc %}
+  Brand Story Section for ON REPEAT
+  Minimal luxury editorial narrative matching official brand guidelines.
+{% enddoc %}
+
+{% liquid
+  assign bg_color = section.settings.background_color | default: settings.color_palette.background | default: '#FAF8F5'
+  assign text_color = section.settings.text_color | default: settings.color_palette.foreground | default: '#1C1C1C'
+%}
+
+<section
+  class="brand-story-section section--{{ section.settings.section_width }}"
+  style="
+    --brand-story-bg: {{ bg_color }};
+    --brand-story-color: {{ text_color }};
+    padding-block-start: {{ section.settings.padding_top }}px;
+    padding-block-end: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="brand-story-container">
+    {% if section.settings.overline != blank %}
+      <span class="brand-story-overline">{{ section.settings.overline }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="brand-story-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.story_text != blank %}
+      <div class="brand-story-body">
+        {{ section.settings.story_text }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <div class="brand-story-action">
+        <a href="{{ section.settings.button_link }}" class="brand-story-btn">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .brand-story-section {
+    background-color: var(--brand-story-bg);
+    color: var(--brand-story-color);
+    width: 100%;
+    position: relative;
+  }
+
+  .brand-story-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brand-story-overline {
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8C827A;
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+
+  .brand-story-heading {
+    font-family: var(--font-heading--family), 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--brand-story-color);
+    margin: 0 0 20px 0;
+  }
+
+  .brand-story-body {
+    font-family: var(--font-body--family), 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.8;
+    color: #4A4642;
+    margin: 0 auto 28px auto;
+    max-width: 680px;
+  }
+
+  .brand-story-body p {
+    margin: 0;
+  }
+
+  .brand-story-btn {
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 999px;
+    border: 1px solid var(--brand-story-color);
+    background: transparent;
+    color: var(--brand-story-color);
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .brand-story-btn:hover {
+    background-color: var(--brand-story-color);
+    color: var(--brand-story-bg);
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-story-container {
+      padding-inline: 20px;
+    }
+    .brand-story-heading {
+      font-size: 1.85rem;
+    }
+    .brand-story-body {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "tag": "section",
+  "class": "section-brand-story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline",
+      "default": "MINDFULLY CRAFTED"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed for Warm Days. Built to Last."
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story Paragraph (Max 5 lines)",
+      "default": "<p>At ON REPEAT, we believe true luxury lies in simplicity and tactile comfort. Crafted from 100% pure European flax, our linen garments are pre-washed for effortless drape, natural breathability, and enduring softness. Mindfully designed to be worn on repeat.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "page-width", "label": "Page Width" },
+        { "value": "full-width", "label": "Full Width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story"
+    }
+  ]
+}
+{% endschema %}
