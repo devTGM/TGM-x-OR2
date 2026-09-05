@@ -1,88 +1,96 @@
 ﻿{% liquid
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
-  assign heading_alignment = section.settings.heading_alignment | default: 'left'
   assign aspect_ratio = section.settings.aspect_ratio | default: '9/16'
   assign columns_desktop = section.settings.columns_desktop | default: 4
-  assign card_radius = section.settings.card_radius | default: 16
+  assign card_radius = section.settings.card_radius | default: 12
   assign section_width = section.settings.section_width | default: 'page-width'
 %}
 
-{% style %}
-  .shoppable-video-section-{{ section.id }} {
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
-    {% if section.settings.background_color != blank %}
-      background-color: {{ section.settings.background_color }};
-    {% endif %}
-  }
+<div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
 
-  .shoppable-video-section-{{ section.id }} .shoppable-video-carousel__card {
-    border-radius: {{ card_radius }}px;
-  }
-{% endstyle %}
-
-<div class="shoppable-video-section shoppable-video-section-{{ section.id }} section--{{ section_width }}">
-  <shoppable-video-carousel class="shoppable-video-carousel" data-columns-desktop="{{ columns_desktop }}">
-    <div class="shoppable-video-carousel__header shoppable-video-carousel__header--{{ heading_alignment }}">
-      <div class="shoppable-video-carousel__header-text">
+<div
+  class="
+    section
+    section--{{ section_width }}
+    {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+    shoppable-video-section
+    spacing-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --svc-cols-desktop: {{ columns_desktop }};
+    --svc-aspect-ratio: {{ aspect_ratio }};
+    --svc-card-radius: {{ card_radius }}px;
+  "
+>
+  <shoppable-video-carousel class="svc-carousel">
+    <div class="svc-header">
+      <div class="svc-header__title-wrap">
         {% if heading != blank %}
-          <h2 class="shoppable-video-carousel__title">{{ heading }}</h2>
+          <h2 class="svc-header__title">{{ heading }}</h2>
         {% endif %}
         {% if subheading != blank %}
-          <p class="shoppable-video-carousel__subheading">{{ subheading }}</p>
+          <p class="svc-header__subheading">{{ subheading }}</p>
         {% endif %}
       </div>
 
-      <div class="shoppable-video-carousel__controls">
+      <div class="svc-header__controls">
         {% if section.settings.view_all_link != blank and section.settings.view_all_text != blank %}
-          <a href="{{ section.settings.view_all_link }}" class="shoppable-video-carousel__view-all">
+          <a href="{{ section.settings.view_all_link }}" class="svc-header__view-all">
             {{ section.settings.view_all_text }}
           </a>
         {% endif %}
-        <div class="shoppable-video-carousel__nav-buttons">
+        <div class="svc-header__arrows">
           <button
             type="button"
-            class="shoppable-video-carousel__arrow shoppable-video-carousel__arrow--prev"
-            aria-label="Previous slide"
+            class="svc-arrow svc-arrow--prev"
+            aria-label="Previous"
             disabled
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
           <button
             type="button"
-            class="shoppable-video-carousel__arrow shoppable-video-carousel__arrow--next"
-            aria-label="Next slide"
+            class="svc-arrow svc-arrow--next"
+            aria-label="Next"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18l6-6-6-6"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
         </div>
       </div>
     </div>
 
-    <div
-      class="shoppable-video-carousel__track"
-      style="
-        --desktop-cols: {{ columns_desktop }};
-        --card-aspect-ratio: {{ aspect_ratio }};
-        --card-radius: {{ card_radius }}px;
-      "
-    >
+    <div class="svc-track">
       {% for block in section.blocks %}
         {% liquid
           assign product = block.settings.product
-          assign title = block.settings.custom_title | default: product.title
+          assign title = block.settings.custom_title
+          if title == blank and product != blank
+            assign title = product.title
+          endif
           assign badge = block.settings.badge_text
-          assign button_label = block.settings.button_label | default: 'Shop Now'
-          assign poster_image = block.settings.cover_image | default: block.settings.video.preview_image | default: product.featured_image
+          assign has_video = false
+          if block.settings.video != blank or block.settings.video_url != blank
+            assign has_video = true
+          endif
+
+          # Fallback image: cover image -> video preview -> product image
+          assign poster_image = block.settings.cover_image
+          if poster_image == blank and block.settings.video != blank
+            assign poster_image = block.settings.video.preview_image
+          endif
+          if poster_image == blank and product != blank
+            assign poster_image = product.featured_image
+          endif
         %}
 
-        <div class="shoppable-video-carousel__card" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
-          <div class="shoppable-video-carousel__media-wrapper">
+        <div class="svc-card" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
+          <div class="svc-card__media-box">
             {% if block.settings.video != blank %}
               {{
                 block.settings.video
@@ -93,11 +101,11 @@
                   playsinline: true,
                   controls: false,
                   image_size: '720x',
-                  class: 'shoppable-video-carousel__video'
+                  class: 'svc-card__media svc-card__video'
               }}
             {% elsif block.settings.video_url != blank %}
               <video
-                class="shoppable-video-carousel__video"
+                class="svc-card__media svc-card__video"
                 src="{{ block.settings.video_url }}"
                 autoplay
                 loop
@@ -110,92 +118,94 @@
             {% elsif poster_image != blank %}
               {{
                 poster_image
-                | image_url: width: 800
-                | image_tag: class: 'shoppable-video-carousel__image', loading: 'lazy'
+                | image_url: width: 720
+                | image_tag: class: 'svc-card__media svc-card__image', loading: 'lazy'
               }}
             {% else %}
-              <div class="shoppable-video-carousel__placeholder">
-                {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'shoppable-video-carousel__svg' }}
+              <div class="svc-card__placeholder">
+                <div class="svc-card__placeholder-inner">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Video Reel</span>
+                </div>
               </div>
             {% endif %}
 
+            <!-- Bottom vignette overlay for clean contrast -->
+            <div class="svc-card__overlay"></div>
+
             {% if badge != blank %}
-              <span class="shoppable-video-carousel__badge">{{ badge }}</span>
+              <span class="svc-card__badge">{{ badge }}</span>
             {% endif %}
 
-            {% if block.settings.video != blank or block.settings.video_url != blank %}
+            {% if has_video %}
               <button
                 type="button"
-                class="shoppable-video-carousel__sound-btn"
-                aria-label="Toggle mute"
+                class="svc-card__sound-btn"
+                aria-label="Toggle audio"
                 title="Mute / Unmute"
               >
-                <!-- Sound Off (Muted) -->
-                <svg class="icon-sound-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Muted Icon -->
+                <svg class="svc-icon-muted" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                   <line x1="23" y1="9" x2="17" y2="15"></line>
                   <line x1="17" y1="9" x2="23" y2="15"></line>
                 </svg>
-                <!-- Sound On -->
-                <svg class="icon-sound-on hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Sound On Icon -->
+                <svg class="svc-icon-sound hidden" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                 </svg>
               </button>
 
-              <div class="shoppable-video-carousel__play-indicator" aria-hidden="true">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <div class="svc-card__play-indicator" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <polygon points="5 3 19 12 5 21 5 3"/>
                 </svg>
               </div>
             {% endif %}
           </div>
 
+          <!-- Shoppable Floating Product Pill -->
           {% if product != blank %}
-            <a href="{{ product.url }}" class="shoppable-video-carousel__product-pill" aria-label="{{ title | escape }}">
-              <div class="shoppable-video-carousel__product-thumb">
+            <a href="{{ product.url }}" class="svc-pill" aria-label="{{ title | escape }}">
+              <div class="svc-pill__thumb">
                 {% if product.featured_image != blank %}
                   {{
                     product.featured_image
-                    | image_url: width: 120, height: 120, crop: 'center'
-                    | image_tag: class: 'shoppable-video-carousel__thumb-img', loading: 'lazy'
+                    | image_url: width: 100, height: 100, crop: 'center'
+                    | image_tag: class: 'svc-pill__thumb-img', loading: 'lazy'
                   }}
-                {% else %}
-                  <div class="shoppable-video-carousel__thumb-fallback"></div>
                 {% endif %}
               </div>
-              <div class="shoppable-video-carousel__product-info">
-                <span class="shoppable-video-carousel__product-title">{{ title }}</span>
-                <div class="shoppable-video-carousel__product-price-row">
-                  <span class="shoppable-video-carousel__product-price">{{ product.price | money }}</span>
+              <div class="svc-pill__info">
+                <span class="svc-pill__title">{{ title }}</span>
+                <div class="svc-pill__price-row">
+                  <span class="svc-pill__price">{{ product.price | money }}</span>
                   {% if product.compare_at_price > product.price %}
-                    <span class="shoppable-video-carousel__product-compare-price">
-                      {{ product.compare_at_price | money }}
-                    </span>
+                    <span class="svc-pill__compare-price">{{ product.compare_at_price | money }}</span>
                   {% endif %}
                 </div>
               </div>
-              <div class="shoppable-video-carousel__product-btn" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
+              <div class="svc-pill__action" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </div>
             </a>
-          {% elsif block.settings.custom_title != blank %}
-            <div class="shoppable-video-carousel__product-pill">
-              <div class="shoppable-video-carousel__product-info">
-                <span class="shoppable-video-carousel__product-title">{{ title }}</span>
+          {% elsif title != blank %}
+            <div class="svc-pill svc-pill--static">
+              <div class="svc-pill__info">
+                <span class="svc-pill__title">{{ title }}</span>
               </div>
             </div>
           {% else %}
-            <div class="shoppable-video-carousel__product-pill shoppable-video-carousel__product-pill--placeholder">
-              <div class="shoppable-video-carousel__product-thumb">
-                <div class="shoppable-video-carousel__thumb-fallback"></div>
-              </div>
-              <div class="shoppable-video-carousel__product-info">
-                <span class="shoppable-video-carousel__product-title">Select a Product</span>
-                <span class="shoppable-video-carousel__product-price">Rs. 0.00</span>
+            <div class="svc-pill svc-pill--placeholder">
+              <div class="svc-pill__thumb svc-pill__thumb--empty"></div>
+              <div class="svc-pill__info">
+                <span class="svc-pill__title">Select Product</span>
+                <span class="svc-pill__price">--</span>
               </div>
             </div>
           {% endif %}
@@ -209,64 +219,47 @@
   .shoppable-video-section {
     position: relative;
     box-sizing: border-box;
-  }
-
-  .shoppable-video-carousel {
-    display: block;
-    position: relative;
     width: 100%;
   }
 
-  .shoppable-video-carousel__header {
+  .svc-carousel {
+    display: block;
+    width: 100%;
+  }
+
+  /* Header */
+  .svc-header {
     display: flex;
-    align-items: flex-end;
+    align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: 24px;
-    padding: 0 16px;
+    margin-bottom: 20px;
   }
 
-  @media screen and (min-width: 750px) {
-    .shoppable-video-carousel__header {
-      padding: 0;
-    }
-  }
-
-  .shoppable-video-carousel__header--center {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .shoppable-video-carousel__title {
+  .svc-header__title {
     margin: 0;
-    font-size: 1.5rem;
+    font-family: var(--font-body--family, inherit);
+    font-size: 1.25rem;
     font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 1.3;
+    letter-spacing: normal;
     color: currentColor;
   }
 
-  @media screen and (min-width: 750px) {
-    .shoppable-video-carousel__title {
-      font-size: 1.85rem;
-    }
+  .svc-header__subheading {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.55);
   }
 
-  .shoppable-video-carousel__subheading {
-    margin: 6px 0 0;
-    font-size: 0.95rem;
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .shoppable-video-carousel__controls {
+  .svc-header__controls {
     display: flex;
     align-items: center;
     gap: 16px;
   }
 
-  .shoppable-video-carousel__view-all {
-    font-size: 0.9rem;
+  .svc-header__view-all {
+    font-size: 0.875rem;
     font-weight: 500;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -274,101 +267,101 @@
     white-space: nowrap;
   }
 
-  .shoppable-video-carousel__nav-buttons {
+  .svc-header__arrows {
     display: none;
     align-items: center;
     gap: 8px;
   }
 
   @media screen and (min-width: 750px) {
-    .shoppable-video-carousel__nav-buttons {
+    .svc-header__arrows {
       display: flex;
     }
   }
 
-  .shoppable-video-carousel__arrow {
+  .svc-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.12);
     background: #ffffff;
     color: #111111;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 0;
   }
 
-  .shoppable-video-carousel__arrow:hover:not(:disabled) {
+  .svc-arrow:hover:not(:disabled) {
+    border-color: #111111;
     background: #111111;
     color: #ffffff;
-    border-color: #111111;
   }
 
-  .shoppable-video-carousel__arrow:disabled {
-    opacity: 0.35;
+  .svc-arrow:disabled {
+    opacity: 0.3;
     cursor: not-allowed;
   }
 
-  /* Track & Grid */
-  .shoppable-video-carousel__track {
+  /* Track */
+  .svc-track {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0 16px 16px;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
   }
 
-  .shoppable-video-carousel__track::-webkit-scrollbar {
+  .svc-track::-webkit-scrollbar {
     display: none;
   }
 
   @media screen and (min-width: 750px) {
-    .shoppable-video-carousel__track {
-      gap: 16px;
-      padding: 0 0 16px;
+    .svc-track {
+      gap: 12px;
     }
   }
 
   /* Card */
-  .shoppable-video-carousel__card {
+  .svc-card {
     position: relative;
-    flex: 0 0 calc(76vw - 20px);
-    max-width: 340px;
+    flex: 0 0 calc(72vw - 12px);
+    max-width: 300px;
     scroll-snap-align: start;
-    aspect-ratio: var(--card-aspect-ratio, 9 / 16);
+    aspect-ratio: var(--svc-aspect-ratio, 9 / 16);
+    border-radius: var(--svc-card-radius, 12px);
     overflow: hidden;
-    background: #1a1a1a;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #0d0d0d;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
     user-select: none;
   }
 
   @media screen and (min-width: 600px) {
-    .shoppable-video-carousel__card {
-      flex: 0 0 calc(45vw - 16px);
+    .svc-card {
+      flex: 0 0 calc(42vw - 12px);
     }
   }
 
   @media screen and (min-width: 750px) {
-    .shoppable-video-carousel__card {
-      flex: 0 0 calc((100% - ((var(--desktop-cols, 4) - 1) * 16px)) / var(--desktop-cols, 4));
+    .svc-card {
+      flex: 0 0 calc((100% - ((var(--svc-cols-desktop, 4) - 1) * 12px)) / var(--svc-cols-desktop, 4));
       max-width: none;
     }
   }
 
-  .shoppable-video-carousel__card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+  .svc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
-  .shoppable-video-carousel__media-wrapper {
+  .svc-card__media-box {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -376,55 +369,69 @@
     cursor: pointer;
   }
 
-  .shoppable-video-carousel__video,
-  .shoppable-video-carousel__image,
-  .shoppable-video-carousel__placeholder {
+  .svc-card__media {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  .shoppable-video-carousel__placeholder {
+  .svc-card__placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e9ecef;
+    background: linear-gradient(145deg, #1f1f1f, #141414);
+    color: rgba(255, 255, 255, 0.4);
   }
 
-  .shoppable-video-carousel__svg {
-    width: 60%;
-    height: 60%;
-    opacity: 0.4;
+  .svc-card__placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
-  /* Badge */
-  .shoppable-video-carousel__badge {
+  /* Overlay gradient */
+  .svc-card__overlay {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    padding: 4px 10px;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(8px);
-    color: #ffffff;
-    font-size: 0.72rem;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.6) 100%);
+  }
+
+  /* Micro Badge */
+  .svc-card__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111111;
+    font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: 20px;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     z-index: 2;
   }
 
-  /* Sound Button */
-  .shoppable-video-carousel__sound-btn {
+  /* Sound Toggle */
+  .svc-card__sound-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 34px;
-    height: 34px;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     color: #ffffff;
     border: none;
     display: flex;
@@ -432,29 +439,31 @@
     justify-content: center;
     cursor: pointer;
     z-index: 3;
+    padding: 0;
     transition: background 0.2s ease, transform 0.15s ease;
   }
 
-  .shoppable-video-carousel__sound-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
+  .svc-card__sound-btn:hover {
+    background: rgba(0, 0, 0, 0.75);
     transform: scale(1.08);
   }
 
-  .shoppable-video-carousel__sound-btn .hidden {
+  .svc-card__sound-btn .hidden {
     display: none !important;
   }
 
-  /* Play/Pause Indicator Animation */
-  .shoppable-video-carousel__play-indicator {
+  /* Play indicator */
+  .svc-card__play-indicator {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.6);
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -465,71 +474,69 @@
     z-index: 3;
   }
 
-  .shoppable-video-carousel__play-indicator.active {
+  .svc-card__play-indicator.active {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 
-  /* Product Floating Pill */
-  .shoppable-video-carousel__product-pill {
+  /* Shoppable Product Pill */
+  .svc-pill {
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    background: rgba(255, 255, 255, 0.92);
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 12px;
-    padding: 8px 10px;
+    border-radius: 8px;
+    padding: 6px 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     text-decoration: none;
     color: #111111;
     z-index: 4;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   }
 
-  .shoppable-video-carousel__product-pill:hover {
+  .svc-pill:hover {
     background: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
   }
 
-  .shoppable-video-carousel__product-thumb {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
+  .svc-pill__thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
     overflow: hidden;
     flex-shrink: 0;
     background: #f1f1f1;
   }
 
-  .shoppable-video-carousel__thumb-img {
+  .svc-pill__thumb-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  .shoppable-video-carousel__thumb-fallback {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #e0e0e0, #c8c8c8);
+  .svc-pill__thumb--empty {
+    background: linear-gradient(135deg, #eee, #ddd);
   }
 
-  .shoppable-video-carousel__product-info {
+  .svc-pill__info {
     flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
   }
 
-  .shoppable-video-carousel__product-title {
-    font-size: 0.8rem;
+  .svc-pill__title {
+    font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.25;
     white-space: nowrap;
@@ -538,27 +545,27 @@
     color: #111111;
   }
 
-  .shoppable-video-carousel__product-price-row {
+  .svc-pill__price-row {
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 5px;
   }
 
-  .shoppable-video-carousel__product-price {
-    font-size: 0.8rem;
+  .svc-pill__price {
+    font-size: 0.75rem;
     font-weight: 700;
     color: #111111;
   }
 
-  .shoppable-video-carousel__product-compare-price {
-    font-size: 0.72rem;
+  .svc-pill__compare-price {
+    font-size: 0.68rem;
     text-decoration: line-through;
-    color: rgba(0, 0, 0, 0.45);
+    color: rgba(0, 0, 0, 0.4);
   }
 
-  .shoppable-video-carousel__product-btn {
-    width: 26px;
-    height: 26px;
+  .svc-pill__action {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: #111111;
     color: #ffffff;
@@ -569,7 +576,7 @@
     transition: transform 0.2s ease, background 0.2s ease;
   }
 
-  .shoppable-video-carousel__product-pill:hover .shoppable-video-carousel__product-btn {
+  .svc-pill:hover .svc-pill__action {
     transform: translateX(2px);
     background: #000000;
   }
@@ -579,129 +586,111 @@
   if (!customElements.get('shoppable-video-carousel')) {
     class ShoppableVideoCarousel extends HTMLElement {
       connectedCallback() {
-        this.track = this.querySelector('.shoppable-video-carousel__track');
-        this.prevBtn = this.querySelector('.shoppable-video-carousel__arrow--prev');
-        this.nextBtn = this.querySelector('.shoppable-video-carousel__arrow--next');
-        this.cards = this.querySelectorAll('.shoppable-video-carousel__card');
+        this.track = this.querySelector('.svc-track');
+        this.prevBtn = this.querySelector('.svc-arrow--prev');
+        this.nextBtn = this.querySelector('.svc-arrow--next');
+        this.cards = this.querySelectorAll('.svc-card');
 
         if (!this.track) return;
 
         this.initArrows();
         this.initVideos();
-        this.initIntersectionObserver();
+        this.initObserver();
       }
 
       initArrows() {
         if (this.prevBtn && this.nextBtn) {
-          this.prevBtn.addEventListener('click', () => this.scrollByDirection(-1));
-          this.nextBtn.addEventListener('click', () => this.scrollByDirection(1));
-
-          this.track.addEventListener('scroll', () => this.updateArrowStates(), { passive: true });
-          this.updateArrowStates();
+          this.prevBtn.addEventListener('click', () => this.scroll(-1));
+          this.nextBtn.addEventListener('click', () => this.scroll(1));
+          this.track.addEventListener('scroll', () => this.updateArrows(), { passive: true });
+          this.updateArrows();
         }
       }
 
-      scrollByDirection(direction) {
-        const card = this.track.querySelector('.shoppable-video-carousel__card');
+      scroll(direction) {
+        const card = this.track.querySelector('.svc-card');
         if (!card) return;
-
-        const cardWidth = card.offsetWidth;
-        const gap = 16;
-        const scrollAmount = (cardWidth + gap) * direction;
-
+        const scrollAmount = (card.offsetWidth + 12) * direction;
         this.track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
 
-      updateArrowStates() {
+      updateArrows() {
         if (!this.prevBtn || !this.nextBtn) return;
-        const tolerance = 4;
-        const atStart = this.track.scrollLeft <= tolerance;
-        const atEnd = this.track.scrollLeft + this.track.clientWidth >= this.track.scrollWidth - tolerance;
-
-        this.prevBtn.disabled = atStart;
-        this.nextBtn.disabled = atEnd;
+        const tol = 4;
+        this.prevBtn.disabled = this.track.scrollLeft <= tol;
+        this.nextBtn.disabled = this.track.scrollLeft + this.track.clientWidth >= this.track.scrollWidth - tol;
       }
 
       initVideos() {
         this.cards.forEach((card) => {
           const video = card.querySelector('video');
-          const soundBtn = card.querySelector('.shoppable-video-carousel__sound-btn');
-          const mediaWrapper = card.querySelector('.shoppable-video-carousel__media-wrapper');
-          const playIndicator = card.querySelector('.shoppable-video-carousel__play-indicator');
+          const soundBtn = card.querySelector('.svc-card__sound-btn');
+          const mediaBox = card.querySelector('.svc-card__media-box');
+          const indicator = card.querySelector('.svc-card__play-indicator');
 
           if (!video) return;
 
-          // Sound toggle
           if (soundBtn) {
             soundBtn.addEventListener('click', (e) => {
               e.stopPropagation();
               e.preventDefault();
-
               const willBeMuted = !video.muted;
               if (!willBeMuted) {
-                // Mute all other videos when one is unmuted
                 this.querySelectorAll('video').forEach((v) => {
                   if (v !== video) {
                     v.muted = true;
-                    const otherBtn = v.closest('.shoppable-video-carousel__card')?.querySelector('.shoppable-video-carousel__sound-btn');
-                    if (otherBtn) this.updateSoundIcon(otherBtn, true);
+                    const otherBtn = v.closest('.svc-card')?.querySelector('.svc-card__sound-btn');
+                    if (otherBtn) this.setSoundIcon(otherBtn, true);
                   }
                 });
               }
-
               video.muted = willBeMuted;
-              this.updateSoundIcon(soundBtn, willBeMuted);
+              this.setSoundIcon(soundBtn, willBeMuted);
             });
           }
 
-          // Click video area to play/pause
-          if (mediaWrapper) {
-            mediaWrapper.addEventListener('click', (e) => {
-              if (e.target.closest('.shoppable-video-carousel__sound-btn')) return;
-
+          if (mediaBox) {
+            mediaBox.addEventListener('click', (e) => {
+              if (e.target.closest('.svc-card__sound-btn')) return;
               if (video.paused) {
                 video.play();
-                this.flashIndicator(playIndicator, false);
+                this.flash(indicator);
               } else {
                 video.pause();
-                this.flashIndicator(playIndicator, true);
+                this.flash(indicator);
               }
             });
           }
         });
       }
 
-      updateSoundIcon(btn, isMuted) {
-        const mutedIcon = btn.querySelector('.icon-sound-muted');
-        const onIcon = btn.querySelector('.icon-sound-on');
-        if (mutedIcon && onIcon) {
+      setSoundIcon(btn, isMuted) {
+        const muted = btn.querySelector('.svc-icon-muted');
+        const sound = btn.querySelector('.svc-icon-sound');
+        if (muted && sound) {
           if (isMuted) {
-            mutedIcon.classList.remove('hidden');
-            onIcon.classList.add('hidden');
+            muted.classList.remove('hidden');
+            sound.classList.add('hidden');
           } else {
-            mutedIcon.classList.add('hidden');
-            onIcon.classList.remove('hidden');
+            muted.classList.add('hidden');
+            sound.classList.remove('hidden');
           }
         }
       }
 
-      flashIndicator(indicator, isPaused) {
+      flash(indicator) {
         if (!indicator) return;
         indicator.classList.add('active');
-        setTimeout(() => {
-          indicator.classList.remove('active');
-        }, 400);
+        setTimeout(() => indicator.classList.remove('active'), 350);
       }
 
-      initIntersectionObserver() {
+      initObserver() {
         if (!('IntersectionObserver' in window)) return;
-
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               const video = entry.target.querySelector('video');
               if (!video) return;
-
               if (entry.isIntersecting) {
                 video.play().catch(() => {});
               } else {
@@ -711,7 +700,6 @@
           },
           { threshold: 0.35 }
         );
-
         this.cards.forEach((card) => observer.observe(card));
       }
     }
@@ -742,24 +730,7 @@
     {
       "type": "text",
       "id": "subheading",
-      "label": "Subheading",
-      "default": "Tap any video to play, explore, and shop the look"
-    },
-    {
-      "type": "select",
-      "id": "heading_alignment",
-      "label": "Heading alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        }
-      ],
-      "default": "left"
+      "label": "Subheading"
     },
     {
       "type": "url",
@@ -774,7 +745,7 @@
     },
     {
       "type": "header",
-      "content": "Layout & Styling"
+      "content": "Layout & Sizing"
     },
     {
       "type": "select",
@@ -795,15 +766,15 @@
     {
       "type": "select",
       "id": "aspect_ratio",
-      "label": "Video aspect ratio",
+      "label": "Card aspect ratio",
       "options": [
         {
           "value": "9/16",
-          "label": "9:16 (Reel / Story)"
+          "label": "9:16 (Vertical Reel)"
         },
         {
-          "value": "4/5",
-          "label": "4:5 (Portrait)"
+          "value": "3/4",
+          "label": "3:4 (Portrait)"
         },
         {
           "value": "1/1",
@@ -815,9 +786,9 @@
     {
       "type": "range",
       "id": "columns_desktop",
-      "label": "Desktop visible columns",
+      "label": "Desktop columns",
       "min": 2,
-      "max": 6,
+      "max": 5,
       "step": 1,
       "default": 4
     },
@@ -826,10 +797,10 @@
       "id": "card_radius",
       "label": "Card corner radius",
       "min": 0,
-      "max": 32,
+      "max": 24,
       "step": 2,
       "unit": "px",
-      "default": 16
+      "default": 12
     },
     {
       "type": "color",
@@ -838,17 +809,17 @@
     },
     {
       "type": "range",
-      "id": "padding_top",
+      "id": "padding-block-start",
       "label": "Top padding",
       "min": 0,
       "max": 100,
       "step": 4,
       "unit": "px",
-      "default": 48
+      "default": 36
     },
     {
       "type": "range",
-      "id": "padding_bottom",
+      "id": "padding-block-end",
       "label": "Bottom padding",
       "min": 0,
       "max": 100,
@@ -870,13 +841,12 @@
         {
           "type": "text",
           "id": "video_url",
-          "label": "Or external video URL (.mp4)",
-          "info": "Direct MP4 link if not using a Shopify video upload"
+          "label": "External video URL (.mp4)"
         },
         {
           "type": "image_picker",
           "id": "cover_image",
-          "label": "Poster / cover image"
+          "label": "Cover / Poster image"
         },
         {
           "type": "header",
@@ -891,20 +861,13 @@
         {
           "type": "text",
           "id": "custom_title",
-          "label": "Custom title override",
-          "info": "Leave blank to use the connected product's title"
+          "label": "Custom title override"
         },
         {
           "type": "text",
           "id": "badge_text",
           "label": "Badge text",
-          "info": "e.g. 'Trending', 'Staff Pick', 'Best Seller'"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "Button label",
-          "default": "Shop Now"
+          "info": "e.g. 'Trending', 'Best Seller', 'New'"
         }
       ]
     }

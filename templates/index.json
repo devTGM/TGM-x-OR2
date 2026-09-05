@@ -597,6 +597,7 @@
       ],
       "settings": {
         "heading": "Watch & Shop",
+<<<<<<< Updated upstream
         "subheading": "Tap any video to play, explore, and shop the look",
         "heading_alignment": "center",
         "view_all_link": "",
@@ -608,6 +609,15 @@
         "background_color": "",
         "padding_top": 4,
         "padding_bottom": 24
+=======
+        "subheading": "",
+        "section_width": "page-width",
+        "aspect_ratio": "9/16",
+        "columns_desktop": 4,
+        "card_radius": 12,
+        "padding-block-start": 40,
+        "padding-block-end": 48
+>>>>>>> Stashed changes
       }
     }
   },
