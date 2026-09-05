@@ -545,64 +545,235 @@
         "padding-block-end": 48
       }
     },
-    "shoppable_video_carousel_x9K2pL": {
-      "type": "shoppable-video-carousel",
+    "slideshow_yJw4XX": {
+      "type": "slideshow",
       "blocks": {
-        "video_card_1": {
-          "type": "video_card",
+        "slide_qR7xQU": {
+          "type": "_slide",
           "settings": {
-            "video_url": "",
-            "product": "",
-            "custom_title": "",
-            "badge_text": "Trending"
-          }
+            "media_type_1": "image",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_eLrJDz": {
+              "type": "text",
+              "name": "t:names.heading",
+              "disabled": true,
+              "settings": {
+                "text": "<h3>New arrivals</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_Rxk4Lq": {
+              "type": "text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_bdePd7": {
+              "type": "button",
+              "disabled": true,
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "corner_radius": 0,
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_eLrJDz",
+            "text_Rxk4Lq",
+            "button_bdePd7"
+          ]
         },
-        "video_card_2": {
-          "type": "video_card",
+        "slide_aW98YW": {
+          "type": "_slide",
+          "disabled": true,
           "settings": {
-            "video_url": "",
-            "product": "",
-            "custom_title": "",
-            "badge_text": "New In"
-          }
-        },
-        "video_card_3": {
-          "type": "video_card",
-          "settings": {
-            "video_url": "",
-            "product": "",
-            "custom_title": "",
-            "badge_text": "Best Seller"
-          }
-        },
-        "video_card_4": {
-          "type": "video_card",
-          "settings": {
-            "video_url": "",
-            "product": "",
-            "custom_title": "",
-            "badge_text": "Must Have"
-          }
+            "media_type_1": "image",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_LHHwrP": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2>Bestsellers</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_aLgRzG": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_bHK4xe": {
+              "type": "button",
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "corner_radius": 0,
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_LHHwrP",
+            "text_aLgRzG",
+            "button_bHK4xe"
+          ]
         }
       },
       "block_order": [
-        "video_card_1",
-        "video_card_2",
-        "video_card_3",
-        "video_card_4"
+        "slide_qR7xQU",
+        "slide_aW98YW"
       ],
+      "name": "t:names.slideshow_full_frame",
       "settings": {
-        "heading": "Watch & Shop",
-        "subheading": "",
-        "view_all_link": "",
-        "view_all_text": "View all",
-        "section_width": "page-width",
-        "aspect_ratio": "9/16",
-        "columns_desktop": 4,
-        "card_radius": 12,
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
+        "slide_height": "medium",
+        "content_position": "on-media",
         "background_color": "",
-        "padding-block-start": 36,
-        "padding-block-end": 48
+        "icons_style": "arrows_large",
+        "icons_shape": "none",
+        "slideshow_controls_style": "dots",
+        "autoplay": false,
+        "autoplay_speed": 4,
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "product_list_gRXzLJ": {
@@ -818,13 +989,74 @@
         "padding-block-start": 40,
         "padding-block-end": 48
       }
+    },
+    "shoppable_video_carousel_x9K2pL": {
+      "type": "shoppable-video-carousel",
+      "blocks": {
+        "video_card_1": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
+            "badge_text": "Trending"
+          }
+        },
+        "video_card_2": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
+            "badge_text": "New In"
+          }
+        },
+        "video_card_3": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
+            "badge_text": "Best Seller"
+          }
+        },
+        "video_card_4": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
+            "badge_text": "Must Have"
+          }
+        }
+      },
+      "block_order": [
+        "video_card_1",
+        "video_card_2",
+        "video_card_3",
+        "video_card_4"
+      ],
+      "settings": {
+        "heading": "Watch & Shop",
+        "subheading": "",
+        "view_all_link": "",
+        "view_all_text": "View all",
+        "section_width": "page-width",
+        "aspect_ratio": "9/16",
+        "columns_desktop": 4,
+        "card_radius": 12,
+        "background_color": "",
+        "padding-block-start": 36,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "product_list_fa6P9H",
     "product_list_BcEdnq",
-    "shoppable_video_carousel_x9K2pL",
-    "product_list_gRXzLJ"
+    "slideshow_yJw4XX",
+    "product_list_gRXzLJ",
+    "shoppable_video_carousel_x9K2pL"
   ]
 }
