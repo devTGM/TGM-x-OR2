@@ -23,6 +23,63 @@
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
+  elsif variant_image
+    assign swatch_image_width = settings.variant_swatch_width | default: 34 | times: 2
+    assign swatch_image_url = variant_image | image_url: width: swatch_image_width
+    assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
+    assign extra_classes = extra_classes | append: ' swatch--variant-image'
+  endif
+
+  if swatch_value == null and label != blank
+    assign label_downcase = label | downcase | strip
+    case label_downcase
+      when 'powder blue'
+        assign swatch_value = '#a8c5db'
+      when 'black'
+        assign swatch_value = '#1a1a1a'
+      when 'white'
+        assign swatch_value = '#fcfcfc'
+      when 'sage' or 'mint'
+        assign swatch_value = '#b4c5b3'
+      when 'khaki' or 'tan'
+        assign swatch_value = '#bba88e'
+      when 'forest green' or 'pine green' or 'dark green'
+        assign swatch_value = '#2d4a3e'
+      when 'navy' or 'deep navy'
+        assign swatch_value = '#1b273d'
+      when 'lilac' or 'lavender'
+        assign swatch_value = '#bfa5be'
+      when 'chocolate' or 'brown'
+        assign swatch_value = '#55342a'
+      when 'dark teal' or 'teal'
+        assign swatch_value = '#1f484d'
+      when 'camel'
+        assign swatch_value = '#c5a076'
+      when 'slate blue'
+        assign swatch_value = '#5b7086'
+      when 'ocean blue' or 'sky blue'
+        assign swatch_value = '#59859b'
+      when 'plum' or 'mulberry'
+        assign swatch_value = '#593348'
+      when 'heather grey' or 'grey' or 'gray'
+        assign swatch_value = '#b4b7ba'
+      when 'charcoal'
+        assign swatch_value = '#40454d'
+      when 'dusty rose' or 'rose'
+        assign swatch_value = '#bc8e97'
+      when 'olive' or 'olive green'
+        assign swatch_value = '#5c6343'
+      when 'rust' or 'terracotta'
+        assign swatch_value = '#9c4839'
+      when 'denim' or 'denim blue'
+        assign swatch_value = '#3e546d'
+      when 'berry'
+        assign swatch_value = '#8a3350'
+      when 'cream' or 'ivory' or 'beige'
+        assign swatch_value = '#f3eedf'
+      else
+        assign swatch_value = label_downcase
+    endcase
   endif
 
   case mode

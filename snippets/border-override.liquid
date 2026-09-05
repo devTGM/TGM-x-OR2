@@ -8,8 +8,12 @@
 
 %}
 --border-width: {{ settings.border_width }}px; --border-style: {{ settings.border }}; --border-color:
-{% if settings.border_color != blank -%}
+{%- if settings.border_color.rgba != blank -%}
   rgb({{ settings.border_color.rgba }})
+{%- elsif settings.border_color.rgb != blank -%}
+  rgb({{ settings.border_color.rgb }})
+{%- elsif settings.border_color != blank -%}
+  {{ settings.border_color }}
 {%- else -%}
   rgb(var(--color-border-rgb) / {{ settings.border_opacity | divided_by: 100.0 }})
 {%- endif -%}

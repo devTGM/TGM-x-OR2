@@ -55,10 +55,13 @@
     <form class="variant-picker__form">
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
-          assign swatch_count = product_option.values | map: 'swatch' | compact | size
-          assign variant_style = block_settings.variant_style
+          assign opt_name_downcase = product_option.name | downcase
+          assign is_color_or_swatch_option = false
+          if swatch_count > 0 or opt_name_downcase contains 'color' or opt_name_downcase contains 'colour' or opt_name_downcase contains 'shade' or opt_name_downcase contains 'sleeve'
+            assign is_color_or_swatch_option = true
+          endif
 
-          if swatch_count > 0 and block_settings.show_swatches
+          if is_color_or_swatch_option and block_settings.show_swatches
             if block_settings.variant_style == 'dropdown'
               assign variant_style = 'swatch_dropdown'
             else
@@ -161,7 +164,8 @@
                   {% render 'swatch',
                     swatch: product_option_value.swatch,
                     variant_image: featured_media,
-                    mode: 'unscaled'
+                    mode: 'unscaled',
+                    label: product_option_value.name
                   %}
                 {% else %}
                   {% if product_option_value.available == true %}

@@ -154,7 +154,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p style=\"margin: 0; font-size: 15px; color: #444;\">Style: <strong style=\"color: #111;\">Regular Fit</strong></p>",
+                    "text": "<p class=\"product-style-meta\">Style: <strong>Regular Fit</strong></p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",

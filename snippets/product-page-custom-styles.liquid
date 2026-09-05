@@ -1,0 +1,477 @@
+{% stylesheet %}
+  /* ==========================================================================
+     PREMIUM PRODUCT PAGE LUXURY STYLING
+     ========================================================================== */
+
+  /* 1. Details Column Width & Proportions on Desktop */
+  @media screen and (min-width: 990px) {
+    .product-information__grid:not(.product-information--media-none).product-information--media-left {
+      grid-template-columns: 1fr min(46vw, 520px) !important;
+    }
+
+    .product-details {
+      max-width: 520px !important;
+      width: 100% !important;
+    }
+  }
+
+  /* 2. Product Title - Refined Modern Luxury Typography */
+  .product-details h1,
+  .product-details .product-title,
+  .product-details .text-block--product-title h1,
+  .product-details [data-testid="group-block"] h1,
+  .product-details .text-block :is(h1, h2, h3, .h1, .h2, .h3) {
+    font-family: var(--font-heading--family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: clamp(22px, 2.2vw, 26px) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.015em !important;
+    text-transform: none !important;
+    color: #111827 !important;
+    margin: 0 0 6px 0 !important;
+  }
+
+  /* 3. Style Subtitle */
+  .product-style-meta,
+  .product-details .product-style-meta {
+    font-size: 14.5px !important;
+    color: #4b5563 !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  .product-style-meta strong {
+    font-weight: 600 !important;
+    color: #111827 !important;
+  }
+
+  /* 4. Rating & Reviews Row */
+  .product-details .rating-wrapper {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .product-details .rating-wrapper .rating {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+  }
+
+  .product-details .rating-wrapper .stars {
+    height: 15px !important;
+    width: 15px !important;
+  }
+
+  .product-details .rating-wrapper .filled-star {
+    fill: #e88b39 !important;
+  }
+
+  .product-details .rating-wrapper .rating-count {
+    font-size: 14px !important;
+    color: #4b5563 !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+  }
+
+  /* 5. Luxury Comparative Price Block */
+  .product-details .price-comparison {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    margin-top: 4px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .product-details .price-comparison__row {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 6px !important;
+    line-height: 1.35 !important;
+  }
+
+  .product-details .price-comparison__label {
+    font-size: 14.5px !important;
+    font-weight: 400 !important;
+    color: #374151 !important;
+  }
+
+  .product-details .price-comparison__regular .compare-at-price {
+    font-size: 14.5px !important;
+    color: #4b5563 !important;
+    text-decoration: line-through !important;
+    text-decoration-thickness: 1.5px !important;
+  }
+
+  .product-details .price-comparison__label--sale {
+    font-size: 15.5px !important;
+    font-weight: 600 !important;
+    color: #c25e36 !important;
+  }
+
+  .product-details .price-sale-highlight {
+    font-size: 17.5px !important;
+    font-weight: 700 !important;
+    color: #c25e36 !important;
+  }
+
+  /* 6. Enclosed Buying Card Container */
+  .product-details .group-block:has(.variant-picker),
+  .product-details .buying-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 14px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    margin-bottom: 24px !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-details .group-block:has(.variant-picker),
+    .product-details .buying-card {
+      padding: 18px 16px !important;
+      border-radius: 12px !important;
+    }
+  }
+
+  .product-details .group-block:has(.variant-picker) > .group-block-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    width: 100% !important;
+  }
+
+  .product-details .group-block:has(.variant-picker) .variant-picker,
+  .product-details .group-block:has(.variant-picker) .product-inventory,
+  .product-details .group-block:has(.variant-picker) .buy-buttons-block {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  /* 7. Swatches Section */
+  .product-details .variant-option--swatches {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  .product-details .variant-option__legend-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-bottom: 12px !important;
+    padding: 0 !important;
+  }
+
+  .product-details .variant-option__legend-title {
+    font-size: 14.5px !important;
+    color: #374151 !important;
+    font-weight: 400 !important;
+  }
+
+  .product-details .variant-option__selected-value {
+    font-weight: 600 !important;
+    color: #111827 !important;
+  }
+
+  /* Suppress default Dawn pseudo borders and sliding pill on buttons */
+  .product-details .variant-option__button-label::before,
+  .product-details .variant-option__button-label::after,
+  .product-details .variant-option__button-label .variant-option__button-label__pill {
+    display: none !important;
+    content: none !important;
+  }
+
+  .product-details .variant-option__button-label--has-swatch {
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    flex: 0 0 34px !important;
+    border-radius: 50% !important;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12) !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: transform 0.15s ease, outline 0.15s ease !important;
+    overflow: visible !important;
+  }
+
+  .product-details .variant-option__button-label--has-swatch:hover {
+    transform: scale(1.06) !important;
+  }
+
+  .product-details .variant-option__button-label--has-swatch .swatch {
+    border-radius: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Active Swatch with Offset Orange Ring */
+  .product-details .variant-option__button-label--has-swatch:has(:checked) {
+    outline: 2px solid #e06d3b !important;
+    outline-offset: 2.5px !important;
+    border-radius: 50% !important;
+  }
+
+  /* Sold Out Swatch Diagonal Slash */
+  .product-details .variant-option__button-label--has-swatch:has([data-option-available='false']) svg.variant-option__strikethrough {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 3 !important;
+    stroke: rgba(255, 255, 255, 0.75) !important;
+  }
+
+  .product-details .variant-option__button-label--has-swatch:has([data-option-available='false']) svg.variant-option__strikethrough line {
+    stroke-width: 1.5px !important;
+  }
+
+  /* 8. Size Selector Section */
+  .product-details .variant-option--buttons:not(.variant-option--swatches) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  .product-details .size-guide-trigger {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #111827 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .product-details .size-guide-trigger:hover {
+    color: #e06d3b !important;
+  }
+
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label {
+    min-width: 60px !important;
+    height: 44px !important;
+    border-radius: 10px !important;
+    border: 1px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 16px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+  }
+
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:hover {
+    border-color: #111827 !important;
+  }
+
+  /* Selected Size Pill: Solid Black */
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+  }
+
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) .variant-option__button-label__text {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+  }
+
+  /* Unavailable Size Buttons: Subdued with Diagonal Slash */
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has([data-option-available='false']) {
+    background-color: #fafafa !important;
+    border-color: #e5e7eb !important;
+    color: #9ca3af !important;
+  }
+
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has([data-option-available='false']) svg.variant-option__strikethrough {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    stroke: #cbd5e1 !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+  }
+
+  .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has([data-option-available='false']) svg.variant-option__strikethrough line {
+    stroke-width: 1.2px !important;
+  }
+
+  /* 9. Inventory Urgency Badge */
+  .product-details .product-inventory {
+    margin: 2px 0 !important;
+  }
+
+  .product-details .product-inventory__status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+  }
+
+  .product-details .product-inventory__icon {
+    width: 18px !important;
+    height: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #e06d3b !important;
+  }
+
+  /* 10. Action Row: Side-by-Side Quantity + Add to Cart */
+  .product-details .buy-buttons-block {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .product-details product-form-component {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .product-details .product-form-buttons--inline {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .product-details .product-form-buttons--inline > .quantity-selector-wrapper {
+    flex: 0 0 120px !important;
+    width: 120px !important;
+    max-width: 120px !important;
+    margin: 0 !important;
+  }
+
+  .product-details .product-form-buttons--inline .quantity-selector {
+    height: 48px !important;
+    border-radius: 10px !important;
+    border: 1px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    width: 100% !important;
+    padding: 0 6px !important;
+  }
+
+  .product-details .quantity-selector :is(.quantity-minus, .quantity-plus) {
+    width: 32px !important;
+    height: 32px !important;
+    color: #374151 !important;
+  }
+
+  .product-details .quantity-selector input {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+    border: none !important;
+    background: transparent !important;
+    text-align: center !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+  }
+
+  .product-details .product-form-buttons--inline > [data-testid='standalone-add-to-cart'],
+  .product-details .product-form-buttons--inline > span:has(add-to-cart-component),
+  .product-details .product-form-buttons--inline > add-to-cart-component {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .product-details .product-form-buttons--inline .add-to-cart-button {
+    height: 48px !important;
+    border-radius: 10px !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    text-transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    padding: 0 20px !important;
+    transition: background-color 0.15s ease !important;
+  }
+
+  .product-details .product-form-buttons--inline .add-to-cart-button:hover {
+    background-color: #1f2937 !important;
+  }
+
+  .product-details .product-form-buttons--inline .add-to-cart-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .product-details .product-form-buttons--inline .add-to-cart-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: #ffffff !important;
+    stroke-width: 1.5px !important;
+  }
+
+  /* 11. Responsive Adjustments for Mobile */
+  @media screen and (max-width: 749px) {
+    .product-details .product-form-buttons--inline {
+      gap: 8px !important;
+    }
+
+    .product-details .product-form-buttons--inline > .quantity-selector-wrapper {
+      flex: 0 0 100px !important;
+      width: 100px !important;
+      max-width: 100px !important;
+    }
+
+    .product-details .product-form-buttons--inline .add-to-cart-button {
+      padding: 0 14px !important;
+      font-size: 14px !important;
+    }
+
+    .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label {
+      min-width: 52px !important;
+      height: 40px !important;
+      padding: 0 10px !important;
+    }
+  }
+
+  /* 12. Description Block Below Buying Card */
+  .product-details .text-block:has(.rte),
+  .product-details [data-testid="group-block"] ~ .text-block {
+    margin-top: 8px !important;
+    color: #374151 !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+{% endstylesheet %}
