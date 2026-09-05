@@ -101,7 +101,7 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 0,
         "section_width": "full-width",
-        "section_height": "responsive-ratio",
+        "section_height": "custom",
         "section_height_custom": 100,
         "background_color": "rgba(0,0,0,0)",
         "corner_radius": 24,
