@@ -330,10 +330,61 @@
         "padding-block-start": 40,
         "padding-block-end": 48
       }
+    },
+    "shoppable_video_carousel_x9K2pL": {
+      "type": "shoppable-video-carousel",
+      "blocks": {
+        "video_card_1": {
+          "type": "video_card",
+          "settings": {
+            "badge_text": "Trending",
+            "button_label": "Shop Now"
+          }
+        },
+        "video_card_2": {
+          "type": "video_card",
+          "settings": {
+            "badge_text": "New In",
+            "button_label": "Shop Now"
+          }
+        },
+        "video_card_3": {
+          "type": "video_card",
+          "settings": {
+            "badge_text": "Best Seller",
+            "button_label": "Shop Now"
+          }
+        },
+        "video_card_4": {
+          "type": "video_card",
+          "settings": {
+            "badge_text": "Must Have",
+            "button_label": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "video_card_1",
+        "video_card_2",
+        "video_card_3",
+        "video_card_4"
+      ],
+      "settings": {
+        "heading": "Watch & Shop",
+        "subheading": "Tap any video to play, explore, and shop the look",
+        "heading_alignment": "left",
+        "section_width": "page-width",
+        "aspect_ratio": "9/16",
+        "columns_desktop": 4,
+        "card_radius": 16,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "shoppable_video_carousel_x9K2pL"
   ]
 }
