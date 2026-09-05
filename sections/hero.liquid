@@ -578,13 +578,40 @@
       --hero-border-radius: 0px;
     {% endif %}
     --hero-side-padding: {{ section.settings.banner_side_padding | default: 0 }}px;
-    {% if section.settings.section_height == 'custom' %}
-      --hero-min-height: {{ section.settings.section_height_custom }}svh;
-    {% elsif section.settings.section_height == "full-screen" %}
-       --hero-min-height: 100svh;
-    {% else %}
-      --hero-min-height: var(--section-height-{{ section.settings.section_height }});
-    {% endif %}
+    {% case section.settings.section_height %}
+      {% when 'custom' %}
+        {% assign desktop_h = section.settings.hero_height_desktop | default: 750 %}
+        {% assign mobile_h = section.settings.hero_height_mobile | default: 550 %}
+        --hero-min-height-mobile: {{ mobile_h }}px;
+        --hero-min-height-desktop: {{ desktop_h }}px;
+        --hero-min-height: {{ desktop_h }}px;
+      {% when 'small' %}
+        --hero-min-height-mobile: 420px;
+        --hero-min-height-desktop: 550px;
+        --hero-min-height: 550px;
+      {% when 'medium' %}
+        --hero-min-height-mobile: 500px;
+        --hero-min-height-desktop: 700px;
+        --hero-min-height: 700px;
+      {% when 'large' %}
+        --hero-min-height-mobile: 620px;
+        --hero-min-height-desktop: 850px;
+        --hero-min-height: 850px;
+      {% when 'full-screen' %}
+        --hero-min-height-mobile: max(600px, 100svh);
+        --hero-min-height-desktop: max(800px, 100svh);
+        --hero-min-height: max(800px, 100svh);
+      {% when 'auto' %}
+        --hero-min-height: auto;
+        --hero-min-height-mobile: auto;
+        --hero-min-height-desktop: auto;
+      {% else %}
+        {% assign desktop_h = section.settings.hero_height_desktop | default: 750 %}
+        {% assign mobile_h = section.settings.hero_height_mobile | default: 550 %}
+        --hero-min-height-mobile: {{ mobile_h }}px;
+        --hero-min-height-desktop: {{ desktop_h }}px;
+        --hero-min-height: {{ desktop_h }}px;
+    {% endcase %}
   "
   {% if request.visual_preview_mode %}
     data-shopify-visual-preview
@@ -806,17 +833,22 @@
 
   .hero {
     position: relative;
-    min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+    min-height: calc(var(--hero-min-height-mobile, var(--hero-min-height, 550px)) - var(--hero-height-offset));
     border-radius: var(--hero-border-radius, 0);
     overflow: hidden;
     margin-top: 0;
     padding-top: 0;
   }
 
-  .hero[data-shopify-visual-preview] {
-    --hero-min-height: 600px;
+  @media screen and (min-width: 750px) {
+    .hero {
+      min-height: calc(var(--hero-min-height-desktop, var(--hero-min-height, 750px)) - var(--hero-height-offset));
+    }
+  }
 
-    min-height: 600px;
+  .hero[data-shopify-visual-preview] {
+    --hero-min-height: 750px;
+    min-height: 750px;
   }
 
   .hero__container {
@@ -1839,34 +1871,56 @@
     {
       "type": "select",
       "id": "section_height",
-      "label": "t:settings.height",
+      "label": "Banner height",
       "options": [
         {
-          "value": "auto",
-          "label": "t:options.auto"
+          "value": "custom",
+          "label": "Custom (pixels)"
         },
         {
           "value": "small",
-          "label": "t:options.small"
+          "label": "Small (550px desktop / 420px mobile)"
         },
         {
           "value": "medium",
-          "label": "t:options.medium"
+          "label": "Medium (700px desktop / 500px mobile)"
         },
         {
           "value": "large",
-          "label": "t:options.large"
+          "label": "Large (850px desktop / 620px mobile)"
         },
         {
           "value": "full-screen",
-          "label": "t:options.full_screen"
+          "label": "Full screen (100vh)"
         },
         {
-          "value": "custom",
-          "label": "t:options.custom"
+          "value": "auto",
+          "label": "Adapt to image ratio"
         }
       ],
-      "default": "medium"
+      "default": "custom"
+    },
+    {
+      "type": "range",
+      "id": "hero_height_desktop",
+      "label": "Desktop height",
+      "min": 400,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 750,
+      "visible_if": "{{ section.settings.section_height == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "label": "Mobile height",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 550,
+      "visible_if": "{{ section.settings.section_height == 'custom' }}"
     },
     {
       "type": "range",
