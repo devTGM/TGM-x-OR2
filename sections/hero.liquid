@@ -569,6 +569,8 @@
     {% if section.settings.corner_radius > 0 %}
       {% if section.settings.corner_radius_position == 'all' %}
         --hero-border-radius: {{ section.settings.corner_radius }}px;
+      {% elsif section.settings.corner_radius_position == 'bottom' %}
+        --hero-border-radius: 0 0 {{ section.settings.corner_radius }}px {{ section.settings.corner_radius }}px;
       {% else %}
         --hero-border-radius: {{ section.settings.corner_radius }}px {{ section.settings.corner_radius }}px 0 0;
       {% endif %}
@@ -616,8 +618,8 @@
   {% endcomment %}
 
   <div
-    class="hero__container spacing-style section section--full-width"
-    style="{% render 'spacing-style', settings: section.settings %}{% if section.settings.corner_radius > 0 %}border-radius: var(--hero-border-radius);{% endif %}"
+    class="hero__container spacing-style section section--full-width disable-section-top-offset"
+    style="{% render 'spacing-style', settings: section.settings %}{% if section.settings.corner_radius > 0 %}border-radius: var(--hero-border-radius);{% endif %}{% if section.settings.padding-block-start == 0 %}--padding-block-start: 0px !important; padding-top: 0px !important;{% endif %}"
   >
     {%- if section.settings.link != blank -%}
       <a
@@ -789,6 +791,8 @@
     --hero-height-offset: 0px;
     padding-inline: var(--hero-side-padding, 0px);
     box-sizing: border-box;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   /* Being extra specific in the selector for performance reasons */
@@ -805,6 +809,8 @@
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
     border-radius: var(--hero-border-radius, 0);
     overflow: hidden;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .hero[data-shopify-visual-preview] {
@@ -823,6 +829,7 @@
     align-items: var(--vertical-alignment-mobile);
     justify-content: var(--horizontal-alignment);
     z-index: var(--layer-base);
+    margin-top: 0;
 
     @media screen and (min-width: 750px) {
       align-items: var(--vertical-alignment);
@@ -1904,6 +1911,10 @@
         {
           "value": "top",
           "label": "Top corners only"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom corners only (flush at top)"
         }
       ],
       "default": "all"
