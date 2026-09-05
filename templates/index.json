@@ -101,7 +101,7 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 0,
         "section_width": "full-width",
-        "section_height": "custom",
+        "section_height": "responsive-ratio",
         "hero_height_desktop": 900,
         "hero_height_mobile": 680,
         "section_height_custom": 100,
