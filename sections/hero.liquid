@@ -6,18 +6,26 @@
   assign fallback_to_desktop = false
   assign media_1 = 'none'
   assign media_2 = 'none'
+  assign media_3 = 'none'
+  assign media_4 = 'none'
+  assign media_5 = 'none'
+  assign media_6 = 'none'
   assign media_1_mobile = 'none'
   assign media_2_mobile = 'none'
+  assign media_3_mobile = 'none'
+  assign media_4_mobile = 'none'
+  assign media_5_mobile = 'none'
+  assign media_6_mobile = 'none'
   assign has_only_video = false
   assign has_only_video_mobile = false
+  assign has_any_image = false
+  assign has_any_image_mobile = false
 
   # Desktop media checks
-  # For each media slot, check if the media is not blank and the media type matches the slot
-  # Need to check both (1) media picker is not blank AND (2) section.setting.media_type because user can toggle between different media types to display, but choosing "Image" doesn't clear a saved "Video" in the theme editor.
-  # The alternate setting (section.settings.image_1 when "Video" is selected) is only visually hidden in theme editor.
   if section.settings.image_1 != blank and section.settings.media_type_1 == 'image'
     assign media_1 = 'image'
     assign media_count = media_count | plus: 1
+    assign has_any_image = true
   endif
   if section.settings.video_1 != blank and section.settings.media_type_1 == 'video'
     assign media_1 = 'video'
@@ -26,18 +34,55 @@
   if section.settings.image_2 != blank and section.settings.media_type_2 == 'image'
     assign media_2 = 'image'
     assign media_count = media_count | plus: 1
+    assign has_any_image = true
   endif
   if section.settings.video_2 != blank and section.settings.media_type_2 == 'video'
     assign media_2 = 'video'
     assign media_count = media_count | plus: 1
   endif
+  if section.settings.image_3 != blank and section.settings.media_type_3 == 'image'
+    assign media_3 = 'image'
+    assign media_count = media_count | plus: 1
+    assign has_any_image = true
+  endif
+  if section.settings.video_3 != blank and section.settings.media_type_3 == 'video'
+    assign media_3 = 'video'
+    assign media_count = media_count | plus: 1
+  endif
+  if section.settings.image_4 != blank and section.settings.media_type_4 == 'image'
+    assign media_4 = 'image'
+    assign media_count = media_count | plus: 1
+    assign has_any_image = true
+  endif
+  if section.settings.video_4 != blank and section.settings.media_type_4 == 'video'
+    assign media_4 = 'video'
+    assign media_count = media_count | plus: 1
+  endif
+  if section.settings.image_5 != blank and section.settings.media_type_5 == 'image'
+    assign media_5 = 'image'
+    assign media_count = media_count | plus: 1
+    assign has_any_image = true
+  endif
+  if section.settings.video_5 != blank and section.settings.media_type_5 == 'video'
+    assign media_5 = 'video'
+    assign media_count = media_count | plus: 1
+  endif
+  if section.settings.image_6 != blank and section.settings.media_type_6 == 'image'
+    assign media_6 = 'image'
+    assign media_count = media_count | plus: 1
+    assign has_any_image = true
+  endif
+  if section.settings.video_6 != blank and section.settings.media_type_6 == 'video'
+    assign media_6 = 'video'
+    assign media_count = media_count | plus: 1
+  endif
 
   if section.settings.custom_mobile_media
     # Mobile media checks
-    # For each media slot, check if the media is not blank and the media type matches the slot
     if section.settings.image_1_mobile != blank and section.settings.media_type_1_mobile == 'image'
       assign media_1_mobile = 'image'
       assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
     endif
     if section.settings.video_1_mobile != blank and section.settings.media_type_1_mobile == 'video'
       assign media_1_mobile = 'video'
@@ -46,16 +91,53 @@
     if section.settings.image_2_mobile != blank and section.settings.media_type_2_mobile == 'image'
       assign media_2_mobile = 'image'
       assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
     endif
     if section.settings.video_2_mobile != blank and section.settings.media_type_2_mobile == 'video'
       assign media_2_mobile = 'video'
       assign media_count_mobile = media_count_mobile | plus: 1
     endif
+    if section.settings.image_3_mobile != blank and section.settings.media_type_3_mobile == 'image'
+      assign media_3_mobile = 'image'
+      assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
+    endif
+    if section.settings.video_3_mobile != blank and section.settings.media_type_3_mobile == 'video'
+      assign media_3_mobile = 'video'
+      assign media_count_mobile = media_count_mobile | plus: 1
+    endif
+    if section.settings.image_4_mobile != blank and section.settings.media_type_4_mobile == 'image'
+      assign media_4_mobile = 'image'
+      assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
+    endif
+    if section.settings.video_4_mobile != blank and section.settings.media_type_4_mobile == 'video'
+      assign media_4_mobile = 'video'
+      assign media_count_mobile = media_count_mobile | plus: 1
+    endif
+    if section.settings.image_5_mobile != blank and section.settings.media_type_5_mobile == 'image'
+      assign media_5_mobile = 'image'
+      assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
+    endif
+    if section.settings.video_5_mobile != blank and section.settings.media_type_5_mobile == 'video'
+      assign media_5_mobile = 'video'
+      assign media_count_mobile = media_count_mobile | plus: 1
+    endif
+    if section.settings.image_6_mobile != blank and section.settings.media_type_6_mobile == 'image'
+      assign media_6_mobile = 'image'
+      assign media_count_mobile = media_count_mobile | plus: 1
+      assign has_any_image_mobile = true
+    endif
+    if section.settings.video_6_mobile != blank and section.settings.media_type_6_mobile == 'video'
+      assign media_6_mobile = 'video'
+      assign media_count_mobile = media_count_mobile | plus: 1
+    endif
   endif
-  if media_count > 0 and media_1 != 'image' and media_2 != 'image'
+  if media_count > 0 and has_any_image == false
     assign has_only_video = true
   endif
-  if media_count > 0 and media_count_mobile > 0 and media_1_mobile != 'image' and media_2_mobile != 'image'
+  if media_count > 0 and media_count_mobile > 0 and has_any_image_mobile == false
     assign has_only_video_mobile = true
   endif
 
@@ -81,8 +163,10 @@
     endif
   endif
 
-  if media_1 == 'image' and media_2 == 'image'
-    assign media_width_desktop = '50vw'
+  assign hero_media_layout = section.settings.media_layout | default: 'slideshow'
+
+  if hero_media_layout == 'grid' and media_count > 1
+    assign media_width_desktop = 100 | divided_by: media_count | append: 'vw'
   else
     assign media_width_desktop = '100vw'
   endif
@@ -95,10 +179,10 @@
 
   if fallback_to_desktop
     assign media_width_mobile = media_width_desktop
-  elsif section.settings.stack_media_on_mobile or media_1_mobile != 'image' or media_2_mobile != 'image'
+  elsif section.settings.stack_media_on_mobile or hero_media_layout != 'grid' or media_count_mobile <= 1
     assign media_width_mobile = '100vw'
   else
-    assign media_width_mobile = '50vw'
+    assign media_width_mobile = 100 | divided_by: media_count_mobile | append: 'vw'
   endif
 
   assign sizes = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
@@ -115,219 +199,180 @@
 %}
 
 {% capture media_slot_1 %}
-  {%- if media_1 == 'image' and media_1_mobile == 'image' -%}
-    {%- comment -%} Both desktop and mobile are images. Assume similar images, and this is art direction: use picture element. {%- endcomment -%}
-    <picture
-      data-testid="hero-picture-1"
-      class="hero__media"
-    >
-      <source
-        media="(max-width: 749px)"
-        srcset="
-          {%-  for mobile_width in mobile_widths_array -%}
-            {{ section.settings.image_1_mobile | image_url: width: mobile_width }} {{ mobile_width }}w{% unless forloop.last %},{% endunless %}
-          {%- endfor -%}
-        "
-        sizes="{{ sizes_mobile }}"
-        width="{{ section.settings.image_1_mobile.width }}"
-        height="{{ section.settings.image_1_mobile.height }}"
-      >
-      {{
-        section.settings.image_1
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_1.width,
-          widths: widths,
-          height: section.settings.image_1.height,
-          alt: section.settings.image_1.alt,
-          class: 'hero__media',
-          sizes: sizes,
-          fetchpriority: fetch_priority,
-          data-testid: 'hero-desktop-image-1'
-      }}
-    </picture>
-  {%- elsif media_1 == 'image' -%}
-    <div class="{{ media_wrapper_desktop_class }}">
-      {{
-        section.settings.image_1
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_1.width,
-          widths: widths,
-          height: section.settings.image_1.height,
-          alt: section.settings.image_1.alt,
-          class: 'hero__media',
-          sizes: sizes,
-          fetchpriority: fetch_priority,
-          data-testid: 'hero-desktop-image-1'
-      }}
-    </div>
-  {%- endif -%}
-
-  {%- if media_1 == 'video' -%}
-    <div class="{{ media_wrapper_desktop_class }}">
-      {{
-        section.settings.video_1
-        | video_tag:
-          poster: nil,
-          autoplay: true,
-          loop: true,
-          controls: false,
-          muted: true,
-          class: 'hero__media',
-          data-testid: 'hero-desktop-video-1'
-      }}
-    </div>
-  {%- endif -%}
-
-  {%- comment -%} Mobile-only slot 1 media (when desktop is different type) {%- endcomment -%}
-  {%- if media_count > 0 and media_count_mobile > 0 -%}
-    {%- if media_1_mobile == 'image' and media_1 != 'image' -%}
-      <div class="{{ media_wrapper_mobile_class }}">
-        {{
-          section.settings.image_1_mobile
-          | image_url: width: 1600
-          | image_tag:
-            width: section.settings.image_1_mobile.width,
-            widths: mobile_widths,
-            height: section.settings.image_1_mobile.height,
-            alt: section.settings.image_1_mobile.alt,
-            class: 'hero__media',
-            sizes: sizes_mobile,
-            fetchpriority: fetch_priority,
-            data-testid: 'hero-mobile-image-1'
-        }}
-      </div>
-    {%- endif -%}
-
-    {%- if media_1_mobile == 'video' -%}
-      <div class="{{ media_wrapper_mobile_class }}">
-        {{
-          section.settings.video_1_mobile
-          | video_tag:
-            poster: nil,
-            autoplay: true,
-            loop: true,
-            controls: false,
-            muted: true,
-            class: 'hero__media',
-            data-testid: 'hero-mobile-video-1'
-        }}
-      </div>
-    {%- endif -%}
-  {%- endif -%}
+  {% render 'hero-media-slot',
+    slot_num: 1,
+    image: section.settings.image_1,
+    video: section.settings.video_1,
+    media_type: media_1,
+    image_mobile: section.settings.image_1_mobile,
+    video_mobile: section.settings.video_1_mobile,
+    media_type_mobile: media_1_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
 {% endcapture %}
 
 {% capture media_slot_2 %}
-  {%- if media_2 == 'image' and media_2_mobile == 'image' -%}
-    {%- comment -%} Both desktop and mobile are images. Assume this is art direction: use picture element.  {%- endcomment -%}
-    <picture
-      class="hero__media"
-      data-testid="hero-picture-2"
-    >
-      <source
-        media="(max-width: 749px)"
-        srcset="
-          {%-  for mobile_width in mobile_widths_array -%}
-            {{ section.settings.image_2_mobile | image_url: width: mobile_width }} {{ mobile_width }}w{% unless forloop.last%},{% endunless %}
-          {%- endfor -%}
-        "
-        sizes="{{ sizes_mobile }}"
-        width="{{ section.settings.image_2_mobile.width }}"
-        height="{{ section.settings.image_2_mobile.height }}"
-      >
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          widths: widths,
-          height: section.settings.image_2.height,
-          alt: section.settings.image_2.alt,
-          class: 'hero__media',
-          sizes: sizes,
-          fetchpriority: fetch_priority,
-          data-testid: 'hero-desktop-image-2'
-      }}
-    </picture>
-  {%- elsif media_2 == 'image' -%}
-    <div class="{{ media_wrapper_desktop_class }}">
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          widths: widths,
-          height: section.settings.image_2.height,
-          alt: section.settings.image_2.alt,
-          class: 'hero__media',
-          sizes: sizes,
-          fetchpriority: fetch_priority,
-          data-testid: 'hero-desktop-image-2'
-      }}
-    </div>
-  {%- endif -%}
+  {% render 'hero-media-slot',
+    slot_num: 2,
+    image: section.settings.image_2,
+    video: section.settings.video_2,
+    media_type: media_2,
+    image_mobile: section.settings.image_2_mobile,
+    video_mobile: section.settings.video_2_mobile,
+    media_type_mobile: media_2_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
+{% endcapture %}
 
-  {%- if media_2 == 'video' -%}
-    <div class="{{ media_wrapper_desktop_class }}">
-      {{
-        section.settings.video_2
-        | video_tag:
-          poster: nil,
-          autoplay: true,
-          loop: true,
-          controls: false,
-          muted: true,
-          class: 'hero__media',
-          data-testid: 'hero-desktop-video-2'
-      }}
-    </div>
-  {%- endif -%}
+{% capture media_slot_3 %}
+  {% render 'hero-media-slot',
+    slot_num: 3,
+    image: section.settings.image_3,
+    video: section.settings.video_3,
+    media_type: media_3,
+    image_mobile: section.settings.image_3_mobile,
+    video_mobile: section.settings.video_3_mobile,
+    media_type_mobile: media_3_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
+{% endcapture %}
 
-  {%- comment -%} Mobile-only slot 2 media (when desktop is different type) {%- endcomment -%}
-  {%- if media_count > 0 and media_count_mobile > 0 -%}
-    {%- if media_2_mobile == 'image' and media_2 != 'image' -%}
-      <div class="{{ media_wrapper_mobile_class }}">
-        {{
-          section.settings.image_2_mobile
-          | image_url: width: 1600
-          | image_tag:
-            width: section.settings.image_2_mobile.width,
-            widths: mobile_widths,
-            height: section.settings.image_2_mobile.height,
-            alt: section.settings.image_2_mobile.alt,
-            class: 'hero__media',
-            sizes: sizes_mobile,
-            fetchpriority: fetch_priority,
-            data-testid: 'hero-mobile-image-2'
-        }}
-      </div>
-    {%- endif -%}
+{% capture media_slot_4 %}
+  {% render 'hero-media-slot',
+    slot_num: 4,
+    image: section.settings.image_4,
+    video: section.settings.video_4,
+    media_type: media_4,
+    image_mobile: section.settings.image_4_mobile,
+    video_mobile: section.settings.video_4_mobile,
+    media_type_mobile: media_4_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
+{% endcapture %}
 
-    {%- if media_2_mobile == 'video' -%}
-      <div class="{{ media_wrapper_mobile_class }}">
-        {{
-          section.settings.video_2_mobile
-          | video_tag:
-            poster: nil,
-            autoplay: true,
-            loop: true,
-            controls: false,
-            muted: true,
-            class: 'hero__media',
-            data-testid: 'hero-mobile-video-2'
-        }}
-      </div>
-    {%- endif -%}
-  {%- endif -%}
+{% capture media_slot_5 %}
+  {% render 'hero-media-slot',
+    slot_num: 5,
+    image: section.settings.image_5,
+    video: section.settings.video_5,
+    media_type: media_5,
+    image_mobile: section.settings.image_5_mobile,
+    video_mobile: section.settings.video_5_mobile,
+    media_type_mobile: media_5_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
+{% endcapture %}
+
+{% capture media_slot_6 %}
+  {% render 'hero-media-slot',
+    slot_num: 6,
+    image: section.settings.image_6,
+    video: section.settings.video_6,
+    media_type: media_6,
+    image_mobile: section.settings.image_6_mobile,
+    video_mobile: section.settings.video_6_mobile,
+    media_type_mobile: media_6_mobile,
+    media_count: media_count,
+    media_count_mobile: media_count_mobile,
+    media_wrapper_desktop_class: media_wrapper_desktop_class,
+    media_wrapper_mobile_class: media_wrapper_mobile_class,
+    mobile_widths_array: mobile_widths_array,
+    mobile_widths: mobile_widths,
+    sizes: sizes,
+    sizes_mobile: sizes_mobile,
+    widths: widths,
+    fetch_priority: fetch_priority
+  %}
 {% endcapture %}
 
 {% capture media %}
-  {{ media_slot_1 }}
-  {{ media_slot_2 }}
+  {% assign slide_index = 0 %}
+  {% if media_1 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_1 }}
+    </div>
+  {% endif %}
+  {% if media_2 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_2 }}
+    </div>
+  {% endif %}
+  {% if media_3 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_3 }}
+    </div>
+  {% endif %}
+  {% if media_4 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_4 }}
+    </div>
+  {% endif %}
+  {% if media_5 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_5 }}
+    </div>
+  {% endif %}
+  {% if media_6 != 'none' %}
+    {% assign slide_index = slide_index | plus: 1 %}
+    <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
+      {{ media_slot_6 }}
+    </div>
+  {% endif %}
 
   {% if media_count == 0 %}
-    {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__media' }}
+    <div class="hero__media-item hero__media-item--active" data-slide-index="0">
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__media' }}
+    </div>
   {%- endif -%}
 {% endcapture %}
 
@@ -353,6 +398,58 @@
         width: section.settings.image_2.width,
         widths: widths,
         height: section.settings.image_2.height,
+        alt: '',
+        class: 'hero__media',
+        sizes: sizes
+    }}
+  {% endif %}
+  {% if media_3 == 'image' and hero_media_layout == 'grid' %}
+    {{
+      section.settings.image_3
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_3.width,
+        widths: widths,
+        height: section.settings.image_3.height,
+        alt: '',
+        class: 'hero__media',
+        sizes: sizes
+    }}
+  {% endif %}
+  {% if media_4 == 'image' and hero_media_layout == 'grid' %}
+    {{
+      section.settings.image_4
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_4.width,
+        widths: widths,
+        height: section.settings.image_4.height,
+        alt: '',
+        class: 'hero__media',
+        sizes: sizes
+    }}
+  {% endif %}
+  {% if media_5 == 'image' and hero_media_layout == 'grid' %}
+    {{
+      section.settings.image_5
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_5.width,
+        widths: widths,
+        height: section.settings.image_5.height,
+        alt: '',
+        class: 'hero__media',
+        sizes: sizes
+    }}
+  {% endif %}
+  {% if media_6 == 'image' and hero_media_layout == 'grid' %}
+    {{
+      section.settings.image_6
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_6.width,
+        widths: widths,
+        height: section.settings.image_6.height,
         alt: '',
         class: 'hero__media',
         sizes: sizes
@@ -462,6 +559,8 @@
 <div
   id="Hero-{{ section.id }}"
   class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  data-media-layout="{{ section.settings.media_layout | default: 'slideshow' }}"
+  data-media-count="{{ media_count }}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -531,6 +630,35 @@
       %}
       {{ media }}
     </div>
+
+    {%- if media_count > 1 and section.settings.media_layout != 'grid' -%}
+      {%- if section.settings.show_arrows -%}
+        <div class="hero__nav-arrows" aria-hidden="true">
+          <button type="button" class="hero__nav-arrow hero__nav-arrow--prev" aria-label="Previous slide" data-hero-nav="prev">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="hero__nav-arrow hero__nav-arrow--next" aria-label="Next slide" data-hero-nav="next">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_indicators -%}
+        <div class="hero__indicators" role="tablist" aria-label="Hero Slides">
+          {% for i in (1..media_count) %}
+            <button
+              type="button"
+              class="hero__indicator-dot{% if forloop.first %} hero__indicator-dot--active{% endif %}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-label="Slide {{ forloop.index }}"
+              data-indicator-index="{{ forloop.index0 }}"
+            ></button>
+          {% endfor %}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
     <div
       class="
         hero__content-wrapper
@@ -548,6 +676,104 @@
   </div>
 </div>
 
+{%- if media_count > 1 and section.settings.media_layout != 'grid' -%}
+  <script>
+    (function() {
+      const hero = document.getElementById('Hero-{{ section.id }}');
+      if (!hero) return;
+      const slides = hero.querySelectorAll('.hero__media-item');
+      const dots = hero.querySelectorAll('.hero__indicator-dot');
+      const prevBtn = hero.querySelector('.hero__nav-arrow--prev');
+      const nextBtn = hero.querySelector('.hero__nav-arrow--next');
+      if (slides.length <= 1) return;
+
+      let currentIndex = 0;
+      let timer = null;
+      const autoplay = {{ section.settings.autoplay | default: true }};
+      const interval = {{ section.settings.slideshow_interval | default: 5 | times: 1000 }};
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        slides.forEach((slide, i) => {
+          slide.classList.remove('hero__media-item--active', 'hero__media-item--prev');
+          if (i === index) {
+            slide.classList.add('hero__media-item--active');
+          } else if (i === (index - 1 + slides.length) % slides.length) {
+            slide.classList.add('hero__media-item--prev');
+          }
+        });
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('hero__indicator-dot--active', i === index);
+          dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+        });
+        currentIndex = index;
+      }
+
+      function startTimer() {
+        if (!autoplay) return;
+        stopTimer();
+        timer = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, interval);
+      }
+
+      function stopTimer() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      prevBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToSlide(currentIndex - 1);
+        startTimer();
+      });
+
+      nextBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+        startTimer();
+      });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToSlide(i);
+          startTimer();
+        });
+      });
+
+      hero.addEventListener('mouseenter', stopTimer);
+      hero.addEventListener('mouseleave', startTimer);
+
+      let touchStartX = 0;
+      hero.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopTimer();
+      }, { passive: true });
+      hero.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 45) {
+          goToSlide(currentIndex + 1);
+        } else if (touchEndX - touchStartX > 45) {
+          goToSlide(currentIndex - 1);
+        }
+        startTimer();
+      }, { passive: true });
+
+      startTimer();
+
+      document.addEventListener('shopify:section:unload', (e) => {
+        if (e.detail.sectionId === '{{ section.id }}') {
+          stopTimer();
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
 {% stylesheet %}
   .hero-wrapper {
     --hero-height-offset: 0px;
@@ -556,6 +782,10 @@
   /* Being extra specific in the selector for performance reasons */
   body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child {
     --hero-height-offset: var(--header-group-height, 0);
+  }
+
+  body:has(#header-group > .header-section > #header-component[transparent]) .hero-wrapper:first-child {
+    --hero-height-offset: 0px;
   }
 
   .hero {
@@ -762,6 +992,136 @@
       }
     }
   }
+
+  /* Grid styling for media items */
+  .hero__media-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* When media_layout is slideshow or fade */
+  .hero[data-media-layout='slideshow'] .hero__media-grid,
+  .hero[data-media-layout='fade'] .hero__media-grid {
+    display: block;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hero[data-media-layout='fade'] .hero__media-item {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero[data-media-layout='fade'] .hero__media-item--active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .hero[data-media-layout='slideshow'] .hero__media-item {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero[data-media-layout='slideshow'] .hero__media-item--active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .hero[data-media-layout='slideshow'] .hero__media-item--prev {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+    z-index: 1;
+  }
+
+  /* Slide indicators */
+  .hero__indicators {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: var(--layer-flat);
+    pointer-events: auto;
+  }
+
+  .hero__indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s, transform 0.3s, width 0.3s;
+  }
+
+  .hero__indicator-dot:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .hero__indicator-dot--active {
+    background: #ffffff;
+    width: 26px;
+    border-radius: 5px;
+  }
+
+  /* Nav arrows */
+  .hero__nav-arrows {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: var(--layer-flat);
+  }
+
+  .hero__nav-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .hero__nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.06);
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -778,6 +1138,9 @@
     },
     {
       "type": "button"
+    },
+    {
+      "type": "image"
     },
     {
       "type": "logo"
@@ -799,6 +1162,62 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Media display layout"
+    },
+    {
+      "type": "select",
+      "id": "media_layout",
+      "label": "Multiple media layout",
+      "options": [
+        {
+          "value": "slideshow",
+          "label": "Slideshow / Carousel"
+        },
+        {
+          "value": "fade",
+          "label": "Crossfade"
+        },
+        {
+          "value": "grid",
+          "label": "Grid / Split columns"
+        }
+      ],
+      "default": "slideshow"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true,
+      "visible_if": "{{ section.settings.media_layout != 'grid' }}"
+    },
+    {
+      "type": "range",
+      "id": "slideshow_interval",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 5,
+      "visible_if": "{{ section.settings.media_layout != 'grid' and section.settings.autoplay }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_indicators",
+      "label": "Show navigation dots",
+      "default": true,
+      "visible_if": "{{ section.settings.media_layout != 'grid' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true,
+      "visible_if": "{{ section.settings.media_layout != 'grid' }}"
+    },
     {
       "type": "header",
       "content": "t:content.media_1"
@@ -862,6 +1281,134 @@
       "id": "video_2",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_2 == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Media 3"
+    },
+    {
+      "type": "select",
+      "id": "media_type_3",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.media_type_3 == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_3",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.media_type_3 == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Media 4"
+    },
+    {
+      "type": "select",
+      "id": "media_type_4",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.media_type_4 == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_4",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.media_type_4 == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Media 5"
+    },
+    {
+      "type": "select",
+      "id": "media_type_5",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.media_type_5 == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_5",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.media_type_5 == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Media 6"
+    },
+    {
+      "type": "select",
+      "id": "media_type_6",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.media_type_6 == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_6",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.media_type_6 == 'video' }}"
     },
     {
       "type": "header",
@@ -946,6 +1493,142 @@
       "id": "video_2_mobile",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_2_mobile == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Media 3",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "select",
+      "id": "media_type_3_mobile",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3_mobile",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_3_mobile == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_3_mobile",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_3_mobile == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Media 4",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "select",
+      "id": "media_type_4_mobile",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4_mobile",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_4_mobile == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_4_mobile",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_4_mobile == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Media 5",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "select",
+      "id": "media_type_5_mobile",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5_mobile",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_5_mobile == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_5_mobile",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_5_mobile == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Media 6",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "select",
+      "id": "media_type_6_mobile",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "image",
+          "label": "t:options.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.video"
+        }
+      ],
+      "default": "image",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6_mobile",
+      "label": "t:settings.image",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_6_mobile == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_6_mobile",
+      "label": "t:settings.video",
+      "visible_if": "{{ section.settings.custom_mobile_media and section.settings.media_type_6_mobile == 'video' }}"
     },
     {
       "type": "header",
