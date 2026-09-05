@@ -602,13 +602,13 @@
         --hero-min-height-desktop: max(800px, 100svh);
         --hero-min-height: max(800px, 100svh);
       {% when 'auto' %}
-        --hero-min-height: auto;
-        --hero-min-height-mobile: auto;
-        --hero-min-height-desktop: auto;
+        --hero-min-height: 0px;
+        --hero-min-height-mobile: 0px;
+        --hero-min-height-desktop: 0px;
       {% when 'responsive-ratio' %}
-        --hero-min-height-mobile: auto;
-        --hero-min-height-desktop: auto;
-        --hero-min-height: auto;
+        --hero-min-height-mobile: 0px;
+        --hero-min-height-desktop: 0px;
+        --hero-min-height: 0px;
         --hero-aspect-ratio-mobile: 3/4;
         --hero-aspect-ratio-desktop: 16/9;
       {% else %}
@@ -839,7 +839,7 @@
 
   .hero {
     position: relative;
-    min-height: calc(var(--hero-min-height-mobile, var(--hero-min-height, 550px)) - var(--hero-height-offset));
+    min-height: max(0px, calc(var(--hero-min-height-mobile, var(--hero-min-height, 550px)) - var(--hero-height-offset)));
     aspect-ratio: var(--hero-aspect-ratio-mobile, auto);
     border-radius: var(--hero-border-radius, 0);
     overflow: hidden;
@@ -849,7 +849,7 @@
 
   @media screen and (min-width: 750px) {
     .hero {
-      min-height: calc(var(--hero-min-height-desktop, var(--hero-min-height, 750px)) - var(--hero-height-offset));
+      min-height: max(0px, calc(var(--hero-min-height-desktop, var(--hero-min-height, 750px)) - var(--hero-height-offset)));
       aspect-ratio: var(--hero-aspect-ratio-desktop, auto);
     }
   }
