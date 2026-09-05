@@ -313,7 +313,7 @@
       "name": "t:names.product_list",
       "settings": {
         "collection": "bestsellers",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": true,
         "max_products": 8,
         "columns": 4,
@@ -337,6 +337,9 @@
         "video_card_1": {
           "type": "video_card",
           "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
             "badge_text": "Trending",
             "button_label": "Shop Now"
           }
@@ -344,6 +347,9 @@
         "video_card_2": {
           "type": "video_card",
           "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
             "badge_text": "New In",
             "button_label": "Shop Now"
           }
@@ -351,6 +357,9 @@
         "video_card_3": {
           "type": "video_card",
           "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
             "badge_text": "Best Seller",
             "button_label": "Shop Now"
           }
@@ -358,6 +367,9 @@
         "video_card_4": {
           "type": "video_card",
           "settings": {
+            "video_url": "",
+            "product": "",
+            "custom_title": "",
             "badge_text": "Must Have",
             "button_label": "Shop Now"
           }
@@ -373,10 +385,13 @@
         "heading": "Watch & Shop",
         "subheading": "Tap any video to play, explore, and shop the look",
         "heading_alignment": "left",
+        "view_all_link": "",
+        "view_all_text": "View all",
         "section_width": "page-width",
         "aspect_ratio": "9/16",
         "columns_desktop": 4,
         "card_radius": 16,
+        "background_color": "",
         "padding_top": 48,
         "padding_bottom": 48
       }
