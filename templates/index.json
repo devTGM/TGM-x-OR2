@@ -553,6 +553,7 @@
           "name": "t:names.slide",
           "settings": {
             "media_type_1": "image",
+            "image_1": "shopify://shop_images/the_modern.webp",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -571,83 +572,7 @@
             "padding-inline-start": 48,
             "padding-inline-end": 48
           },
-          "blocks": {
-            "text_jrycLw": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h3>New arrivals</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_mdEz8V": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_U4qUeU": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "custom_button_background": "{{ settings.color_palette.foreground }}",
-                "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "corner_radius": 0,
-                "link_text_color": "",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_jrycLw",
-            "text_mdEz8V",
-            "button_U4qUeU"
-          ]
+          "blocks": {}
         }
       },
       "block_order": [
@@ -1617,8 +1542,9 @@
             "headline": "Incredible fit and feel",
             "text": "Hands down the best linen shirts I've ever bought. The breathable fabric and minimal silhouette are exactly what I was looking for.",
             "author": "Kabir M.",
+            "verified_buyer": true,
             "location": "Mumbai",
-            "verified_buyer": true
+            "product": ""
           }
         },
         "testimonial_2": {
@@ -1628,8 +1554,9 @@
             "headline": "Top notch quality",
             "text": "The fabric drape is so flattering. Stitching, buttons, and finish all feel luxury grade. Will definitely be ordering more colors.",
             "author": "Ananya P.",
+            "verified_buyer": true,
             "location": "Bengaluru",
-            "verified_buyer": true
+            "product": ""
           }
         },
         "testimonial_3": {
@@ -1639,8 +1566,9 @@
             "headline": "My everyday go-to now",
             "text": "Wore it all day in humid weather and it stayed crisp and comfortable. Truly lives up to the name On Repeat.",
             "author": "Dev K.",
+            "verified_buyer": true,
             "location": "Delhi",
-            "verified_buyer": true
+            "product": ""
           }
         },
         "testimonial_4": {
@@ -1650,8 +1578,9 @@
             "headline": "Worth every single rupee",
             "text": "The subtle details, clean cut, and premium material make this stand out from fast fashion brands. Fast shipping too!",
             "author": "Siddharth R.",
+            "verified_buyer": true,
             "location": "Pune",
-            "verified_buyer": true
+            "product": ""
           }
         },
         "testimonial_5": {
@@ -1661,8 +1590,9 @@
             "headline": "Flawless craftsmanship",
             "text": "Very impressed with the cut and fabric texture. Packaging was eco-friendly and thoughtful. 10/10 purchase.",
             "author": "Meera T.",
+            "verified_buyer": true,
             "location": "Hyderabad",
-            "verified_buyer": true
+            "product": ""
           }
         }
       },
@@ -1679,6 +1609,7 @@
         "section_width": "page-width",
         "scroll_speed": 35,
         "card_radius": 12,
+        "background_color": "",
         "padding-block-start": 48,
         "padding-block-end": 56
       }
