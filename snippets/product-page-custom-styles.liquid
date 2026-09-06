@@ -453,13 +453,19 @@
     }
   }
 
-  /* 12. Description Block Below Buying Card */
-  .product-details .text-block:has(.rte),
-  .product-details [data-testid="group-block"] ~ .text-block {
+  /* 12. Description Block (when outside accordion) */
+  .product-details > .text-block:has(.rte),
+  .product-details > [data-testid="group-block"] ~ .text-block:not(.accordion *) {
     margin-top: 8px !important;
     color: #374151 !important;
     font-size: 15px !important;
     line-height: 1.65 !important;
+  }
+
+  /* Hide duplicate top-level description block if accordion is present */
+  .product-details:has(.accordion) > .text-block:not(.accordion *):has([data-product-description]),
+  .product-details:has(.accordion) > .text-block--product-description {
+    display: none !important;
   }
 
   /* 13. Trust & Modern UX Badges (India-Optimized) */

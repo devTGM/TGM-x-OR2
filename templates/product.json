@@ -276,39 +276,13 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "accordion_LKRaGL": {
               "type": "accordion",
               "name": "t:names.accordion",
               "settings": {
                 "icon": "plus",
                 "dividers": true,
-                "divider_color": "",
+                "divider_color": "#E6E1DA",
                 "type_preset": "h6",
                 "background_color": "",
                 "text_color": "",
@@ -323,19 +297,20 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "accordion_row_Gtz9NM": {
+                "accordion_row_description": {
                   "type": "_accordion-row",
+                  "name": "Description",
                   "settings": {
-                    "heading": "Return policy",
+                    "heading": "Description",
                     "open_by_default": true,
                     "icon": "none",
                     "width": 20
                   },
                   "blocks": {
-                    "text_frmXdz": {
+                    "text_desc": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                        "text": "{{ closest.product.description }}",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -359,13 +334,130 @@
                     }
                   },
                   "block_order": [
-                    "text_frmXdz"
+                    "text_desc"
+                  ]
+                },
+                "accordion_row_composition": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fabric & Composition",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_composition": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>100% Pure European Flax Linen</strong><br>• Medium-weight 180 GSM woven fabric for optimal airflow and graceful drape.<br>• Garment-washed with gentle enzymes for lived-in softness from the very first wear.<br>• Naturally hypoallergenic, moisture-wicking, and heat-regulating for all-day breathability.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_composition"
+                  ]
+                },
+                "accordion_row_fit_sizing": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fit & Sizing Details",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_fit_sizing": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>• <strong>Fit:</strong> Regular relaxed silhouette engineered for all-day comfort.<br>• <strong>Model Stats:</strong> Height 6'1\" (185 cm), wearing Size L.<br>• <strong>Craft Details:</strong> Natural mother-of-pearl buttons, clean French seams, curved shirt-tail hem.<br>• Fits true to standard sizing. If you prefer an oversized fit, size up one size.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_fit_sizing"
+                  ]
+                },
+                "accordion_row_care": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Fabric Care Guide",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_care": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>• Machine wash cold (30°C) on a gentle or delicate cycle with mild detergent.<br>• Wash with similar colours. Do not use bleach or fabric softeners.<br>• Line dry in shade. Avoid tumble drying to preserve natural flax fiber strength.<br>• Warm iron while slightly damp if you desire a crisp finish, or embrace natural linen wrinkles for casual ease.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_care"
                   ]
                 },
                 "accordion_row_DRLUPC": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Shipping",
+                    "heading": "Shipping, COD & Returns",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -374,7 +466,7 @@
                     "text_CNy6Dj": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
+                        "text": "<p>• <strong>Free Express Shipping:</strong> Fast pan-India delivery within 2–5 business days.<br>• <strong>Cash on Delivery:</strong> Available across all serviceable pin codes in India.<br>• <strong>Hassle-Free Returns:</strong> 7-day seamless exchange or return from the date of delivery.<br>• For queries or size exchanges, chat with our concierge team anytime on WhatsApp.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -400,51 +492,14 @@
                   "block_order": [
                     "text_CNy6Dj"
                   ]
-                },
-                "accordion_row_nL7wde": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Manufacturing",
-                    "open_by_default": false,
-                    "icon": "none",
-                    "width": 20
-                  },
-                  "blocks": {
-                    "text_jhKPfc": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value.</p>",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "text_color": "",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_jhKPfc"
-                  ]
                 }
               },
               "block_order": [
-                "accordion_row_Gtz9NM",
-                "accordion_row_DRLUPC",
-                "accordion_row_nL7wde"
+                "accordion_row_description",
+                "accordion_row_composition",
+                "accordion_row_fit_sizing",
+                "accordion_row_care",
+                "accordion_row_DRLUPC"
               ]
             }
           },
@@ -453,7 +508,6 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq",
             "accordion_LKRaGL"
           ]
         }
