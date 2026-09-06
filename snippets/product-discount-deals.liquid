@@ -1,138 +1,133 @@
 {% comment %}
-  Product Discount Deals Carousel
-  Displays curated discount codes just under the size selection.
-  Matches the modern DTC Deals card carousel design.
+  ON REPEAT — Minimal Luxury Linen Deals & Offers
+  Aligned with brand guidelines: Warm ivory, sand borders, Cormorant Garamond headings,
+  editorial typography, and understated modern DTC interactions.
 {% endcomment %}
 
-<product-deals class="product-deals-section" data-product-deals>
-  <div class="product-deals__header">
-    <div class="product-deals__pill">
-      <span class="product-deals__pill-icon">%</span>
-      <span class="product-deals__pill-text">Deals</span>
+<product-deals class="luxury-deals-section" data-product-deals>
+  <div class="luxury-deals__header">
+    <div class="luxury-deals__label">
+      <span class="luxury-deals__dot"></span>
+      <span class="luxury-deals__title">EXCLUSIVE OFFERS</span>
     </div>
-    <div class="product-deals__nav">
+    <div class="luxury-deals__nav">
       <button
         type="button"
-        class="product-deals__arrow product-deals__arrow--prev"
-        aria-label="Previous Deals"
+        class="luxury-deals__arrow"
+        aria-label="Previous Offer"
         data-deals-prev
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
       <button
         type="button"
-        class="product-deals__arrow product-deals__arrow--next"
-        aria-label="Next Deals"
+        class="luxury-deals__arrow"
+        aria-label="Next Offer"
         data-deals-next
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
       </button>
     </div>
   </div>
 
-  <div class="product-deals__carousel" data-deals-track>
+  <div class="luxury-deals__track" data-deals-track>
     <!-- Deal 1 -->
-    <div class="product-deal-card">
-      <div class="product-deal-card__badge">FIRST ORDER</div>
-      <div class="product-deal-card__body">
-        <div class="product-deal-card__top">
-          <div class="product-deal-card__value">10% OFF</div>
-          <button
-            type="button"
-            class="product-deal-card__code-btn"
-            data-coupon-code="THEFIRST10"
-            aria-label="Copy code THEFIRST10"
-          >
-            <span class="product-deal-card__code-text">THEFIRST10</span>
-            <svg class="product-deal-card__copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="product-deal-card__divider"></div>
-        <p class="product-deal-card__desc">
-          Flat 10% off on your first order.
-        </p>
+    <div class="luxury-deal-card">
+      <div class="luxury-deal-card__header">
+        <span class="luxury-deal-card__tag">FIRST ORDER</span>
+        <button
+          type="button"
+          class="luxury-deal-card__code-btn"
+          data-coupon-code="THEFIRST10"
+          aria-label="Copy code THEFIRST10"
+        >
+          <span class="luxury-deal-card__code-text">THEFIRST10</span>
+          <svg class="luxury-deal-card__copy-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
       </div>
+      <div class="luxury-deal-card__value">Flat 10% Off</div>
+      <div class="luxury-deal-card__divider"></div>
+      <p class="luxury-deal-card__desc">
+        Flat 10% off on your first order.
+      </p>
     </div>
 
     <!-- Deal 2 -->
-    <div class="product-deal-card">
-      <div class="product-deal-card__badge">BUY ANY 2</div>
-      <div class="product-deal-card__body">
-        <div class="product-deal-card__top">
-          <div class="product-deal-card__value">₹2519 EACH</div>
-          <button
-            type="button"
-            class="product-deal-card__code-btn"
-            data-coupon-code="SPECIAL10"
-            aria-label="Copy code SPECIAL10"
-          >
-            <span class="product-deal-card__code-text">SPECIAL10</span>
-            <svg class="product-deal-card__copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="product-deal-card__divider"></div>
-        <p class="product-deal-card__desc">
-          Get it for ₹2519 when you buy any 2 items. Flat 10% off.
-        </p>
+    <div class="luxury-deal-card">
+      <div class="luxury-deal-card__header">
+        <span class="luxury-deal-card__tag">BUY ANY 2</span>
+        <button
+          type="button"
+          class="luxury-deal-card__code-btn"
+          data-coupon-code="SPECIAL10"
+          aria-label="Copy code SPECIAL10"
+        >
+          <span class="luxury-deal-card__code-text">SPECIAL10</span>
+          <svg class="luxury-deal-card__copy-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
       </div>
+      <div class="luxury-deal-card__value">Get for ₹2,519 Each</div>
+      <div class="luxury-deal-card__divider"></div>
+      <p class="luxury-deal-card__desc">
+        Get it for ₹2519 when you buy any 2 items. Flat 10% off.
+      </p>
     </div>
 
     <!-- Deal 3 -->
-    <div class="product-deal-card">
-      <div class="product-deal-card__badge">PREPAID ORDERS</div>
-      <div class="product-deal-card__body">
-        <div class="product-deal-card__top">
-          <div class="product-deal-card__value">FREE SHIPPING</div>
-          <button
-            type="button"
-            class="product-deal-card__code-btn"
-            data-coupon-code="FREESHIP"
-            aria-label="Copy code FREESHIP"
-          >
-            <span class="product-deal-card__code-text">FREESHIP</span>
-            <svg class="product-deal-card__copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="product-deal-card__divider"></div>
-        <p class="product-deal-card__desc">
-          Free Shipping on prepaid orders.
-        </p>
+    <div class="luxury-deal-card">
+      <div class="luxury-deal-card__header">
+        <span class="luxury-deal-card__tag">PREPAID ORDERS</span>
+        <button
+          type="button"
+          class="luxury-deal-card__code-btn"
+          data-coupon-code="FREESHIP"
+          aria-label="Copy code FREESHIP"
+        >
+          <span class="luxury-deal-card__code-text">FREESHIP</span>
+          <svg class="luxury-deal-card__copy-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
       </div>
+      <div class="luxury-deal-card__value">Free Shipping</div>
+      <div class="luxury-deal-card__divider"></div>
+      <p class="luxury-deal-card__desc">
+        Free Shipping on prepaid orders.
+      </p>
     </div>
   </div>
 
-  <div class="product-deals__toast" data-deals-toast aria-live="polite">Code copied!</div>
+  <div class="luxury-deals__toast" data-deals-toast aria-live="polite">Code copied to clipboard!</div>
 </product-deals>
 
 <style>
-  .product-deals-section {
+  .luxury-deals-section {
     display: block;
     width: 100%;
-    margin: 16px 0 18px 0;
+    margin: 18px 0 20px 0;
     position: relative;
     box-sizing: border-box;
     font-family: var(--font-body--family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
-  .product-deals-section ~ .product-deals-section,
-  .product-details .product-deals-section ~ .product-deals-section {
+  /* Duplicate suppression */
+  .luxury-deals-section ~ .luxury-deals-section,
+  .product-details .luxury-deals-section ~ .luxury-deals-section {
     display: none !important;
   }
 
-  .product-deals__header {
+  .luxury-deals__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -140,71 +135,58 @@
     padding: 0 2px;
   }
 
-  .product-deals__pill {
+  .luxury-deals__label {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 9999px;
-    padding: 3px 12px 3px 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
-  .product-deals__pill-icon {
-    width: 22px;
-    height: 22px;
+  .luxury-deals__dot {
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: #3B1624;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #8C8275;
+  }
+
+  .luxury-deals__title {
     font-size: 11px;
-    font-weight: 800;
-    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #736B63;
   }
 
-  .product-deals__pill-text {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: #111827;
-    letter-spacing: -0.01em;
-  }
-
-  .product-deals__nav {
+  .luxury-deals__nav {
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  .product-deals__arrow {
-    width: 28px;
-    height: 28px;
+  .luxury-deals__arrow {
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    color: #374151;
+    background: #FFFFFF;
+    border: 1px solid #E6E1DA;
+    color: #1C1C1C;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     padding: 0;
-    transition: all 0.15s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
   }
 
-  .product-deals__arrow:hover {
-    background: #f9fafb;
-    border-color: #d1d5db;
-    color: #111827;
+  .luxury-deals__arrow:hover {
+    border-color: #1C1C1C;
+    background: #FAF8F5;
   }
 
-  .product-deals__arrow:active {
-    transform: scale(0.94);
+  .luxury-deals__arrow:active {
+    transform: scale(0.93);
   }
 
-  .product-deals__carousel {
+  .luxury-deals__track {
     display: flex;
     gap: 12px;
     overflow-x: auto;
@@ -215,133 +197,124 @@
     padding: 2px 2px 6px 2px;
   }
 
-  .product-deals__carousel::-webkit-scrollbar {
+  .luxury-deals__track::-webkit-scrollbar {
     display: none;
   }
 
-  .product-deal-card {
+  .luxury-deal-card {
     flex: 0 0 240px;
     max-width: 240px;
     scroll-snap-align: start;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #E6E1DA;
+    border-radius: 8px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     box-sizing: border-box;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .product-deal-card:hover {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07);
+  .luxury-deal-card:hover {
+    border-color: #C8C1B7;
   }
 
   @media screen and (max-width: 480px) {
-    .product-deal-card {
+    .luxury-deal-card {
       flex: 0 0 225px;
       max-width: 225px;
+      padding: 12px 14px;
     }
   }
 
-  .product-deal-card__badge {
-    background: #3B1624;
-    color: #ffffff;
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 3.5px 10px;
-    border-top-left-radius: 11px;
-    border-bottom-right-radius: 9px;
-    display: inline-block;
-    align-self: flex-start;
-    line-height: 1.2;
-  }
-
-  .product-deal-card__body {
-    padding: 8px 12px 12px 12px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .product-deal-card__top {
+  .luxury-deal-card__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
+    gap: 8px;
+    margin-bottom: 8px;
   }
 
-  .product-deal-card__value {
-    font-size: 15px;
-    font-weight: 800;
-    color: #111827;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
+  .luxury-deal-card__tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8C8275;
+    line-height: 1;
   }
 
-  .product-deal-card__code-btn {
+  .luxury-deal-card__code-btn {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    border: 1.5px dashed #16a34a;
-    background: #f0fdf4;
-    color: #15803d;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 6px;
-    padding: 3px 7px;
+    border: 1px solid #1C1C1C;
+    background: #FAF8F5;
+    color: #1C1C1C;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    padding: 2.5px 7px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
     white-space: nowrap;
     outline: none;
     user-select: none;
+    font-family: var(--font-body--family), sans-serif;
   }
 
-  .product-deal-card__code-btn:hover {
-    background: #dcfce7;
-    border-color: #15803d;
+  .luxury-deal-card__code-btn:hover {
+    background: #1C1C1C;
+    color: #FAF8F5;
   }
 
-  .product-deal-card__code-btn.is-copied {
-    background: #16a34a;
-    color: #ffffff;
-    border-style: solid;
-    border-color: #16a34a;
+  .luxury-deal-card__code-btn.is-copied {
+    background: #1C1C1C;
+    color: #FAF8F5;
+    border-color: #1C1C1C;
   }
 
-  .product-deal-card__code-btn.is-copied .product-deal-card__copy-icon {
+  .luxury-deal-card__code-btn.is-copied .luxury-deal-card__copy-icon {
     display: none;
   }
 
-  .product-deal-card__divider {
-    border-top: 1px dashed #e5e7eb;
-    margin: 8px 0;
+  .luxury-deal-card__value {
+    font-family: var(--font-heading--family), "Cormorant Garamond", Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1C1C1C;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+    margin: 2px 0 6px 0;
+  }
+
+  .luxury-deal-card__divider {
+    border-top: 1px solid #EFECE6;
+    margin: 6px 0 8px 0;
     width: 100%;
   }
 
-  .product-deal-card__desc {
+  .luxury-deal-card__desc {
     font-size: 12px;
-    color: #4b5563;
+    color: #5C554E;
     line-height: 1.45;
     margin: 0;
+    font-weight: 400;
   }
 
-  .product-deals__toast {
+  .luxury-deals__toast {
     position: absolute;
     bottom: -24px;
     left: 50%;
     transform: translateX(-50%);
-    background: #111827;
-    color: #ffffff;
-    font-size: 11.5px;
+    background: #1C1C1C;
+    color: #FAF8F5;
+    font-size: 11px;
     font-weight: 500;
-    padding: 3px 12px;
-    border-radius: 20px;
+    letter-spacing: 0.03em;
+    padding: 4px 12px;
+    border-radius: 16px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -349,7 +322,7 @@
     white-space: nowrap;
   }
 
-  .product-deals__toast.show {
+  .luxury-deals__toast.show {
     opacity: 1;
     transform: translateX(-50%) translateY(-2px);
   }
@@ -359,7 +332,6 @@
   if (!customElements.get('product-deals')) {
     class ProductDeals extends HTMLElement {
       connectedCallback() {
-        // Prevent duplicate rendering
         const existingDeals = document.querySelectorAll('product-deals');
         if (existingDeals.length > 1 && this !== existingDeals[0]) {
           this.remove();
@@ -373,10 +345,10 @@
 
         if (prevBtn && nextBtn && track) {
           const updateArrows = () => {
-            prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.4' : '1';
+            prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.35' : '1';
             prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
             const maxScroll = track.scrollWidth - track.clientWidth - 5;
-            nextBtn.style.opacity = track.scrollLeft >= maxScroll ? '0.4' : '1';
+            nextBtn.style.opacity = track.scrollLeft >= maxScroll ? '0.35' : '1';
             nextBtn.style.pointerEvents = track.scrollLeft >= maxScroll ? 'none' : 'auto';
           };
 
@@ -400,7 +372,7 @@
             const onCopied = () => {
               const originalHTML = btn.innerHTML;
               btn.classList.add('is-copied');
-              btn.innerHTML = '<span>COPIED! ✓</span>';
+              btn.innerHTML = '<span>COPIED ✓</span>';
 
               if (toast) {
                 toast.textContent = `Code ${code} copied!`;
