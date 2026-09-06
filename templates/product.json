@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "product-information",
@@ -38,6 +39,7 @@
             "media_columns": "two",
             "image_gap": 4,
             "large_first_image": false,
+            "icons_style": "arrow",
             "slideshow_controls_style": "counter",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "right",
@@ -96,7 +98,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 8,
+                "gap": 12,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -116,6 +118,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -133,32 +136,6 @@
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "h3",
-                    "font": "var(--font-heading--family)",
-                    "font_size": "1.75rem",
-                    "line_height": "tight",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_style_meta": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p class=\"product-style-meta\">Style: <strong>Regular Fit</strong> &middot; Model: <strong>6'1\" (185 cm) wearing Size L</strong></p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
@@ -173,19 +150,6 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "review_stars": {
-                  "type": "review",
-                  "name": "t:names.product_review_stars",
-                  "settings": {
-                    "stars_style": "shaded",
-                    "show_number": true,
-                    "text_color": "#e88b39",
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left"
                   },
                   "blocks": {}
                 },
@@ -214,203 +178,164 @@
               },
               "block_order": [
                 "text_xrnftG",
-                "text_style_meta",
-                "review_stars",
                 "price_tVjtKg"
               ]
             },
-            "group_buying_card": {
-              "type": "group",
-              "name": "Buying Card",
+            "divider_VJhene": {
+              "type": "_divider",
+              "name": "t:names.divider",
               "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "flex-start",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "flex-start",
-                "gap": 18,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "background_media": "none",
-                "background_color": "#ffffff",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "solid",
+                "thickness": 1,
+                "corner_radius": "square",
+                "divider_color": "{{ settings.color_palette.color2 }}",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker_R3rGDr": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "option_label_text_color": "",
+                "variant_style_class": "default",
+                "custom_variant_background": "{{ settings.color_palette.background }}",
+                "custom_variant_text": "{{ settings.color_palette.foreground }}",
+                "custom_variant_border": "{{ settings.color_palette.foreground }}",
+                "selected_variant_style_class": "default",
+                "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
+                "custom_selected_variant_text": "{{ settings.color_palette.background }}",
+                "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": true,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
                 "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "#e5e5e5",
-                "border_radius": 12,
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 20,
-                "padding-block-end": 20,
-                "padding-inline-start": 20,
-                "padding-inline-end": 20
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {
-                "variant_picker_R3rGDr": {
-                  "type": "variant-picker",
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
                   "settings": {
-                    "variant_style": "buttons",
-                    "show_swatches": true,
-                    "option_label_text_color": "",
-                    "variant_style_class": "default",
-                    "custom_variant_background": "{{ settings.color_palette.background }}",
-                    "custom_variant_text": "{{ settings.color_palette.foreground }}",
-                    "custom_variant_border": "{{ settings.color_palette.foreground }}",
-                    "selected_variant_style_class": "default",
-                    "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
-                    "custom_selected_variant_text": "{{ settings.color_palette.background }}",
-                    "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
-                    "alignment": "left",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "product_inventory_badge": {
-                  "type": "product-inventory",
-                  "settings": {
-                    "inventory_threshold": 10,
-                    "show_inventory_quantity": true,
-                    "text_color": "#222222",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "buy_buttons_eYQEYi": {
-                  "type": "buy-buttons",
-                  "settings": {
-                    "stacking": false,
-                    "text_color": "",
-                    "show_pickup_availability": false,
-                    "gift_card_form": true,
-                    "recipient_button_style": "default",
-                    "recipient_button_background": "{{ settings.color_palette.background }}",
-                    "recipient_button_text": "{{ settings.color_palette.foreground }}",
-                    "recipient_button_border": "{{ settings.color_palette.foreground }}",
-                    "selected_recipient_button_style": "default",
-                    "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
-                    "selected_recipient_button_text": "{{ settings.color_palette.background }}",
-                    "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
                     "input_style": "default",
                     "input_background_color": "{{ settings.color_palette.background }}",
                     "input_text_color": "{{ settings.color_palette.foreground }}",
                     "input_border_color": "{{ settings.color_palette.foreground }}",
                     "border_width": 1,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "border_radius": 0
                   },
-                  "blocks": {
-                    "quantity": {
-                      "type": "quantity",
-                      "static": true,
-                      "settings": {
-                        "input_style": "default",
-                        "input_background_color": "{{ settings.color_palette.background }}",
-                        "input_text_color": "{{ settings.color_palette.foreground }}",
-                        "input_border_color": "{{ settings.color_palette.foreground }}",
-                        "border_width": 1,
-                        "border_radius": 0
-                      },
-                      "blocks": {}
-                    },
-                    "add-to-cart": {
-                      "type": "add-to-cart",
-                      "static": true,
-                      "settings": {
-                        "style_class": "button",
-                        "custom_button_background": "{{ settings.color_palette.foreground }}",
-                        "custom_button_text": "{{ settings.color_palette.background }}",
-                        "custom_button_border": "{{ settings.color_palette.background }}"
-                      },
-                      "blocks": {}
-                    },
-                    "accelerated-checkout": {
-                      "type": "accelerated-checkout",
-                      "static": true,
-                      "settings": {},
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "quantity",
-                    "add-to-cart"
-                  ]
+                  "blocks": {}
                 },
-                "text_trust_badges": {
-                  "type": "text",
-                  "name": "Trust Badges",
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
                   "settings": {
-                    "text": "<div class=\"product-trust-badges\"><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg> Free Express Shipping</span><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect><circle cx=\"12\" cy=\"12\" r=\"2\"></circle><path d=\"M6 12h.01M18 12h.01\"></path></svg> COD Available</span><span class=\"trust-item\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"1 4 1 10 7 10\"></polyline><path d=\"M3.51 15a9 9 0 1 0 2.13-9.36L1 10\"></path></svg> Easy 7-Day Returns</span></div>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "paragraph",
-                    "font": "var(--font-body--family)",
-                    "font_size": "0.9rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
                   },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "variant_picker_R3rGDr",
-                "product_inventory_badge",
-                "buy_buttons_eYQEYi",
-                "text_trust_badges"
-              ]
+              "block_order": []
             },
-            "accordion_linen_specs": {
-              "type": "accordion",
+            "text_aEtTtq": {
+              "type": "text",
+              "name": "t:names.product_description",
               "settings": {
-                "icon": "caret",
+                "text": "{{ closest.product.description }}",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "accordion_LKRaGL": {
+              "type": "accordion",
+              "name": "t:names.accordion",
+              "settings": {
+                "icon": "plus",
                 "dividers": true,
-                "divider_color": "#E6E1DA",
-                "type_preset": "h6"
+                "divider_color": "",
+                "type_preset": "h6",
+                "background_color": "",
+                "text_color": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {
-                "row_description": {
+                "accordion_row_Gtz9NM": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Description",
+                    "heading": "Return policy",
                     "open_by_default": true,
-                    "icon": "none"
+                    "icon": "none",
+                    "width": 20
                   },
                   "blocks": {
-                    "text_description": {
+                    "text_frmXdz": {
                       "type": "text",
                       "settings": {
-                        "text": "{{ closest.product.description }}",
+                        "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -434,111 +359,102 @@
                     }
                   },
                   "block_order": [
-                    "text_description"
+                    "text_frmXdz"
                   ]
                 },
-                "row_composition": {
+                "accordion_row_DRLUPC": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Fabric & Composition",
+                    "heading": "Shipping",
                     "open_by_default": false,
-                    "icon": "none"
+                    "icon": "none",
+                    "width": 20
                   },
                   "blocks": {
-                    "text_composition": {
+                    "text_CNy6Dj": {
                       "type": "text",
                       "settings": {
-                        "text": "<p><strong>100% Pure European Flax Linen</strong><br>• Medium-weight 180 GSM woven fabric for optimal airflow and graceful drape.<br>• Garment-washed with gentle enzymes for lived-in softness from the very first wear.<br>• Naturally hypoallergenic, moisture-wicking, and heat-regulating for tropical warmth.</p>",
+                        "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
                         "width": "100%",
-                        "type_preset": "paragraph"
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
                   },
                   "block_order": [
-                    "text_composition"
+                    "text_CNy6Dj"
                   ]
                 },
-                "row_fit_sizing": {
+                "accordion_row_nL7wde": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Fit & Sizing Details",
+                    "heading": "Manufacturing",
                     "open_by_default": false,
-                    "icon": "none"
+                    "icon": "none",
+                    "width": 20
                   },
                   "blocks": {
-                    "text_fit_sizing": {
+                    "text_jhKPfc": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>• <strong>Fit:</strong> Regular relaxed silhouette engineered for all-day comfort.<br>• <strong>Model Stats:</strong> Height 6'1\" (185 cm), wearing Size L.<br>• <strong>Craft Details:</strong> Natural mother-of-pearl buttons, clean French seams, curved shirt-tail hem.<br>• Fits true to standard sizing. If you prefer a loose, oversized fit, size up one size.</p>",
+                        "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value.</p>",
                         "width": "100%",
-                        "type_preset": "paragraph"
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
                   },
                   "block_order": [
-                    "text_fit_sizing"
-                  ]
-                },
-                "row_care": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Fabric Care Guide",
-                    "open_by_default": false,
-                    "icon": "none"
-                  },
-                  "blocks": {
-                    "text_care": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>• Machine wash cold (30°C) on a gentle or delicate cycle with mild detergent.<br>• Wash with similar colours. Do not use bleach or fabric softeners.<br>• Line dry in shade. Avoid tumble drying to preserve natural flax fiber strength.<br>• Warm iron while slightly damp if you desire a crisp finish, or embrace natural linen wrinkles for casual ease.</p>",
-                        "width": "100%",
-                        "type_preset": "paragraph"
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_care"
-                  ]
-                },
-                "row_shipping": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Shipping, COD & Returns",
-                    "open_by_default": false,
-                    "icon": "none"
-                  },
-                  "blocks": {
-                    "text_shipping": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>• <strong>Free Express Shipping:</strong> Fast pan-India delivery within 2–5 business days.<br>• <strong>Cash on Delivery:</strong> Available across all serviceable pin codes in India.<br>• <strong>Hassle-Free Returns:</strong> 7-day seamless exchange or return from the date of delivery.<br>• For queries or size exchanges, chat with our concierge team anytime on WhatsApp.</p>",
-                        "width": "100%",
-                        "type_preset": "paragraph"
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_shipping"
+                    "text_jhKPfc"
                   ]
                 }
               },
               "block_order": [
-                "row_description",
-                "row_composition",
-                "row_fit_sizing",
-                "row_care",
-                "row_shipping"
+                "accordion_row_Gtz9NM",
+                "accordion_row_DRLUPC",
+                "accordion_row_nL7wde"
               ]
             }
           },
           "block_order": [
             "group_icgrde",
-            "group_buying_card",
-            "accordion_linen_specs"
+            "divider_VJhene",
+            "variant_picker_R3rGDr",
+            "buy_buttons_eYQEYi",
+            "text_aEtTtq",
+            "accordion_LKRaGL"
           ]
         }
       },
