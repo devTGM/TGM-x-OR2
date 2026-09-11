@@ -861,13 +861,13 @@
       },
       "name": "t:names.product_list",
       "settings": {
-        "collection": "bestsellers",
+        "collection": "the-modern-1",
         "layout_type": "carousel",
         "carousel_on_mobile": true,
         "max_products": 8,
         "columns": 4,
         "mobile_columns": "1",
-        "mobile_card_size": "75cqw",
+        "mobile_card_size": "44cqw",
         "columns_gap": 4,
         "rows_gap": 8,
         "icons_style": "arrow",
@@ -1135,7 +1135,7 @@
       },
       "name": "t:names.product_list",
       "settings": {
-        "collection": "bestsellers",
+        "collection": "the-modern",
         "layout_type": "carousel",
         "carousel_on_mobile": true,
         "max_products": 8,
@@ -1455,7 +1455,7 @@
       },
       "name": "t:names.product_list",
       "settings": {
-        "collection": "bestsellers",
+        "collection": "the-classic",
         "layout_type": "carousel",
         "carousel_on_mobile": true,
         "max_products": 8,
