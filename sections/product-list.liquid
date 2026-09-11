@@ -1,7 +1,7 @@
 
 
 {% liquid
-  assign max_items = section.settings.max_products
+  assign max_items = section.settings.max_products | default: 12
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
@@ -142,9 +142,9 @@
       "id": "max_products",
       "label": "t:settings.product_count",
       "min": 1,
-      "max": 16,
+      "max": 48,
       "step": 1,
-      "default": 4
+      "default": 12
     },
     {
       "type": "range",
@@ -354,7 +354,7 @@
       "category": "t:categories.products",
       "settings": {
         "collection": "",
-        "max_products": 8,
+        "max_products": 12,
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "columns": 4,
@@ -524,7 +524,7 @@
       "category": "t:categories.products",
       "settings": {
         "collection": "",
-        "max_products": 6,
+        "max_products": 12,
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "columns": 4,
@@ -696,7 +696,7 @@
         "collection": "",
         "layout_type": "editorial",
         "carousel_on_mobile": false,
-        "max_products": 4,
+        "max_products": 8,
         "columns": 4,
         "mobile_columns": "2",
         "columns_gap": 8,
