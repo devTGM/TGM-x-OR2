@@ -1,5 +1,6 @@
 {% liquid
   assign heading = section.settings.heading
+  assign heading_color = section.settings.heading_color | default: '#000000'
   assign subheading = section.settings.subheading
   assign aspect_ratio = section.settings.aspect_ratio | default: '9/16'
   assign columns_desktop = section.settings.columns_desktop | default: 4
@@ -28,7 +29,7 @@
     <div class="svc-header">
       <div class="svc-header__title-wrap">
         {% if heading != blank %}
-          <h2 class="svc-header__title h3">{{ heading }}</h2>
+          <h2 class="svc-header__title h3" style="color: {{ heading_color }}; --color: {{ heading_color }};">{{ heading }}</h2>
         {% endif %}
         {% if subheading != blank %}
           <p class="svc-header__subheading">{{ subheading }}</p>
@@ -245,7 +246,7 @@
     line-height: var(--font-h3--line-height, 1.2);
     letter-spacing: var(--font-h3--letter-spacing, normal);
     text-transform: var(--font-h3--case, none);
-    color: currentColor;
+    color: #000000;
   }
 
   .svc-header__subheading {
@@ -728,6 +729,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "Watch & Shop"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
     },
     {
       "type": "text",

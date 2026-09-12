@@ -928,6 +928,7 @@
       ],
       "settings": {
         "heading": "Watch & Shop",
+        "heading_color": "#000000",
         "subheading": "",
         "view_all_link": "",
         "view_all_text": "View all",
@@ -1566,6 +1567,7 @@
       ],
       "settings": {
         "heading": "What Our Customers Say",
+        "heading_color": "#000000",
         "subheading": "Real reviews from verified shoppers",
         "section_width": "page-width",
         "scroll_speed": 35,
