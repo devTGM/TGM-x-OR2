@@ -55,12 +55,33 @@
       assign check_suffix = '-' | append: cw
       if h_lower contains check_suffix
         assign base_handle_prefix = h_lower | remove: check_suffix
-        if current_color == blank
-          assign current_color = cw | replace: '-', ' ' | capitalize
-        endif
         break
       endif
     endfor
+
+    if h_lower contains 'sunset-rose'
+      assign current_color = 'Sunset Rose'
+    elsif h_lower contains 'optic-white'
+      assign current_color = 'Optic White'
+    elsif h_lower contains 'aegean-blue'
+      assign current_color = 'Aegean Blue'
+    elsif h_lower contains 'raw-oat'
+      assign current_color = 'Raw Oat'
+    elsif h_lower contains 'midnight-breeze'
+      assign current_color = 'Midnight Breeze'
+    elsif h_lower contains 'dusty-olive'
+      assign current_color = 'Dusty Olive'
+    elsif h_lower contains 'mist-green'
+      assign current_color = 'Mist Green'
+    elsif h_lower contains 'solar-yellow'
+      assign current_color = 'Solar Yellow'
+    elsif h_lower contains 'dune'
+      assign current_color = 'Dune'
+    elsif h_lower contains 'cacao'
+      assign current_color = 'Cacao'
+    elsif h_lower contains 'terracotta'
+      assign current_color = 'Terracotta'
+    endif
 
     # Known ON REPEAT shirt family models
     if h_lower contains 'smart-casual'
@@ -200,38 +221,34 @@
     endfor
     assign handles_arr = final_handles | split: ','
 
-    # Settings matching mockup proportions
-    assign swatch_size = block_settings.swatch_size | default: 40
-    assign swatch_size_mobile = block_settings.swatch_size_mobile | default: 36
-    assign use_detail_img = block_settings.use_detail_image | default: false
+    # Proportions aligned with brand specifications
+    assign swatch_size = block_settings.swatch_size | default: 34
+    assign swatch_size_mobile = block_settings.swatch_size_mobile | default: 32
   -%}
 
   <div
-    class="collection-color-swatches-block{% if is_embedded %} color-swatches--embedded{% endif %}"
+    class="collection-color-swatches-block{% if is_embedded %} color-swatches--embedded{% endif %} variant-option"
     id="ColorSwatches-{% if is_embedded %}embedded-{% endif %}{{ block.id | default: section.id }}"
     style="
       --swatch-size: {{ swatch_size }}px;
       --swatch-size-mobile: {{ swatch_size_mobile }}px;
-      --swatches-pt: {{ block_settings.padding_top | default: 16 }}px;
-      --swatches-pb: {{ block_settings.padding_bottom | default: 20 }}px;
     "
     {% if block %} {{ block.shopify_attributes }} {% endif %}
   >
-    <!-- Top Divider Line matching mockup -->
-    <div class="color-swatches__divider"></div>
-
-    <!-- Label Header: COLOR: PINK -->
-    <div class="color-swatches__header">
-      <span class="color-swatches__label-title">{{ block_settings.label_prefix | default: 'COLOR:' }}</span>
-      <span
-        class="color-swatches__label-name"
-        data-active-color="{{ current_color | escape }}"
-      >
-        {{- current_color | upcase -}}
+    <!-- Brand Option Header: Color : <Shade> -->
+    <div class="variant-option__legend-row color-swatches__header">
+      <span class="variant-option__legend-title color-swatches__label-title">
+        {{- block_settings.label_prefix | default: 'Color :' }}
+        <strong
+          class="variant-option__selected-value color-swatches__label-name"
+          data-active-color="{{ current_color | escape }}"
+        >
+          {{- current_color -}}
+        </strong>
       </span>
     </div>
 
-    <!-- Circular Swatches Row -->
+    <!-- Circular Fabric Color Swatches Row (Pure Fabric Colours, No Picture Thumbnails) -->
     <div
       class="color-swatches__list"
       role="list"
@@ -273,87 +290,83 @@
                 assign s_color = s_title | split: ' (' | last | remove: ')' | strip
               endif
 
-              if s_color == blank or s_color == s_title
-                if s_h_lower contains 'optic-white'
-                  assign s_color = 'Optic White'
-                elsif s_h_lower contains 'aegean-blue'
-                  assign s_color = 'Aegean Blue'
-                elsif s_h_lower contains 'dune'
-                  assign s_color = 'Dune'
-                elsif s_h_lower contains 'sunset-rose'
-                  assign s_color = 'Sunset Rose'
-                elsif s_h_lower contains 'raw-oat'
-                  assign s_color = 'Raw Oat'
-                elsif s_h_lower contains 'cacao'
-                  assign s_color = 'Cacao'
-                elsif s_h_lower contains 'midnight-breeze'
-                  assign s_color = 'Midnight Breeze'
-                elsif s_h_lower contains 'dusty-olive'
-                  assign s_color = 'Dusty Olive'
-                elsif s_h_lower contains 'terracotta'
-                  assign s_color = 'Terracotta'
-                elsif s_h_lower contains 'mist-green'
-                  assign s_color = 'Mist Green'
-                elsif s_h_lower contains 'solar-yellow'
-                  assign s_color = 'Solar Yellow'
-                else
-                  assign s_color = s_title
-                endif
+              if s_h_lower contains 'optic-white'
+                assign s_color = 'Optic White'
+              elsif s_h_lower contains 'aegean-blue'
+                assign s_color = 'Aegean Blue'
+              elsif s_h_lower contains 'dune'
+                assign s_color = 'Dune'
+              elsif s_h_lower contains 'sunset-rose'
+                assign s_color = 'Sunset Rose'
+              elsif s_h_lower contains 'raw-oat'
+                assign s_color = 'Raw Oat'
+              elsif s_h_lower contains 'cacao'
+                assign s_color = 'Cacao'
+              elsif s_h_lower contains 'midnight-breeze'
+                assign s_color = 'Midnight Breeze'
+              elsif s_h_lower contains 'dusty-olive'
+                assign s_color = 'Dusty Olive'
+              elsif s_h_lower contains 'terracotta'
+                assign s_color = 'Terracotta'
+              elsif s_h_lower contains 'mist-green'
+                assign s_color = 'Mist Green'
+              elsif s_h_lower contains 'solar-yellow'
+                assign s_color = 'Solar Yellow'
+              elsif s_color == blank or s_color == s_title
+                assign s_color = s_title
               endif
 
-              # Determine swatch image
-              assign swatch_img = blank
-              if use_detail_img and sibling.images.size > 1
-                assign swatch_img = sibling.images[1]
-              elsif sibling.featured_media != blank
-                assign swatch_img = sibling.featured_media
-              elsif sibling.featured_image != blank
-                assign swatch_img = sibling.featured_image
-              elsif sibling.images.size > 0
-                assign swatch_img = sibling.images.first
-              endif
-
-              # Rich Luxury Fabric Drape Gradient matching mockup pixels
+              # Pure Fabric Colour Swatches (No Pictures)
               assign s_color_lower = s_color | downcase
-              assign fabric_style = 'background: linear-gradient(135deg, #F5F3EF 0%, #E8E5DF 50%, #FAF9F7 100%);'
-              if s_color_lower contains 'pink' or s_color_lower contains 'rose' or s_color_lower contains 'sunset'
-                # Swatch 1 in mockup: Pink / Sunset Rose (#BAA291)
-                assign fabric_style = 'background: linear-gradient(135deg, #CDB09C 0%, #B89B85 35%, #8E6852 70%, #A5806B 100%);'
-              elsif s_color_lower contains 'cacao' or s_color_lower contains 'brown' or s_color_lower contains 'espresso' or s_color_lower contains 'chocolate'
-                # Swatch 2 in mockup: Dark Espresso / Cacao (#191812)
-                assign fabric_style = 'background: linear-gradient(135deg, #382C25 0%, #1F1914 40%, #563E33 75%, #241C16 100%);'
-              elsif s_color_lower contains 'terracotta' or s_color_lower contains 'rust' or s_color_lower contains 'wine' or s_color_lower contains 'burgundy'
-                # Swatch 3 in mockup: Wine / Terracotta (#511C1F)
-                assign fabric_style = 'background: linear-gradient(135deg, #7A2E33 0%, #4D191D 45%, #6E262B 75%, #350F11 100%);'
-              elsif s_color_lower contains 'silver' or s_color_lower contains 'grey' or s_color_lower contains 'gray'
-                # Swatch 4 in mockup: Cool Silver Grey (#A2A09E)
-                assign fabric_style = 'background: linear-gradient(135deg, #BAB8B6 0%, #94918E 45%, #BDBAB7 70%, #767471 100%);'
-              elsif s_color_lower contains 'mist' or s_color_lower contains 'sage'
-                # Swatch 5 in mockup: Mist Green / Sage (#B4BEB9)
-                assign fabric_style = 'background: linear-gradient(135deg, #CAD4CF 0%, #AAB5AE 40%, #C4CEC8 70%, #8E9B93 100%);'
-              elsif s_color_lower contains 'olive' or s_color_lower contains 'dusty'
-                # Swatch 6 in mockup: Forest Olive (#383A1F)
-                assign fabric_style = 'background: linear-gradient(135deg, #4A4D2E 0%, #303319 45%, #585C36 70%, #20220F 100%);'
-              elsif s_color_lower contains 'white' or s_color_lower contains 'optic'
-                # Optic White luxury linen
-                assign fabric_style = 'background: linear-gradient(135deg, #FFFFFF 0%, #F5F3EF 40%, #E8E5DF 75%, #FAF9F7 100%);'
-              elsif s_color_lower contains 'aegean' or s_color_lower contains 'blue'
-                # Aegean Blue luxury linen
-                assign fabric_style = 'background: linear-gradient(135deg, #6B879C 0%, #4D697E 45%, #7692A6 70%, #3B5365 100%);'
-              elsif s_color_lower contains 'dune' or s_color_lower contains 'beige' or s_color_lower contains 'sand'
-                # Dune desert sand luxury linen
-                assign fabric_style = 'background: linear-gradient(135deg, #D4C7B5 0%, #BAAB96 45%, #D9CCBC 70%, #9F907B 100%);'
-              elsif s_color_lower contains 'oat' or s_color_lower contains 'cream'
-                # Raw Oat natural linen
-                assign fabric_style = 'background: linear-gradient(135deg, #E6DDD0 0%, #CCC0AF 45%, #EBE3D7 70%, #B8AC9A 100%);'
-              elsif s_color_lower contains 'breeze' or s_color_lower contains 'navy' or s_color_lower contains 'midnight'
-                # Midnight Breeze dark ocean linen
-                assign fabric_style = 'background: linear-gradient(135deg, #2E3B4E 0%, #1D2634 45%, #3C4B62 70%, #141A25 100%);'
-              elsif s_color_lower contains 'yellow' or s_color_lower contains 'solar'
-                # Solar Yellow golden linen
-                assign fabric_style = 'background: linear-gradient(135deg, #E5BA50 0%, #C99C32 45%, #ECC463 70%, #A97F22 100%);'
-              elsif s_color_lower contains 'black'
-                assign fabric_style = 'background: linear-gradient(135deg, #2C2C2C 0%, #161616 45%, #383838 70%, #0D0D0D 100%);'
+              assign fabric_style = 'background: #F5F3EF linear-gradient(135deg, #FAF8F5 0%, #EAE7E1 100%);'
+
+              if sibling.metafields.custom.color_hex != blank
+                assign custom_hex = sibling.metafields.custom.color_hex
+                assign fabric_style = 'background-color: ' | append: custom_hex | append: ';'
+              elsif sibling.metafields.custom.hex != blank
+                assign custom_hex = sibling.metafields.custom.hex
+                assign fabric_style = 'background-color: ' | append: custom_hex | append: ';'
+              else
+                if s_color_lower contains 'pink' or s_color_lower contains 'rose' or s_color_lower contains 'sunset'
+                  # Sunset Rose / Pink fabric
+                  assign fabric_style = 'background: #BA9A91 linear-gradient(135deg, #CFADA0 0%, #BA998F 45%, #AA877D 100%);'
+                elsif s_color_lower contains 'cacao' or s_color_lower contains 'brown' or s_color_lower contains 'espresso' or s_color_lower contains 'chocolate'
+                  # Dark Cacao / Espresso fabric
+                  assign fabric_style = 'background: #2B211B linear-gradient(135deg, #3D2F27 0%, #291E18 45%, #1B130E 100%);'
+                elsif s_color_lower contains 'terracotta' or s_color_lower contains 'rust' or s_color_lower contains 'wine' or s_color_lower contains 'burgundy'
+                  # Terracotta / Rust Wine fabric
+                  assign fabric_style = 'background: #6D2C24 linear-gradient(135deg, #7F372E 0%, #682720 45%, #4F1B15 100%);'
+                elsif s_color_lower contains 'silver' or s_color_lower contains 'grey' or s_color_lower contains 'gray' or s_color_lower contains 'charcoal'
+                  # Silver / Heather Grey fabric
+                  assign fabric_style = 'background: #A2A09E linear-gradient(135deg, #B5B3B1 0%, #9F9D9B 45%, #888684 100%);'
+                elsif s_color_lower contains 'mist' or s_color_lower contains 'sage'
+                  # Mist Green / Sage fabric
+                  assign fabric_style = 'background: #A2B2A8 linear-gradient(135deg, #B5C4BB 0%, #9FB0A6 45%, #88998F 100%);'
+                elsif s_color_lower contains 'olive' or s_color_lower contains 'dusty'
+                  # Dusty Olive fabric
+                  assign fabric_style = 'background: #474B32 linear-gradient(135deg, #595E40 0%, #44482F 45%, #30341F 100%);'
+                elsif s_color_lower contains 'white' or s_color_lower contains 'optic'
+                  # Optic White luxury linen fabric
+                  assign fabric_style = 'background: #FFFFFF linear-gradient(135deg, #FFFFFF 0%, #F5F3EF 50%, #ECE9E3 100%);'
+                elsif s_color_lower contains 'aegean' or s_color_lower contains 'blue'
+                  # Aegean Blue slate fabric
+                  assign fabric_style = 'background: #4A677E linear-gradient(135deg, #5C7A92 0%, #48657B 45%, #355065 100%);'
+                elsif s_color_lower contains 'dune' or s_color_lower contains 'sand' or s_color_lower contains 'beige'
+                  # Dune sand linen fabric
+                  assign fabric_style = 'background: #C2B39F linear-gradient(135deg, #D4C6B3 0%, #C0B09C 45%, #A79783 100%);'
+                elsif s_color_lower contains 'oat' or s_color_lower contains 'cream' or s_color_lower contains 'ecru'
+                  # Raw Oat natural linen fabric
+                  assign fabric_style = 'background: #DDD5C7 linear-gradient(135deg, #EBE4D8 0%, #DCD3C5 45%, #C8BEAF 100%);'
+                elsif s_color_lower contains 'breeze' or s_color_lower contains 'navy' or s_color_lower contains 'midnight'
+                  # Midnight Navy Breeze fabric
+                  assign fabric_style = 'background: #222D3E linear-gradient(135deg, #303E54 0%, #1F2939 45%, #141B26 100%);'
+                elsif s_color_lower contains 'yellow' or s_color_lower contains 'solar' or s_color_lower contains 'gold'
+                  # Solar Yellow fabric
+                  assign fabric_style = 'background: #DCA745 linear-gradient(135deg, #EAB756 0%, #D8A33F 45%, #BF8C2A 100%);'
+                elsif s_color_lower contains 'black'
+                  # Deep Black fabric
+                  assign fabric_style = 'background: #1C1C1C linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 45%, #0F0F0F 100%);'
+                endif
               endif
 
               assign is_active = false
@@ -372,19 +385,7 @@
               {% if is_active %}aria-current="page"{% endif %}
             >
               <span class="color-swatch-ring">
-                <span class="color-swatch-inner" style="{{ fabric_style }}">
-                  {%- if swatch_img != blank -%}
-                    <img
-                      src="{{ swatch_img | image_url: width: 140, height: 140, crop: 'center' }}"
-                      srcset="{{ swatch_img | image_url: width: 80, height: 80, crop: 'center' }} 1x, {{ swatch_img | image_url: width: 160, height: 160, crop: 'center' }} 2x"
-                      alt="{{ s_color | escape }}"
-                      width="{{ swatch_size }}"
-                      height="{{ swatch_size }}"
-                      loading="eager"
-                      class="color-swatch-img"
-                    >
-                  {%- endif -%}
-                </span>
+                <span class="color-swatch-inner" style="{{ fabric_style }}"></span>
               </span>
             </a>
           {%- endif -%}
@@ -398,35 +399,32 @@
             endif
 
             assign val_lower = val | downcase
-            assign fabric_style = 'background: linear-gradient(135deg, #F5F3EF 0%, #E8E5DF 50%, #FAF9F7 100%);'
-            if val_lower contains 'pink' or val_lower contains 'rose'
-              assign fabric_style = 'background: linear-gradient(135deg, #CDB09C 0%, #B89B85 35%, #8E6852 70%, #A5806B 100%);'
-            elsif val_lower contains 'cacao' or val_lower contains 'brown'
-              assign fabric_style = 'background: linear-gradient(135deg, #382C25 0%, #1F1914 40%, #563E33 75%, #241C16 100%);'
+            assign fabric_style = 'background: #F5F3EF linear-gradient(135deg, #FAF8F5 0%, #EAE7E1 100%);'
+            if val_lower contains 'pink' or val_lower contains 'rose' or val_lower contains 'sunset'
+              assign fabric_style = 'background: #BA9A91 linear-gradient(135deg, #CFADA0 0%, #BA998F 45%, #AA877D 100%);'
+            elsif val_lower contains 'cacao' or val_lower contains 'brown' or val_lower contains 'espresso'
+              assign fabric_style = 'background: #2B211B linear-gradient(135deg, #3D2F27 0%, #291E18 45%, #1B130E 100%);'
             elsif val_lower contains 'terracotta' or val_lower contains 'rust'
-              assign fabric_style = 'background: linear-gradient(135deg, #7A2E33 0%, #4D191D 45%, #6E262B 75%, #350F11 100%);'
-            elsif val_lower contains 'blue'
-              assign fabric_style = 'background: linear-gradient(135deg, #6B879C 0%, #4D697E 45%, #7692A6 70%, #3B5365 100%);'
-            elsif val_lower contains 'dune' or val_lower contains 'beige'
-              assign fabric_style = 'background: linear-gradient(135deg, #D4C7B5 0%, #BAAB96 45%, #D9CCBC 70%, #9F907B 100%);'
-            elsif val_lower contains 'oat'
-              assign fabric_style = 'background: linear-gradient(135deg, #E6DDD0 0%, #CCC0AF 45%, #EBE3D7 70%, #B8AC9A 100%);'
+              assign fabric_style = 'background: #6D2C24 linear-gradient(135deg, #7F372E 0%, #682720 45%, #4F1B15 100%);'
+            elsif val_lower contains 'blue' or val_lower contains 'aegean'
+              assign fabric_style = 'background: #4A677E linear-gradient(135deg, #5C7A92 0%, #48657B 45%, #355065 100%);'
+            elsif val_lower contains 'dune' or val_lower contains 'beige' or val_lower contains 'sand'
+              assign fabric_style = 'background: #C2B39F linear-gradient(135deg, #D4C6B3 0%, #C0B09C 45%, #A79783 100%);'
+            elsif val_lower contains 'oat' or val_lower contains 'cream'
+              assign fabric_style = 'background: #DDD5C7 linear-gradient(135deg, #EBE4D8 0%, #DCD3C5 45%, #C8BEAF 100%);'
             elsif val_lower contains 'breeze' or val_lower contains 'navy'
-              assign fabric_style = 'background: linear-gradient(135deg, #2E3B4E 0%, #1D2634 45%, #3C4B62 70%, #141A25 100%);'
-            elsif val_lower contains 'olive'
-              assign fabric_style = 'background: linear-gradient(135deg, #4A4D2E 0%, #303319 45%, #585C36 70%, #20220F 100%);'
-            elsif val_lower contains 'yellow'
-              assign fabric_style = 'background: linear-gradient(135deg, #E5BA50 0%, #C99C32 45%, #ECC463 70%, #A97F22 100%);'
+              assign fabric_style = 'background: #222D3E linear-gradient(135deg, #303E54 0%, #1F2939 45%, #141B26 100%);'
+            elsif val_lower contains 'olive' or val_lower contains 'dusty'
+              assign fabric_style = 'background: #474B32 linear-gradient(135deg, #595E40 0%, #44482F 45%, #30341F 100%);'
+            elsif val_lower contains 'mist' or val_lower contains 'sage'
+              assign fabric_style = 'background: #A2B2A8 linear-gradient(135deg, #B5C4BB 0%, #9FB0A6 45%, #88998F 100%);'
+            elsif val_lower contains 'yellow' or val_lower contains 'solar'
+              assign fabric_style = 'background: #DCA745 linear-gradient(135deg, #EAB756 0%, #D8A33F 45%, #BF8C2A 100%);'
+            elsif val_lower contains 'white' or val_lower contains 'optic'
+              assign fabric_style = 'background: #FFFFFF linear-gradient(135deg, #FFFFFF 0%, #F5F3EF 50%, #ECE9E3 100%);'
+            elsif val_lower contains 'black'
+              assign fabric_style = 'background: #1C1C1C linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 45%, #0F0F0F 100%);'
             endif
-
-            assign variant_for_value = blank
-            for v in current_prod.variants
-              if v.options contains val
-                assign variant_for_value = v
-                break
-              endif
-            endfor
-            assign swatch_img = variant_for_value.featured_image | default: current_prod.featured_image
           -%}
 
           <button
@@ -446,19 +444,7 @@
             "
           >
             <span class="color-swatch-ring">
-              <span class="color-swatch-inner" style="{{ fabric_style }}">
-                {%- if swatch_img != blank -%}
-                  <img
-                    src="{{ swatch_img | image_url: width: 140, height: 140, crop: 'center' }}"
-                    srcset="{{ swatch_img | image_url: width: 80, height: 80, crop: 'center' }} 1x, {{ swatch_img | image_url: width: 160, height: 160, crop: 'center' }} 2x"
-                    alt="{{ val | escape }}"
-                    width="{{ swatch_size }}"
-                    height="{{ swatch_size }}"
-                    loading="eager"
-                    class="color-swatch-img"
-                  >
-                {%- endif -%}
-              </span>
+              <span class="color-swatch-inner" style="{{ fabric_style }}"></span>
             </span>
           </button>
         {%- endfor -%}
@@ -468,23 +454,16 @@
 
   <style>
     .collection-color-swatches-block {
-      padding-top: var(--swatches-pt, 16px);
-      padding-bottom: var(--swatches-pb, 20px);
-      font-family: var(--font-body--family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
-      width: 100%;
-      box-sizing: border-box;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin: 0 0 18px 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      border-top: none !important;
     }
 
     .collection-color-swatches-block * {
       box-sizing: border-box;
-    }
-
-    /* Top Divider Line matching media_1789209462480.png */
-    .color-swatches__divider {
-      width: 100%;
-      height: 1px;
-      background-color: var(--color-border, #EFEFEF);
-      margin-bottom: 16px;
     }
 
     /* Prevent duplicate rendering if standalone block exists */
@@ -493,140 +472,137 @@
       display: none !important;
     }
 
-    /* Header: COLOR: PINK */
-    .color-swatches__header {
-      font-size: 13px;
-      letter-spacing: 0.2em;
-      line-height: 1.2;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #000000;
+    /* Brand Header matching Size selector */
+    .color-swatches__header.variant-option__legend-row {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      margin-bottom: 12px !important;
+      padding: 0 !important;
+      border: none !important;
     }
 
-    .color-swatches__label-title {
-      font-weight: 500;
-      color: #000000;
+    .color-swatches__label-title.variant-option__legend-title {
+      font-size: 14.5px !important;
+      color: #374151 !important;
+      font-weight: 400 !important;
+      font-family: var(--font-body--family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif) !important;
+      letter-spacing: -0.01em !important;
+      line-height: 1.3 !important;
+      text-transform: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
     }
 
-    .color-swatches__label-name {
-      font-weight: 800;
-      color: #000000;
+    .color-swatches__label-name.variant-option__selected-value {
+      font-weight: 600 !important;
+      color: #111827 !important;
+      text-transform: none !important;
       transition: opacity 0.12s ease;
     }
 
-    /* Swatches Flex Row */
+    /* Swatches Flex Row matching brand alignment */
     .color-swatches__list {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      row-gap: 10px;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      gap: 10px !important;
+      row-gap: 10px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
     }
 
     /* Individual Swatch Item */
     .color-swatch-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      cursor: pointer;
-      border-radius: 50%;
-      padding: 0;
-      background: transparent;
-      border: none;
-      outline: none;
-      transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-      -webkit-tap-highlight-color: transparent;
-      position: relative;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      border-radius: 50% !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      transition: transform 0.15s ease !important;
+      -webkit-tap-highlight-color: transparent !important;
+      position: relative !important;
+      flex-shrink: 0 !important;
     }
 
     .color-swatch-item:hover {
-      transform: scale(1.05);
+      transform: scale(1.06) !important;
     }
 
     .color-swatch-item:focus-visible {
-      outline: 2px solid #000000;
-      outline-offset: 3px;
+      outline: 2px solid #111827 !important;
+      outline-offset: 3px !important;
     }
 
-    /* Concentric Ring Effect matching media_1789209462480.png:
-       - Outer ring: 1.5px solid #DDDDDD (inactive) / 2px solid #000000 (active)
-       - White padding gap: 2.5px solid #FFFFFF
-       - Inner circle: fabric texture image
+    /* Concentric Swatch Ring matching brand specs:
+       - Outer diameter: 34px on desktop, 32px on mobile
+       - Inactive outer border: 1.5px solid #E5E7EB
+       - Active outer border: 2px solid #111827
+       - Concentric white gap: 2px
+       - Inner circle: pure fabric colour
     */
     .color-swatch-ring {
-      width: var(--swatch-size, 40px);
-      height: var(--swatch-size, 40px);
+      width: var(--swatch-size, 34px);
+      height: var(--swatch-size, 34px);
       border-radius: 50%;
-      padding: 2.5px;
+      padding: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: #FFFFFF;
-      border: 1.5px solid #DDDDDD;
+      border: 1.5px solid #E5E7EB;
       box-sizing: border-box;
-      transition: border-color 0.2s ease, transform 0.18s ease;
+      transition: border-color 0.15s ease;
     }
 
     .color-swatch-item:hover .color-swatch-ring {
-      border-color: #888888;
+      border-color: #9CA3AF;
     }
 
-    /* Active / Selected Swatch with crisp black ring */
+    /* Active / Selected Swatch with crisp black brand ring */
     .color-swatch-item.is-selected .color-swatch-ring {
-      border: 2px solid #000000;
+      border: 2px solid #111827;
     }
 
-    /* Inner circle holding the fabric texture image */
+    /* Inner circle holding pure fabric colour (NO IMAGES) */
     .color-swatch-inner {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
       box-sizing: border-box;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
     }
 
-    /* Luxury silk / linen draped fold sheen overlay matching mockup */
+    /* Luxury woven fabric subtle sheen */
     .color-swatch-inner::after {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: 50%;
       background: linear-gradient(
-        95deg,
-        rgba(255, 255, 255, 0.28) 0%,
-        rgba(0, 0, 0, 0.08) 25%,
-        rgba(255, 255, 255, 0.45) 45%,
-        rgba(0, 0, 0, 0.2) 65%,
-        rgba(255, 255, 255, 0.22) 85%,
-        rgba(0, 0, 0, 0.32) 100%
+        135deg,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(255, 255, 255, 0.04) 40%,
+        rgba(0, 0, 0, 0.08) 100%
       );
       pointer-events: none;
-      mix-blend-mode: overlay;
-    }
-
-    .color-swatch-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: scale(1.15);
     }
 
     /* Mobile view */
     @media screen and (max-width: 749px) {
       .color-swatch-ring {
-        width: var(--swatch-size-mobile, 36px);
-        height: var(--swatch-size-mobile, 36px);
+        width: var(--swatch-size-mobile, 32px);
+        height: var(--swatch-size-mobile, 32px);
         padding: 2px;
       }
 
@@ -659,11 +635,11 @@
         if (!colorName) return;
 
         swatch.addEventListener('mouseenter', function () {
-          labelName.textContent = colorName.toUpperCase();
+          labelName.textContent = colorName;
         });
 
         swatch.addEventListener('mouseleave', function () {
-          labelName.textContent = activeColor.toUpperCase();
+          labelName.textContent = activeColor;
         });
       });
     })();
