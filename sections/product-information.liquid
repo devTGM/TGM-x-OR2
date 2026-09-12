@@ -183,6 +183,9 @@
   additional_blocks: additional_blocks
 %}
 
+{%- # Guaranteed Linen Feature Cards (automatically deduplicates if section is rendered from template) -%}
+{%- render 'linen-feature-cards', is_embedded: true -%}
+
 {% stylesheet %}
   .sticky-add-to-cart__bar {
     position: fixed;

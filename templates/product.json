@@ -690,6 +690,54 @@
         "padding-block-end": 48
       }
     },
+    "linen_features": {
+      "type": "linen-feature-cards",
+      "blocks": {
+        "feature_1": {
+          "type": "feature_card",
+          "settings": {
+            "title": "3× Softer Than Ordinary Linen",
+            "default_asset": "linen-feature-softer.png",
+            "show_overlay_title": false
+          }
+        },
+        "feature_2": {
+          "type": "feature_card",
+          "settings": {
+            "title": "Featherlight & Naturally Breathable",
+            "default_asset": "linen-feature-breathable.png",
+            "show_overlay_title": false
+          }
+        },
+        "feature_3": {
+          "type": "feature_card",
+          "settings": {
+            "title": "Designed For Effortless Wear",
+            "default_asset": "linen-feature-effortless.png",
+            "show_overlay_title": false
+          }
+        },
+        "feature_4": {
+          "type": "feature_card",
+          "settings": {
+            "title": "Tailored With Intention",
+            "default_asset": "linen-feature-tailored.png",
+            "show_overlay_title": false
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "padding_top": 40,
+        "padding_bottom": 48
+      }
+    },
     "divider_9EKJaU": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -708,6 +756,7 @@
   },
   "order": [
     "main",
+    "linen_features",
     "product_recommendations_qggXJq",
     "divider_9EKJaU"
   ]
