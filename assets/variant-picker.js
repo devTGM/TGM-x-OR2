@@ -234,7 +234,8 @@ export default class VariantPicker extends Component {
 
           const selectedValueEl = fieldset.querySelector('.variant-option__selected-value');
           if (selectedValueEl && target.value) {
-            selectedValueEl.textContent = target.value;
+            const labelText = target.closest('label')?.querySelector('.variant-option__button-label__text')?.textContent?.trim();
+            selectedValueEl.textContent = labelText || target.value;
           }
         }
       }

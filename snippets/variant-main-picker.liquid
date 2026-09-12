@@ -96,11 +96,35 @@
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
+            {%- liquid
+              assign opt_name_downcase = product_option.name | downcase
+              assign selected_display_value = product_option.selected_value
+              if opt_name_downcase contains 'size'
+                assign sel_downcase = product_option.selected_value | strip | downcase
+                case sel_downcase
+                  when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                    assign selected_display_value = 'XS'
+                  when 'small', 's'
+                    assign selected_display_value = 'S'
+                  when 'medium', 'm'
+                    assign selected_display_value = 'M'
+                  when 'large', 'l'
+                    assign selected_display_value = 'L'
+                  when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                    assign selected_display_value = 'XL'
+                  when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                    assign selected_display_value = '2XL'
+                  when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                    assign selected_display_value = '3XL'
+                  when '4xl', 'xxxxl', 'quadruple xl'
+                    assign selected_display_value = '4XL'
+                endcase
+              endif
+            -%}
             <legend class="variant-option__legend-row">
               <span class="variant-option__legend-title">
-                {{ product_option.name | escape }} : <strong class="variant-option__selected-value">{{ product_option.selected_value }}</strong>
+                {{ product_option.name | escape }} : <strong class="variant-option__selected-value">{{ selected_display_value }}</strong>
               </span>
-              {%- assign opt_name_downcase = product_option.name | downcase -%}
               {%- if opt_name_downcase contains 'size' -%}
                 <button
                   type="button"
@@ -111,15 +135,39 @@
                   <span class="size-guide-trigger__text">Size Guide</span>
                   <span class="svg-wrapper size-guide-trigger__icon">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21.3 15.3l-6.6-6.6a2 2 0 0 0-2.8 0L2.7 17.9a2 2 0 0 0 0 2.8l.6.6a2 2 0 0 0 2.8 0l9.2-9.2 1.4 1.4-1.4 1.4 1.4-1.4 1.4 1.4-1.4 1.4 1.4 1.4 2.8-2.8a2 2 0 0 0 0-2.8z"/>
+                      <path d="M21.3 15.3l-6.6-6.6a2 2 0 0 0-2.8 0L2.7 17.9a2 2 0 0 0 0 2.8l.6.6a2 2 0 0 0 2.8 0l9.2-9.2 1.4 1.4-1.4 1.4 1.4-1.4 1.4 1.4 1.4 1.4-1.4 1.4 1.4 1.4 2.8-2.8a2 2 0 0 0 0-2.8z"/>
                     </svg>
                   </span>
                 </button>
               {%- endif -%}
             </legend>
             {%- for product_option_value in product_option.values -%}
-              {% if product_option_value.size > longest_value and option_id_attribute %}
-                {% assign longest_value = product_option_value.size %}
+              {%- liquid
+                assign display_text = product_option_value.name | default: product_option_value | escape
+                if opt_name_downcase contains 'size'
+                  assign val_downcase = product_option_value.name | default: product_option_value | strip | downcase
+                  case val_downcase
+                    when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                      assign display_text = 'XS'
+                    when 'small', 's'
+                      assign display_text = 'S'
+                    when 'medium', 'm'
+                      assign display_text = 'M'
+                    when 'large', 'l'
+                      assign display_text = 'L'
+                    when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                      assign display_text = 'XL'
+                    when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                      assign display_text = '2XL'
+                    when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                      assign display_text = '3XL'
+                    when '4xl', 'xxxxl', 'quadruple xl'
+                      assign display_text = '4XL'
+                  endcase
+                endif
+              -%}
+              {% if display_text.size > longest_value and option_id_attribute %}
+                {% assign longest_value = display_text.size %}
               {% endif %}
               <label
                 class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch{% endif %}"
@@ -178,7 +226,7 @@
                     class="variant-option__button-label__text"
                     data-key="variant-option-text"
                   >
-                    {{- product_option_value | escape -}}
+                    {{- display_text -}}
                   </span>
                 {% endif %}
                 {% render 'strikethrough-variant', product_option: product_option_value %}
@@ -224,6 +272,30 @@
                 class="variant-option__select"
               >
                 {%- for product_option_value in product_option.values -%}
+                  {%- liquid
+                    assign opt_val_display = product_option_value | escape
+                    if opt_name_downcase contains 'size'
+                      assign drop_downcase = product_option_value | strip | downcase
+                      case drop_downcase
+                        when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                          assign opt_val_display = 'XS'
+                        when 'small', 's'
+                          assign opt_val_display = 'S'
+                        when 'medium', 'm'
+                          assign opt_val_display = 'M'
+                        when 'large', 'l'
+                          assign opt_val_display = 'L'
+                        when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                          assign opt_val_display = 'XL'
+                        when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                          assign opt_val_display = '2XL'
+                        when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                          assign opt_val_display = '3XL'
+                        when '4xl', 'xxxxl', 'quadruple xl'
+                          assign opt_val_display = '4XL'
+                      endcase
+                    endif
+                  -%}
                   <option
                     value="{{ product_option_value | escape }}"
                     data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
@@ -236,9 +308,9 @@
                     {% endif %}
                   >
                     {% if product_option_value.available == false %}
-                      {{ product_option_value | escape }} - {{ 'content.unavailable' | t }}
+                      {{ opt_val_display }} - {{ 'content.unavailable' | t }}
                     {% else %}
-                      {{ product_option_value | escape }}
+                      {{ opt_val_display }}
                     {% endif %}
                   </option>
                 {%- endfor -%}

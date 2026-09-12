@@ -241,7 +241,32 @@
                             <div class="cart-items__variant">
                               <dt class="visually-hidden">{{ option.name }}:</dt>
                               <dd>
-                                {{- option.value -}}
+                                {%- liquid
+                                  assign opt_name_lower = option.name | downcase
+                                  assign opt_val_display = option.value
+                                  if opt_name_lower contains 'size'
+                                    assign opt_val_lower = option.value | strip | downcase
+                                    case opt_val_lower
+                                      when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                                        assign opt_val_display = 'XS'
+                                      when 'small', 's'
+                                        assign opt_val_display = 'S'
+                                      when 'medium', 'm'
+                                        assign opt_val_display = 'M'
+                                      when 'large', 'l'
+                                        assign opt_val_display = 'L'
+                                      when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                                        assign opt_val_display = 'XL'
+                                      when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                                        assign opt_val_display = '2XL'
+                                      when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                                        assign opt_val_display = '3XL'
+                                      when '4xl', 'xxxxl', 'quadruple xl'
+                                        assign opt_val_display = '4XL'
+                                    endcase
+                                  endif
+                                -%}
+                                {{- opt_val_display -}}
                                 {%- if forloop.last != true %},&nbsp;{% endif -%}
                               </dd>
                             </div>
