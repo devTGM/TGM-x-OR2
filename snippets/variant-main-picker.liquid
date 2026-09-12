@@ -53,6 +53,9 @@
     {% endif %}
   >
     <form class="variant-picker__form">
+      {%- # Collection Color Swatches: Shows all colors of the shirt in the collection -%}
+      {%- render 'collection-color-swatches', product: product_resource, is_embedded: true -%}
+
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
           assign opt_name_downcase = product_option.name | downcase

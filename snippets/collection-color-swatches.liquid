@@ -1,15 +1,16 @@
 {%- doc -%}
   Collection Color Swatches
-  Renders all colorways of the shirt in the same collection as circular swatches.
+  Renders all colorways of the shirt in the same collection as interactive circular swatches.
   Matches the quiet luxury design: "COLOR: <NAME>" with concentric active ring indicator.
 
-  @param {object} [block] - The block object with settings
-  @param {object} [product] - The current product
+  @param {object} [block] - The block object with settings (optional)
+  @param {object} [product] - The current product object
+  @param {boolean} [is_embedded] - Whether rendered inside variant picker
 {%- enddoc -%}
 
 {%- liquid
   assign block_settings = block.settings
-  assign current_prod = product | default: closest.product
+  assign current_prod = product | default: closest.product | default: product_resource
   if current_prod == blank and request.visual_preview_mode
     assign current_prod = collections.all.products.first
   endif
@@ -20,8 +21,8 @@
     # 1. Parse current product title, handle, and color
     assign current_title = current_prod.title
     assign current_handle = current_prod.handle
+    assign h_lower = current_handle | downcase
     assign base_title = current_title
-    assign base_handle = current_handle
     assign current_color = ''
 
     if current_title contains ' - '
@@ -40,56 +41,48 @@
       assign title_parts = current_title | split: ' : '
       assign base_title = title_parts[0] | strip
       assign current_color = title_parts[1] | strip
+    elsif current_title contains ' ('
+      assign title_parts = current_title | split: ' ('
+      assign base_title = title_parts[0] | strip
+      assign current_color = title_parts[1] | remove: ')' | strip
     endif
 
-    # Handle known shirt handles and colors
-    assign h_lower = current_handle | downcase
-    if current_color == blank
-      if h_lower contains 'optic-white'
-        assign current_color = 'Optic White'
-      elsif h_lower contains 'aegean-blue'
-        assign current_color = 'Aegean Blue'
-      elsif h_lower contains 'dune'
-        assign current_color = 'Dune'
-      elsif h_lower contains 'sunset-rose'
-        assign current_color = 'Sunset Rose'
-      elsif h_lower contains 'raw-oat'
-        assign current_color = 'Raw Oat'
-      elsif h_lower contains 'cacao'
-        assign current_color = 'Cacao'
-      elsif h_lower contains 'midnight-breeze'
-        assign current_color = 'Midnight Breeze'
-      elsif h_lower contains 'dusty-olive'
-        assign current_color = 'Dusty Olive'
-      elsif h_lower contains 'terracotta'
-        assign current_color = 'Terracotta'
-      elsif h_lower contains 'mist-green'
-        assign current_color = 'Mist Green'
-      elsif h_lower contains 'solar-yellow'
-        assign current_color = 'Solar Yellow'
+    # Detect base prefix and color from handle
+    assign base_handle_prefix = current_handle
+    assign color_words = 'optic-white,aegean-blue,sunset-rose,raw-oat,midnight-breeze,dusty-olive,mist-green,solar-yellow,white,black,blue,navy,dune,beige,sand,rose,pink,oat,cream,cacao,brown,olive,green,terracotta,rust,sage,yellow,charcoal,grey,gray' | split: ','
+    for cw in color_words
+      assign check_suffix = '-' | append: cw
+      if h_lower contains check_suffix
+        assign base_handle_prefix = h_lower | remove: check_suffix
+        if current_color == blank
+          assign current_color = cw | replace: '-', ' ' | capitalize
+        endif
+        break
       endif
-    endif
+    endfor
 
-    # Model Base Handle & Title detection
+    # Known ON REPEAT shirt family models
     if h_lower contains 'smart-casual'
       assign base_title = 'The Smart Casual Shirt'
-      assign base_handle = 'the-smart-casual-shirt'
+      assign base_handle_prefix = 'the-smart-casual-shirt'
     elsif h_lower contains 'popover'
       assign base_title = 'The Popover Shirt'
-      assign base_handle = 'the-popover-shirt'
+      assign base_handle_prefix = 'the-popover-shirt'
     elsif h_lower contains 'cuban'
       assign base_title = 'The Cuban Collar Shirt'
-      assign base_handle = 'the-cuban-collar-shirt'
+      assign base_handle_prefix = 'the-cuban-collar-shirt'
     endif
 
-    # Check for Color variant option if present
+    # Check for single-product Color variant option
     assign has_color_variant_option = false
     assign color_variant_option = blank
     for opt in current_prod.options_with_values
       assign opt_name_lower = opt.name | downcase
       if opt_name_lower == 'color' or opt_name_lower == 'colour' or opt_name_lower == 'shade'
-        assign has_color_variant_option = true
-        assign color_variant_option = opt
+        if opt.values.size > 1
+          assign has_color_variant_option = true
+          assign color_variant_option = opt
+        endif
         if current_color == blank
           assign current_color = opt.selected_value
         endif
@@ -97,7 +90,6 @@
       endif
     endfor
 
-    # Metafield fallback
     if current_color == blank and current_prod.metafields.custom.color != blank
       assign current_color = current_prod.metafields.custom.color
     endif
@@ -105,75 +97,107 @@
       assign current_color = current_title
     endif
 
-    # 2. Build Sibling Handles for the Shirt Family
-    assign siblings_handles = ''
+    # 2. Discover Sibling Products in the same collection
+    assign target_collection = blank
 
-    # Known catalog families for ON REPEAT shirts
-    if h_lower contains 'smart-casual'
-      assign siblings_handles = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose'
-    elsif h_lower contains 'popover'
-      assign siblings_handles = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze'
-    elsif h_lower contains 'cuban'
-      assign siblings_handles = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow'
+    # From active collection URL
+    if collection != blank and collection.products.size > 1
+      assign target_collection = collection
     endif
 
-    # Check Block Collection Override
-    if block_settings.collection != blank
-      for p in block_settings.collection.products
-        assign siblings_handles = siblings_handles | append: ',' | append: p.handle
-      endfor
+    # From block settings override
+    if target_collection == blank and block_settings.collection != blank
+      assign target_collection = block_settings.collection
     endif
 
-    # Check current product's collections
-    if current_prod.collections.size > 0
+    # From product's collections
+    if target_collection == blank and current_prod.collections.size > 0
       for coll in current_prod.collections
         if coll.handle != 'all' and coll.handle != 'frontpage'
-          for p in coll.products
-            if p.title contains base_title or p.handle contains base_handle
-              assign siblings_handles = siblings_handles | append: ',' | append: p.handle
-            elsif coll.products.size <= 8 and p.type == current_prod.type and current_prod.type != blank
-              assign siblings_handles = siblings_handles | append: ',' | append: p.handle
-            endif
-          endfor
+          assign c_slug = coll.handle | downcase
+          if c_slug contains 'smart-casual' or c_slug contains 'popover' or c_slug contains 'cuban' or c_slug contains 'shirt'
+            assign target_collection = coll
+            break
+          endif
+        endif
+      endfor
+
+      if target_collection == blank
+        for coll in current_prod.collections
+          if coll.handle != 'all' and coll.handle != 'frontpage' and coll.products.size >= 2
+            assign target_collection = coll
+            break
+          endif
+        endfor
+      endif
+    endif
+
+    # Collect sibling handles
+    assign siblings_list = ''
+
+    if target_collection != blank and target_collection.products.size > 0
+      for p in target_collection.products
+        assign is_sibling = false
+        if p.handle contains base_handle_prefix
+          assign is_sibling = true
+        elsif p.title contains base_title
+          assign is_sibling = true
+        elsif target_collection.products.size <= 12
+          assign is_sibling = true
+        elsif p.type == current_prod.type and current_prod.type != blank
+          assign is_sibling = true
+        endif
+
+        if is_sibling
+          assign siblings_list = siblings_list | append: p.handle | append: ','
         endif
       endfor
     endif
 
-    # Fallback to store collections
-    if siblings_handles == blank
-      assign store_colls = 'shirts,linen-shirts,the-classic,the-modern,bestsellers,all' | split: ','
-      for c_slug in store_colls
-        assign cand_coll = collections[c_slug]
-        if cand_coll != blank and cand_coll.products.size > 0
-          for p in cand_coll.products
-            if p.title contains base_title or p.handle contains base_handle
-              assign siblings_handles = siblings_handles | append: ',' | append: p.handle
+    # Known catalog families for ON REPEAT shirts as fallback guarantee
+    if h_lower contains 'smart-casual'
+      assign siblings_list = siblings_list | append: 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,'
+    elsif h_lower contains 'popover'
+      assign siblings_list = siblings_list | append: 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,'
+    elsif h_lower contains 'cuban'
+      assign siblings_list = siblings_list | append: 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,'
+    endif
+
+    # Search store collections if still only 1
+    if siblings_list == blank
+      assign fallback_colls = 'shirts,the-classic,the-modern,bestsellers,all' | split: ','
+      for fc in fallback_colls
+        assign f_coll = collections[fc]
+        if f_coll != blank and f_coll.products.size > 0
+          for p in f_coll.products
+            if p.handle contains base_handle_prefix or p.title contains base_title
+              assign siblings_list = siblings_list | append: p.handle | append: ','
             endif
           endfor
-          if siblings_handles != blank
+          if siblings_list != blank
             break
           endif
         endif
       endfor
     endif
 
-    # Ensure current product is always in the list
-    assign siblings_handles = current_handle | append: ',' | append: siblings_handles
-    assign raw_handles_arr = siblings_handles | split: ','
-    assign handles_arr = ''
-    for h in raw_handles_arr
-      assign h_trimmed = h | strip
-      if h_trimmed != '' and h_trimmed != blank
-        unless handles_arr contains h_trimmed
-          if handles_arr == ''
-            assign handles_arr = h_trimmed
+    # Always prepend current product
+    assign siblings_list = current_handle | append: ',' | append: siblings_list
+    assign raw_handles = siblings_list | split: ','
+    assign final_handles = ''
+    for h in raw_handles
+      assign h_clean = h | strip
+      if h_clean != '' and h_clean != blank
+        unless final_handles contains h_clean
+          if final_handles == ''
+            assign final_handles = h_clean
           else
-            assign handles_arr = handles_arr | append: ',' | append: h_trimmed
+            assign final_handles = final_handles | append: ',' | append: h_clean
           endif
         endunless
       endif
     endfor
-    assign handles_arr = handles_arr | split: ','
+    assign handles_arr = final_handles | split: ','
 
     # Settings
     assign swatch_size = block_settings.swatch_size | default: 44
@@ -181,219 +205,153 @@
     assign use_detail_img = block_settings.use_detail_image | default: false
   -%}
 
-  {%- if handles_arr.size >= 1 or has_color_variant_option -%}
-    <div
-      class="collection-color-swatches-block"
-      id="ColorSwatches-{{ block.id | default: section.id }}"
-      style="
-        --swatch-size: {{ swatch_size }}px;
-        --swatch-size-mobile: {{ swatch_size_mobile }}px;
-        --swatches-pt: {{ block_settings.padding_top | default: 0 }}px;
-        --swatches-pb: {{ block_settings.padding_bottom | default: 16 }}px;
-      "
-      {% if block %} {{ block.shopify_attributes }} {% endif %}
-    >
-      <!-- Label Header: COLOR: PINK -->
-      <div class="color-swatches__header">
-        <span class="color-swatches__label-title">{{ block_settings.label_prefix | default: 'COLOR:' }}</span>
-        <span
-          class="color-swatches__label-name"
-          data-active-color="{{ current_color | escape }}"
-        >
-          {{- current_color | upcase -}}
-        </span>
-      </div>
-
-      <!-- Circular Swatches Row -->
-      <div
-        class="color-swatches__list"
-        role="list"
-        aria-label="Available Colors"
+  <div
+    class="collection-color-swatches-block{% if is_embedded %} color-swatches--embedded{% endif %}"
+    id="ColorSwatches-{% if is_embedded %}embedded-{% endif %}{{ block.id | default: section.id }}"
+    style="
+      --swatch-size: {{ swatch_size }}px;
+      --swatch-size-mobile: {{ swatch_size_mobile }}px;
+      --swatches-pt: {{ block_settings.padding_top | default: 0 }}px;
+      --swatches-pb: {{ block_settings.padding_bottom | default: 16 }}px;
+    "
+    {% if block %} {{ block.shopify_attributes }} {% endif %}
+  >
+    <!-- Label Header: COLOR: PINK -->
+    <div class="color-swatches__header">
+      <span class="color-swatches__label-title">{{ block_settings.label_prefix | default: 'COLOR:' }}</span>
+      <span
+        class="color-swatches__label-name"
+        data-active-color="{{ current_color | escape }}"
       >
-        {%- if handles_arr.size > 1 or has_color_variant_option == false -%}
-          {%- for handle in handles_arr -%}
-            {%- liquid
-              if handle == current_prod.handle
-                assign sibling = current_prod
-              else
-                assign sibling = all_products[handle]
-              endif
-            -%}
-            {%- if sibling != blank -%}
-              {%- liquid
-                assign s_title = sibling.title
-                assign s_handle_lower = sibling.handle | downcase
-                assign s_color = ''
+        {{- current_color | upcase -}}
+      </span>
+    </div>
 
-                if s_title contains ' - '
-                  assign s_color = s_title | split: ' - ' | last | strip
-                elsif s_title contains ' — '
-                  assign s_color = s_title | split: ' — ' | last | strip
-                elsif s_title contains ' – '
-                  assign s_color = s_title | split: ' – ' | last | strip
-                elsif s_title contains ' : '
-                  assign s_color = s_title | split: ' : ' | last | strip
-                endif
+    <!-- Circular Swatches Row -->
+    <div
+      class="color-swatches__list"
+      role="list"
+      aria-label="Available Colors"
+    >
+      {%- if handles_arr.size > 1 or has_color_variant_option == false -%}
+        {%- for handle in handles_arr -%}
+          {%- liquid
+            if handle == current_prod.handle
+              assign sibling = current_prod
+            else
+              assign sibling = all_products[handle]
+            endif
 
-                if s_color == blank or s_color == s_title
-                  if s_handle_lower contains 'optic-white'
-                    assign s_color = 'Optic White'
-                  elsif s_handle_lower contains 'aegean-blue'
-                    assign s_color = 'Aegean Blue'
-                  elsif s_handle_lower contains 'dune'
-                    assign s_color = 'Dune'
-                  elsif s_handle_lower contains 'sunset-rose'
-                    assign s_color = 'Sunset Rose'
-                  elsif s_handle_lower contains 'raw-oat'
-                    assign s_color = 'Raw Oat'
-                  elsif s_handle_lower contains 'cacao'
-                    assign s_color = 'Cacao'
-                  elsif s_handle_lower contains 'midnight-breeze'
-                    assign s_color = 'Midnight Breeze'
-                  elsif s_handle_lower contains 'dusty-olive'
-                    assign s_color = 'Dusty Olive'
-                  elsif s_handle_lower contains 'terracotta'
-                    assign s_color = 'Terracotta'
-                  elsif s_handle_lower contains 'mist-green'
-                    assign s_color = 'Mist Green'
-                  elsif s_handle_lower contains 'solar-yellow'
-                    assign s_color = 'Solar Yellow'
-                  else
-                    assign s_color = s_title
-                  endif
-                endif
-
-                # Determine swatch image
-                assign swatch_img = blank
-                if use_detail_img and sibling.images.size > 1
-                  assign swatch_img = sibling.images[1]
-                elsif sibling.featured_media != blank
-                  assign swatch_img = sibling.featured_media
-                elsif sibling.featured_image != blank
-                  assign swatch_img = sibling.featured_image
-                endif
-
-                # Fallback realistic luxury fabric color
-                assign s_color_lower = s_color | downcase
-                assign fallback_hex = '#FAF8F5'
-                if s_color_lower contains 'white'
-                  assign fallback_hex = '#F5F4F0'
-                elsif s_color_lower contains 'pink' or s_color_lower contains 'rose'
-                  assign fallback_hex = '#D9A7A0'
-                elsif s_color_lower contains 'aegean' or s_color_lower contains 'blue'
-                  assign fallback_hex = '#58768C'
-                elsif s_color_lower contains 'dune' or s_color_lower contains 'beige'
-                  assign fallback_hex = '#C5B6A3'
-                elsif s_color_lower contains 'oat' or s_color_lower contains 'cream'
-                  assign fallback_hex = '#DDD2C3'
-                elsif s_color_lower contains 'cacao' or s_color_lower contains 'brown'
-                  assign fallback_hex = '#543C34'
-                elsif s_color_lower contains 'breeze' or s_color_lower contains 'midnight' or s_color_lower contains 'navy'
-                  assign fallback_hex = '#293649'
-                elsif s_color_lower contains 'olive' or s_color_lower contains 'dusty'
-                  assign fallback_hex = '#5E6652'
-                elsif s_color_lower contains 'terracotta' or s_color_lower contains 'rust'
-                  assign fallback_hex = '#BC5E43'
-                elsif s_color_lower contains 'mist' or s_color_lower contains 'sage' or s_color_lower contains 'green'
-                  assign fallback_hex = '#9CB0A1'
-                elsif s_color_lower contains 'yellow' or s_color_lower contains 'solar'
-                  assign fallback_hex = '#E3B94D'
-                elsif s_color_lower contains 'black'
-                  assign fallback_hex = '#1C1C1C'
-                elsif s_color_lower contains 'grey' or s_color_lower contains 'gray'
-                  assign fallback_hex = '#A0A0A0'
-                endif
-
-                assign is_active = false
-                if sibling.id == current_prod.id or sibling.handle == current_prod.handle
-                  assign is_active = true
-                endif
-              -%}
-
-              <a
-                href="{{ sibling.url }}"
-                class="color-swatch-item{% if is_active %} is-selected{% endif %}"
-                data-color-name="{{ s_color | escape }}"
-                title="{{ s_color | escape }}"
-                aria-label="{{ s_color | escape }}{% unless sibling.available %} - Sold Out{% endunless %}"
-                role="listitem"
-                {% if is_active %}aria-current="page"{% endif %}
-              >
-                <span class="color-swatch-ring">
-                  <span class="color-swatch-inner" style="background-color: {{ fallback_hex }};">
-                    {%- if swatch_img != blank -%}
-                      <img
-                        src="{{ swatch_img | image_url: width: 140, height: 140, crop: 'center' }}"
-                        srcset="{{ swatch_img | image_url: width: 80, height: 80, crop: 'center' }} 1x, {{ swatch_img | image_url: width: 160, height: 160, crop: 'center' }} 2x"
-                        alt="{{ s_color | escape }}"
-                        width="{{ swatch_size }}"
-                        height="{{ swatch_size }}"
-                        loading="eager"
-                        class="color-swatch-img"
-                      >
-                    {%- endif -%}
-                  </span>
-                </span>
-              </a>
-            {%- endif -%}
-          {%- endfor -%}
-        {%- elsif has_color_variant_option and color_variant_option != blank -%}
-          {%- for val in color_variant_option.values -%}
-            {%- liquid
-              assign is_active = false
-              if val == color_variant_option.selected_value
-                assign is_active = true
-              endif
-              assign val_lower = val | downcase
-              assign fallback_hex = '#FAF8F5'
-              if val_lower contains 'white'
-                assign fallback_hex = '#F5F4F0'
-              elsif val_lower contains 'pink' or val_lower contains 'rose'
-                assign fallback_hex = '#D9A7A0'
-              elsif val_lower contains 'blue'
-                assign fallback_hex = '#58768C'
-              elsif val_lower contains 'dune' or val_lower contains 'beige'
-                assign fallback_hex = '#C5B6A3'
-              elsif val_lower contains 'oat'
-                assign fallback_hex = '#DDD2C3'
-              elsif val_lower contains 'cacao' or val_lower contains 'brown'
-                assign fallback_hex = '#543C34'
-              elsif val_lower contains 'breeze' or val_lower contains 'navy'
-                assign fallback_hex = '#293649'
-              elsif val_lower contains 'olive'
-                assign fallback_hex = '#5E6652'
-              elsif val_lower contains 'terracotta'
-                assign fallback_hex = '#BC5E43'
-              elsif val_lower contains 'green'
-                assign fallback_hex = '#9CB0A1'
-              elsif val_lower contains 'yellow'
-                assign fallback_hex = '#E3B94D'
-              endif
-
-              assign variant_for_value = blank
-              for v in current_prod.variants
-                if v.options contains val
-                  assign variant_for_value = v
+            if sibling == blank and target_collection != blank
+              for p in target_collection.products
+                if p.handle == handle
+                  assign sibling = p
                   break
                 endif
               endfor
-              assign swatch_img = variant_for_value.featured_image | default: current_prod.featured_image
+            endif
+          -%}
+          {%- if sibling != blank -%}
+            {%- liquid
+              assign s_title = sibling.title
+              assign s_h_lower = sibling.handle | downcase
+              assign s_color = ''
+
+              if s_title contains ' - '
+                assign s_color = s_title | split: ' - ' | last | strip
+              elsif s_title contains ' — '
+                assign s_color = s_title | split: ' — ' | last | strip
+              elsif s_title contains ' – '
+                assign s_color = s_title | split: ' – ' | last | strip
+              elsif s_title contains ' : '
+                assign s_color = s_title | split: ' : ' | last | strip
+              elsif s_title contains ' ('
+                assign s_color = s_title | split: ' (' | last | remove: ')' | strip
+              endif
+
+              if s_color == blank or s_color == s_title
+                if s_h_lower contains 'optic-white'
+                  assign s_color = 'Optic White'
+                elsif s_h_lower contains 'aegean-blue'
+                  assign s_color = 'Aegean Blue'
+                elsif s_h_lower contains 'dune'
+                  assign s_color = 'Dune'
+                elsif s_h_lower contains 'sunset-rose'
+                  assign s_color = 'Sunset Rose'
+                elsif s_h_lower contains 'raw-oat'
+                  assign s_color = 'Raw Oat'
+                elsif s_h_lower contains 'cacao'
+                  assign s_color = 'Cacao'
+                elsif s_h_lower contains 'midnight-breeze'
+                  assign s_color = 'Midnight Breeze'
+                elsif s_h_lower contains 'dusty-olive'
+                  assign s_color = 'Dusty Olive'
+                elsif s_h_lower contains 'terracotta'
+                  assign s_color = 'Terracotta'
+                elsif s_h_lower contains 'mist-green'
+                  assign s_color = 'Mist Green'
+                elsif s_h_lower contains 'solar-yellow'
+                  assign s_color = 'Solar Yellow'
+                else
+                  assign s_color = s_title
+                endif
+              endif
+
+              # Determine swatch image
+              assign swatch_img = blank
+              if use_detail_img and sibling.images.size > 1
+                assign swatch_img = sibling.images[1]
+              elsif sibling.featured_media != blank
+                assign swatch_img = sibling.featured_media
+              elsif sibling.featured_image != blank
+                assign swatch_img = sibling.featured_image
+              elsif sibling.images.size > 0
+                assign swatch_img = sibling.images.first
+              endif
+
+              # Soft fallback background color based on name
+              assign s_color_lower = s_color | downcase
+              assign fallback_hex = '#F5F4F0'
+              if s_color_lower contains 'white'
+                assign fallback_hex = '#F8F8F8'
+              elsif s_color_lower contains 'pink' or s_color_lower contains 'rose'
+                assign fallback_hex = '#D9A7A0'
+              elsif s_color_lower contains 'blue' or s_color_lower contains 'aegean'
+                assign fallback_hex = '#58768C'
+              elsif s_color_lower contains 'dune' or s_color_lower contains 'beige'
+                assign fallback_hex = '#C5B6A3'
+              elsif s_color_lower contains 'oat' or s_color_lower contains 'cream'
+                assign fallback_hex = '#DDD2C3'
+              elsif s_color_lower contains 'cacao' or s_color_lower contains 'brown'
+                assign fallback_hex = '#543C34'
+              elsif s_color_lower contains 'breeze' or s_color_lower contains 'navy' or s_color_lower contains 'midnight'
+                assign fallback_hex = '#293649'
+              elsif s_color_lower contains 'olive' or s_color_lower contains 'green' or s_color_lower contains 'sage'
+                assign fallback_hex = '#5E6652'
+              elsif s_color_lower contains 'terracotta' or s_color_lower contains 'rust'
+                assign fallback_hex = '#BC5E43'
+              elsif s_color_lower contains 'yellow' or s_color_lower contains 'solar'
+                assign fallback_hex = '#E3B94D'
+              elsif s_color_lower contains 'black'
+                assign fallback_hex = '#1C1C1C'
+              elsif s_color_lower contains 'grey' or s_color_lower contains 'gray'
+                assign fallback_hex = '#A0A0A0'
+              endif
+
+              assign is_active = false
+              if sibling.id == current_prod.id or sibling.handle == current_prod.handle
+                assign is_active = true
+              endif
             -%}
-            <button
-              type="button"
+
+            <a
+              href="{{ sibling.url }}"
               class="color-swatch-item{% if is_active %} is-selected{% endif %}"
-              data-color-name="{{ val | escape }}"
-              title="{{ val | escape }}"
-              aria-label="{{ val | escape }}"
+              data-color-name="{{ s_color | escape }}"
+              title="{{ s_color | escape }}"
+              aria-label="{{ s_color | escape }}{% unless sibling.available %} - Sold Out{% endunless %}"
               role="listitem"
-              {% if is_active %}aria-current="true"{% endif %}
-              onclick="
-                const picker = document.querySelector('variant-picker');
-                if (picker) {
-                  const input = picker.querySelector('input[value={{ val | escape | json }}]');
-                  if (input) { input.click(); }
-                }
-              "
+              {% if is_active %}aria-current="page"{% endif %}
             >
               <span class="color-swatch-ring">
                 <span class="color-swatch-inner" style="background-color: {{ fallback_hex }};">
@@ -401,7 +359,7 @@
                     <img
                       src="{{ swatch_img | image_url: width: 140, height: 140, crop: 'center' }}"
                       srcset="{{ swatch_img | image_url: width: 80, height: 80, crop: 'center' }} 1x, {{ swatch_img | image_url: width: 160, height: 160, crop: 'center' }} 2x"
-                      alt="{{ val | escape }}"
+                      alt="{{ s_color | escape }}"
                       width="{{ swatch_size }}"
                       height="{{ swatch_size }}"
                       loading="eager"
@@ -410,173 +368,260 @@
                   {%- endif -%}
                 </span>
               </span>
-            </button>
-          {%- endfor -%}
-        {%- endif -%}
-      </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- elsif has_color_variant_option and color_variant_option != blank -%}
+        {%- for val in color_variant_option.values -%}
+          {%- liquid
+            assign is_active = false
+            if val == color_variant_option.selected_value
+              assign is_active = true
+            endif
+
+            assign val_lower = val | downcase
+            assign fallback_hex = '#F5F4F0'
+            if val_lower contains 'white'
+              assign fallback_hex = '#F8F8F8'
+            elsif val_lower contains 'pink' or val_lower contains 'rose'
+              assign fallback_hex = '#D9A7A0'
+            elsif val_lower contains 'blue' or val_lower contains 'aegean'
+              assign fallback_hex = '#58768C'
+            elsif val_lower contains 'dune' or val_lower contains 'beige'
+              assign fallback_hex = '#C5B6A3'
+            elsif val_lower contains 'oat'
+              assign fallback_hex = '#DDD2C3'
+            elsif val_lower contains 'cacao'
+              assign fallback_hex = '#543C34'
+            elsif val_lower contains 'breeze' or val_lower contains 'navy'
+              assign fallback_hex = '#293649'
+            elsif val_lower contains 'olive'
+              assign fallback_hex = '#5E6652'
+            elsif val_lower contains 'terracotta'
+              assign fallback_hex = '#BC5E43'
+            elsif val_lower contains 'yellow'
+              assign fallback_hex = '#E3B94D'
+            endif
+
+            assign variant_for_value = blank
+            for v in current_prod.variants
+              if v.options contains val
+                assign variant_for_value = v
+                break
+              endif
+            endfor
+            assign swatch_img = variant_for_value.featured_image | default: current_prod.featured_image
+          -%}
+
+          <button
+            type="button"
+            class="color-swatch-item{% if is_active %} is-selected{% endif %}"
+            data-color-name="{{ val | escape }}"
+            title="{{ val | escape }}"
+            aria-label="{{ val | escape }}"
+            role="listitem"
+            {% if is_active %}aria-current="true"{% endif %}
+            onclick="
+              const picker = document.querySelector('variant-picker');
+              if (picker) {
+                const input = picker.querySelector('input[value={{ val | escape | json }}]');
+                if (input) { input.click(); }
+              }
+            "
+          >
+            <span class="color-swatch-ring">
+              <span class="color-swatch-inner" style="background-color: {{ fallback_hex }};">
+                {%- if swatch_img != blank -%}
+                  <img
+                    src="{{ swatch_img | image_url: width: 140, height: 140, crop: 'center' }}"
+                    srcset="{{ swatch_img | image_url: width: 80, height: 80, crop: 'center' }} 1x, {{ swatch_img | image_url: width: 160, height: 160, crop: 'center' }} 2x"
+                    alt="{{ val | escape }}"
+                    width="{{ swatch_size }}"
+                    height="{{ swatch_size }}"
+                    loading="eager"
+                    class="color-swatch-img"
+                  >
+                {%- endif -%}
+              </span>
+            </span>
+          </button>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
+  </div>
 
-    <style>
-      #ColorSwatches-{{ block.id | default: section.id }} {
-        padding-top: var(--swatches-pt);
-        padding-bottom: var(--swatches-pb);
-        font-family: var(--font-body--family, 'Inter', -apple-system, sans-serif);
-        width: 100%;
-        box-sizing: border-box;
-      }
+  <style>
+    .collection-color-swatches-block {
+      padding-top: var(--swatches-pt, 0px);
+      padding-bottom: var(--swatches-pb, 16px);
+      font-family: var(--font-body--family, 'Inter', -apple-system, sans-serif);
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-      #ColorSwatches-{{ block.id | default: section.id }} * {
-        box-sizing: border-box;
-      }
+    .collection-color-swatches-block * {
+      box-sizing: border-box;
+    }
 
-      /* Header: COLOR: PINK */
-      .color-swatches__header {
-        font-size: 0.8125rem;
-        letter-spacing: 0.18em;
-        line-height: 1.2;
-        text-transform: uppercase;
-        margin-bottom: 0.875rem;
-        display: flex;
-        align-items: center;
-        gap: 0.45rem;
-        color: var(--color-foreground, #111111);
-      }
+    /* Prevent duplicate rendering if standalone block exists */
+    .collection-color-swatches-block:not(.color-swatches--embedded) ~ variant-picker .color-swatches--embedded,
+    .product-details > .collection-color-swatches-block ~ * .color-swatches--embedded {
+      display: none !important;
+    }
 
-      .color-swatches__label-title {
-        font-weight: 500;
-        color: var(--color-foreground, #111111);
-      }
+    /* Header: COLOR: PINK */
+    .color-swatches__header {
+      font-size: 0.8125rem;
+      letter-spacing: 0.18em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--color-foreground, #111111);
+    }
 
-      .color-swatches__label-name {
-        font-weight: 800;
-        color: var(--color-foreground, #111111);
-        transition: opacity 0.12s ease;
-      }
+    .color-swatches__label-title {
+      font-weight: 500;
+      color: var(--color-foreground, #111111);
+    }
 
-      /* Swatches Flex Row */
-      .color-swatches__list {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.75rem;
-        row-gap: 0.85rem;
-      }
+    .color-swatches__label-name {
+      font-weight: 800;
+      color: var(--color-foreground, #111111);
+      transition: opacity 0.12s ease;
+    }
 
-      /* Individual Swatch Item */
-      .color-swatch-item {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        cursor: pointer;
-        border-radius: 50%;
-        padding: 0;
-        background: transparent;
-        border: none;
-        outline: none;
-        transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-        -webkit-tap-highlight-color: transparent;
-        position: relative;
-      }
+    /* Swatches Flex Row */
+    .color-swatches__list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      row-gap: 0.85rem;
+    }
 
-      .color-swatch-item:hover {
-        transform: scale(1.06);
-      }
+    /* Individual Swatch Item */
+    .color-swatch-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 50%;
+      padding: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
 
-      .color-swatch-item:focus-visible {
-        outline: 2px solid #111111;
-        outline-offset: 3px;
-      }
+    .color-swatch-item:hover {
+      transform: scale(1.06);
+    }
 
-      /* Concentric Ring Effect matching media_1789208072985.png:
-         - Inactive: 2px solid #E2DED9
-         - Hover: 2px solid #99938B
-         - Active: 2.5px solid #111111
-         - White inner gap: padding 2.5px, background-color #FFFFFF
-      */
+    .color-swatch-item:focus-visible {
+      outline: 2px solid #111111;
+      outline-offset: 3px;
+    }
+
+    /* Concentric Ring Effect matching media_1789208072985.png:
+       - Outer ring: 2px solid #E2DED9 (inactive) / 2.5px solid #111111 (active)
+       - White padding gap: 2.5px solid #FFFFFF
+       - Inner circle: fabric texture image
+    */
+    .color-swatch-ring {
+      width: var(--swatch-size, 44px);
+      height: var(--swatch-size, 44px);
+      border-radius: 50%;
+      padding: 2.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #FFFFFF;
+      border: 2px solid var(--color-border, #E2DED9);
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, border-width 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .color-swatch-item:hover .color-swatch-ring {
+      border-color: #99938B;
+    }
+
+    /* Active / Selected Swatch with crisp black ring */
+    .color-swatch-item.is-selected .color-swatch-ring {
+      border: 2.5px solid #111111;
+    }
+
+    /* Inner circle holding the fabric texture image */
+    .color-swatch-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .color-swatch-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Mobile view */
+    @media screen and (max-width: 749px) {
       .color-swatch-ring {
-        width: var(--swatch-size, 44px);
-        height: var(--swatch-size, 44px);
-        border-radius: 50%;
-        padding: 2.5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #FFFFFF;
-        border: 2px solid var(--color-border, #E2DED9);
-        box-sizing: border-box;
-        transition: border-color 0.2s ease, border-width 0.15s ease, box-shadow 0.2s ease;
+        width: var(--swatch-size-mobile, 38px);
+        height: var(--swatch-size-mobile, 38px);
+        padding: 2px;
       }
 
-      .color-swatch-item:hover .color-swatch-ring {
-        border-color: #99938B;
+      .color-swatches__list {
+        gap: 0.625rem;
+      }
+    }
+  </style>
+
+  <script>
+    (function () {
+      // Prevent duplicate instances if both block and embedded exist
+      const allInstances = document.querySelectorAll('.collection-color-swatches-block');
+      if (allInstances.length > 1) {
+        const embeddedInstances = document.querySelectorAll('.color-swatches--embedded');
+        embeddedInstances.forEach(el => el.remove());
       }
 
-      /* Active / Selected Swatch with crisp black ring */
-      .color-swatch-item.is-selected .color-swatch-ring {
-        border: 2.5px solid #111111;
-      }
+      const container = document.getElementById('ColorSwatches-{% if is_embedded %}embedded-{% endif %}{{ block.id | default: section.id }}');
+      if (!container) return;
 
-      /* Inner circle holding the fabric texture image */
-      .color-swatch-inner {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        box-sizing: border-box;
-      }
+      const labelName = container.querySelector('.color-swatches__label-name');
+      const swatches = container.querySelectorAll('.color-swatch-item');
+      if (!labelName || !swatches.length) return;
 
-      .color-swatch-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 50%;
-        pointer-events: none;
-      }
+      const activeColor = labelName.getAttribute('data-active-color') || '';
 
-      /* Mobile view */
-      @media screen and (max-width: 749px) {
-        .color-swatch-ring {
-          width: var(--swatch-size-mobile, 38px);
-          height: var(--swatch-size-mobile, 38px);
-          padding: 2px;
-        }
+      swatches.forEach((swatch) => {
+        const colorName = swatch.getAttribute('data-color-name');
+        if (!colorName) return;
 
-        .color-swatches__list {
-          gap: 0.625rem;
-        }
-      }
-    </style>
-
-    <script>
-      (function () {
-        const container = document.getElementById('ColorSwatches-{{ block.id | default: section.id }}');
-        if (!container) return;
-
-        const labelName = container.querySelector('.color-swatches__label-name');
-        const swatches = container.querySelectorAll('.color-swatch-item');
-        if (!labelName || !swatches.length) return;
-
-        const activeColor = labelName.getAttribute('data-active-color') || '';
-
-        swatches.forEach((swatch) => {
-          const colorName = swatch.getAttribute('data-color-name');
-          if (!colorName) return;
-
-          swatch.addEventListener('mouseenter', function () {
-            labelName.textContent = colorName.toUpperCase();
-          });
-
-          swatch.addEventListener('mouseleave', function () {
-            labelName.textContent = activeColor.toUpperCase();
-          });
+        swatch.addEventListener('mouseenter', function () {
+          labelName.textContent = colorName.toUpperCase();
         });
-      })();
-    </script>
-  {%- endif -%}
+
+        swatch.addEventListener('mouseleave', function () {
+          labelName.textContent = activeColor.toUpperCase();
+        });
+      });
+    })();
+  </script>
 {%- endif -%}
