@@ -986,6 +986,21 @@
         "padding-block-end": 48
       }
     },
+    "divider_3agVPG": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
+      }
+    },
     "product_list_DjaYkA": {
       "type": "product-list",
       "blocks": {
@@ -1694,6 +1709,7 @@
     "product_list_gRXzLJ",
     "divider_zTrHC9",
     "shoppable_video_carousel_x9K2pL",
+    "divider_3agVPG",
     "product_list_DjaYkA",
     "divider_a4jACr",
     "hero_KfAGNR",
