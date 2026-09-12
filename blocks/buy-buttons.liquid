@@ -254,6 +254,8 @@
   {%- endif -%}
 </span>
 
+{% render 'product-upsell', product: product %}
+
 {% if block_settings.show_pickup_availability %}
   <script
     src="{{ 'local-pickup.js' | asset_url }}"

@@ -1,0 +1,604 @@
+{%- comment -%}
+  ON REPEAT — In-Line Product Upsell Card ("Complete the Look" / "Pair It With")
+  Renders directly below Buy Now button.
+{%- endcomment -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign current_prod = product | default: closest.product
+  assign current_id = current_prod.id
+  assign upsell_prod = block_settings.upsell_product
+  assign upsell_coll = block_settings.upsell_collection
+
+  if upsell_prod == blank
+    # 0. Check custom collection if set in block settings
+    if upsell_coll != blank
+      for p in upsell_coll.products
+        if p.id != current_id and p.available
+          assign upsell_prod = p
+          break
+        endif
+      endfor
+    endif
+
+    # 1. Check current product's collections (via collections[coll.handle])
+    if upsell_prod == blank and current_prod.collections.size > 0
+      for coll in current_prod.collections
+        assign store_coll = collections[coll.handle]
+        if store_coll != blank
+          for p in store_coll.products
+            if p.id != current_id and p.available
+              assign upsell_prod = p
+              break
+            endif
+          endfor
+        endif
+        if upsell_prod != blank
+          break
+        endif
+      endfor
+    endif
+
+    # 2. Check known store collections by handle
+    if upsell_prod == blank
+      assign coll_handles = 'the-classic,the-modern,the-modern-1,bestsellers,all' | split: ','
+      for c_handle in coll_handles
+        assign store_coll = collections[c_handle]
+        if store_coll != blank
+          for p in store_coll.products
+            if p.id != current_id and p.available
+              assign upsell_prod = p
+              break
+            endif
+          endfor
+        endif
+        if upsell_prod != blank
+          break
+        endif
+      endfor
+    endif
+
+    # 3. Check global collections loop
+    if upsell_prod == blank
+      for coll in collections
+        for p in coll.products
+          if p.id != current_id and p.available
+            assign upsell_prod = p
+            break
+          endif
+        endfor
+        if upsell_prod != blank
+          break
+        endif
+      endfor
+    endif
+
+    # 4. Check known product handles directly via all_products
+    if upsell_prod == blank
+      assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-dusty-olive,the-smart-casual-shirt-dune,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-smart-casual-shirt-sunset-rose,the-cuban-collar-shirt-solar-yellow,the-popover-shirt-midnight-breeze' | split: ','
+      for handle in store_handles
+        assign candidate = all_products[handle]
+        if candidate != blank and candidate.id != current_id and candidate.available
+          assign upsell_prod = candidate
+          break
+        endif
+      endfor
+    endif
+
+    # 5. Fallback to current product if no other available product found
+    if upsell_prod == blank and current_prod != blank
+      assign upsell_prod = current_prod
+    endif
+  endif
+
+  assign current_variant = upsell_prod.selected_or_first_available_variant | default: upsell_prod.variants.first
+  assign uid = block.id | default: 'upsell-inline'
+-%}
+
+{%- if upsell_prod != blank and current_variant != blank -%}
+  <div
+    class="product-upsell-block"
+    data-upsell-block
+    {% if block %} {{ block.shopify_attributes }} {% endif %}
+    style="
+      --upsell-pt: {{ block_settings.padding_top | default: 12 }}px;
+      --upsell-pb: {{ block_settings.padding_bottom | default: 12 }}px;
+    "
+  >
+    <div class="product-upsell-card">
+      <div class="product-upsell-card__header">
+        <span class="product-upsell-card__badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20"/>
+          </svg>
+          {{ block_settings.badge_text | default: 'Complete the Look' }}
+        </span>
+        <h4 class="product-upsell-card__title">{{ block_settings.heading | default: 'Pair It With' }}</h4>
+      </div>
+
+      <div class="product-upsell-card__body">
+        <a href="{{ upsell_prod.url }}" class="product-upsell-card__thumb-link" aria-label="{{ upsell_prod.title | escape }}">
+          {% if upsell_prod.featured_image %}
+            <img
+              src="{{ upsell_prod.featured_image | image_url: width: 160 }}"
+              alt="{{ upsell_prod.featured_image.alt | default: upsell_prod.title | escape }}"
+              class="product-upsell-card__thumb"
+              width="68"
+              height="82"
+              loading="lazy"
+            >
+          {% else %}
+            <div class="product-upsell-card__thumb-placeholder"></div>
+          {% endif %}
+        </a>
+
+        <div class="product-upsell-card__details">
+          <a href="{{ upsell_prod.url }}" class="product-upsell-card__product-name" title="{{ upsell_prod.title | escape }}">
+            {{ upsell_prod.title }}
+          </a>
+
+          <div class="product-upsell-card__price-row">
+            <span class="product-upsell-card__price" id="UpsellPrice-{{ uid }}">
+              {{ current_variant.price | money }}
+            </span>
+            {% if current_variant.compare_at_price > current_variant.price %}
+              <span class="product-upsell-card__compare-price" id="UpsellComparePrice-{{ uid }}">
+                {{ current_variant.compare_at_price | money }}
+              </span>
+            {% endif %}
+          </div>
+
+          {% if upsell_prod.has_only_default_variant == false %}
+            <div class="product-upsell__variant-wrap">
+              <select
+                class="product-upsell__select"
+                id="UpsellSelect-{{ uid }}"
+                onchange="onUpsellVariantChange(this, '{{ uid }}')"
+                aria-label="Select size or variant for {{ upsell_prod.title | escape }}"
+              >
+                {% for variant in upsell_prod.variants %}
+                  {% liquid
+                    assign var_title = variant.title
+                    assign var_title_lower = var_title | strip | downcase
+                    case var_title_lower
+                      when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                        assign var_title = 'XS'
+                      when 'small', 's'
+                        assign var_title = 'S'
+                      when 'medium', 'm'
+                        assign var_title = 'M'
+                      when 'large', 'l'
+                        assign var_title = 'L'
+                      when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                        assign var_title = 'XL'
+                      when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                        assign var_title = '2XL'
+                      when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                        assign var_title = '3XL'
+                    endcase
+                  %}
+                  <option
+                    value="{{ variant.id }}"
+                    data-price="{{ variant.price | money }}"
+                    data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                    {% if variant.available == false %}disabled{% endif %}
+                    {% if variant.id == current_variant.id %}selected{% endif %}
+                  >
+                    {{ var_title }}{% unless variant.available %} (Sold out){% endunless %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% else %}
+            <input type="hidden" id="UpsellSelect-{{ uid }}" value="{{ current_variant.id }}">
+          {% endif %}
+        </div>
+
+        <div class="product-upsell-card__action">
+          <button
+            type="button"
+            class="product-upsell-card__add-btn"
+            id="UpsellBtn-{{ uid }}"
+            onclick="addUpsellToCart('{{ uid }}')"
+            aria-label="Add {{ upsell_prod.title | escape }} to bag"
+          >
+            <span class="upsell-btn__text">{{ block_settings.button_text | default: '+ Add' }}</span>
+            <span class="upsell-btn__spinner" style="display: none;">
+              <svg class="upsell-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="upsell-btn__added" style="display: none;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Added
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .product-upsell-block {
+      display: block;
+      width: 100%;
+      padding-top: var(--upsell-pt, 12px);
+      padding-bottom: var(--upsell-pb, 12px);
+      box-sizing: border-box;
+      clear: both;
+    }
+
+    /* Suppress duplicates if rendered from both template and block */
+    .product-upsell-block ~ .product-upsell-block,
+    .product-details .product-upsell-block ~ .product-upsell-block {
+      display: none !important;
+    }
+
+    .product-upsell-card {
+      background-color: #FAF8F5;
+      border: 1px solid #E6E1DA;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-upsell-card:hover {
+      border-color: #D6D0C7;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .product-upsell-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(230, 225, 218, 0.6);
+    }
+
+    .product-upsell-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8C827A;
+    }
+
+    .product-upsell-card__badge svg {
+      color: #111827;
+    }
+
+    .product-upsell-card__title {
+      margin: 0;
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .product-upsell-card__body {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .product-upsell-card__thumb-link {
+      flex-shrink: 0;
+      display: block;
+      width: 64px;
+      height: 76px;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #EFECE6;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .product-upsell-card__thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .product-upsell-card__thumb-link:hover .product-upsell-card__thumb {
+      transform: scale(1.05);
+    }
+
+    .product-upsell-card__thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #EFECE6;
+    }
+
+    .product-upsell-card__details {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .product-upsell-card__product-name {
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111827;
+      text-decoration: none;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.15s ease;
+    }
+
+    .product-upsell-card__product-name:hover {
+      color: #70675F;
+    }
+
+    .product-upsell-card__price-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      line-height: 1;
+    }
+
+    .product-upsell-card__price {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .product-upsell-card__compare-price {
+      font-weight: 400;
+      color: #8C827A;
+      text-decoration: line-through;
+      font-size: 0.75rem;
+    }
+
+    .product-upsell__variant-wrap {
+      margin-top: 4px;
+      display: inline-block;
+      max-width: 130px;
+    }
+
+    .product-upsell__select {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 30px;
+      padding: 2px 24px 2px 8px;
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #111827;
+      background-color: #FFFFFF;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%23111827' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      border: 1px solid #D6D0C7;
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .product-upsell__select:focus {
+      border-color: #111827;
+    }
+
+    .product-upsell-card__action {
+      flex-shrink: 0;
+    }
+
+    .product-upsell-card__add-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 78px;
+      height: 38px;
+      padding: 0 14px;
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #FAF8F5;
+      background-color: #111827;
+      border: 1px solid #111827;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .product-upsell-card__add-btn:hover:not(:disabled) {
+      background-color: #2D2824;
+      border-color: #2D2824;
+    }
+
+    .product-upsell-card__add-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .product-upsell-card__add-btn--success {
+      background-color: #1F2937 !important;
+      border-color: #1F2937 !important;
+    }
+
+    .upsell-btn__added {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #FAF8F5;
+    }
+
+    .upsell-spin {
+      animation: upsell-rotate 0.8s linear infinite;
+    }
+
+    @keyframes upsell-rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .product-upsell-card {
+        padding: 12px 14px;
+      }
+      .product-upsell-card__thumb-link {
+        width: 56px;
+        height: 68px;
+      }
+      .product-upsell-card__product-name {
+        font-size: 0.8125rem;
+      }
+      .product-upsell-card__add-btn {
+        min-width: 70px;
+        height: 34px;
+        padding: 0 10px;
+        font-size: 0.75rem;
+      }
+      .product-upsell__variant-wrap {
+        max-width: 110px;
+      }
+    }
+  </style>
+
+  <script>
+    if (typeof window.onUpsellVariantChange !== 'function') {
+      window.onUpsellVariantChange = function(selectEl, uid) {
+        const option = selectEl.options[selectEl.selectedIndex];
+        if (!option) return;
+
+        const price = option.getAttribute('data-price');
+        const comparePrice = option.getAttribute('data-compare-price');
+
+        const priceEl = document.getElementById('UpsellPrice-' + uid);
+        const compEl = document.getElementById('UpsellComparePrice-' + uid);
+
+        if (priceEl && price) priceEl.textContent = price;
+        if (compEl) {
+          if (comparePrice) {
+            compEl.textContent = comparePrice;
+            compEl.style.display = 'inline';
+          } else {
+            compEl.style.display = 'none';
+          }
+        }
+      };
+    }
+
+    if (typeof window.addUpsellToCart !== 'function') {
+      window.addUpsellToCart = function(uid) {
+        const selectEl = document.getElementById('UpsellSelect-' + uid);
+        const btn = document.getElementById('UpsellBtn-' + uid);
+        if (!selectEl || !btn || btn.disabled) return;
+
+        const variantId = selectEl.value;
+        if (!variantId) return;
+
+        const textEl = btn.querySelector('.upsell-btn__text');
+        const spinEl = btn.querySelector('.upsell-btn__spinner');
+        const addedEl = btn.querySelector('.upsell-btn__added');
+
+        if (textEl) textEl.style.display = 'none';
+        if (spinEl) spinEl.style.display = 'inline-block';
+        btn.disabled = true;
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ id: Number(variantId), quantity: 1 })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('Add to cart failed');
+          return res.json();
+        })
+        .then(function(data) {
+          if (spinEl) spinEl.style.display = 'none';
+          if (addedEl) addedEl.style.display = 'inline-flex';
+          btn.classList.add('product-upsell-card__add-btn--success');
+
+          // Open cart drawer
+          const drawer = document.querySelector('theme-drawer#cart-drawer');
+          if (drawer && typeof drawer.open === 'function') {
+            drawer.open();
+          } else if (window.Shopify && window.Shopify.actions && typeof window.Shopify.actions.openCart === 'function') {
+            window.Shopify.actions.openCart();
+          }
+
+          // Refresh cart items component if active
+          const cartItems = document.querySelector('cart-items-component');
+          if (cartItems && cartItems.sectionId) {
+            try {
+              import('@theme/section-renderer').then(function(module) {
+                if (module && module.sectionRenderer) {
+                  module.sectionRenderer.renderSection(cartItems.sectionId, { cache: false, mode: 'hydration' });
+                }
+              }).catch(function() {
+                if (window.sectionRenderer) {
+                  window.sectionRenderer.renderSection(cartItems.sectionId, { cache: false });
+                }
+              });
+            } catch(e) {
+              if (window.sectionRenderer) {
+                window.sectionRenderer.renderSection(cartItems.sectionId, { cache: false });
+              }
+            }
+          }
+
+          // Dispatch standard cart refresh events
+          document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+          document.dispatchEvent(new CustomEvent('cart:updated', { bubbles: true }));
+
+          // Refresh cart counter bubbles
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              document.querySelectorAll('[data-cart-count], .cart-count, #cart-bubble-count').forEach(function(el) {
+                el.textContent = cart.item_count;
+              });
+            })
+            .catch(function(err) { console.warn(err); });
+
+          setTimeout(function() {
+            if (addedEl) addedEl.style.display = 'none';
+            if (textEl) textEl.style.display = 'inline';
+            btn.disabled = false;
+            btn.classList.remove('product-upsell-card__add-btn--success');
+          }, 3000);
+        })
+        .catch(function(err) {
+          console.error('Upsell add error:', err);
+          if (spinEl) spinEl.style.display = 'none';
+          if (textEl) textEl.style.display = 'inline';
+          btn.disabled = false;
+        });
+      };
+    }
+
+    // Duplicate cleanup safety
+    (function() {
+      var allUpsells = document.querySelectorAll('.product-upsell-block');
+      if (allUpsells.length > 1) {
+        for (var i = 1; i < allUpsells.length; i++) {
+          allUpsells[i].remove();
+        }
+      }
+    })();
+  </script>
+{%- endif -%}

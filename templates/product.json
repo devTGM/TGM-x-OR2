@@ -289,7 +289,8 @@
                 "button_text": "+ Add",
                 "padding_top": 8,
                 "padding_bottom": 8
-              }
+              },
+              "blocks": {}
             },
             "accordion_LKRaGL": {
               "type": "accordion",
