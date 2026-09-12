@@ -194,18 +194,6 @@
               },
               "blocks": {}
             },
-            "collection_color_swatches": {
-              "type": "collection-color-swatches",
-              "settings": {
-                "label_prefix": "COLOR:",
-                "swatch_size": 46,
-                "swatch_size_mobile": 40,
-                "use_detail_image": false,
-                "padding_top": 0,
-                "padding_bottom": 16
-              },
-              "blocks": {}
-            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -537,7 +525,6 @@
           "block_order": [
             "group_icgrde",
             "divider_VJhene",
-            "collection_color_swatches",
             "variant_picker_R3rGDr",
             "product_discounts_deals",
             "buy_buttons_eYQEYi",
@@ -617,7 +604,7 @@
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "",
-                "border_radius": 0,
+                "border_radius": 12,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -631,9 +618,9 @@
               "settings": {
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-accent--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -658,7 +645,7 @@
                 "show_tax_info": false,
                 "type_preset": "h6",
                 "width": "100%",
-                "alignment": "left",
+                "alignment": "center",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
