@@ -1,106 +1,150 @@
 {%- comment -%}
-  ON REPEAT — High-Fashion Luxury Upsell Card ("Complete the Look")
-  Designed to perfectly match the ON REPEAT brand aesthetic:
-  - Clean #FFFFFF card container with subtle #E6E1DA border and 10px radius
-  - Top header with label dot and uppercase tracking matching "EXCLUSIVE OFFERS"
-  - Editorial Cormorant Garamond serif title typography
-  - Signature size selector pills (S, M, L, XL) matching the main product variant picker
-  - Full-width sleek black "Add to Bag" button with 10px radius and cart drawer integration
+  ON REPEAT — 2-Product In-Line Luxury Upsell ("Complete the Look")
+  Displays 2 complementary products with:
+  - Header: • COMPLETE THE LOOK (Pair it with)
+  - Unified luxury #FFFFFF card with #E6E1DA border and 10px radius
+  - Independent size selectors (S, M, L, XL) and Add to Bag buttons for both products
+  - Styled with Cormorant Garamond serif and ON REPEAT button styling
 {%- endcomment -%}
 
 {%- liquid
   assign block_settings = block.settings
   assign current_prod = product | default: closest.product
   assign current_id = current_prod.id
-  assign upsell_prod = block_settings.upsell_product
+
+  # Product 1 selection
+  assign prod_1 = block_settings.upsell_product_1 | default: block_settings.upsell_product
+  # Product 2 selection
+  assign prod_2 = block_settings.upsell_product_2
   assign upsell_coll = block_settings.upsell_collection
 
-  if upsell_prod == blank
-    # 0. Check custom collection if set in block settings
+  assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-dusty-olive,the-smart-casual-shirt-dune,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-smart-casual-shirt-sunset-rose,the-cuban-collar-shirt-solar-yellow,the-popover-shirt-midnight-breeze' | split: ','
+
+  # Resolve Product 1 if blank
+  if prod_1 == blank
     if upsell_coll != blank
       for p in upsell_coll.products
         if p.id != current_id and p.available
-          assign upsell_prod = p
+          assign prod_1 = p
           break
         endif
       endfor
     endif
 
-    # 1. Check current product's collections (via collections[coll.handle])
-    if upsell_prod == blank and current_prod.collections.size > 0
+    if prod_1 == blank and current_prod.collections.size > 0
       for coll in current_prod.collections
         assign store_coll = collections[coll.handle]
         if store_coll != blank
           for p in store_coll.products
             if p.id != current_id and p.available
-              assign upsell_prod = p
+              assign prod_1 = p
               break
             endif
           endfor
         endif
-        if upsell_prod != blank
+        if prod_1 != blank
           break
         endif
       endfor
     endif
 
-    # 2. Check known store collections by handle
-    if upsell_prod == blank
+    if prod_1 == blank
       assign coll_handles = 'the-classic,the-modern,the-modern-1,bestsellers,all' | split: ','
       for c_handle in coll_handles
         assign store_coll = collections[c_handle]
         if store_coll != blank
           for p in store_coll.products
             if p.id != current_id and p.available
-              assign upsell_prod = p
+              assign prod_1 = p
               break
             endif
           endfor
         endif
-        if upsell_prod != blank
+        if prod_1 != blank
           break
         endif
       endfor
     endif
 
-    # 3. Check global collections loop
-    if upsell_prod == blank
-      for coll in collections
-        for p in coll.products
-          if p.id != current_id and p.available
-            assign upsell_prod = p
-            break
-          endif
-        endfor
-        if upsell_prod != blank
-          break
-        endif
-      endfor
-    endif
-
-    # 4. Check known product handles directly via all_products
-    if upsell_prod == blank
-      assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-dusty-olive,the-smart-casual-shirt-dune,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-smart-casual-shirt-sunset-rose,the-cuban-collar-shirt-solar-yellow,the-popover-shirt-midnight-breeze' | split: ','
+    if prod_1 == blank
       for handle in store_handles
         assign candidate = all_products[handle]
         if candidate != blank and candidate.id != current_id and candidate.available
-          assign upsell_prod = candidate
+          assign prod_1 = candidate
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  # Resolve Product 2 if blank (must be distinct from current_id AND prod_1.id)
+  if prod_2 == blank
+    if upsell_coll != blank
+      for p in upsell_coll.products
+        if p.id != current_id and p.id != prod_1.id and p.available
+          assign prod_2 = p
           break
         endif
       endfor
     endif
 
-    # 5. Fallback to current product if no other available product found
-    if upsell_prod == blank and current_prod != blank
-      assign upsell_prod = current_prod
+    if prod_2 == blank and current_prod.collections.size > 0
+      for coll in current_prod.collections
+        assign store_coll = collections[coll.handle]
+        if store_coll != blank
+          for p in store_coll.products
+            if p.id != current_id and p.id != prod_1.id and p.available
+              assign prod_2 = p
+              break
+            endif
+          endfor
+        endif
+        if prod_2 != blank
+          break
+        endif
+      endfor
+    endif
+
+    if prod_2 == blank
+      assign coll_handles = 'the-classic,the-modern,the-modern-1,bestsellers,all' | split: ','
+      for c_handle in coll_handles
+        assign store_coll = collections[c_handle]
+        if store_coll != blank
+          for p in store_coll.products
+            if p.id != current_id and p.id != prod_1.id and p.available
+              assign prod_2 = p
+              break
+            endif
+          endfor
+        endif
+        if prod_2 != blank
+          break
+        endif
+      endfor
+    endif
+
+    if prod_2 == blank
+      for handle in store_handles
+        assign candidate = all_products[handle]
+        if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id and candidate.available
+          assign prod_2 = candidate
+          break
+        endif
+      endfor
     endif
   endif
 
-  assign current_variant = upsell_prod.selected_or_first_available_variant | default: upsell_prod.variants.first
+  # Fallback safety
+  if prod_1 == blank and current_prod != blank
+    assign prod_1 = current_prod
+  endif
+
+  assign variant_1 = prod_1.selected_or_first_available_variant | default: prod_1.variants.first
+  assign variant_2 = prod_2.selected_or_first_available_variant | default: prod_2.variants.first
   assign uid = block.id | default: 'upsell-inline'
 -%}
 
-{%- if upsell_prod != blank and current_variant != blank -%}
+{%- if prod_1 != blank and variant_1 != blank -%}
   <div
     class="luxury-upsell-section"
     data-upsell-block
@@ -115,46 +159,45 @@
       <span class="luxury-upsell__sublabel">Pair it with</span>
     </div>
 
-    <!-- Luxury Card -->
+    <!-- Unified Luxury Card -->
     <div class="luxury-upsell-card">
-      <div class="luxury-upsell-card__main">
-        <!-- Thumbnail -->
-        <a href="{{ upsell_prod.url }}" class="luxury-upsell-card__media" aria-label="{{ upsell_prod.title | escape }}">
-          {% if upsell_prod.featured_image %}
+      <!-- ================= Product 1 ================= -->
+      <div class="luxury-upsell-item" id="upsell-item-{{ uid }}-1">
+        <a href="{{ prod_1.url }}" class="luxury-upsell-item__media" aria-label="{{ prod_1.title | escape }}">
+          {% if prod_1.featured_image %}
             <img
-              src="{{ upsell_prod.featured_image | image_url: width: 240 }}"
-              alt="{{ upsell_prod.featured_image.alt | default: upsell_prod.title | escape }}"
-              class="luxury-upsell-card__img"
-              width="78"
-              height="104"
+              src="{{ prod_1.featured_image | image_url: width: 240 }}"
+              alt="{{ prod_1.featured_image.alt | default: prod_1.title | escape }}"
+              class="luxury-upsell-item__img"
+              width="72"
+              height="96"
               loading="lazy"
             >
           {% else %}
-            <div class="luxury-upsell-card__placeholder"></div>
+            <div class="luxury-upsell-item__placeholder"></div>
           {% endif %}
-          <span class="luxury-upsell-card__tag">100% Linen</span>
+          <span class="luxury-upsell-item__tag">100% Linen</span>
         </a>
 
-        <!-- Details & Actions -->
-        <div class="luxury-upsell-card__content">
-          <div class="luxury-upsell-card__meta">
-            <h3 class="luxury-upsell-card__title">
-              <a href="{{ upsell_prod.url }}">{{ upsell_prod.title }}</a>
+        <div class="luxury-upsell-item__content">
+          <div class="luxury-upsell-item__meta">
+            <h3 class="luxury-upsell-item__title">
+              <a href="{{ prod_1.url }}">{{ prod_1.title }}</a>
             </h3>
-            <div class="luxury-upsell-card__price-wrap">
-              <span class="luxury-upsell-card__price" id="UpsellPrice-{{ uid }}">{{ current_variant.price | money }}</span>
-              {% if current_variant.compare_at_price > current_variant.price %}
-                <span class="luxury-upsell-card__compare-price" id="UpsellComparePrice-{{ uid }}">{{ current_variant.compare_at_price | money }}</span>
+            <div class="luxury-upsell-item__price-wrap">
+              <span class="luxury-upsell-item__price" id="UpsellPrice-{{ uid }}-1">{{ variant_1.price | money }}</span>
+              {% if variant_1.compare_at_price > variant_1.price %}
+                <span class="luxury-upsell-item__compare-price" id="UpsellComparePrice-{{ uid }}-1">{{ variant_1.compare_at_price | money }}</span>
               {% endif %}
             </div>
           </div>
 
-          <!-- Size Pill Buttons -->
-          {% if upsell_prod.has_only_default_variant == false %}
-            <div class="luxury-upsell-card__sizes">
-              <span class="luxury-upsell-card__sizes-label">Select Size</span>
-              <div class="luxury-upsell-card__size-pills" id="UpsellPills-{{ uid }}">
-                {% for variant in upsell_prod.variants %}
+          <!-- Size Pills for Product 1 -->
+          {% if prod_1.has_only_default_variant == false %}
+            <div class="luxury-upsell-item__sizes">
+              <span class="luxury-upsell-item__sizes-label">Size</span>
+              <div class="luxury-upsell-item__size-pills" id="UpsellPills-{{ uid }}-1">
+                {% for variant in prod_1.variants %}
                   {% liquid
                     assign var_title = variant.title
                     assign var_title_lower = var_title | strip | downcase
@@ -177,12 +220,12 @@
                   %}
                   <button
                     type="button"
-                    class="luxury-upsell__size-btn{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                    class="luxury-upsell__size-btn{% if variant.id == variant_1.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money }}"
                     data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
                     data-available="{{ variant.available }}"
-                    onclick="selectUpsellSize(this, '{{ uid }}')"
+                    onclick="selectUpsellSize(this, '{{ uid }}-1')"
                     {% unless variant.available %}disabled{% endunless %}
                     aria-label="Size {{ var_title }}"
                   >
@@ -191,47 +234,158 @@
                 {% endfor %}
               </div>
             </div>
-            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}" value="{{ current_variant.id }}">
+            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}-1" value="{{ variant_1.id }}">
           {% else %}
-            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}" value="{{ current_variant.id }}">
+            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}-1" value="{{ variant_1.id }}">
           {% endif %}
 
-          <!-- Full Width Action Button -->
           <button
             type="button"
-            class="luxury-upsell-card__add-btn"
-            id="UpsellBtn-{{ uid }}"
-            onclick="addUpsellToCart('{{ uid }}')"
-            aria-label="Add {{ upsell_prod.title | escape }} to bag"
+            class="luxury-upsell-item__add-btn"
+            id="UpsellBtn-{{ uid }}-1"
+            onclick="addUpsellToCart('{{ uid }}-1')"
+            aria-label="Add {{ prod_1.title | escape }} to bag"
           >
             <span class="upsell-btn__icon">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
             </span>
-            <span class="upsell-btn__text">{{ block_settings.button_text | default: 'Add to Bag' }}</span>
+            <span class="upsell-btn__text">Add to Bag</span>
             <span class="upsell-btn__spinner" style="display: none;">
-              <svg class="upsell-spin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg class="upsell-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
                 <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
               </svg>
             </span>
             <span class="upsell-btn__added" style="display: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              Added to Bag
+              Added
             </span>
           </button>
         </div>
       </div>
+
+      <!-- ================= Product 2 (if present) ================= -->
+      {% if prod_2 != blank and variant_2 != blank %}
+        <div class="luxury-upsell-card__divider"></div>
+
+        <div class="luxury-upsell-item" id="upsell-item-{{ uid }}-2">
+          <a href="{{ prod_2.url }}" class="luxury-upsell-item__media" aria-label="{{ prod_2.title | escape }}">
+            {% if prod_2.featured_image %}
+              <img
+                src="{{ prod_2.featured_image | image_url: width: 240 }}"
+                alt="{{ prod_2.featured_image.alt | default: prod_2.title | escape }}"
+                class="luxury-upsell-item__img"
+                width="72"
+                height="96"
+                loading="lazy"
+              >
+            {% else %}
+              <div class="luxury-upsell-item__placeholder"></div>
+            {% endif %}
+            <span class="luxury-upsell-item__tag">100% Linen</span>
+          </a>
+
+          <div class="luxury-upsell-item__content">
+            <div class="luxury-upsell-item__meta">
+              <h3 class="luxury-upsell-item__title">
+                <a href="{{ prod_2.url }}">{{ prod_2.title }}</a>
+              </h3>
+              <div class="luxury-upsell-item__price-wrap">
+                <span class="luxury-upsell-item__price" id="UpsellPrice-{{ uid }}-2">{{ variant_2.price | money }}</span>
+                {% if variant_2.compare_at_price > variant_2.price %}
+                  <span class="luxury-upsell-item__compare-price" id="UpsellComparePrice-{{ uid }}-2">{{ variant_2.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Size Pills for Product 2 -->
+            {% if prod_2.has_only_default_variant == false %}
+              <div class="luxury-upsell-item__sizes">
+                <span class="luxury-upsell-item__sizes-label">Size</span>
+                <div class="luxury-upsell-item__size-pills" id="UpsellPills-{{ uid }}-2">
+                  {% for variant in prod_2.variants %}
+                    {% liquid
+                      assign var_title = variant.title
+                      assign var_title_lower = var_title | strip | downcase
+                      case var_title_lower
+                        when 'extra small', 'x-small', 'x small', 'extrasmall', 'xs'
+                          assign var_title = 'XS'
+                        when 'small', 's'
+                          assign var_title = 'S'
+                        when 'medium', 'm'
+                          assign var_title = 'M'
+                        when 'large', 'l'
+                          assign var_title = 'L'
+                        when 'extra large', 'x-large', 'x large', 'extralarge', 'xl'
+                          assign var_title = 'XL'
+                        when 'double xl', '2xl', 'xxl', 'xx-large', 'extra extra large'
+                          assign var_title = '2XL'
+                        when 'triple xl', '3xl', 'xxxl', 'xxx-large'
+                          assign var_title = '3XL'
+                      endcase
+                    %}
+                    <button
+                      type="button"
+                      class="luxury-upsell__size-btn{% if variant.id == variant_2.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                      data-variant-id="{{ variant.id }}"
+                      data-price="{{ variant.price | money }}"
+                      data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                      data-available="{{ variant.available }}"
+                      onclick="selectUpsellSize(this, '{{ uid }}-2')"
+                      {% unless variant.available %}disabled{% endunless %}
+                      aria-label="Size {{ var_title }}"
+                    >
+                      {{ var_title }}
+                    </button>
+                  {% endfor %}
+                </div>
+              </div>
+              <input type="hidden" id="UpsellSelectedVariant-{{ uid }}-2" value="{{ variant_2.id }}">
+            {% else %}
+              <input type="hidden" id="UpsellSelectedVariant-{{ uid }}-2" value="{{ variant_2.id }}">
+            {% endif %}
+
+            <button
+              type="button"
+              class="luxury-upsell-item__add-btn"
+              id="UpsellBtn-{{ uid }}-2"
+              onclick="addUpsellToCart('{{ uid }}-2')"
+              aria-label="Add {{ prod_2.title | escape }} to bag"
+            >
+              <span class="upsell-btn__icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+              <span class="upsell-btn__text">Add to Bag</span>
+              <span class="upsell-btn__spinner" style="display: none;">
+                <svg class="upsell-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="upsell-btn__added" style="display: none;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Added
+              </span>
+            </button>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 
   <style>
     /* ==========================================================================
-       ON REPEAT — QUIET LUXURY UPSELL STYLES
+       ON REPEAT — 2-PRODUCT LUXURY UPSELL STYLING
        ========================================================================== */
 
     .luxury-upsell-section {
@@ -288,7 +442,7 @@
       line-height: 1;
     }
 
-    /* Luxury White Card matching buying-card & deal-card */
+    /* Luxury White Card */
     .luxury-upsell-card {
       background: #FFFFFF;
       border: 1px solid #E6E1DA;
@@ -304,18 +458,26 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     }
 
-    .luxury-upsell-card__main {
+    /* Divider between products inside card */
+    .luxury-upsell-card__divider {
+      border-top: 1px solid #EFECE6;
+      margin: 16px 0;
+      width: 100%;
+    }
+
+    /* Product Item row */
+    .luxury-upsell-item {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: 14px;
     }
 
     /* Fashion Portrait Thumbnail */
-    .luxury-upsell-card__media {
-      flex: 0 0 78px;
-      width: 78px;
-      height: 104px;
-      border-radius: 8px;
+    .luxury-upsell-item__media {
+      flex: 0 0 72px;
+      width: 72px;
+      height: 96px;
+      border-radius: 7px;
       overflow: hidden;
       background: #FAF8F5;
       border: 1px solid #EFECE6;
@@ -324,7 +486,7 @@
       text-decoration: none;
     }
 
-    .luxury-upsell-card__img {
+    .luxury-upsell-item__img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -333,24 +495,24 @@
       transition: transform 0.35s ease;
     }
 
-    .luxury-upsell-card__media:hover .luxury-upsell-card__img {
+    .luxury-upsell-item__media:hover .luxury-upsell-item__img {
       transform: scale(1.05);
     }
 
-    .luxury-upsell-card__placeholder {
+    .luxury-upsell-item__placeholder {
       width: 100%;
       height: 100%;
       background: #FAF8F5;
     }
 
-    .luxury-upsell-card__tag {
+    .luxury-upsell-item__tag {
       position: absolute;
       bottom: 4px;
       left: 4px;
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(4px);
       color: #5C554E;
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -362,54 +524,54 @@
     }
 
     /* Content on Right */
-    .luxury-upsell-card__content {
+    .luxury-upsell-item__content {
       flex: 1 1 auto;
       min-width: 0;
       display: flex;
       flex-direction: column;
     }
 
-    .luxury-upsell-card__meta {
-      margin-bottom: 8px;
+    .luxury-upsell-item__meta {
+      margin-bottom: 7px;
     }
 
     /* Title in Cormorant Garamond Serif */
-    .luxury-upsell-card__title {
+    .luxury-upsell-item__title {
       font-family: var(--font-heading--family), "Cormorant Garamond", Georgia, serif !important;
-      font-size: 1.15rem !important;
+      font-size: 1.12rem !important;
       font-weight: 500 !important;
       letter-spacing: 0.01em !important;
       line-height: 1.25 !important;
-      margin: 0 0 4px 0 !important;
+      margin: 0 0 3px 0 !important;
       color: #1C1C1C !important;
     }
 
-    .luxury-upsell-card__title a {
+    .luxury-upsell-item__title a {
       color: inherit;
       text-decoration: none;
       transition: color 0.15s ease;
     }
 
-    .luxury-upsell-card__title a:hover {
+    .luxury-upsell-item__title a:hover {
       color: #5C554E;
     }
 
     /* Price row */
-    .luxury-upsell-card__price-wrap {
+    .luxury-upsell-item__price-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       line-height: 1;
     }
 
-    .luxury-upsell-card__price {
+    .luxury-upsell-item__price {
       font-family: var(--font-body--family), sans-serif;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       color: #1C1C1C;
     }
 
-    .luxury-upsell-card__compare-price {
+    .luxury-upsell-item__compare-price {
       font-family: var(--font-body--family), sans-serif;
       font-size: 12px;
       font-weight: 400;
@@ -418,14 +580,14 @@
     }
 
     /* Size selection row */
-    .luxury-upsell-card__sizes {
+    .luxury-upsell-item__sizes {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 10px;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 9px;
     }
 
-    .luxury-upsell-card__sizes-label {
+    .luxury-upsell-item__sizes-label {
       font-family: var(--font-body--family), sans-serif;
       font-size: 10.5px;
       font-weight: 600;
@@ -435,24 +597,24 @@
       line-height: 1;
     }
 
-    .luxury-upsell-card__size-pills {
+    .luxury-upsell-item__size-pills {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-wrap: wrap;
     }
 
     /* Size pills matching ON REPEAT variant buttons */
     .luxury-upsell__size-btn {
-      min-width: 32px;
-      height: 27px;
-      padding: 0 8px;
+      min-width: 29px;
+      height: 25px;
+      padding: 0 7px;
       border-radius: 5px;
       border: 1px solid #E6E1DA;
       background: #FFFFFF;
       color: #1C1C1C;
       font-family: var(--font-body--family), sans-serif;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       letter-spacing: 0.02em;
       cursor: pointer;
@@ -485,39 +647,39 @@
     }
 
     /* Add Button matching Add to Cart / Buy Now styles */
-    .luxury-upsell-card__add-btn {
+    .luxury-upsell-item__add-btn {
       width: 100%;
-      height: 38px;
-      border-radius: 10px;
+      height: 35px;
+      border-radius: 9px;
       background: #000000;
       color: #FFFFFF;
       border: 1px solid #000000;
       font-family: var(--font-body--family), sans-serif;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.02em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
+      gap: 6px;
       transition: background-color 0.15s ease, opacity 0.15s ease;
       outline: none;
       margin-top: 2px;
       white-space: nowrap;
     }
 
-    .luxury-upsell-card__add-btn:hover:not(:disabled) {
+    .luxury-upsell-item__add-btn:hover:not(:disabled) {
       background: #1F2937;
       border-color: #1F2937;
     }
 
-    .luxury-upsell-card__add-btn:disabled {
+    .luxury-upsell-item__add-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
 
-    .luxury-upsell-card__add-btn--success {
+    .luxury-upsell-item__add-btn--success {
       background: #1F2937 !important;
       border-color: #1F2937 !important;
     }
@@ -531,7 +693,7 @@
     .upsell-btn__added {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       color: #FFFFFF;
     }
 
@@ -545,31 +707,37 @@
 
     @media screen and (max-width: 749px) {
       .luxury-upsell-card {
-        padding: 14px;
+        padding: 13px;
       }
-      .luxury-upsell-card__main {
-        gap: 12px;
+      .luxury-upsell-item {
+        gap: 11px;
       }
-      .luxury-upsell-card__media {
-        flex: 0 0 72px;
-        width: 72px;
-        height: 96px;
+      .luxury-upsell-item__media {
+        flex: 0 0 66px;
+        width: 66px;
+        height: 88px;
       }
-      .luxury-upsell-card__title {
-        font-size: 1.1rem !important;
+      .luxury-upsell-item__title {
+        font-size: 1.08rem !important;
       }
-      .luxury-upsell-card__add-btn {
-        height: 36px;
-        font-size: 12px;
+      .luxury-upsell-item__add-btn {
+        height: 34px;
+        font-size: 11.5px;
+      }
+      .luxury-upsell__size-btn {
+        min-width: 27px;
+        height: 24px;
+        padding: 0 6px;
+        font-size: 10px;
       }
     }
   </style>
 
   <script>
     if (typeof window.selectUpsellSize !== 'function') {
-      window.selectUpsellSize = function(btn, uid) {
+      window.selectUpsellSize = function(btn, itemUid) {
         if (!btn || btn.disabled) return;
-        var container = document.getElementById('UpsellPills-' + uid);
+        var container = document.getElementById('UpsellPills-' + itemUid);
         if (container) {
           container.querySelectorAll('.luxury-upsell__size-btn').forEach(function(el) {
             el.classList.remove('is-selected');
@@ -578,14 +746,14 @@
         btn.classList.add('is-selected');
 
         var variantId = btn.getAttribute('data-variant-id');
-        var inputEl = document.getElementById('UpsellSelectedVariant-' + uid);
+        var inputEl = document.getElementById('UpsellSelectedVariant-' + itemUid);
         if (inputEl && variantId) inputEl.value = variantId;
 
         var price = btn.getAttribute('data-price');
         var comparePrice = btn.getAttribute('data-compare-price');
 
-        var priceEl = document.getElementById('UpsellPrice-' + uid);
-        var compEl = document.getElementById('UpsellComparePrice-' + uid);
+        var priceEl = document.getElementById('UpsellPrice-' + itemUid);
+        var compEl = document.getElementById('UpsellComparePrice-' + itemUid);
 
         if (priceEl && price) priceEl.textContent = price;
         if (compEl) {
@@ -600,9 +768,9 @@
     }
 
     if (typeof window.addUpsellToCart !== 'function') {
-      window.addUpsellToCart = function(uid) {
-        var inputEl = document.getElementById('UpsellSelectedVariant-' + uid);
-        var btn = document.getElementById('UpsellBtn-' + uid);
+      window.addUpsellToCart = function(itemUid) {
+        var inputEl = document.getElementById('UpsellSelectedVariant-' + itemUid);
+        var btn = document.getElementById('UpsellBtn-' + itemUid);
         if (!inputEl || !btn || btn.disabled) return;
 
         var variantId = inputEl.value;
@@ -633,7 +801,7 @@
         .then(function(data) {
           if (spinEl) spinEl.style.display = 'none';
           if (addedEl) addedEl.style.display = 'inline-flex';
-          btn.classList.add('luxury-upsell-card__add-btn--success');
+          btn.classList.add('luxury-upsell-item__add-btn--success');
 
           // Open cart drawer
           var drawer = document.querySelector('theme-drawer#cart-drawer');
@@ -682,7 +850,7 @@
             if (textEl) textEl.style.display = 'inline';
             if (iconEl) iconEl.style.display = 'inline-flex';
             btn.disabled = false;
-            btn.classList.remove('luxury-upsell-card__add-btn--success');
+            btn.classList.remove('luxury-upsell-item__add-btn--success');
           }, 3000);
         })
         .catch(function(err) {
