@@ -1,0 +1,862 @@
+{%- liquid
+  assign footer_bg = section.settings.background_color | default: settings.color_palette.background | default: '#FAF8F5'
+  assign footer_text = section.settings.text_color | default: settings.color_palette.foreground | default: '#1C1C1C'
+  assign footer_muted = section.settings.muted_text_color | default: '#5A5550'
+  assign footer_border = section.settings.border_color | default: settings.color_palette.color2 | default: '#E6E1DA'
+  
+  assign brand_logo = section.settings.logo | default: settings.logo
+  assign logo_width = section.settings.logo_width | default: 170
+  assign logo_width_mobile = section.settings.logo_width_mobile | default: 130
+
+  assign shop_menu = section.settings.shop_menu
+  assign info_menu = section.settings.info_menu
+-%}
+
+<footer
+  class="luxury-footer-section"
+  id="luxury-footer-{{ section.id }}"
+  role="contentinfo"
+  style="
+    --luxury-footer-bg: {{ footer_bg }};
+    --luxury-footer-text: {{ footer_text }};
+    --luxury-footer-muted: {{ footer_muted }};
+    --luxury-footer-border: {{ footer_border }};
+    --luxury-footer-pt: {{ section.settings.padding_top | default: 60 }}px;
+    --luxury-footer-pb: {{ section.settings.padding_bottom | default: 40 }}px;
+    --luxury-footer-logo-w: {{ logo_width }}px;
+    --luxury-footer-logo-w-mobile: {{ logo_width_mobile }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="luxury-footer__container page-width">
+    <!-- Top Row: Brand Bio + Menus -->
+    <div class="luxury-footer__grid">
+      <!-- Brand Column -->
+      <div class="luxury-footer__brand-col">
+        <a href="{{ routes.root_url }}" class="luxury-footer__logo-link" aria-label="{{ shop.name }}">
+          {%- if brand_logo != blank -%}
+            <img
+              src="{{ brand_logo | image_url: width: 600 }}"
+              srcset="{{ brand_logo | image_url: width: 300 }} 1x, {{ brand_logo | image_url: width: 600 }} 2x"
+              alt="{{ brand_logo.alt | default: shop.name | escape }}"
+              class="luxury-footer__logo-img"
+              width="{{ logo_width }}"
+              height="{{ logo_width | divided_by: brand_logo.aspect_ratio | round }}"
+              loading="lazy"
+            >
+          {%- else -%}
+            <span class="luxury-footer__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+
+        {%- if section.settings.brand_bio != blank -%}
+          <div class="luxury-footer__brand-bio">
+            {{ section.settings.brand_bio }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Menus Container (Side-by-side on both Desktop & Mobile) -->
+      <div class="luxury-footer__menus-wrapper">
+        <!-- Shop Column -->
+        <div class="luxury-footer__menu-col">
+          {%- if section.settings.shop_heading != blank -%}
+            <h3 class="luxury-footer__col-heading">{{ section.settings.shop_heading }}</h3>
+          {%- endif -%}
+
+          <ul class="luxury-footer__link-list list-unstyled" role="list">
+            {%- if shop_menu != blank and linklists[shop_menu].links.size > 0 -%}
+              {%- for link in linklists[shop_menu].links -%}
+                <li class="luxury-footer__link-item">
+                  <a href="{{ link.url }}" class="luxury-footer__link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              <!-- Graceful Fallbacks -->
+              <li class="luxury-footer__link-item">
+                <a href="{{ routes.all_products_collection_url }}" class="luxury-footer__link">Tshirts</a>
+              </li>
+              <li class="luxury-footer__link-item">
+                <a href="{{ routes.all_products_collection_url }}" class="luxury-footer__link">Shirts</a>
+              </li>
+              <li class="luxury-footer__link-item">
+                <a href="{{ routes.all_products_collection_url }}" class="luxury-footer__link">Winters</a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <!-- Info Column -->
+        <div class="luxury-footer__menu-col">
+          {%- if section.settings.info_heading != blank -%}
+            <h3 class="luxury-footer__col-heading">{{ section.settings.info_heading }}</h3>
+          {%- endif -%}
+
+          <ul class="luxury-footer__link-list list-unstyled" role="list">
+            {%- if info_menu != blank and linklists[info_menu].links.size > 0 -%}
+              {%- for link in linklists[info_menu].links -%}
+                <li class="luxury-footer__link-item">
+                  <a href="{{ link.url }}" class="luxury-footer__link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              <!-- Graceful Fallbacks -->
+              <li class="luxury-footer__link-item">
+                <a href="{{ routes.account_url | default: '/account' }}" class="luxury-footer__link">Orders</a>
+              </li>
+              <li class="luxury-footer__link-item">
+                <a href="{{ routes.account_url | default: '/account' }}" class="luxury-footer__link">Profile</a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar: Policies | Shop with AI Pill | Copyright -->
+    <div class="luxury-footer__bottom-bar">
+      <!-- Bottom Left: Terms & Policies -->
+      <div class="luxury-footer__bottom-left">
+        {%- if section.settings.show_policies -%}
+          <anchored-popover-component data-hover-triggered="true">
+            <button
+              class="luxury-footer__policy-trigger button-unstyled"
+              popovertarget="luxury-footer-policies-popover-{{ section.id }}"
+              popovertargetaction="toggle"
+              ref="trigger"
+              type="button"
+              aria-haspopup="dialog"
+            >
+              {{ section.settings.policies_label | default: 'Terms and Policies' }}
+            </button>
+            <div
+              class="luxury-footer__policy-popover"
+              id="luxury-footer-policies-popover-{{ section.id }}"
+              popover="auto"
+              ref="popover"
+              role="dialog"
+              aria-label="Policies"
+            >
+              <ul class="luxury-footer__policy-popover-list list-unstyled">
+                {%- if shop.policies.size > 0 -%}
+                  {%- for policy in shop.policies -%}
+                    {%- if policy != blank -%}
+                      <li>
+                        <a href="{{ policy.url }}" class="luxury-footer__policy-popover-link">
+                          {{- policy.title | escape -}}
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- else -%}
+                  <li><a href="/policies/privacy-policy" class="luxury-footer__policy-popover-link">Privacy Policy</a></li>
+                  <li><a href="/policies/terms-of-service" class="luxury-footer__policy-popover-link">Terms of Service</a></li>
+                  <li><a href="/policies/refund-policy" class="luxury-footer__policy-popover-link">Refund Policy</a></li>
+                  <li><a href="/policies/shipping-policy" class="luxury-footer__policy-popover-link">Shipping Policy</a></li>
+                {%- endif -%}
+              </ul>
+            </div>
+          </anchored-popover-component>
+        {%- endif -%}
+      </div>
+
+      <!-- Bottom Center: Shop with AI Pill -->
+      <div class="luxury-footer__bottom-center">
+        {%- if section.settings.show_ai_pill -%}
+          <button
+            type="button"
+            class="luxury-footer__ai-pill"
+            id="luxury-footer-ai-btn-{{ section.id }}"
+            data-ai-action="{{ section.settings.ai_pill_action | default: 'chat' }}"
+            data-ai-url="{{ section.settings.ai_pill_url | escape }}"
+            aria-label="{{ section.settings.ai_pill_text | default: 'Shop with AI' }}"
+          >
+            <span class="luxury-footer__ai-icon-badge" aria-hidden="true">
+              <!-- Dual Sparkle AI Stars SVG matching reference -->
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 1.5C10.5 6.47 6.47 10.5 1.5 10.5C6.47 10.5 10.5 14.53 10.5 19.5C10.5 14.53 14.53 10.5 19.5 10.5C14.53 10.5 10.5 6.47 10.5 1.5Z" fill="white"/>
+                <path d="M18.5 14.5C18.5 16.71 16.71 18.5 14.5 18.5C16.71 18.5 18.5 20.29 18.5 22.5C18.5 20.29 20.29 18.5 22.5 18.5C20.29 18.5 18.5 16.71 18.5 14.5Z" fill="white"/>
+              </svg>
+            </span>
+            <span class="luxury-footer__ai-pill-text">{{ section.settings.ai_pill_text | default: 'Shop with AI' }}</span>
+          </button>
+        {%- endif -%}
+      </div>
+
+      <!-- Bottom Right: Copyright & Credit -->
+      <div class="luxury-footer__bottom-right">
+        <div class="luxury-footer__copyright-col">
+          <span class="luxury-footer__copyright">
+            &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}
+          </span>
+          <span class="luxury-footer__credit">
+            {%- assign agency_url = section.settings.credit_url | default: 'https://thinkgrowmedia.com/' -%}
+            {%- assign credit_label = section.settings.credit_text | default: 'Think Grow Media' -%}
+            {%- if credit_label contains 'Designed and Managed by' -%}
+              Designed and Managed by
+              <a
+                href="{{ agency_url }}"
+                class="luxury-footer__credit-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ credit_label | remove: 'Designed and Managed by' | strip }}
+              </a>
+            {%- else -%}
+              Designed and Managed by
+              <a
+                href="{{ agency_url }}"
+                class="luxury-footer__credit-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ credit_label }}
+              </a>
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  #luxury-footer-{{ section.id }} {
+    background-color: var(--luxury-footer-bg);
+    color: var(--luxury-footer-text);
+    border-top: 1px solid var(--luxury-footer-border);
+    padding-top: var(--luxury-footer-pt);
+    padding-bottom: var(--luxury-footer-pb);
+    font-family: var(--font-body--family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #luxury-footer-{{ section.id }} * {
+    box-sizing: border-box;
+  }
+
+  .luxury-footer__container {
+    margin: 0 auto;
+    padding-left: clamp(1.25rem, 5vw, 3rem);
+    padding-right: clamp(1.25rem, 5vw, 3rem);
+    max-width: var(--page-width, 1400px);
+  }
+
+  /* Main Columns Grid */
+  .luxury-footer__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: flex-start;
+  }
+
+  @media screen and (min-width: 840px) {
+    .luxury-footer__grid {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 4rem;
+    }
+  }
+
+  /* Brand Column */
+  .luxury-footer__brand-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 460px;
+    flex: 1 1 auto;
+  }
+
+  .luxury-footer__logo-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--luxury-footer-text);
+    margin-bottom: 1.25rem;
+    line-height: 1;
+  }
+
+  .luxury-footer__logo-img {
+    display: block;
+    width: var(--luxury-footer-logo-w);
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.2s ease;
+  }
+
+  .luxury-footer__logo-img:hover {
+    opacity: 0.85;
+  }
+
+  .luxury-footer__logo-text {
+    font-family: var(--font-heading--family, 'Inter', sans-serif);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--luxury-footer-text);
+  }
+
+  .luxury-footer__brand-bio {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--luxury-footer-muted);
+    max-width: 440px;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+
+  .luxury-footer__brand-bio p {
+    margin: 0 0 0.5rem;
+    line-height: 1.65;
+  }
+
+  .luxury-footer__brand-bio p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Menus Wrapper */
+  .luxury-footer__menus-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(110px, 1fr));
+    gap: 3rem;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 840px) {
+    .luxury-footer__menus-wrapper {
+      width: auto;
+      grid-template-columns: 140px 140px;
+      gap: 5rem;
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .luxury-footer__menus-wrapper {
+      grid-template-columns: 180px 180px;
+      gap: 6rem;
+    }
+  }
+
+  /* Menu Columns */
+  .luxury-footer__menu-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .luxury-footer__col-heading {
+    font-family: var(--font-heading--family, 'Inter', sans-serif);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--luxury-footer-text);
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .luxury-footer__link-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .luxury-footer__link-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .luxury-footer__link {
+    font-size: 0.9375rem;
+    color: var(--luxury-footer-text);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .luxury-footer__link:hover {
+    color: var(--luxury-footer-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Bottom Bar */
+  .luxury-footer__bottom-bar {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  @media screen and (min-width: 768px) {
+    .luxury-footer__bottom-bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      margin-top: 4.5rem;
+      gap: 1rem;
+    }
+  }
+
+  .luxury-footer__bottom-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 768px) {
+    .luxury-footer__bottom-left {
+      justify-content: flex-start;
+    }
+  }
+
+  .luxury-footer__bottom-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .luxury-footer__bottom-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 768px) {
+    .luxury-footer__bottom-right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+  }
+
+  /* Policy Trigger & Popover */
+  .luxury-footer__policy-trigger {
+    anchor-name: --luxury-policies-trigger;
+    font-size: 0.75rem;
+    color: var(--luxury-footer-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+  }
+
+  .luxury-footer__policy-trigger:hover {
+    color: var(--luxury-footer-text);
+  }
+
+  .luxury-footer__policy-popover {
+    position-anchor: --luxury-policies-trigger;
+    inset: unset;
+    bottom: calc(anchor(top) + 0.75rem);
+    left: anchor(left);
+    border-radius: 12px;
+    background: var(--luxury-footer-bg, #FAF8F5);
+    border: 1px solid var(--luxury-footer-border, #E6E1DA);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    margin: 0;
+    min-width: 190px;
+    z-index: 100;
+  }
+
+  @media screen and (max-width: 767px) {
+    .luxury-footer__policy-popover {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(anchor(top) + 0.5rem);
+    }
+  }
+
+  .luxury-footer__policy-popover-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .luxury-footer__policy-popover-link {
+    display: block;
+    padding: 8px 16px;
+    color: var(--luxury-footer-text);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    transition: background-color 0.15s ease;
+  }
+
+  .luxury-footer__policy-popover-link:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  /* AI Pill Button */
+  .luxury-footer__ai-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #FFFFFF;
+    color: #1C1C1C;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 9999px;
+    padding: 6px 20px 6px 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    outline: none;
+    text-decoration: none;
+  }
+
+  .luxury-footer__ai-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.14);
+  }
+
+  .luxury-footer__ai-pill:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .luxury-footer__ai-icon-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #1C1C1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .luxury-footer__ai-pill:hover .luxury-footer__ai-icon-badge {
+    transform: scale(1.04) rotate(4deg);
+  }
+
+  .luxury-footer__ai-pill-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1C1C1C;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  /* Copyright & Credit */
+  .luxury-footer__copyright-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 768px) {
+    .luxury-footer__copyright-col {
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  .luxury-footer__copyright,
+  .luxury-footer__credit {
+    font-size: 0.75rem;
+    color: var(--luxury-footer-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+  }
+
+  .luxury-footer__credit-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .luxury-footer__credit-link:hover {
+    color: var(--luxury-footer-text);
+  }
+
+  /* Mobile Adjustments */
+  @media screen and (max-width: 767px) {
+    .luxury-footer__logo-img {
+      width: var(--luxury-footer-logo-w-mobile);
+    }
+
+    .luxury-footer__bottom-bar {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      flex-direction: column-reverse;
+      gap: 1.25rem;
+    }
+
+    .luxury-footer__bottom-center {
+      margin-bottom: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const aiBtn = document.getElementById('luxury-footer-ai-btn-{{ section.id }}');
+    if (!aiBtn) return;
+
+    aiBtn.addEventListener('click', function (e) {
+      const action = aiBtn.getAttribute('data-ai-action');
+      const url = aiBtn.getAttribute('data-ai-url');
+
+      if (action === 'url' && url) {
+        window.location.href = url;
+        return;
+      }
+
+      // Default: Trigger theme chat-drawer / Shopify Chat
+      const chatDrawer = document.querySelector('#chat-drawer');
+      const shopifyChat = document.querySelector('shopify-chat');
+
+      if (shopifyChat) {
+        document.dispatchEvent(new CustomEvent('shopify-chat:enter-managed'));
+        if (typeof chatDrawer?.open === 'function') {
+          chatDrawer.open();
+          return;
+        }
+      } else if (typeof chatDrawer?.open === 'function') {
+        chatDrawer.open();
+        return;
+      }
+
+      // Fallback: Trigger search modal or custom AI search
+      const searchModal = document.querySelector('#search-modal, search-modal, [data-search-modal]');
+      if (typeof searchModal?.open === 'function') {
+        searchModal.open();
+        return;
+      }
+
+      // If no drawer is installed, navigate to catalog or configured URL
+      if (url && url !== '#') {
+        window.location.href = url;
+      } else {
+        window.location.href = '{{ routes.all_products_collection_url }}';
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Footer",
+  "class": "section-luxury-footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand Column"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom Brand Logo",
+      "info": "Defaults to the store logo configured in Theme Settings."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width (Desktop)",
+      "min": 80,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "default": 170
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Logo Width (Mobile)",
+      "min": 60,
+      "max": 220,
+      "step": 5,
+      "unit": "px",
+      "default": 130
+    },
+    {
+      "type": "richtext",
+      "id": "brand_bio",
+      "label": "Brand Description",
+      "default": "<p>ON REPEAT is a modern luxury menswear brand offering oversized t-shirts, hoodies, co-ord sets, and everyday essentials designed for modern creators and trendsetters. Crafted with premium fabrics, unique designs, and superior comfort, ON REPEAT delivers high-quality fashion for those who choose to stand out instead of blending in.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Shop Column"
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop Column Heading",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Shop Menu",
+      "info": "Select a menu from Navigation. If empty, default store links are displayed."
+    },
+    {
+      "type": "header",
+      "content": "Info Column"
+    },
+    {
+      "type": "text",
+      "id": "info_heading",
+      "label": "Info Column Heading",
+      "default": "Info"
+    },
+    {
+      "type": "link_list",
+      "id": "info_menu",
+      "label": "Info Menu",
+      "info": "Select a menu from Navigation. If empty, default store links are displayed."
+    },
+    {
+      "type": "header",
+      "content": "Shop with AI Pill"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ai_pill",
+      "label": "Show 'Shop with AI' Pill",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ai_pill_text",
+      "label": "AI Pill Label",
+      "default": "Shop with AI"
+    },
+    {
+      "type": "select",
+      "id": "ai_pill_action",
+      "label": "AI Pill Action",
+      "options": [
+        {
+          "value": "chat",
+          "label": "Open AI Chat / Shopping Assistant"
+        },
+        {
+          "value": "url",
+          "label": "Navigate to Custom URL"
+        }
+      ],
+      "default": "chat"
+    },
+    {
+      "type": "url",
+      "id": "ai_pill_url",
+      "label": "Custom URL for AI Pill",
+      "info": "Used when action is set to 'Navigate to Custom URL'."
+    },
+    {
+      "type": "header",
+      "content": "Bottom Bar & Utilities"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies",
+      "label": "Show Policies Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "policies_label",
+      "label": "Policies Trigger Label",
+      "default": "Terms and Policies"
+    },
+    {
+      "type": "text",
+      "id": "credit_text",
+      "label": "Agency / Credit Name",
+      "default": "Think Grow Media"
+    },
+    {
+      "type": "url",
+      "id": "credit_url",
+      "label": "Agency / Credit Link URL",
+      "info": "Defaults to https://thinkgrowmedia.com/"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FAF8F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1C1C1C"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted Text Color",
+      "default": "#5A5550"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider / Border Color",
+      "default": "#E6E1DA"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Footer",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}
