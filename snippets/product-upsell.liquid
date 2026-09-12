@@ -1,6 +1,11 @@
 {%- comment -%}
-  ON REPEAT — In-Line Product Upsell Card ("Complete the Look" / "Pair It With")
-  Renders directly below Buy Now button.
+  ON REPEAT — High-Fashion Luxury Upsell Card ("Complete the Look")
+  Designed to perfectly match the ON REPEAT brand aesthetic:
+  - Clean #FFFFFF card container with subtle #E6E1DA border and 10px radius
+  - Top header with label dot and uppercase tracking matching "EXCLUSIVE OFFERS"
+  - Editorial Cormorant Garamond serif title typography
+  - Signature size selector pills (S, M, L, XL) matching the main product variant picker
+  - Full-width sleek black "Add to Bag" button with 10px radius and cart drawer integration
 {%- endcomment -%}
 
 {%- liquid
@@ -97,65 +102,58 @@
 
 {%- if upsell_prod != blank and current_variant != blank -%}
   <div
-    class="product-upsell-block"
+    class="luxury-upsell-section"
     data-upsell-block
     {% if block %} {{ block.shopify_attributes }} {% endif %}
-    style="
-      --upsell-pt: {{ block_settings.padding_top | default: 12 }}px;
-      --upsell-pb: {{ block_settings.padding_bottom | default: 12 }}px;
-    "
   >
-    <div class="product-upsell-card">
-      <div class="product-upsell-card__header">
-        <span class="product-upsell-card__badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M2 12h20"/>
-          </svg>
-          {{ block_settings.badge_text | default: 'Complete the Look' }}
-        </span>
-        <h4 class="product-upsell-card__title">{{ block_settings.heading | default: 'Pair It With' }}</h4>
+    <!-- Section Header (Matches EXCLUSIVE OFFERS header) -->
+    <div class="luxury-upsell__header">
+      <div class="luxury-upsell__label">
+        <span class="luxury-upsell__dot"></span>
+        <span class="luxury-upsell__title">{{ block_settings.badge_text | default: 'COMPLETE THE LOOK' }}</span>
       </div>
+      <span class="luxury-upsell__sublabel">Pair it with</span>
+    </div>
 
-      <div class="product-upsell-card__body">
-        <a href="{{ upsell_prod.url }}" class="product-upsell-card__thumb-link" aria-label="{{ upsell_prod.title | escape }}">
+    <!-- Luxury Card -->
+    <div class="luxury-upsell-card">
+      <div class="luxury-upsell-card__main">
+        <!-- Thumbnail -->
+        <a href="{{ upsell_prod.url }}" class="luxury-upsell-card__media" aria-label="{{ upsell_prod.title | escape }}">
           {% if upsell_prod.featured_image %}
             <img
-              src="{{ upsell_prod.featured_image | image_url: width: 160 }}"
+              src="{{ upsell_prod.featured_image | image_url: width: 240 }}"
               alt="{{ upsell_prod.featured_image.alt | default: upsell_prod.title | escape }}"
-              class="product-upsell-card__thumb"
-              width="68"
-              height="82"
+              class="luxury-upsell-card__img"
+              width="78"
+              height="104"
               loading="lazy"
             >
           {% else %}
-            <div class="product-upsell-card__thumb-placeholder"></div>
+            <div class="luxury-upsell-card__placeholder"></div>
           {% endif %}
+          <span class="luxury-upsell-card__tag">100% Linen</span>
         </a>
 
-        <div class="product-upsell-card__details">
-          <a href="{{ upsell_prod.url }}" class="product-upsell-card__product-name" title="{{ upsell_prod.title | escape }}">
-            {{ upsell_prod.title }}
-          </a>
-
-          <div class="product-upsell-card__price-row">
-            <span class="product-upsell-card__price" id="UpsellPrice-{{ uid }}">
-              {{ current_variant.price | money }}
-            </span>
-            {% if current_variant.compare_at_price > current_variant.price %}
-              <span class="product-upsell-card__compare-price" id="UpsellComparePrice-{{ uid }}">
-                {{ current_variant.compare_at_price | money }}
-              </span>
-            {% endif %}
+        <!-- Details & Actions -->
+        <div class="luxury-upsell-card__content">
+          <div class="luxury-upsell-card__meta">
+            <h3 class="luxury-upsell-card__title">
+              <a href="{{ upsell_prod.url }}">{{ upsell_prod.title }}</a>
+            </h3>
+            <div class="luxury-upsell-card__price-wrap">
+              <span class="luxury-upsell-card__price" id="UpsellPrice-{{ uid }}">{{ current_variant.price | money }}</span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="luxury-upsell-card__compare-price" id="UpsellComparePrice-{{ uid }}">{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
           </div>
 
+          <!-- Size Pill Buttons -->
           {% if upsell_prod.has_only_default_variant == false %}
-            <div class="product-upsell__variant-wrap">
-              <select
-                class="product-upsell__select"
-                id="UpsellSelect-{{ uid }}"
-                onchange="onUpsellVariantChange(this, '{{ uid }}')"
-                aria-label="Select size or variant for {{ upsell_prod.title | escape }}"
-              >
+            <div class="luxury-upsell-card__sizes">
+              <span class="luxury-upsell-card__sizes-label">Select Size</span>
+              <div class="luxury-upsell-card__size-pills" id="UpsellPills-{{ uid }}">
                 {% for variant in upsell_prod.variants %}
                   {% liquid
                     assign var_title = variant.title
@@ -177,43 +175,53 @@
                         assign var_title = '3XL'
                     endcase
                   %}
-                  <option
-                    value="{{ variant.id }}"
+                  <button
+                    type="button"
+                    class="luxury-upsell__size-btn{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money }}"
                     data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
-                    {% if variant.available == false %}disabled{% endif %}
-                    {% if variant.id == current_variant.id %}selected{% endif %}
+                    data-available="{{ variant.available }}"
+                    onclick="selectUpsellSize(this, '{{ uid }}')"
+                    {% unless variant.available %}disabled{% endunless %}
+                    aria-label="Size {{ var_title }}"
                   >
-                    {{ var_title }}{% unless variant.available %} (Sold out){% endunless %}
-                  </option>
+                    {{ var_title }}
+                  </button>
                 {% endfor %}
-              </select>
+              </div>
             </div>
+            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}" value="{{ current_variant.id }}">
           {% else %}
-            <input type="hidden" id="UpsellSelect-{{ uid }}" value="{{ current_variant.id }}">
+            <input type="hidden" id="UpsellSelectedVariant-{{ uid }}" value="{{ current_variant.id }}">
           {% endif %}
-        </div>
 
-        <div class="product-upsell-card__action">
+          <!-- Full Width Action Button -->
           <button
             type="button"
-            class="product-upsell-card__add-btn"
+            class="luxury-upsell-card__add-btn"
             id="UpsellBtn-{{ uid }}"
             onclick="addUpsellToCart('{{ uid }}')"
             aria-label="Add {{ upsell_prod.title | escape }} to bag"
           >
-            <span class="upsell-btn__text">{{ block_settings.button_text | default: '+ Add' }}</span>
+            <span class="upsell-btn__icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+            <span class="upsell-btn__text">{{ block_settings.button_text | default: 'Add to Bag' }}</span>
             <span class="upsell-btn__spinner" style="display: none;">
-              <svg class="upsell-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg class="upsell-spin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
                 <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
               </svg>
             </span>
             <span class="upsell-btn__added" style="display: none;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              Added
+              Added to Bag
             </span>
           </button>
         </div>
@@ -222,226 +230,309 @@
   </div>
 
   <style>
-    .product-upsell-block {
+    /* ==========================================================================
+       ON REPEAT — QUIET LUXURY UPSELL STYLES
+       ========================================================================== */
+
+    .luxury-upsell-section {
       display: block;
       width: 100%;
-      padding-top: var(--upsell-pt, 12px);
-      padding-bottom: var(--upsell-pb, 12px);
+      margin: 18px 0 22px 0;
       box-sizing: border-box;
       clear: both;
     }
 
-    /* Suppress duplicates if rendered from both template and block */
-    .product-upsell-block ~ .product-upsell-block,
-    .product-details .product-upsell-block ~ .product-upsell-block {
+    /* Duplicate suppression */
+    .luxury-upsell-section ~ .luxury-upsell-section,
+    .product-details .luxury-upsell-section ~ .luxury-upsell-section {
       display: none !important;
     }
 
-    .product-upsell-card {
-      background-color: #FAF8F5;
-      border: 1px solid #E6E1DA;
-      border-radius: 12px;
-      padding: 14px 16px;
-      box-sizing: border-box;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .product-upsell-card:hover {
-      border-color: #D6D0C7;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .product-upsell-card__header {
+    /* Header matching EXCLUSIVE OFFERS */
+    .luxury-upsell__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(230, 225, 218, 0.6);
+      margin-bottom: 9px;
+      padding: 0 2px;
     }
 
-    .product-upsell-card__badge {
+    .luxury-upsell__label {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.6875rem;
-      font-weight: 700;
+      gap: 7px;
+    }
+
+    .luxury-upsell__dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8C8275;
+    }
+
+    .luxury-upsell__title {
+      font-family: var(--font-body--family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #8C827A;
+      color: #736B63;
+      line-height: 1;
     }
 
-    .product-upsell-card__badge svg {
-      color: #111827;
+    .luxury-upsell__sublabel {
+      font-family: var(--font-heading--family), "Cormorant Garamond", Georgia, serif;
+      font-size: 13px;
+      font-style: italic;
+      color: #8C8275;
+      line-height: 1;
     }
 
-    .product-upsell-card__title {
-      margin: 0;
-      font-family: var(--font-body--family), sans-serif;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: #111827;
+    /* Luxury White Card matching buying-card & deal-card */
+    .luxury-upsell-card {
+      background: #FFFFFF;
+      border: 1px solid #E6E1DA;
+      border-radius: 10px;
+      padding: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
     }
 
-    .product-upsell-card__body {
+    .luxury-upsell-card:hover {
+      border-color: #C8C1B7;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .luxury-upsell-card__main {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
     }
 
-    .product-upsell-card__thumb-link {
-      flex-shrink: 0;
-      display: block;
-      width: 64px;
-      height: 76px;
+    /* Fashion Portrait Thumbnail */
+    .luxury-upsell-card__media {
+      flex: 0 0 78px;
+      width: 78px;
+      height: 104px;
       border-radius: 8px;
       overflow: hidden;
-      background-color: #EFECE6;
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: #FAF8F5;
+      border: 1px solid #EFECE6;
+      position: relative;
+      display: block;
+      text-decoration: none;
     }
 
-    .product-upsell-card__thumb {
+    .luxury-upsell-card__img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
       display: block;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
     }
 
-    .product-upsell-card__thumb-link:hover .product-upsell-card__thumb {
+    .luxury-upsell-card__media:hover .luxury-upsell-card__img {
       transform: scale(1.05);
     }
 
-    .product-upsell-card__thumb-placeholder {
+    .luxury-upsell-card__placeholder {
       width: 100%;
       height: 100%;
-      background: #EFECE6;
+      background: #FAF8F5;
     }
 
-    .product-upsell-card__details {
+    .luxury-upsell-card__tag {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(4px);
+      color: #5C554E;
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 4px;
+      border-radius: 3px;
+      line-height: 1;
+      pointer-events: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Content on Right */
+    .luxury-upsell-card__content {
       flex: 1 1 auto;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 4px;
     }
 
-    .product-upsell-card__product-name {
-      font-family: var(--font-body--family), sans-serif;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #111827;
+    .luxury-upsell-card__meta {
+      margin-bottom: 8px;
+    }
+
+    /* Title in Cormorant Garamond Serif */
+    .luxury-upsell-card__title {
+      font-family: var(--font-heading--family), "Cormorant Garamond", Georgia, serif !important;
+      font-size: 1.15rem !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.01em !important;
+      line-height: 1.25 !important;
+      margin: 0 0 4px 0 !important;
+      color: #1C1C1C !important;
+    }
+
+    .luxury-upsell-card__title a {
+      color: inherit;
       text-decoration: none;
-      line-height: 1.25;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
       transition: color 0.15s ease;
     }
 
-    .product-upsell-card__product-name:hover {
-      color: #70675F;
+    .luxury-upsell-card__title a:hover {
+      color: #5C554E;
     }
 
-    .product-upsell-card__price-row {
+    /* Price row */
+    .luxury-upsell-card__price-wrap {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.8125rem;
+      gap: 8px;
       line-height: 1;
     }
 
-    .product-upsell-card__price {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .product-upsell-card__compare-price {
-      font-weight: 400;
-      color: #8C827A;
-      text-decoration: line-through;
-      font-size: 0.75rem;
-    }
-
-    .product-upsell__variant-wrap {
-      margin-top: 4px;
-      display: inline-block;
-      max-width: 130px;
-    }
-
-    .product-upsell__select {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      height: 30px;
-      padding: 2px 24px 2px 8px;
+    .luxury-upsell-card__price {
       font-family: var(--font-body--family), sans-serif;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: #111827;
-      background-color: #FFFFFF;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%23111827' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      border: 1px solid #D6D0C7;
-      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1C1C1C;
+    }
+
+    .luxury-upsell-card__compare-price {
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: #8C8275;
+      text-decoration: line-through;
+    }
+
+    /* Size selection row */
+    .luxury-upsell-card__sizes {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .luxury-upsell-card__sizes-label {
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #736B63;
+      line-height: 1;
+    }
+
+    .luxury-upsell-card__size-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* Size pills matching ON REPEAT variant buttons */
+    .luxury-upsell__size-btn {
+      min-width: 32px;
+      height: 27px;
+      padding: 0 8px;
+      border-radius: 5px;
+      border: 1px solid #E6E1DA;
+      background: #FFFFFF;
+      color: #1C1C1C;
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
       cursor: pointer;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-
-    .product-upsell__select:focus {
-      border-color: #111827;
-    }
-
-    .product-upsell-card__action {
-      flex-shrink: 0;
-    }
-
-    .product-upsell-card__add-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 78px;
+      transition: all 0.15s ease;
+      user-select: none;
+      outline: none;
+    }
+
+    .luxury-upsell__size-btn:hover:not(:disabled) {
+      border-color: #1C1C1C;
+    }
+
+    .luxury-upsell__size-btn.is-selected {
+      background: #000000 !important;
+      color: #FFFFFF !important;
+      border-color: #000000 !important;
+    }
+
+    .luxury-upsell__size-btn:disabled,
+    .luxury-upsell__size-btn.is-unavailable {
+      color: #9CA3AF !important;
+      border-color: #E6E1DA !important;
+      background: #FAFAFA !important;
+      cursor: not-allowed;
+      text-decoration: line-through;
+      opacity: 0.55;
+    }
+
+    /* Add Button matching Add to Cart / Buy Now styles */
+    .luxury-upsell-card__add-btn {
+      width: 100%;
       height: 38px;
-      padding: 0 14px;
+      border-radius: 10px;
+      background: #000000;
+      color: #FFFFFF;
+      border: 1px solid #000000;
       font-family: var(--font-body--family), sans-serif;
-      font-size: 0.8125rem;
+      font-size: 12.5px;
       font-weight: 600;
-      letter-spacing: 0.03em;
-      color: #FAF8F5;
-      background-color: #111827;
-      border: 1px solid #111827;
-      border-radius: 8px;
+      letter-spacing: 0.02em;
       cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background-color 0.15s ease, opacity 0.15s ease;
+      outline: none;
+      margin-top: 2px;
       white-space: nowrap;
     }
 
-    .product-upsell-card__add-btn:hover:not(:disabled) {
-      background-color: #2D2824;
-      border-color: #2D2824;
+    .luxury-upsell-card__add-btn:hover:not(:disabled) {
+      background: #1F2937;
+      border-color: #1F2937;
     }
 
-    .product-upsell-card__add-btn:disabled {
-      opacity: 0.65;
+    .luxury-upsell-card__add-btn:disabled {
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    .product-upsell-card__add-btn--success {
-      background-color: #1F2937 !important;
+    .luxury-upsell-card__add-btn--success {
+      background: #1F2937 !important;
       border-color: #1F2937 !important;
+    }
+
+    .upsell-btn__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .upsell-btn__added {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      color: #FAF8F5;
+      gap: 5px;
+      color: #FFFFFF;
     }
 
     .upsell-spin {
@@ -452,40 +543,49 @@
       100% { transform: rotate(360deg); }
     }
 
-    @media (max-width: 480px) {
-      .product-upsell-card {
-        padding: 12px 14px;
+    @media screen and (max-width: 749px) {
+      .luxury-upsell-card {
+        padding: 14px;
       }
-      .product-upsell-card__thumb-link {
-        width: 56px;
-        height: 68px;
+      .luxury-upsell-card__main {
+        gap: 12px;
       }
-      .product-upsell-card__product-name {
-        font-size: 0.8125rem;
+      .luxury-upsell-card__media {
+        flex: 0 0 72px;
+        width: 72px;
+        height: 96px;
       }
-      .product-upsell-card__add-btn {
-        min-width: 70px;
-        height: 34px;
-        padding: 0 10px;
-        font-size: 0.75rem;
+      .luxury-upsell-card__title {
+        font-size: 1.1rem !important;
       }
-      .product-upsell__variant-wrap {
-        max-width: 110px;
+      .luxury-upsell-card__add-btn {
+        height: 36px;
+        font-size: 12px;
       }
     }
   </style>
 
   <script>
-    if (typeof window.onUpsellVariantChange !== 'function') {
-      window.onUpsellVariantChange = function(selectEl, uid) {
-        const option = selectEl.options[selectEl.selectedIndex];
-        if (!option) return;
+    if (typeof window.selectUpsellSize !== 'function') {
+      window.selectUpsellSize = function(btn, uid) {
+        if (!btn || btn.disabled) return;
+        var container = document.getElementById('UpsellPills-' + uid);
+        if (container) {
+          container.querySelectorAll('.luxury-upsell__size-btn').forEach(function(el) {
+            el.classList.remove('is-selected');
+          });
+        }
+        btn.classList.add('is-selected');
 
-        const price = option.getAttribute('data-price');
-        const comparePrice = option.getAttribute('data-compare-price');
+        var variantId = btn.getAttribute('data-variant-id');
+        var inputEl = document.getElementById('UpsellSelectedVariant-' + uid);
+        if (inputEl && variantId) inputEl.value = variantId;
 
-        const priceEl = document.getElementById('UpsellPrice-' + uid);
-        const compEl = document.getElementById('UpsellComparePrice-' + uid);
+        var price = btn.getAttribute('data-price');
+        var comparePrice = btn.getAttribute('data-compare-price');
+
+        var priceEl = document.getElementById('UpsellPrice-' + uid);
+        var compEl = document.getElementById('UpsellComparePrice-' + uid);
 
         if (priceEl && price) priceEl.textContent = price;
         if (compEl) {
@@ -501,18 +601,20 @@
 
     if (typeof window.addUpsellToCart !== 'function') {
       window.addUpsellToCart = function(uid) {
-        const selectEl = document.getElementById('UpsellSelect-' + uid);
-        const btn = document.getElementById('UpsellBtn-' + uid);
-        if (!selectEl || !btn || btn.disabled) return;
+        var inputEl = document.getElementById('UpsellSelectedVariant-' + uid);
+        var btn = document.getElementById('UpsellBtn-' + uid);
+        if (!inputEl || !btn || btn.disabled) return;
 
-        const variantId = selectEl.value;
+        var variantId = inputEl.value;
         if (!variantId) return;
 
-        const textEl = btn.querySelector('.upsell-btn__text');
-        const spinEl = btn.querySelector('.upsell-btn__spinner');
-        const addedEl = btn.querySelector('.upsell-btn__added');
+        var textEl = btn.querySelector('.upsell-btn__text');
+        var iconEl = btn.querySelector('.upsell-btn__icon');
+        var spinEl = btn.querySelector('.upsell-btn__spinner');
+        var addedEl = btn.querySelector('.upsell-btn__added');
 
         if (textEl) textEl.style.display = 'none';
+        if (iconEl) iconEl.style.display = 'none';
         if (spinEl) spinEl.style.display = 'inline-block';
         btn.disabled = true;
 
@@ -531,10 +633,10 @@
         .then(function(data) {
           if (spinEl) spinEl.style.display = 'none';
           if (addedEl) addedEl.style.display = 'inline-flex';
-          btn.classList.add('product-upsell-card__add-btn--success');
+          btn.classList.add('luxury-upsell-card__add-btn--success');
 
           // Open cart drawer
-          const drawer = document.querySelector('theme-drawer#cart-drawer');
+          var drawer = document.querySelector('theme-drawer#cart-drawer');
           if (drawer && typeof drawer.open === 'function') {
             drawer.open();
           } else if (window.Shopify && window.Shopify.actions && typeof window.Shopify.actions.openCart === 'function') {
@@ -542,7 +644,7 @@
           }
 
           // Refresh cart items component if active
-          const cartItems = document.querySelector('cart-items-component');
+          var cartItems = document.querySelector('cart-items-component');
           if (cartItems && cartItems.sectionId) {
             try {
               import('@theme/section-renderer').then(function(module) {
@@ -578,14 +680,16 @@
           setTimeout(function() {
             if (addedEl) addedEl.style.display = 'none';
             if (textEl) textEl.style.display = 'inline';
+            if (iconEl) iconEl.style.display = 'inline-flex';
             btn.disabled = false;
-            btn.classList.remove('product-upsell-card__add-btn--success');
+            btn.classList.remove('luxury-upsell-card__add-btn--success');
           }, 3000);
         })
         .catch(function(err) {
           console.error('Upsell add error:', err);
           if (spinEl) spinEl.style.display = 'none';
           if (textEl) textEl.style.display = 'inline';
+          if (iconEl) iconEl.style.display = 'inline-flex';
           btn.disabled = false;
         });
       };
@@ -593,7 +697,7 @@
 
     // Duplicate cleanup safety
     (function() {
-      var allUpsells = document.querySelectorAll('.product-upsell-block');
+      var allUpsells = document.querySelectorAll('.luxury-upsell-section');
       if (allUpsells.length > 1) {
         for (var i = 1; i < allUpsells.length; i++) {
           allUpsells[i].remove();
