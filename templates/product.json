@@ -284,6 +284,9 @@
             "product_upsell": {
               "type": "product-upsell",
               "settings": {
+                "upsell_product_1": "",
+                "upsell_product_2": "",
+                "upsell_collection": "",
                 "heading": "Pair It With",
                 "badge_text": "Complete the Look",
                 "button_text": "+ Add",
@@ -552,7 +555,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>You may also like </h3>",
+            "text": "<h3>You May Also Like </h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
