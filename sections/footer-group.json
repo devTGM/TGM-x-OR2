@@ -69,8 +69,8 @@
                 "pixel_height_mobile": 120,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-start": 100,
+                "padding-inline-end": 100
               },
               "blocks": {}
             },
@@ -203,7 +203,7 @@
         "footer_copyright_jweRK8": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": true,
+            "show_powered_by": false,
             "text_color": "",
             "font_size": "0.75rem",
             "case": "none"
