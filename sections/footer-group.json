@@ -122,7 +122,7 @@
             "link_preset": "paragraph",
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 47,
             "padding-inline-end": 0
           },
           "blocks": {}
@@ -255,32 +255,10 @@
         "padding-block-start": 20,
         "padding-block-end": 48
       }
-    },
-    "luxury_footer": {
-      "type": "luxury-footer",
-      "settings": {
-        "logo_width": 170,
-        "logo_width_mobile": 130,
-        "brand_bio": "<p>On Repeat is a premium menswear brand created for men who believe great style is as much about how you feel as how you look. We focus on creating timeless, versatile shirts that fit effortlessly into your everyday wardrobe.</p><p>Our signature linen shirts are crafted using premium 60 Lea linen, chosen for its fine texture, natural breathability and exceptional comfort. From relaxed days to occasions that call for a little more refinement, every On Repeat shirt is designed to bring together understated style, quality craftsmanship and effortless ease.</p>",
-        "shop_heading": "Shop",
-        "info_heading": "Info",
-        "show_ai_pill": true,
-        "ai_pill_text": "Shop with AI",
-        "ai_pill_action": "chat",
-        "show_policies": true,
-        "policies_label": "Terms and Policies",
-        "credit_text": "Think Grow Media",
-        "credit_url": "https://thinkgrowmedia.com/",
-        "background_color": "#FAF8F5",
-        "text_color": "#1C1C1C",
-        "muted_text_color": "#5A5550",
-        "border_color": "#E6E1DA",
-        "padding_top": 60,
-        "padding_bottom": 40
-      }
     }
   },
   "order": [
-    "luxury_footer"
+    "footer_m9NzUG",
+    "footer_utilities_jLGE8U"
   ]
 }
