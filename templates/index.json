@@ -338,7 +338,7 @@
         "heading": "Breathable Linen. Designed for Warm Days.",
         "story_text": "<p>At ON REPEAT, we believe true luxury lies in simplicity and tactile comfort. Crafted from 100% pure European flax, our linen garments are pre-washed for effortless drape, natural breathability, and enduring softness. Mindfully designed to be worn on repeat.</p>",
         "button_label": "Explore Collection",
-        "button_link": "shopify://collections/the-classic",
+        "button_link": "shopify://collections/all",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.background }}",
         "text_color": "{{ settings.color_palette.foreground }}",
