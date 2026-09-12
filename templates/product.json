@@ -281,6 +281,16 @@
               },
               "block_order": []
             },
+            "product_upsell": {
+              "type": "product-upsell",
+              "settings": {
+                "heading": "Pair It With",
+                "badge_text": "Complete the Look",
+                "button_text": "+ Add",
+                "padding_top": 8,
+                "padding_bottom": 8
+              }
+            },
             "accordion_LKRaGL": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -514,6 +524,7 @@
             "variant_picker_R3rGDr",
             "product_discounts_deals",
             "buy_buttons_eYQEYi",
+            "product_upsell",
             "accordion_LKRaGL"
           ]
         }
