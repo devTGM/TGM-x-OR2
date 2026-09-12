@@ -4,7 +4,16 @@
   Places "COLOR: <COLOR_NAME>" with active concentric ring swatches matching the brand aesthetic.
 {% enddoc %}
 
-{% render 'collection-color-swatches', block: block %}
+{% liquid
+  assign product_resource = closest.product | default: product
+  if request.visual_preview_mode and product_resource == blank
+    assign product_resource = collections.all.products.first
+  endif
+-%}
+
+{% if product_resource != blank %}
+  {% render 'collection-color-swatches', block: block, product: product_resource %}
+{% endif %}
 
 {% schema %}
 {
