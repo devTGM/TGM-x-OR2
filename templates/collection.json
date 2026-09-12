@@ -230,10 +230,26 @@
         "padding-block-start": 0,
         "padding-block-end": 32
       }
+    },
+    "divider_cnizBY": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "#1E1E1E",
+        "section_width": "page-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
     }
   },
   "order": [
     "section",
-    "main"
+    "main",
+    "divider_cnizBY"
   ]
 }
