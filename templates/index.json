@@ -157,7 +157,6 @@
             "product_list_text_YFtzcL": {
               "type": "_product-list-text",
               "name": "t:names.collection_title",
-              "disabled": true,
               "settings": {
                 "text": "<h3>Just In</h3>",
                 "width": "fit-content",
