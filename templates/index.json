@@ -912,6 +912,7 @@
     },
     "divider_zTrHC9": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -971,6 +972,7 @@
         "video_card_3",
         "video_card_4"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Watch & Shop",
         "heading_color": "#000000",
@@ -1670,6 +1672,7 @@
         "testimonial_4",
         "testimonial_5"
       ],
+      "disabled": true,
       "settings": {
         "heading": "What Our Customers Say",
         "heading_color": "#000000",
