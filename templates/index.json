@@ -1535,6 +1535,21 @@
         "padding-block-end": 48
       }
     },
+    "divider_ptWCnw": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
+      }
+    },
     "fabric_education_wR9xLm": {
       "type": "fabric-education",
       "settings": {
@@ -1550,8 +1565,23 @@
         "background_color": "{{ settings.color_palette.background }}",
         "card_background": "#ffffff",
         "text_color": "{{ settings.color_palette.foreground }}",
-        "padding_top": 56,
-        "padding_bottom": 64
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "divider_kJByG3": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
       }
     },
     "testimonial_carousel_p9WkLm": {
@@ -1636,6 +1666,21 @@
         "padding-block-start": 48,
         "padding-block-end": 56
       }
+    },
+    "divider_LpDWEC": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1653,7 +1698,10 @@
     "divider_a4jACr",
     "hero_KfAGNR",
     "product_list_DFVbcb",
+    "divider_ptWCnw",
     "fabric_education_wR9xLm",
-    "testimonial_carousel_p9WkLm"
+    "divider_kJByG3",
+    "testimonial_carousel_p9WkLm",
+    "divider_LpDWEC"
   ]
 }
