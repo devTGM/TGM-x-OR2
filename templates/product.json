@@ -194,6 +194,18 @@
               },
               "blocks": {}
             },
+            "collection_color_swatches": {
+              "type": "collection-color-swatches",
+              "settings": {
+                "label_prefix": "COLOR:",
+                "swatch_size": 46,
+                "swatch_size_mobile": 40,
+                "use_detail_image": false,
+                "padding_top": 0,
+                "padding_bottom": 16
+              },
+              "blocks": {}
+            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -525,6 +537,7 @@
           "block_order": [
             "group_icgrde",
             "divider_VJhene",
+            "collection_color_swatches",
             "variant_picker_R3rGDr",
             "product_discounts_deals",
             "buy_buttons_eYQEYi",

@@ -1,0 +1,89 @@
+{% doc %}
+  Collection Color Swatches Block
+  Renders all colorways of the shirt in the same collection as interactive circular swatches.
+  Places "COLOR: <COLOR_NAME>" with active concentric ring swatches matching the brand aesthetic.
+{% enddoc %}
+
+{% render 'collection-color-swatches', block: block %}
+
+{% schema %}
+{
+  "name": "Color swatches (Collection)",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Displays all available colours of this shirt model from the same collection as circular swatches."
+    },
+    {
+      "type": "text",
+      "id": "label_prefix",
+      "label": "Label Prefix",
+      "default": "COLOR:"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection Override",
+      "info": "Optional: choose a specific collection to pull colorways from. If blank, auto-detects the shirt's collection."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_detail_image",
+      "label": "Use 2nd product image as fabric closeup",
+      "default": false,
+      "info": "When enabled, uses the 2nd product image (often the fabric texture detail shot) if available."
+    },
+    {
+      "type": "range",
+      "id": "swatch_size",
+      "label": "Swatch Size (Desktop)",
+      "min": 32,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "swatch_size_mobile",
+      "label": "Swatch Size (Mobile)",
+      "min": 28,
+      "max": 54,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Color swatches (Collection)",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
