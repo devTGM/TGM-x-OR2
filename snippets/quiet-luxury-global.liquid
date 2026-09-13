@@ -1,0 +1,394 @@
+{% stylesheet %}
+  /* ==========================================================================
+     ON REPEAT — QUIET LUXURY GLOBAL STYLES
+     Inspired by linendebeaumont.com
+     Parchment palette · Editorial typography · Minimal spacing
+     ========================================================================== */
+
+  /* ------------------------------------------------------------------
+     1. GLOBAL RESET & BACKGROUND
+     ------------------------------------------------------------------ */
+  body,
+  .page-wrapper {
+    background-color: #F2EFE9 !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 300 !important;
+    font-size: 13px !important;
+    line-height: 1.75 !important;
+    color: #1C1C1C !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+
+  /* Warm background across all panels */
+  .cart-drawer,
+  .popover,
+  [data-menu-drawer],
+  .drawer,
+  .search-modal,
+  .quick-add-modal,
+  .predictive-search {
+    background-color: #F2EFE9 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     2. TYPOGRAPHY — BODY & PARAGRAPH
+     ------------------------------------------------------------------ */
+  p,
+  li,
+  .rte,
+  .rte p {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 300 !important;
+    font-size: 13px !important;
+    line-height: 1.75 !important;
+    color: #3D3935 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     3. TYPOGRAPHY — HEADINGS (EDITORIAL)
+     ------------------------------------------------------------------ */
+
+  /* Large display headings — Pinyon Script (hero/banner only) */
+  .hero h1,
+  .hero .hero__title,
+  .slideshow__slide h2,
+  .banner h1,
+  .banner h2,
+  [class*="hero"] h1,
+  [class*="hero"] h2 {
+    font-family: var(--font-heading--family) !important;
+    font-weight: 400 !important;
+    font-size: clamp(4rem, 10vw, 7.5rem) !important;
+    line-height: 1.0 !important;
+    letter-spacing: 0em !important;
+    text-transform: none !important;
+    color: #1C1C1C !important;
+  }
+
+  /* Section headings, collection titles — Newsreader editorial serif */
+  h1:not(.hero *):not(.banner *):not([class*="hero"] *):not(.product-details *),
+  h2:not(.hero *):not(.banner *):not([class*="hero"] *):not(.product-details *),
+  h3:not(.product-details *),
+  .h1, .h2, .h3,
+  .section-heading,
+  .collection-hero__title,
+  .page-header__title {
+    font-family: var(--font-editorial--family) !important;
+    font-weight: 200 !important;
+    font-style: italic !important;
+    letter-spacing: 0em !important;
+    text-transform: none !important;
+    color: #1C1C1C !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Small uppercase labels — Red Hat Text caps */
+  h4, h5, h6,
+  .h4, .h5, .h6,
+  .announcement-bar__message,
+  .collection-filters__heading {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-size: 11px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: #1C1C1C !important;
+  }
+
+  /* ------------------------------------------------------------------
+     4. HEADER — MINIMAL PARCHMENT BAR
+     ------------------------------------------------------------------ */
+  .header,
+  .header-wrapper,
+  .section-header {
+    background-color: #F2EFE9 !important;
+    border-bottom: 1px solid #E2DDD6 !important;
+  }
+
+  /* Nav links */
+  .header__menu-item,
+  .header__menu-item a,
+  .header__menu-item span,
+  .header__active-menu-item {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 500 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: #1C1C1C !important;
+  }
+
+  .header__menu-item:hover a,
+  .header__menu-item:hover span {
+    opacity: 0.5 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     5. BUTTONS — SHARP ARCHITECTURAL EDGES
+     ------------------------------------------------------------------ */
+  .button,
+  .btn,
+  button[type="submit"],
+  .shopify-payment-button__button--unbranded {
+    border-radius: 0 !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 500 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Primary: flat black */
+  .button--primary {
+    background-color: #1C1C1C !important;
+    color: #F2EFE9 !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+
+  .button--primary:hover {
+    background-color: #3D3935 !important;
+    color: #F2EFE9 !important;
+  }
+
+  /* Secondary: outlined */
+  .button--secondary {
+    background-color: transparent !important;
+    color: #1C1C1C !important;
+    border: 1px solid #1C1C1C !important;
+    border-radius: 0 !important;
+  }
+
+  .button--secondary:hover {
+    background-color: #1C1C1C !important;
+    color: #F2EFE9 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     6. PRODUCT CARDS — EDITORIAL MINIMAL
+     ------------------------------------------------------------------ */
+  .card,
+  .product-card,
+  .card-wrapper,
+  .product-card-wrapper {
+    background: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .card__media,
+  .card__image {
+    border-radius: 0 !important;
+    transition: opacity 0.35s ease !important;
+  }
+
+  .card:hover .card__media {
+    opacity: 0.88 !important;
+  }
+
+  /* Card title — Newsreader editorial */
+  .card__heading,
+  .card__heading a,
+  .card-information__text {
+    font-family: var(--font-editorial--family) !important;
+    font-weight: 200 !important;
+    font-style: italic !important;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem) !important;
+    letter-spacing: 0em !important;
+    color: #1C1C1C !important;
+    text-transform: none !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Card price — small and restrained */
+  .card-information .price,
+  .price__regular,
+  .price-item {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.04em !important;
+    color: #5C5751 !important;
+  }
+
+  /* Card vendor/edition meta */
+  .card__vendor,
+  .card-information__subtitle {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 500 !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #8A8580 !important;
+  }
+
+  /* Card info padding */
+  .card-information,
+  .card__content {
+    padding: 14px 0 0 0 !important;
+    background: transparent !important;
+  }
+
+  /* ------------------------------------------------------------------
+     7. QUICK ADD BUTTON — MINIMAL
+     ------------------------------------------------------------------ */
+  .quick-add__submit,
+  .card .button {
+    background-color: #1C1C1C !important;
+    color: #F2EFE9 !important;
+    border-radius: 0 !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    border: none !important;
+  }
+
+  /* ------------------------------------------------------------------
+     8. COLLECTION BANNER / PAGE HEADER
+     ------------------------------------------------------------------ */
+  .collection-hero,
+  .collection-hero__inner,
+  .page-header {
+    background-color: #F2EFE9 !important;
+  }
+
+  .collection-hero__title,
+  .collection__title,
+  .page-header__title {
+    font-family: var(--font-editorial--family) !important;
+    font-weight: 200 !important;
+    font-style: italic !important;
+    font-size: clamp(2.5rem, 6vw, 5rem) !important;
+    line-height: 1.1 !important;
+    color: #1C1C1C !important;
+    letter-spacing: 0em !important;
+    text-transform: none !important;
+  }
+
+  .collection-hero__description,
+  .page-header__description {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 300 !important;
+    font-size: 13px !important;
+    color: #5C5751 !important;
+    max-width: 50ch !important;
+  }
+
+  /* ------------------------------------------------------------------
+     9. FOOTER — WARM AND MINIMAL
+     ------------------------------------------------------------------ */
+  .footer,
+  .footer-section {
+    background-color: #EAE6DF !important;
+    border-top: 1px solid #D8D3CC !important;
+  }
+
+  .footer a,
+  .footer li,
+  .footer p {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 300 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.04em !important;
+    color: #5C5751 !important;
+  }
+
+  .footer__heading,
+  .footer h2,
+  .footer h3 {
+    font-family: var(--font-body-custom--family) !important;
+    font-weight: 500 !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #1C1C1C !important;
+    font-style: normal !important;
+  }
+
+  /* ------------------------------------------------------------------
+     10. INPUTS & FORM FIELDS
+     ------------------------------------------------------------------ */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  select,
+  textarea {
+    background-color: #F2EFE9 !important;
+    border: 1px solid #D8D3CC !important;
+    border-radius: 0 !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 13px !important;
+    font-weight: 300 !important;
+    color: #1C1C1C !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #1C1C1C !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* ------------------------------------------------------------------
+     11. ANNOUNCEMENT BAR
+     ------------------------------------------------------------------ */
+  .announcement-bar,
+  .header-announcements {
+    background-color: #1C1C1C !important;
+  }
+
+  .announcement-bar__message,
+  .announcement-bar a {
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.1em !important;
+    color: #F2EFE9 !important;
+    text-transform: uppercase !important;
+  }
+
+  /* ------------------------------------------------------------------
+     12. DIVIDERS
+     ------------------------------------------------------------------ */
+  .divider,
+  hr {
+    border-color: #D8D3CC !important;
+    opacity: 1 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     13. BADGES
+     ------------------------------------------------------------------ */
+  .badge {
+    border-radius: 0 !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 9px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* ------------------------------------------------------------------
+     14. SCROLLBAR — WARM MINIMAL
+     ------------------------------------------------------------------ */
+  ::-webkit-scrollbar {
+    width: 4px !important;
+    height: 4px !important;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F2EFE9 !important;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C8C3BB !important;
+    border-radius: 0 !important;
+  }
+
+{% endstylesheet %}

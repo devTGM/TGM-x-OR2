@@ -15,19 +15,20 @@
     }
   }
 
-  /* 2. Product Title - Refined Modern Luxury Typography */
+  /* 2. Product Title - Refined Editorial Typography */
   .product-details h1,
   .product-details .product-title,
   .product-details .text-block--product-title h1,
   .product-details [data-testid="group-block"] h1,
   .product-details .text-block :is(h1, h2, h3, .h1, .h2, .h3) {
-    font-family: var(--font-heading--family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    font-size: clamp(22px, 2.2vw, 26px) !important;
-    font-weight: 600 !important;
-    line-height: 1.25 !important;
-    letter-spacing: -0.015em !important;
+    font-family: var(--font-editorial--family) !important;
+    font-size: clamp(1.5rem, 2.5vw, 2rem) !important;
+    font-weight: 200 !important;
+    font-style: italic !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0em !important;
     text-transform: none !important;
-    color: #111827 !important;
+    color: #1C1C1C !important;
     margin: 0 0 6px 0 !important;
   }
 
@@ -104,14 +105,15 @@
     display: block !important;
   }
 
-  /* 6. Enclosed Buying Card Container */
+  /* 6. Buying Area — Transparent on Parchment (no white box) */
   .product-details .group-block:has(.variant-picker),
   .product-details .buying-card {
-    background: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
-    border-radius: 14px !important;
-    padding: 22px 24px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid #D8D3CC !important;
+    border-radius: 0 !important;
+    padding: 22px 0 !important;
+    box-shadow: none !important;
     width: 100% !important;
     margin-top: 14px !important;
     margin-bottom: 24px !important;
@@ -120,8 +122,7 @@
   @media screen and (max-width: 749px) {
     .product-details .group-block:has(.variant-picker),
     .product-details .buying-card {
-      padding: 18px 16px !important;
-      border-radius: 12px !important;
+      padding: 18px 0 !important;
     }
   }
 
@@ -255,20 +256,23 @@
 
   .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label {
     min-width: 52px !important;
-    height: 44px !important;
-    border-radius: 8px !important;
-    border: 1px solid #e5e7eb !important;
-    background-color: #ffffff !important;
-    color: #111827 !important;
-    font-size: 14px !important;
+    height: 40px !important;
+    border-radius: 0 !important;
+    border: 1px solid #D8D3CC !important;
+    background-color: transparent !important;
+    color: #1C1C1C !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0 14px !important;
     position: relative !important;
     cursor: pointer !important;
-    transition: all 0.15s ease !important;
+    transition: all 0.2s ease !important;
     white-space: nowrap !important;
   }
 
@@ -278,19 +282,19 @@
   }
 
   .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:hover {
-    border-color: #111827 !important;
+    border-color: #1C1C1C !important;
   }
 
-  /* Selected Size Pill: Solid Black */
+  /* Selected Size: Flat Black, No Radius */
   .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border-color: #000000 !important;
+    background-color: #1C1C1C !important;
+    color: #F2EFE9 !important;
+    border-color: #1C1C1C !important;
   }
 
   .product-details .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) .variant-option__button-label__text {
-    color: #ffffff !important;
-    font-weight: 600 !important;
+    color: #F2EFE9 !important;
+    font-weight: 500 !important;
   }
 
   /* Unavailable Size Buttons: Subdued with Diagonal Slash */
@@ -366,9 +370,9 @@
 
   .product-details .product-form-buttons--inline .quantity-selector {
     height: 48px !important;
-    border-radius: 10px !important;
-    border: 1px solid #e5e7eb !important;
-    background-color: #ffffff !important;
+    border-radius: 0 !important;
+    border: 1px solid #D8D3CC !important;
+    background-color: transparent !important;
     width: 100% !important;
     padding: 0 6px !important;
   }
@@ -401,25 +405,26 @@
 
   .product-details .product-form-buttons--inline .add-to-cart-button {
     height: 48px !important;
-    border-radius: 10px !important;
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    border-radius: 0 !important;
+    background-color: #1C1C1C !important;
+    color: #F2EFE9 !important;
     border: none !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.01em !important;
-    text-transform: none !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 8px !important;
     cursor: pointer !important;
     padding: 0 20px !important;
-    transition: background-color 0.15s ease !important;
+    transition: background-color 0.2s ease !important;
   }
 
   .product-details .product-form-buttons--inline .add-to-cart-button:hover {
-    background-color: #1f2937 !important;
+    background-color: #3D3935 !important;
   }
 
   .product-details .product-form-buttons--inline .add-to-cart-icon {
@@ -525,10 +530,11 @@
   }
 
   .product-details .accordion .details__header {
-    font-family: var(--font-heading--family), Georgia, serif !important;
-    font-size: 1.125rem !important;
+    font-family: var(--font-body-custom--family) !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
-    letter-spacing: 0.01em !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
     color: #1C1C1C !important;
     padding: 16px 0 !important;
     cursor: pointer !important;
