@@ -1,0 +1,327 @@
+{% doc %}
+  ON REPEAT — Our Story Page
+  Full editorial brand story with 8 sections.
+  Each section: number, heading, body text.
+  Quiet luxury layout — spacious, typographic.
+{% enddoc %}
+
+<section class="our-story-section">
+
+  <div class="our-story-hero">
+    <span class="our-story-overline">ON REPEAT</span>
+    <h1 class="our-story-title">The Story Behind<br><em>the Shirt</em></h1>
+    <p class="our-story-intro">We started with a simple idea — the best clothes are the ones you keep reaching for.</p>
+  </div>
+
+  <div class="our-story-divider"></div>
+
+  <div class="our-story-chapters">
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">01</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">Why ON REPEAT?</h2>
+        <div class="chapter-text">
+          <p>The idea behind ON REPEAT is very simple — we all have certain clothes that we keep going back to. Those are the clothes we actually love wearing.</p>
+          <p>We want to create those pieces.</p>
+          <p>The name ON REPEAT comes from the idea of creating clothes that become an actual part of your everyday wardrobe — pieces you keep reaching for without thinking twice.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">02</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">Why Linen?</h2>
+        <div class="chapter-text">
+          <p>We started with linen because we feel it is one of the most underrated everyday fabrics.</p>
+          <p>People usually associate linen only with summer, holidays and vacations. We want to change that.</p>
+          <p>We want people to look at linen as an everyday, all-season wardrobe essential. It works especially well in summer because it is breathable and comfortable on the skin, but it can also be worn through other seasons and layered when needed.</p>
+          <p>For us, linen isn't a summer-only fabric. It is an everyday fabric.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">03</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">The Quality</h2>
+        <div class="chapter-text">
+          <p>Our shirts are made using 100% pure European flax linen in 60 Lea.</p>
+          <p>We chose the fabric very carefully because comfort is one of the most important things for us. The fabric is soft, breathable and has the natural texture that makes linen what it is.</p>
+          <p>We don't want the shirt to just look good. We want you to actually want to wear it.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">04</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">Garment Washed</h2>
+        <div class="chapter-text">
+          <p>Our shirts are garment washed before they reach you.</p>
+          <p>This helps stabilise the fabric and minimise further shrinkage, while also giving the linen a much softer, more comfortable feel from the first wear.</p>
+          <p>We don't want you to buy a linen shirt and then have to wait for it to become comfortable. We want it to feel good from the beginning.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">05</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">The ON REPEAT Wardrobe</h2>
+        <div class="chapter-text">
+          <p>We don't believe your wardrobe needs more clothes just for the sake of having more options. We believe it needs better essentials.</p>
+          <p>The kind of pieces that work with your existing wardrobe and can be worn again and again. A shirt that works for coffee in the morning, work in the afternoon and dinner at night. A shirt you don't need to think too much about.</p>
+          <p>That is what ON REPEAT is about.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">06</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">We Started with Shirts</h2>
+        <div class="chapter-text">
+          <p>We started with shirts because they are one of the most versatile pieces in a wardrobe. They can be dressed up or down, worn to work, while travelling, for lunch, for dinner or just on an ordinary day.</p>
+          <p>Our first collection has 3 styles, 11 colours and 100% pure European flax linen in 60 Lea. The collection is designed around everyday wear rather than one particular occasion.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">07</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">The Way We See Linen</h2>
+        <div class="chapter-text">
+          <p>We don't want linen to look overly perfect. The natural texture and wrinkles are part of the fabric. We want our clothes to feel lived in.</p>
+          <p>Wear them. Move in them. Travel in them. Wash them. Wear them again.</p>
+          <p>The more you wear them, the more they become yours.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="our-story-chapter">
+      <span class="chapter-number">08</span>
+      <div class="chapter-body">
+        <h2 class="chapter-heading">Where We Want to Go</h2>
+        <div class="chapter-text">
+          <p>We are starting with shirts, but the idea is much bigger. We want ON REPEAT to become an everyday essentials wardrobe — slowly building into pants, shorts, women's pieces, kids' pieces and eventually a selection of pieces that can be made specifically for you.</p>
+          <p>We don't want to create everything at once. We want to build a wardrobe around the pieces people genuinely want to wear.</p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="our-story-closing">
+    <p class="closing-statement">Because the best clothes are not the ones hanging untouched in your wardrobe.<br>They are the ones you keep reaching for.</p>
+    <span class="closing-brand">ON REPEAT.</span>
+    <a href="{{ routes.all_products_collection_url }}" class="closing-cta">Shop the Collection</a>
+  </div>
+
+</section>
+
+{% stylesheet %}
+  .our-story-section {
+    background-color: #F2EFE9;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 48px 120px;
+  }
+
+  /* Hero */
+  .our-story-hero {
+    text-align: left;
+    margin-bottom: 64px;
+  }
+
+  .our-story-overline {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8A8580;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .our-story-title {
+    font-family: var(--font-editorial--family, 'Newsreader', Georgia, serif);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 200;
+    font-style: italic;
+    line-height: 1.1;
+    color: #1C1C1C;
+    margin: 0 0 24px 0;
+    letter-spacing: -0.01em;
+  }
+
+  .our-story-title em {
+    font-style: italic;
+  }
+
+  .our-story-intro {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #5C5751;
+    margin: 0;
+    max-width: 50ch;
+  }
+
+  /* Divider */
+  .our-story-divider {
+    width: 40px;
+    height: 1px;
+    background: #1C1C1C;
+    margin-bottom: 80px;
+  }
+
+  /* Chapters */
+  .our-story-chapters {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .our-story-chapter {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 40px;
+    padding: 48px 0;
+    border-bottom: 1px solid #D8D3CC;
+  }
+
+  .our-story-chapter:first-child {
+    border-top: 1px solid #D8D3CC;
+  }
+
+  .chapter-number {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: #B0A99F;
+    padding-top: 5px;
+  }
+
+  .chapter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .chapter-heading {
+    font-family: var(--font-editorial--family, 'Newsreader', Georgia, serif);
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    font-weight: 200;
+    font-style: italic;
+    color: #1C1C1C;
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .chapter-text p {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #3D3935;
+    margin: 0 0 12px 0;
+  }
+
+  .chapter-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Closing */
+  .our-story-closing {
+    text-align: center;
+    padding: 96px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .closing-statement {
+    font-family: var(--font-editorial--family, 'Newsreader', Georgia, serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 200;
+    font-style: italic;
+    line-height: 1.6;
+    color: #1C1C1C;
+    max-width: 42ch;
+    margin: 0;
+  }
+
+  .closing-brand {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #1C1C1C;
+    margin-top: 8px;
+  }
+
+  .closing-cta {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 32px;
+    background: #1C1C1C;
+    color: #F2EFE9;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    transition: background 0.2s ease;
+  }
+
+  .closing-cta:hover {
+    background: #3D3935;
+    color: #F2EFE9;
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+    .our-story-section {
+      padding: 48px 20px 80px;
+    }
+
+    .our-story-chapter {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 36px 0;
+    }
+
+    .chapter-number {
+      padding-top: 0;
+    }
+
+    .our-story-closing {
+      padding-top: 64px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Our Story",
+  "tag": "section",
+  "class": "section-our-story",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Our Story"
+    }
+  ]
+}
+{% endschema %}

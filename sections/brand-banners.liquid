@@ -1,0 +1,469 @@
+{% doc %}
+  ON REPEAT — Brand Banners Section
+  Full-screen auto-sliding banners with brand copy overlaid on images.
+  Each slide: large headline (Pinyon Script) + supporting line (Red Hat Text).
+{% enddoc %}
+
+{% liquid
+  assign slides = section.blocks | where: 'type', 'slide'
+  assign slide_count = slides | size
+%}
+
+<section
+  class="brand-banners-section"
+  style="
+    --banner-height: {{ section.settings.height }}vh;
+    --banner-interval: {{ section.settings.interval }}000ms;
+    --banner-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    padding-block-start: {{ section.settings.padding_top }}px;
+    padding-block-end: {{ section.settings.padding_bottom }}px;
+  "
+  data-section-id="{{ section.id }}"
+>
+  <div class="brand-banners-track" data-banners-track>
+    {% for block in slides %}
+      <div
+        class="brand-banner-slide{% if forloop.first %} is-active{% endif %}"
+        data-banner-slide
+        {{ block.shopify_attributes }}
+      >
+        {% if block.settings.image != blank %}
+          <div class="brand-banner-bg">
+            {{ block.settings.image
+              | image_url: width: 2400
+              | image_tag:
+                loading: forloop.first | if: 'eager', 'lazy',
+                class: 'brand-banner-img',
+                widths: '750, 1100, 1500, 1800, 2200',
+                sizes: '100vw'
+            }}
+          </div>
+        {% else %}
+          <div class="brand-banner-bg brand-banner-bg--placeholder"></div>
+        {% endif %}
+
+        <div class="brand-banner-overlay"></div>
+
+        <div class="brand-banner-content" data-alignment="{{ block.settings.text_alignment }}">
+          {% if block.settings.eyebrow != blank %}
+            <span class="brand-banner-eyebrow">{{ block.settings.eyebrow }}</span>
+          {% endif %}
+
+          {% if block.settings.headline != blank %}
+            <h2 class="brand-banner-headline">{{ block.settings.headline }}</h2>
+          {% endif %}
+
+          {% if block.settings.subline != blank %}
+            <p class="brand-banner-subline">{{ block.settings.subline }}</p>
+          {% endif %}
+
+          {% if block.settings.cta_label != blank and block.settings.cta_link != blank %}
+            <a href="{{ block.settings.cta_link }}" class="brand-banner-cta">
+              {{ block.settings.cta_label }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if slide_count > 1 and section.settings.show_dots %}
+    <div class="brand-banners-dots" aria-hidden="true">
+      {% for block in slides %}
+        <button
+          class="brand-banners-dot{% if forloop.first %} is-active{% endif %}"
+          data-banner-dot="{{ forloop.index0 }}"
+          aria-label="Go to slide {{ forloop.index }}"
+        ></button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .brand-banners-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .brand-banners-track {
+    position: relative;
+    width: 100%;
+    height: var(--banner-height, 90vh);
+  }
+
+  /* Slide */
+  .brand-banner-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+  }
+
+  .brand-banner-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  /* Background Image */
+  .brand-banner-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .brand-banner-bg--placeholder {
+    background-color: #1C1C1C;
+  }
+
+  .brand-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Overlay */
+  .brand-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--banner-overlay, 0.25));
+    z-index: 1;
+  }
+
+  /* Content */
+  .brand-banner-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 6vw;
+    gap: 10px;
+  }
+
+  .brand-banner-content[data-alignment="center"] {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .brand-banner-content[data-alignment="right"] {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  /* Eyebrow */
+  .brand-banner-eyebrow {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 4px;
+  }
+
+  /* Headline */
+  .brand-banner-headline {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    max-width: 22ch;
+  }
+
+  /* Subline */
+  .brand-banner-subline {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    max-width: 45ch;
+    letter-spacing: 0.03em;
+  }
+
+  /* CTA */
+  .brand-banner-cta {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 10px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    color: #ffffff;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    border-radius: 0;
+  }
+
+  .brand-banner-cta:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  /* Dots */
+  .brand-banners-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .brand-banners-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .brand-banners-dot.is-active {
+    background: #ffffff;
+    transform: scale(1.3);
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-banner-content {
+      padding: 36px 24px;
+      gap: 8px;
+    }
+
+    .brand-banner-headline {
+      font-size: clamp(1.3rem, 7vw, 2rem);
+    }
+
+    .brand-banner-subline {
+      font-size: 0.8rem;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class BrandBanners extends HTMLElement {
+    connectedCallback() {
+      this.slides = this.querySelectorAll('[data-banner-slide]');
+      this.dots = this.querySelectorAll('[data-banner-dot]');
+      this.current = 0;
+      this.total = this.slides.length;
+      this.interval = parseInt(this.style.getPropertyValue('--banner-interval')) || 5000;
+
+      if (this.total <= 1) return;
+
+      this.dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => this.goTo(i));
+      });
+
+      this._timer = setInterval(() => this.next(), this.interval);
+    }
+
+    goTo(index) {
+      this.slides[this.current].classList.remove('is-active');
+      if (this.dots[this.current]) this.dots[this.current].classList.remove('is-active');
+      this.current = (index + this.total) % this.total;
+      this.slides[this.current].classList.add('is-active');
+      if (this.dots[this.current]) this.dots[this.current].classList.add('is-active');
+    }
+
+    next() {
+      this.goTo(this.current + 1);
+    }
+
+    disconnectedCallback() {
+      clearInterval(this._timer);
+    }
+  }
+
+  if (!customElements.get('brand-banners')) {
+    customElements.define('brand-banners', BrandBanners);
+  }
+
+  // Upgrade section element
+  document.querySelectorAll('.brand-banners-section').forEach(el => {
+    const track = el.querySelector('[data-banners-track]');
+    if (!track) return;
+    // Wrap to enable custom element logic via JS class
+    const slides = el.querySelectorAll('[data-banner-slide]');
+    const dots = el.querySelectorAll('[data-banner-dot]');
+    let current = 0;
+    const total = slides.length;
+    const interval = parseInt(el.style.getPropertyValue('--banner-interval')) || 5000;
+
+    if (total <= 1) return;
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+
+    function goTo(index) {
+      slides[current].classList.remove('is-active');
+      if (dots[current]) dots[current].classList.remove('is-active');
+      current = (index + total) % total;
+      slides[current].classList.add('is-active');
+      if (dots[current]) dots[current].classList.add('is-active');
+    }
+
+    setInterval(() => goTo(current + 1), interval);
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brand Banners",
+  "tag": "section",
+  "class": "section-brand-banners",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow Label",
+          "placeholder": "e.g. ON REPEAT"
+        },
+        {
+          "type": "textarea",
+          "id": "headline",
+          "label": "Headline",
+          "placeholder": "THE SHIRT YOU'LL WEAR ON REPEAT."
+        },
+        {
+          "type": "text",
+          "id": "subline",
+          "label": "Supporting Line",
+          "placeholder": "100% pure European flax linen."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA Button Label",
+          "placeholder": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA Button Link"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Centre" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Slide Height (vh)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Auto-advance Interval (seconds)",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image Overlay Opacity",
+      "min": 0,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Navigation Dots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Banners",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
+            "subline": "100% pure European flax linen."
+          }
+        }
+      },
+      "block_order": ["slide_1"]
+    }
+  ]
+}
+{% endschema %}

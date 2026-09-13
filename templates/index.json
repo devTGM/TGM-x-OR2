@@ -349,11 +349,11 @@
     "brand_story_mK7vPq": {
       "type": "brand-story",
       "settings": {
-        "overline": "MINDFULLY CRAFTED",
-        "heading": "Breathable Linen. Designed for Warm Days.",
-        "story_text": "<p>At ON REPEAT, we believe true luxury lies in simplicity and tactile comfort. Crafted from 100% pure European flax, our linen garments are pre-washed for effortless drape, natural breathability, and enduring softness. Mindfully designed to be worn on repeat.</p>",
-        "button_label": "Explore Collection",
-        "button_link": "shopify://collections/all",
+        "overline": "OUR STORY",
+        "heading": "Clothes You Actually Want to Wear",
+        "story_text": "<p>We started with linen because we feel it is one of the most underrated everyday fabrics. 100% pure European flax in 60 Lea — garment washed, breathable, and made to be worn on repeat. Not just for summer. For every day.</p>",
+        "button_label": "Read Our Story",
+        "button_link": "/pages/our-story",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.background }}",
         "text_color": "{{ settings.color_palette.foreground }}",
@@ -1700,10 +1700,103 @@
         "padding-block-start": 16,
         "padding-block-end": 0
       }
+    },
+    "brand_banners_OR8b2N": {
+      "type": "brand-banners",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
+            "subline": "100% pure European flax linen.",
+            "cta_label": "Shop Now",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "headline": "LINEN. NOT JUST FOR SUMMER.",
+            "subline": "Made for everyday. Made for every season.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "headline": "60 LEA. PURE EUROPEAN FLAX.",
+            "subline": "Garment washed for a softer first wear.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "headline": "FROM COFFEE TO DINNER.",
+            "subline": "One shirt. Your whole day.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
+            "subline": "It needs better essentials.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_6": {
+          "type": "slide",
+          "settings": {
+            "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
+            "subline": "That's the point.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_7": {
+          "type": "slide",
+          "settings": {
+            "headline": "LET LINEN WRINKLE.",
+            "subline": "It's part of the character.",
+            "text_alignment": "left"
+          }
+        },
+        "slide_8": {
+          "type": "slide",
+          "settings": {
+            "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
+            "subline": "ON REPEAT.",
+            "cta_label": "Explore Collection",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5",
+        "slide_6",
+        "slide_7",
+        "slide_8"
+      ],
+      "name": "Brand Banners",
+      "settings": {
+        "height": 85,
+        "interval": 5,
+        "overlay_opacity": 30,
+        "show_dots": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
+    "brand_banners_OR8b2N",
     "product_list_fa6P9H",
     "divider_eWmecW",
     "brand_story_mK7vPq",
