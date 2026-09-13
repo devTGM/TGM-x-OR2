@@ -225,7 +225,6 @@
         "slide_dGQXK4",
         "slide_JM4y8e"
       ],
-      "disabled": true,
       "name": "t:names.slideshow_full_frame",
       "settings": {
         "display_mode": "full_frame",
@@ -360,6 +359,7 @@
       "blocks": {
         "slide_1": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Banner1.webp",
             "eyebrow": "",
@@ -458,6 +458,7 @@
         "slide_7",
         "slide_8"
       ],
+      "disabled": true,
       "name": "Brand Banners",
       "settings": {
         "height": 85,
