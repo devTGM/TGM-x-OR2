@@ -456,6 +456,7 @@
         "slide_7",
         "slide_8"
       ],
+      "disabled": true,
       "name": "Brand Banners",
       "settings": {
         "height": 85,
