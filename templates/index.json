@@ -225,6 +225,7 @@
         "slide_dGQXK4",
         "slide_JM4y8e"
       ],
+      "disabled": true,
       "name": "t:names.slideshow_full_frame",
       "settings": {
         "display_mode": "full_frame",
@@ -360,6 +361,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Banner1.webp",
             "eyebrow": "",
             "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
             "subline": "100% pure European flax linen.",
@@ -456,7 +458,6 @@
         "slide_7",
         "slide_8"
       ],
-      "disabled": true,
       "name": "Brand Banners",
       "settings": {
         "height": 85,
