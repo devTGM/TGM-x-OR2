@@ -238,8 +238,8 @@
         "background_color": "",
         "icons_style": "arrows_large",
         "icons_shape": "none",
-        "slideshow_controls_style": "dots",
-        "autoplay": false,
+        "slideshow_controls_style": "none",
+        "autoplay": true,
         "autoplay_speed": 4,
         "padding-block-start": 0,
         "padding-block-end": 0
