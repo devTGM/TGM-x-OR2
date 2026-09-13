@@ -31,6 +31,20 @@
     background-color: #F2EFE9 !important;
   }
 
+  /* Remove gap between header and first section */
+  #MainContent > .shopify-section:first-child,
+  main > .shopify-section:first-child,
+  .main-content > .shopify-section:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #MainContent > .shopify-section:first-child > *:first-child,
+  main > .shopify-section:first-child > *:first-child {
+    margin-top: 0 !important;
+    padding-block-start: 0 !important;
+  }
+
   /* ------------------------------------------------------------------
      2. TYPOGRAPHY — BODY & PARAGRAPH
      ------------------------------------------------------------------ */
