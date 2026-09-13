@@ -10,7 +10,6 @@
 {
   "current": {
     "logo": "shopify://shop_images/on-repeat-logo-black-2000px.png",
-    "logo_inverse": "shopify://shop_images/OnRepeat-White.png",
     "logo_height": 21,
     "logo_height_mobile": 13,
     "page_text_color": "#FFFFFF",
