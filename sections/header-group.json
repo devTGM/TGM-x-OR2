@@ -73,7 +73,7 @@
             "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,
             "navigation_bar": false,
-            "background_color_navigation_bar": "{{ settings.color_palette.background }}",
+            "background_color_navigation_bar": "{{ settings.color_palette.foreground }}",
             "text_color_navigation_bar": "",
             "drawer_accordion": false,
             "drawer_accordion_expand_first": false,
