@@ -9,6 +9,242 @@
  */
 {
   "sections": {
+    "slideshow_FzeLNT": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_dGQXK4": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner1.webp",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_nDqEKG": {
+              "type": "text",
+              "name": "t:names.heading",
+              "disabled": true,
+              "settings": {
+                "text": "<h3>New arrivals</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_T8Hxt6": {
+              "type": "text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_kYQaEB": {
+              "type": "button",
+              "disabled": true,
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "corner_radius": 0,
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_nDqEKG",
+            "text_T8Hxt6",
+            "button_kYQaEB"
+          ]
+        },
+        "slide_JM4y8e": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner2.webp",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 48,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "text_TKgcBV": {
+              "type": "text",
+              "name": "t:names.heading",
+              "disabled": true,
+              "settings": {
+                "text": "<h2>Bestsellers</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_YkANbG": {
+              "type": "text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 20,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_tJjWQM": {
+              "type": "button",
+              "disabled": true,
+              "settings": {
+                "label": "Shop now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "corner_radius": 0,
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_TKgcBV",
+            "text_YkANbG",
+            "button_tJjWQM"
+          ]
+        }
+      },
+      "block_order": [
+        "slide_dGQXK4",
+        "slide_JM4y8e"
+      ],
+      "name": "t:names.slideshow_full_frame",
+      "settings": {
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
+        "slide_height": "large",
+        "mobile_slide_ratio": "2/1",
+        "content_position": "on-media",
+        "background_color": "",
+        "icons_style": "arrows_large",
+        "icons_shape": "none",
+        "slideshow_controls_style": "dots",
+        "autoplay": false,
+        "autoplay_speed": 4,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -65,6 +301,7 @@
         "text_YLPk4p",
         "button_H9gpTf"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_layout": "slideshow",
@@ -115,6 +352,118 @@
         "reflection_opacity": 75,
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "brand_banners_OR8b2N": {
+      "type": "brand-banners",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
+            "subline": "100% pure European flax linen.",
+            "cta_label": "Shop Now",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "LINEN. NOT JUST FOR SUMMER.",
+            "subline": "Made for everyday. Made for every season.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "60 LEA. PURE EUROPEAN FLAX.",
+            "subline": "Garment washed for a softer first wear.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "FROM COFFEE TO DINNER.",
+            "subline": "One shirt. Your whole day.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
+            "subline": "It needs better essentials.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_6": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
+            "subline": "That's the point.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_7": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "LET LINEN WRINKLE.",
+            "subline": "It's part of the character.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_8": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
+            "subline": "ON REPEAT.",
+            "cta_label": "Explore Collection",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5",
+        "slide_6",
+        "slide_7",
+        "slide_8"
+      ],
+      "name": "Brand Banners",
+      "settings": {
+        "height": 85,
+        "interval": 5,
+        "overlay_opacity": 30,
+        "show_dots": true,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "product_list_fa6P9H": {
@@ -1700,101 +2049,10 @@
         "padding-block-start": 16,
         "padding-block-end": 0
       }
-    },
-    "brand_banners_OR8b2N": {
-      "type": "brand-banners",
-      "blocks": {
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
-            "subline": "100% pure European flax linen.",
-            "cta_label": "Shop Now",
-            "cta_link": "/collections/all",
-            "text_alignment": "left"
-          }
-        },
-        "slide_2": {
-          "type": "slide",
-          "settings": {
-            "headline": "LINEN. NOT JUST FOR SUMMER.",
-            "subline": "Made for everyday. Made for every season.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_3": {
-          "type": "slide",
-          "settings": {
-            "headline": "60 LEA. PURE EUROPEAN FLAX.",
-            "subline": "Garment washed for a softer first wear.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_4": {
-          "type": "slide",
-          "settings": {
-            "headline": "FROM COFFEE TO DINNER.",
-            "subline": "One shirt. Your whole day.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_5": {
-          "type": "slide",
-          "settings": {
-            "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
-            "subline": "It needs better essentials.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_6": {
-          "type": "slide",
-          "settings": {
-            "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
-            "subline": "That's the point.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_7": {
-          "type": "slide",
-          "settings": {
-            "headline": "LET LINEN WRINKLE.",
-            "subline": "It's part of the character.",
-            "text_alignment": "left"
-          }
-        },
-        "slide_8": {
-          "type": "slide",
-          "settings": {
-            "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
-            "subline": "ON REPEAT.",
-            "cta_label": "Explore Collection",
-            "cta_link": "/collections/all",
-            "text_alignment": "left"
-          }
-        }
-      },
-      "block_order": [
-        "slide_1",
-        "slide_2",
-        "slide_3",
-        "slide_4",
-        "slide_5",
-        "slide_6",
-        "slide_7",
-        "slide_8"
-      ],
-      "name": "Brand Banners",
-      "settings": {
-        "height": 85,
-        "interval": 5,
-        "overlay_opacity": 30,
-        "show_dots": true,
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
     }
   },
   "order": [
+    "slideshow_FzeLNT",
     "hero_jVaWmY",
     "brand_banners_OR8b2N",
     "product_list_fa6P9H",
