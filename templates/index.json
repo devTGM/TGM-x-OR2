@@ -122,7 +122,6 @@
       "blocks": {
         "slide_1": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Banner1.webp",
             "eyebrow": "",
@@ -135,6 +134,7 @@
         },
         "slide_2": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "LINEN. NOT JUST FOR SUMMER.",
@@ -146,6 +146,7 @@
         },
         "slide_3": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "60 LEA. PURE EUROPEAN FLAX.",
@@ -157,6 +158,7 @@
         },
         "slide_4": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "FROM COFFEE TO DINNER.",
@@ -168,6 +170,7 @@
         },
         "slide_5": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
@@ -179,6 +182,7 @@
         },
         "slide_6": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
@@ -190,6 +194,7 @@
         },
         "slide_7": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "LET LINEN WRINKLE.",
@@ -201,6 +206,7 @@
         },
         "slide_8": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "eyebrow": "",
             "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
