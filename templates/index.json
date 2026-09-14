@@ -1048,6 +1048,126 @@
         "padding-block-end": 0
       }
     },
+    "brand_banners_P8YBPa": {
+      "type": "brand-banners",
+      "blocks": {
+        "slide_KcFnBi": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/the_modern.webp",
+            "eyebrow": "",
+            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
+            "subline": "100% pure European flax linen.",
+            "cta_label": "Shop Now",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        },
+        "slide_eDDnQq": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "LINEN. NOT JUST FOR SUMMER.",
+            "subline": "Made for everyday. Made for every season.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_UDJMz8": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "60 LEA. PURE EUROPEAN FLAX.",
+            "subline": "Garment washed for a softer first wear.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_6LMYMc": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "FROM COFFEE TO DINNER.",
+            "subline": "One shirt. Your whole day.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_YH7Ekq": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
+            "subline": "It needs better essentials.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_UCnTMJ": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
+            "subline": "That's the point.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_V4r3jF": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "LET LINEN WRINKLE.",
+            "subline": "It's part of the character.",
+            "cta_label": "",
+            "cta_link": "",
+            "text_alignment": "left"
+          }
+        },
+        "slide_XFzK6P": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "eyebrow": "",
+            "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
+            "subline": "ON REPEAT.",
+            "cta_label": "Explore Collection",
+            "cta_link": "/collections/all",
+            "text_alignment": "left"
+          }
+        }
+      },
+      "block_order": [
+        "slide_KcFnBi",
+        "slide_eDDnQq",
+        "slide_UDJMz8",
+        "slide_6LMYMc",
+        "slide_YH7Ekq",
+        "slide_UCnTMJ",
+        "slide_V4r3jF",
+        "slide_XFzK6P"
+      ],
+      "name": "Brand Banners",
+      "settings": {
+        "height": 50,
+        "interval": 5,
+        "overlay_opacity": 10,
+        "show_dots": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "hero_cmya3X": {
       "type": "hero",
       "blocks": {
@@ -1104,6 +1224,7 @@
         "text_zReeXi",
         "button_nzgQY6"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_layout": "slideshow",
@@ -2162,6 +2283,7 @@
     "tabbed_collections_dWqWQG",
     "divider_zTrHC9",
     "product_list_BcEdnq",
+    "brand_banners_P8YBPa",
     "hero_cmya3X",
     "product_list_gRXzLJ",
     "shoppable_video_carousel_x9K2pL",
