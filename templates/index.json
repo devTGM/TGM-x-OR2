@@ -1054,11 +1054,11 @@
         "slide_KcFnBi": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/the_modern.webp",
+            "image": "shopify://shop_images/Banner1.webp",
             "eyebrow": "",
-            "headline": "THE SHIRT YOU'LL WEAR ON REPEAT.",
-            "subline": "100% pure European flax linen.",
-            "cta_label": "Shop Now",
+            "headline": "",
+            "subline": "",
+            "cta_label": "",
             "cta_link": "/collections/all",
             "text_alignment": "left"
           }
@@ -1160,7 +1160,7 @@
       ],
       "name": "Brand Banners",
       "settings": {
-        "height": 50,
+        "height": 75,
         "interval": 5,
         "overlay_opacity": 10,
         "show_dots": true,
