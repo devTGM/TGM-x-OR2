@@ -1,0 +1,828 @@
+{% comment %}
+  Section: About Us Story
+  Brand: ON REPEAT
+{% endcomment %}
+<style>
+  .on-repeat-about {
+    --color-bg: {{ section.settings.bg_color }};
+    --color-text: {{ section.settings.text_color }};
+    --color-accent: {{ section.settings.accent_color }};
+    --color-muted: #8F8171;
+    --color-charcoal: #1C1C1C;
+    --color-cream: #F4F0EB;
+    --color-warm-white: #FAF8F5;
+
+    --font-heading: var(--font-heading-custom--family, 'Cormorant Garamond', Georgia, serif);
+    --font-body: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  .on-repeat-about * {
+    box-sizing: border-box;
+  }
+
+  /* Fade-in animation */
+  .ora-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1),
+                transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .ora-fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .ora-delay-1 { transition-delay: 0.1s; }
+  .ora-delay-2 { transition-delay: 0.2s; }
+  .ora-delay-3 { transition-delay: 0.3s; }
+
+  /* Typography */
+  .ora-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  
+  .ora-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .ora-heading em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .ora-body {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: #5A544E;
+    margin-bottom: 2rem;
+  }
+
+  .ora-dark-bg .ora-body {
+    color: rgba(245,240,232,0.7);
+  }
+
+  .ora-divider {
+    width: 3rem;
+    height: 1px;
+    background-color: var(--color-accent);
+    margin: 2rem 0;
+  }
+
+  /* 1. HERO */
+  .ora-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .ora-hero__text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 10%;
+  }
+
+  .ora-hero__overline {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+  }
+
+  .ora-hero__sub {
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-accent);
+  }
+
+  .ora-hero__image-col {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 50vh;
+  }
+
+  .ora-hero__image-col img, .ora-hero__image-col svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .ora-hero__badge {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(28, 28, 28, 0.85);
+    color: var(--color-cream);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+  }
+
+  .ora-scroll-cta {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .ora-scroll-cta::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  /* Split Chapters Layout */
+  .ora-split {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    min-height: 80vh;
+  }
+  .ora-split--reversed {
+    grid-template-columns: 45% 55%;
+  }
+  .ora-split__image {
+    position: relative;
+  }
+  .ora-split__image img, .ora-split__image svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .ora-split__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 12%;
+    position: relative;
+  }
+  
+  .ora-split__number {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    line-height: 1;
+    color: rgba(0,0,0,0.06);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .ora-dark-bg .ora-split__number {
+    color: rgba(255,255,255,0.05);
+  }
+
+  .ora-split__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ora-caption {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--color-muted);
+    margin-top: 1.5rem;
+  }
+  
+  .ora-dark-bg .ora-caption {
+    color: rgba(245,240,232,0.5);
+  }
+
+  .ora-dark-bg {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream);
+  }
+
+  /* 3. MANIFESTO */
+  .ora-manifesto {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream);
+    padding: 8rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .ora-manifesto__quote {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.2;
+    max-width: 900px;
+    margin: 0 auto 2.5rem auto;
+  }
+  .ora-manifesto__attr {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* 5. EDITION */
+  .ora-edition {
+    background-color: var(--color-cream);
+    padding: 8rem 5%;
+  }
+  .ora-edition__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 4rem;
+    align-items: center;
+  }
+  .ora-edition__num-col {
+    text-align: center;
+  }
+  .ora-edition__huge-num {
+    font-family: var(--font-heading);
+    font-size: clamp(8rem, 15vw, 14rem);
+    line-height: 0.8;
+    color: var(--color-charcoal);
+    font-weight: 300;
+  }
+  .ora-edition__suffix {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    color: var(--color-accent);
+  }
+  .ora-edition__list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0 0;
+  }
+  .ora-edition__list li {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: flex-start;
+  }
+  .ora-edition__list li::before {
+    content: '—';
+    color: var(--color-accent);
+    margin-right: 0.8rem;
+  }
+
+  /* 7. CLOSING */
+  .ora-closing {
+    background-color: var(--color-bg);
+    padding: 10rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ora-closing__text {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-style: italic;
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.3;
+  }
+  .ora-btn {
+    display: inline-block;
+    background-color: var(--color-charcoal);
+    color: var(--color-cream);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    padding: 1.2rem 2.5rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .ora-btn:hover {
+    background-color: var(--color-accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .ora-hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .ora-hero__image-col {
+      order: -1;
+      height: 70vw;
+      min-height: auto;
+    }
+    .ora-hero__text-col {
+      padding: 3rem 1.5rem;
+    }
+    .ora-split {
+      grid-template-columns: 1fr;
+    }
+    .ora-split--reversed {
+      grid-template-columns: 1fr;
+    }
+    .ora-split__image {
+      height: 70vw;
+    }
+    .ora-split__text {
+      padding: 3rem 1.5rem;
+    }
+    .ora-manifesto {
+      padding: 5rem 1.5rem;
+    }
+    .ora-edition {
+      padding: 4rem 1.5rem;
+    }
+    .ora-edition__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .ora-closing {
+      padding: 6rem 1.5rem;
+    }
+  }
+</style>
+
+<div class="on-repeat-about">
+
+  {% comment %} 1. HERO {% endcomment %}
+  <div class="ora-hero">
+    <div class="ora-hero__text-col">
+      <div class="ora-fade-in">
+        <div class="ora-hero__overline">{{ section.settings.hero_overline }}</div>
+        <h1 class="ora-heading">
+          {{ section.settings.hero_heading_line1 }}<br>
+          <em>{{ section.settings.hero_heading_line2 }}</em>
+        </h1>
+        <div class="ora-hero__sub">{{ section.settings.hero_sub }}</div>
+      </div>
+      <div class="ora-body ora-fade-in ora-delay-1">
+        {{ section.settings.hero_body }}
+      </div>
+      <div class="ora-divider ora-fade-in ora-delay-2"></div>
+      <div class="ora-scroll-cta ora-fade-in ora-delay-3">Scroll to explore</div>
+    </div>
+    <div class="ora-hero__image-col ora-fade-in">
+      {%- if section.settings.hero_image != blank -%}
+        {%- assign hero_alt = section.settings.hero_image.alt | default: 'ON REPEAT Hero Image' -%}
+        {{ section.settings.hero_image | image_url: width: 1600 | image_tag: alt: hero_alt, loading: 'eager' }}
+      {%- else -%}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      {%- if section.settings.hero_badge != blank -%}
+        <div class="ora-hero__badge">{{ section.settings.hero_badge }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {% comment %} 2. CHAPTER 01 {% endcomment %}
+  <div class="ora-split">
+    <div class="ora-split__image ora-fade-in">
+      {%- if section.settings.ch1_image != blank -%}
+        {%- assign ch1_alt = section.settings.ch1_image.alt | default: 'Chapter 01 Image' -%}
+        {{ section.settings.ch1_image | image_url: width: 1200 | image_tag: alt: ch1_alt, loading: 'lazy' }}
+      {%- else -%}
+        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="ora-split__text">
+      <div class="ora-split__number">01</div>
+      <div class="ora-split__content">
+        <span class="ora-label ora-fade-in">{{ section.settings.ch1_label }}</span>
+        <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.ch1_heading }}</h2>
+        <div class="ora-body ora-fade-in ora-delay-2">
+          {{ section.settings.ch1_body }}
+        </div>
+        <div class="ora-divider ora-fade-in ora-delay-3"></div>
+        {%- if section.settings.ch1_caption != blank -%}
+          <div class="ora-caption ora-fade-in ora-delay-3">{{ section.settings.ch1_caption }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {% comment %} 3. MANIFESTO {% endcomment %}
+  <div class="ora-manifesto">
+    <div class="ora-manifesto__quote ora-fade-in">
+      "{{ section.settings.manifesto_quote }}"
+    </div>
+    <div class="ora-manifesto__attr ora-fade-in ora-delay-1">
+      {{ section.settings.manifesto_attribution }}
+    </div>
+  </div>
+
+  {% comment %} 4. CHAPTER 02 {% endcomment %}
+  <div class="ora-split ora-split--reversed">
+    <div class="ora-split__text">
+      <div class="ora-split__number">02</div>
+      <div class="ora-split__content">
+        <span class="ora-label ora-fade-in">{{ section.settings.ch2_label }}</span>
+        <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.ch2_heading }}</h2>
+        <div class="ora-body ora-fade-in ora-delay-2">
+          {{ section.settings.ch2_body }}
+        </div>
+        <div class="ora-divider ora-fade-in ora-delay-3"></div>
+        {%- if section.settings.ch2_caption != blank -%}
+          <div class="ora-caption ora-fade-in ora-delay-3">{{ section.settings.ch2_caption }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="ora-split__image ora-fade-in">
+      {%- if section.settings.ch2_image != blank -%}
+        {%- assign ch2_alt = section.settings.ch2_image.alt | default: 'Chapter 02 Image' -%}
+        {{ section.settings.ch2_image | image_url: width: 1200 | image_tag: alt: ch2_alt, loading: 'lazy' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {% comment %} 5. EDITION {% endcomment %}
+  <div class="ora-edition">
+    <div class="ora-edition__grid">
+      <div class="ora-edition__num-col ora-fade-in">
+        <div class="ora-edition__huge-num">{{ section.settings.edition_number }}</div>
+        <div class="ora-edition__suffix">{{ section.settings.edition_suffix }}</div>
+      </div>
+      <div class="ora-edition__text-col">
+        <span class="ora-label ora-fade-in">{{ section.settings.edition_label }}</span>
+        <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.edition_heading }}</h2>
+        <div class="ora-body ora-fade-in ora-delay-2">
+          {{ section.settings.edition_body }}
+        </div>
+        <ul class="ora-edition__list ora-fade-in ora-delay-3">
+          {%- if section.settings.edition_detail_1 != blank -%}<li>{{ section.settings.edition_detail_1 }}</li>{%- endif -%}
+          {%- if section.settings.edition_detail_2 != blank -%}<li>{{ section.settings.edition_detail_2 }}</li>{%- endif -%}
+          {%- if section.settings.edition_detail_3 != blank -%}<li>{{ section.settings.edition_detail_3 }}</li>{%- endif -%}
+          {%- if section.settings.edition_detail_4 != blank -%}<li>{{ section.settings.edition_detail_4 }}</li>{%- endif -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} 6. CHAPTER 03 {% endcomment %}
+  <div class="ora-split">
+    <div class="ora-split__image ora-fade-in">
+      {%- if section.settings.ch3_image != blank -%}
+        {%- assign ch3_alt = section.settings.ch3_image.alt | default: 'Chapter 03 Image' -%}
+        {{ section.settings.ch3_image | image_url: width: 1200 | image_tag: alt: ch3_alt, loading: 'lazy' }}
+      {%- else -%}
+        {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="ora-split__text ora-dark-bg">
+      <div class="ora-split__number">03</div>
+      <div class="ora-split__content">
+        <span class="ora-label ora-fade-in">{{ section.settings.ch3_label }}</span>
+        <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.ch3_heading }}</h2>
+        <div class="ora-body ora-fade-in ora-delay-2">
+          {{ section.settings.ch3_body }}
+        </div>
+        <div class="ora-divider ora-fade-in ora-delay-3"></div>
+        {%- if section.settings.ch3_caption != blank -%}
+          <div class="ora-caption ora-fade-in ora-delay-3">{{ section.settings.ch3_caption }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {% comment %} 7. CLOSING {% endcomment %}
+  <div class="ora-closing">
+    <div class="ora-closing__text ora-fade-in">
+      {{ section.settings.closing_text }}
+    </div>
+    <a href="{{ section.settings.closing_cta_link | default: '#' }}" class="ora-btn ora-fade-in ora-delay-1">
+      {{ section.settings.closing_cta_label }}
+    </a>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    });
+
+    document.querySelectorAll('.ora-fade-in').forEach((el) => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "About Us Story",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F0EB"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1C1C1C"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#C5A880"
+    },
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_overline",
+      "label": "Overline",
+      "default": "ON REPEAT"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading_line1",
+      "label": "Heading Line 1",
+      "default": "Everyday Linen."
+    },
+    {
+      "type": "text",
+      "id": "hero_heading_line2",
+      "label": "Heading Line 2 (Italic)",
+      "default": "Worn on Repeat."
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Sub-line",
+      "default": "100% European Flax Linen"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_body",
+      "label": "Body",
+      "default": "We started with a simple idea — the best clothes are the ones you keep reaching for. ON REPEAT was born from the conviction that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge",
+      "label": "Image Badge",
+      "default": "ON REPEAT  ·  Collection 01  ·  2025"
+    },
+    {
+      "type": "header",
+      "content": "Chapter 01 — The Fabric"
+    },
+    {
+      "type": "image_picker",
+      "id": "ch1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ch1_label",
+      "label": "Label",
+      "default": "The Fabric"
+    },
+    {
+      "type": "text",
+      "id": "ch1_heading",
+      "label": "Heading",
+      "default": "Where It All<br>Begins"
+    },
+    {
+      "type": "richtext",
+      "id": "ch1_body",
+      "label": "Body",
+      "default": "<p>Our shirts are made using 100% pure European flax linen in 60 Lea. We chose the fabric very carefully because comfort is one of the most important things for us. The fabric is soft, breathable and has the natural texture that makes linen what it is.</p>"
+    },
+    {
+      "type": "text",
+      "id": "ch1_caption",
+      "label": "Caption",
+      "default": "Garment washed for softness from the first wear — no breaking-in period required."
+    },
+    {
+      "type": "header",
+      "content": "Manifesto"
+    },
+    {
+      "type": "textarea",
+      "id": "manifesto_quote",
+      "label": "Quote",
+      "default": "We didn't set out to make a shirt. We set out to make the shirt — the one you reach for without thinking, the one that carries you from morning light into evening."
+    },
+    {
+      "type": "text",
+      "id": "manifesto_attribution",
+      "label": "Attribution",
+      "default": "— ON REPEAT, Founding Notes"
+    },
+    {
+      "type": "header",
+      "content": "Chapter 02 — The Wear"
+    },
+    {
+      "type": "image_picker",
+      "id": "ch2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ch2_label",
+      "label": "Label",
+      "default": "The Wear"
+    },
+    {
+      "type": "text",
+      "id": "ch2_heading",
+      "label": "Heading",
+      "default": "Worn In.<br>Never Out."
+    },
+    {
+      "type": "richtext",
+      "id": "ch2_body",
+      "label": "Body",
+      "default": "<p>There's something about linen that resists overthinking. It doesn't demand a certain occasion or a particular mood. Pair it with cream trousers and leather loafers on a slow afternoon, or let the sleeves fall loose at dinner. ON REPEAT was designed around the idea that great clothes should disappear into your life — not interrupt it.</p>"
+    },
+    {
+      "type": "text",
+      "id": "ch2_caption",
+      "label": "Caption",
+      "default": "Shot in natural sunlight. No artificial lighting was used — the fabric speaks for itself."
+    },
+    {
+      "type": "header",
+      "content": "Edition Feature"
+    },
+    {
+      "type": "text",
+      "id": "edition_number",
+      "label": "Large Number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "edition_suffix",
+      "label": "Number Suffix",
+      "default": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "edition_label",
+      "label": "Label",
+      "default": "The Beginning"
+    },
+    {
+      "type": "text",
+      "id": "edition_heading",
+      "label": "Heading",
+      "default": "A Number With Meaning"
+    },
+    {
+      "type": "textarea",
+      "id": "edition_body",
+      "label": "Body",
+      "default": "Collection 01 is our first release — not as a marketing device, but as a commitment: to quality that cannot be scaled, to craft that demands time, and to the people who understand the difference."
+    },
+    {
+      "type": "text",
+      "id": "edition_detail_1",
+      "label": "Detail 1",
+      "default": "100% European flax linen, 60 Lea"
+    },
+    {
+      "type": "text",
+      "id": "edition_detail_2",
+      "label": "Detail 2",
+      "default": "Garment washed for softness"
+    },
+    {
+      "type": "text",
+      "id": "edition_detail_3",
+      "label": "Detail 3",
+      "default": "3 styles, 11 colours"
+    },
+    {
+      "type": "text",
+      "id": "edition_detail_4",
+      "label": "Detail 4",
+      "default": "Designed for everyday wear"
+    },
+    {
+      "type": "header",
+      "content": "Chapter 03 — The Philosophy"
+    },
+    {
+      "type": "image_picker",
+      "id": "ch3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ch3_label",
+      "label": "Label",
+      "default": "The Standard"
+    },
+    {
+      "type": "text",
+      "id": "ch3_heading",
+      "label": "Heading",
+      "default": "Designed for<br>Nothing in<br>Particular."
+    },
+    {
+      "type": "richtext",
+      "id": "ch3_body",
+      "label": "Body",
+      "default": "<p>We don't want linen to look overly perfect. The natural texture and wrinkles are part of the fabric. We want our clothes to feel lived in. Wear them. Move in them. Travel in them. Wash them. Wear them again.</p>"
+    },
+    {
+      "type": "text",
+      "id": "ch3_caption",
+      "label": "Caption",
+      "default": "The more you wear them, the more they become yours."
+    },
+    {
+      "type": "header",
+      "content": "Closing"
+    },
+    {
+      "type": "textarea",
+      "id": "closing_text",
+      "label": "Closing Text",
+      "default": "Because the best clothes are not the ones hanging untouched in your wardrobe. They are the ones you keep reaching for."
+    },
+    {
+      "type": "text",
+      "id": "closing_cta_label",
+      "label": "CTA Label",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "closing_cta_link",
+      "label": "CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Story"
+    }
+  ]
+}
+{% endschema %}
