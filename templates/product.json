@@ -545,69 +545,8 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "linen_features": {
-      "type": "linen-feature-cards",
-      "blocks": {
-        "feature_1": {
-          "type": "feature_card",
-          "settings": {
-            "image": "shopify://shop_images/OR-3x.webp",
-            "default_asset": "linen-feature-softer.png",
-            "title": "3× Softer Than Ordinary Linen",
-            "show_overlay_title": true,
-            "link": ""
-          }
-        },
-        "feature_2": {
-          "type": "feature_card",
-          "settings": {
-            "image": "shopify://shop_images/OR-Featherlight.webp",
-            "default_asset": "linen-feature-breathable.png",
-            "title": "Featherlight & Naturally Breathable",
-            "show_overlay_title": true,
-            "link": ""
-          }
-        },
-        "feature_3": {
-          "type": "feature_card",
-          "settings": {
-            "image": "shopify://shop_images/OR-Designed.webp",
-            "default_asset": "linen-feature-effortless.png",
-            "title": "Designed For Effortless Wear",
-            "show_overlay_title": true,
-            "link": ""
-          }
-        },
-        "feature_4": {
-          "type": "feature_card",
-          "settings": {
-            "image": "shopify://shop_images/OR-Tailored.webp",
-            "default_asset": "linen-feature-tailored.png",
-            "title": "Tailored With Intention",
-            "show_overlay_title": true,
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "feature_1",
-        "feature_2",
-        "feature_3",
-        "feature_4"
-      ],
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "heading_alignment": "center",
-        "section_width": "page-width",
-        "background_color": "",
-        "card_radius": 8,
-        "padding_top": 40,
-        "padding_bottom": 48
+        "padding-block-start": 12,
+        "padding-block-end": 13
       }
     },
     "product_recommendations_qggXJq": {
