@@ -814,8 +814,8 @@
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
         "background_color": "#f2efe9",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "divider_zTrHC9": {
