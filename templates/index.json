@@ -1578,7 +1578,7 @@
               "type": "button",
               "settings": {
                 "label": "READ OUR STORY",
-                "link": "shopify://collections/all",
+                "link": "shopify://pages/contact",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
