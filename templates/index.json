@@ -291,7 +291,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "#FFFFFF",
+                "text_color": "#ffffff",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -751,6 +751,70 @@
         "alignment_horizontal": "center",
         "padding-block-start": 16,
         "padding-block-end": 0
+      }
+    },
+    "tabbed_collections_dWqWQG": {
+      "type": "tabbed-collections",
+      "blocks": {
+        "collection_tab_K3PE7Y": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "the-classic",
+            "tab_label": "THE CLASSIC",
+            "custom_link": "shopify://collections/the-classic"
+          }
+        },
+        "collection_tab_Gcb9Bq": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "the-modern-1",
+            "tab_label": "THE MODERN",
+            "custom_link": "shopify://collections/the-modern-1"
+          }
+        },
+        "collection_tab_fTtezd": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "the-modern",
+            "tab_label": "THE RESORT",
+            "custom_link": "shopify://collections/the-modern"
+          }
+        },
+        "collection_tab_FMX7Tm": {
+          "type": "collection_tab",
+          "disabled": true,
+          "settings": {
+            "collection": "",
+            "tab_label": "BESTSELLERS",
+            "custom_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_K3PE7Y",
+        "collection_tab_Gcb9Bq",
+        "collection_tab_fTtezd",
+        "collection_tab_FMX7Tm"
+      ],
+      "name": "Tabbed Featured Collections",
+      "settings": {
+        "heading": "Wardrobe Fundamentals Spotlight",
+        "subheading": "CURATED ESSENTIALS",
+        "description": "",
+        "heading_alignment": "left",
+        "max_products": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_badge": true,
+        "badge_color": "gold",
+        "show_quick_add": true,
+        "show_swatches": true,
+        "max_swatches": 4,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL",
+        "background_color": "#F2EFE9",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "product_list_BcEdnq": {
@@ -2088,6 +2152,7 @@
     "divider_eWmecW",
     "brand_story_mK7vPq",
     "divider_UqHH3w",
+    "tabbed_collections_dWqWQG",
     "product_list_BcEdnq",
     "hero_cmya3X",
     "product_list_gRXzLJ",
