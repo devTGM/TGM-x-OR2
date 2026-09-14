@@ -20,7 +20,7 @@
 -%}
 
 <section
-  class="brand-story-editorial section-wrapper"
+  class="brand-story-editorial section-wrapper {% if section.settings.section_width == 'full-width' %}brand-story--full-width{% endif %}"
   id="BrandStory-{{ section.id }}"
   style="
     --story-bg: {{ bg_color }};
@@ -32,7 +32,7 @@
     padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
   "
 >
-  <div class="page-width">
+  <div class="{% if section.settings.section_width == 'full-width' %}page-width--full{% else %}page-width{% endif %}">
     <div class="brand-story__grid layout--{{ layout_dir }}">
       <!-- Left Column: Overlapping Dual-Image Composition -->
       <div class="brand-story__media-col">
@@ -100,21 +100,24 @@
         {%- endif -%}
 
         <!-- 2. Dual-Tone Heading -->
-        {%- if section.settings.heading_main != blank or section.settings.heading_italic != blank -%}
+        {%- assign display_heading_main = section.settings.heading_main | default: section.settings.heading | default: 'A Story' -%}
+        {%- assign display_heading_italic = section.settings.heading_italic | default: 'Worth Wearing' -%}
+        {%- if display_heading_main != blank or display_heading_italic != blank -%}
           <h2 class="brand-story__heading">
-            {%- if section.settings.heading_main != blank -%}
-              <span class="brand-story__heading-main">{{ section.settings.heading_main | escape }}</span>
+            {%- if display_heading_main != blank -%}
+              <span class="brand-story__heading-main">{{ display_heading_main | escape }}</span>
             {%- endif -%}
-            {%- if section.settings.heading_italic != blank -%}
-              <span class="brand-story__heading-italic">{{ section.settings.heading_italic | escape }}</span>
+            {%- if display_heading_italic != blank -%}
+              <span class="brand-story__heading-italic">{{ display_heading_italic | escape }}</span>
             {%- endif -%}
           </h2>
         {%- endif -%}
 
         <!-- 3. Lead Paragraph -->
-        {%- if section.settings.lead_paragraph != blank -%}
+        {%- assign display_lead = section.settings.lead_paragraph | default: section.settings.story_text -%}
+        {%- if display_lead != blank -%}
           <div class="brand-story__lead">
-            {{ section.settings.lead_paragraph }}
+            {{ display_lead }}
           </div>
         {%- endif -%}
 
@@ -512,10 +515,22 @@
       "default": "Worth Wearing"
     },
     {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (Legacy Fallback)",
+      "info": "Used automatically if Main Heading Line is empty"
+    },
+    {
       "type": "richtext",
       "id": "lead_paragraph",
       "label": "Lead Paragraph",
       "default": "<p>ON REPEAT was born from a conviction — that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story Paragraph (Legacy Fallback)",
+      "info": "Used automatically if Lead Paragraph is empty"
     },
     {
       "type": "textarea",
@@ -574,6 +589,16 @@
       "default": "#C5A880"
     },
     {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "page-width", "label": "Page Width" },
+        { "value": "full-width", "label": "Full Width" }
+      ],
+      "default": "page-width"
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "label": "Padding Top",
@@ -597,6 +622,9 @@
   "presets": [
     {
       "name": "Editorial Brand Story"
+    },
+    {
+      "name": "Brand Story"
     }
   ]
 }
