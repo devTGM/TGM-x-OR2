@@ -32,11 +32,31 @@
   }
 
   /* Remove gap between header and first section */
+  #header-group,
+  .header-section,
+  #header-component,
+  .header,
+  .header__row {
+    margin-bottom: 0 !important;
+  }
+
+  #MainContent,
+  .content-for-layout {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
   #MainContent > .shopify-section:first-child,
   main > .shopify-section:first-child,
-  .main-content > .shopify-section:first-child {
+  .main-content > .shopify-section:first-child,
+  .hero-wrapper:first-child,
+  .hero-wrapper:first-child .hero,
+  .hero-wrapper:first-child .hero__container,
+  .brand-banners-section {
     margin-top: 0 !important;
     padding-top: 0 !important;
+    --section-top-offset: 0px !important;
+    --padding-block-start: 0px !important;
   }
 
   #MainContent > .shopify-section:first-child > *:first-child,
@@ -114,10 +134,17 @@
   /* ------------------------------------------------------------------
      4. HEADER — MINIMAL PARCHMENT BAR
      ------------------------------------------------------------------ */
+  .header-section,
+  #header-component,
   .header,
   .header-wrapper,
   .section-header {
-    background-color: #F2EFE9 !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+  }
+
+  .header__row {
+    background-color: #ffffff !important;
     border-bottom: 1px solid #E2DDD6 !important;
   }
 

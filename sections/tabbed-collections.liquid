@@ -1,0 +1,1119 @@
+{% doc %}
+  Tabbed Featured Collections Section
+  Allows adding 3-4 (or more) collections with interactive tabs.
+  Matches the quiet luxury design system: Cormorant Garamond headings,
+  Red Hat Text uppercase tabs, sharp 0px corners, sale badges,
+  quick "ADD TO BAG" hover bar, and fabric color swatches with "+X more" count.
+{% enddoc %}
+
+{%- liquid
+  assign bg_color = section.settings.background_color | default: '#F2EFE9'
+  assign text_align = section.settings.heading_alignment | default: 'left'
+  assign cols_desktop = section.settings.columns_desktop | default: 4
+  assign cols_mobile = section.settings.columns_mobile | default: 2
+  assign max_prods = section.settings.max_products | default: 8
+  assign show_badge = section.settings.show_badge
+  assign badge_style = section.settings.badge_color | default: 'gold'
+  assign show_quick_add = section.settings.show_quick_add
+  assign show_swatches = section.settings.show_swatches
+  assign max_swatches = section.settings.max_swatches | default: 4
+  assign show_view_all = section.settings.show_view_all
+-%}
+
+<div
+  class="tabbed-collections-section section-wrapper"
+  id="TabbedCollections-{{ section.id }}"
+  style="
+    background-color: {{ bg_color }};
+    padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+  "
+>
+  <div class="page-width">
+    <!-- Header: Overline + Title -->
+    <div class="tabbed-collections__header text-{{ text_align }}">
+      {%- if section.settings.subheading != blank -%}
+        <span class="tabbed-collections__overline">
+          {{- section.settings.subheading | escape -}}
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="tabbed-collections__title">
+          {{- section.settings.heading | escape -}}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="tabbed-collections__description rte">
+          {{- section.settings.description -}}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Tabs Navigation Bar -->
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="tabbed-collections__tabs-nav justify-{{ text_align }}"
+        role="tablist"
+        aria-label="{{ section.settings.heading | default: 'Collections' | escape }}"
+      >
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign coll = block.settings.collection
+            assign tab_name = block.settings.tab_label
+            if tab_name == blank and coll != blank
+              assign tab_name = coll.title
+            elsif tab_name == blank
+              assign tab_name = 'Collection ' | append: forloop.index
+            endif
+            assign is_active = false
+            if forloop.first
+              assign is_active = true
+            endif
+          -%}
+          <button
+            type="button"
+            role="tab"
+            class="tabbed-collections__tab-btn{% if is_active %} is-active{% endif %}"
+            id="Tab-{{ section.id }}-{{ block.id }}"
+            aria-controls="Panel-{{ section.id }}-{{ block.id }}"
+            aria-selected="{% if is_active %}true{% else %}false{% endif %}"
+            tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+            data-tab-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            {{- tab_name | upcase -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <!-- Tab Panels: 1 Panel per Collection Block -->
+      <div class="tabbed-collections__panels">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign coll = block.settings.collection
+            assign is_active = false
+            if forloop.first
+              assign is_active = true
+            endif
+          -%}
+          <div
+            id="Panel-{{ section.id }}-{{ block.id }}"
+            role="tabpanel"
+            aria-labelledby="Tab-{{ section.id }}-{{ block.id }}"
+            class="tabbed-collections__panel{% if is_active %} is-active{% endif %}"
+            {% unless is_active %}hidden{% endunless %}
+          >
+            <div
+              class="tabbed-collections__grid grid--cols-{{ cols_desktop }} grid--cols-mobile-{{ cols_mobile }}"
+            >
+              {%- if coll != blank and coll.products.size > 0 -%}
+                {%- for prod in coll.products limit: max_prods -%}
+                  {%- liquid
+                    assign on_sale = false
+                    if prod.compare_at_price > prod.price
+                      assign on_sale = true
+                      assign savings_pct = prod.compare_at_price | minus: prod.price | times: 100.0 | divided_by: prod.compare_at_price | round
+                    endif
+
+                    assign primary_image = prod.featured_media.preview_image | default: prod.featured_image
+                    assign secondary_image = prod.images[1]
+                    assign first_avail_variant = prod.selected_or_first_available_variant
+                    assign has_variants = false
+                    if prod.variants.size > 1
+                      assign has_variants = true
+                    endif
+                  -%}
+                  <article
+                    class="tabbed-product-card"
+                    data-product-id="{{ prod.id }}"
+                    data-product-handle="{{ prod.handle }}"
+                  >
+                    <!-- Media Image Area -->
+                    <div class="tabbed-product-card__media-wrapper">
+                      <a
+                        href="{{ prod.url }}"
+                        class="tabbed-product-card__media-link"
+                        aria-label="{{ prod.title | escape }}"
+                      >
+                        {%- if primary_image != blank -%}
+                          {{ primary_image
+                            | image_url: width: 800
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '360, 540, 720, 900',
+                              class: 'tabbed-product-card__image tabbed-product-card__image--primary',
+                              alt: prod.title | escape
+                          }}
+                          {%- if secondary_image != blank -%}
+                            {{ secondary_image
+                              | image_url: width: 800
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '360, 540, 720, 900',
+                                class: 'tabbed-product-card__image tabbed-product-card__image--secondary',
+                                alt: prod.title | escape
+                            }}
+                          {%- endif -%}
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag: 'tabbed-product-card__placeholder' }}
+                        {%- endif -%}
+                      </a>
+
+                      <!-- Discount / Sale Badge -->
+                      {%- if show_badge and on_sale -%}
+                        <div class="tabbed-product-card__badge badge--{{ badge_style }}">
+                          SAVE {{ savings_pct }}%
+                        </div>
+                      {%- endif -%}
+
+                      <!-- Quick Add "ADD TO BAG" Overlay Button -->
+                      {%- if show_quick_add -%}
+                        <div class="tabbed-product-card__quick-add">
+                          {%- if prod.available -%}
+                            {%- if has_variants -%}
+                              <!-- Has sizes/variants: show sizes or link to product -->
+                              <a
+                                href="{{ prod.url }}"
+                                class="tabbed-product-card__add-btn"
+                                aria-label="Select size for {{ prod.title | escape }}"
+                              >
+                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                                <span>SELECT SIZE</span>
+                              </a>
+                            {%- else -%}
+                              <!-- Single variant: instant 1-click AJAX add -->
+                              <button
+                                type="button"
+                                class="tabbed-product-card__add-btn js-quick-add"
+                                data-variant-id="{{ first_avail_variant.id }}"
+                                aria-label="Add {{ prod.title | escape }} to bag"
+                              >
+                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                                <span>ADD TO BAG</span>
+                              </button>
+                            {%- endif -%}
+                          {%- else -%}
+                            <button
+                              type="button"
+                              class="tabbed-product-card__add-btn is-disabled"
+                              disabled
+                            >
+                              <span>SOLD OUT</span>
+                            </button>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                    <!-- Details Area: Title + Price + Swatches -->
+                    <div class="tabbed-product-card__info">
+                      <div class="tabbed-product-card__title-price-row">
+                        <h3 class="tabbed-product-card__title">
+                          <a href="{{ prod.url }}">{{ prod.title }}</a>
+                        </h3>
+                        <div class="tabbed-product-card__price">
+                          <span class="tabbed-product-card__current-price">
+                            {{ prod.price | money }}
+                          </span>
+                          {%- if on_sale -%}
+                            <s class="tabbed-product-card__compare-price">
+                              {{ prod.compare_at_price | money }}
+                            </s>
+                          {%- endif -%}
+                        </div>
+                      </div>
+
+                      <!-- Color Swatches Row -->
+                      {%- if show_swatches -%}
+                        {%- liquid
+                          # Discover color options or sibling swatches
+                          assign color_list = ''
+                          assign color_images = ''
+                          
+                          # 1. Look for 'Color' or 'Colour' variant option
+                          for opt in prod.options_with_values
+                            assign opt_name_lower = opt.name | downcase
+                            if opt_name_lower == 'color' or opt_name_lower == 'colour' or opt_name_lower == 'shade'
+                              for val in opt.values
+                                assign color_list = color_list | append: val | append: '||'
+                              endfor
+                              break
+                            endif
+                          endfor
+
+                          # 2. If no option found, search collection siblings for matching shirt models
+                          if color_list == blank and coll.products.size > 1
+                            assign prod_title_prefix = prod.title | split: ' - ' | first | split: ' — ' | first | strip
+                            for sib in coll.products
+                              if sib.title contains prod_title_prefix
+                                assign sib_color = sib.title | split: ' - ' | last | split: ' — ' | last | strip
+                                if sib_color != prod.title and sib_color != blank
+                                  assign color_list = color_list | append: sib_color | append: '||'
+                                endif
+                              endif
+                            endfor
+                          endif
+
+                          assign all_colors = color_list | split: '||'
+                          assign total_colors = all_colors.size
+                        -%}
+
+                        {%- if total_colors > 1 -%}
+                          <div class="tabbed-product-card__swatches" role="list" aria-label="Available colors">
+                            {%- for c_name in all_colors limit: max_swatches -%}
+                              {%- liquid
+                                assign c_lower = c_name | downcase | strip
+                                assign swatch_color = '#DDD5C7'
+
+                                if c_lower contains 'white' or c_lower contains 'optic'
+                                  assign swatch_color = '#FFFFFF'
+                                elsif c_lower contains 'pink' or c_lower contains 'rose' or c_lower contains 'sunset'
+                                  assign swatch_color = '#BA9A91'
+                                elsif c_lower contains 'cacao' or c_lower contains 'brown' or c_lower contains 'espresso' or c_lower contains 'sepia'
+                                  assign swatch_color = '#4A3427'
+                                elsif c_lower contains 'cranberry' or c_lower contains 'red' or c_lower contains 'wine'
+                                  assign swatch_color = '#682720'
+                                elsif c_lower contains 'terracotta' or c_lower contains 'rust'
+                                  assign swatch_color = '#7F372E'
+                                elsif c_lower contains 'olive' or c_lower contains 'arugula'
+                                  assign swatch_color = '#474B32'
+                                elsif c_lower contains 'green' or c_lower contains 'mist' or c_lower contains 'sage'
+                                  assign swatch_color = '#9FB0A6'
+                                elsif c_lower contains 'casper' or c_lower contains 'sky' or c_lower contains 'light-blue'
+                                  assign swatch_color = '#A8C3D8'
+                                elsif c_lower contains 'blue' or c_lower contains 'aegean'
+                                  assign swatch_color = '#4A677E'
+                                elsif c_lower contains 'navy' or c_lower contains 'midnight' or c_lower contains 'breeze'
+                                  assign swatch_color = '#222D3E'
+                                elsif c_lower contains 'oat' or c_lower contains 'cream' or c_lower contains 'ecru'
+                                  assign swatch_color = '#DDD5C7'
+                                elsif c_lower contains 'dune' or c_lower contains 'sand' or c_lower contains 'beige'
+                                  assign swatch_color = '#C2B39F'
+                                elsif c_lower contains 'yellow' or c_lower contains 'solar' or c_lower contains 'gold'
+                                  assign swatch_color = '#DCA745'
+                                elsif c_lower contains 'black' or c_lower contains 'charcoal'
+                                  assign swatch_color = '#1C1C1C'
+                                elsif c_lower contains 'grey' or c_lower contains 'gray' or c_lower contains 'silver'
+                                  assign swatch_color = '#A2A09E'
+                                endif
+
+                                assign is_active_color = false
+                                if forloop.first
+                                  assign is_active_color = true
+                                endif
+                              -%}
+                              <span
+                                class="tabbed-product-card__swatch-dot{% if is_active_color %} is-active{% endif %}"
+                                style="background-color: {{ swatch_color }};"
+                                title="{{ c_name | escape }}"
+                                aria-label="{{ c_name | escape }}"
+                                role="listitem"
+                              ></span>
+                            {%- endfor -%}
+
+                            {%- if total_colors > max_swatches -%}
+                              {%- assign remaining = total_colors | minus: max_swatches -%}
+                              <span class="tabbed-product-card__more-swatches">
+                                +{{ remaining }} more
+                              </span>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </article>
+                {%- endfor -%}
+              {%- else -%}
+                <!-- Empty or placeholder products -->
+                {%- for i in (1..4) -%}
+                  <article class="tabbed-product-card">
+                    <div class="tabbed-product-card__media-wrapper">
+                      {{ 'product-' | append: i | placeholder_svg_tag: 'tabbed-product-card__placeholder' }}
+                    </div>
+                    <div class="tabbed-product-card__info">
+                      <div class="tabbed-product-card__title-price-row">
+                        <h3 class="tabbed-product-card__title">Essential Linen Shirt</h3>
+                        <div class="tabbed-product-card__price">
+                          <span class="tabbed-product-card__current-price">₹ 2,625</span>
+                          <s class="tabbed-product-card__compare-price">₹ 2,999</s>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+
+            <!-- Optional View All link at the bottom of panel -->
+            {%- if show_view_all and coll != blank -%}
+              <div class="tabbed-collections__footer text-center">
+                <a
+                  href="{{ block.settings.custom_link | default: coll.url }}"
+                  class="tabbed-collections__view-all-btn"
+                >
+                  {{ section.settings.view_all_label | default: 'VIEW ALL' }} {{ coll.title | upcase }} &rarr;
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  /* ------------------------------------------------------------------
+     TABBED FEATURED COLLECTIONS — QUIET LUXURY STYLING
+     ------------------------------------------------------------------ */
+  .tabbed-collections-section {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tabbed-collections-section .page-width {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-inline: max(20px, var(--page-margin, 24px));
+  }
+
+  /* Header */
+  .tabbed-collections__header {
+    margin-bottom: 2rem;
+  }
+  .tabbed-collections__header.text-left { text-align: left; }
+  .tabbed-collections__header.text-center { text-align: center; }
+
+  .tabbed-collections__overline {
+    display: block;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8C867F;
+    margin-bottom: 0.5rem;
+  }
+
+  .tabbed-collections__title {
+    font-family: var(--font-editorial--family, 'Cormorant Garamond', Georgia, serif) !important;
+    font-size: clamp(2rem, 3.8vw, 2.75rem) !important;
+    font-weight: 300 !important;
+    font-style: italic !important;
+    color: #1C1C1C !important;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .tabbed-collections__description {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 13px;
+    color: #5C5751;
+    max-width: 60ch;
+    margin: 0.5rem 0 0 0;
+  }
+  .tabbed-collections__header.text-center .tabbed-collections__description {
+    margin-inline: auto;
+  }
+
+  /* Tabs Nav */
+  .tabbed-collections__tabs-nav {
+    display: flex;
+    align-items: center;
+    gap: 2.25rem;
+    border-bottom: 1px solid #E2DDD6;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabbed-collections__tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .tabbed-collections__tabs-nav.justify-left { justify-content: flex-start; }
+  .tabbed-collections__tabs-nav.justify-center { justify-content: center; }
+
+  .tabbed-collections__tab-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0 0 0.75rem 0;
+    margin: 0;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8C867F;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .tabbed-collections__tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+  }
+
+  .tabbed-collections__tab-btn:hover {
+    color: #1C1C1C;
+  }
+
+  .tabbed-collections__tab-btn.is-active {
+    color: #1C1C1C;
+    font-weight: 600;
+  }
+
+  .tabbed-collections__tab-btn.is-active::after {
+    background-color: #1C1C1C;
+  }
+
+  /* Grid Layout */
+  .tabbed-collections__grid {
+    display: grid;
+    gap: 1.5rem;
+    row-gap: 2.5rem;
+    width: 100%;
+  }
+
+  .tabbed-collections__grid.grid--cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tabbed-collections__grid.grid--cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .tabbed-collections__grid.grid--cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media screen and (max-width: 989px) {
+    .tabbed-collections__grid.grid--cols-4,
+    .tabbed-collections__grid.grid--cols-5 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tabbed-collections__grid.grid--cols-mobile-1 {
+      grid-template-columns: 1fr;
+    }
+    .tabbed-collections__grid.grid--cols-mobile-2,
+    .tabbed-collections__grid.grid--cols-4,
+    .tabbed-collections__grid.grid--cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      row-gap: 1.75rem;
+    }
+    .tabbed-collections__tabs-nav {
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .tabbed-collections__header {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  /* Product Card */
+  .tabbed-product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+  }
+
+  /* Media Wrapper */
+  .tabbed-product-card__media-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-color: #EAE6DF;
+    overflow: hidden;
+    border-radius: 0px;
+  }
+
+  .tabbed-product-card__media-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .tabbed-product-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tabbed-product-card__image--secondary {
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .tabbed-product-card:hover .tabbed-product-card__image--primary {
+    transform: scale(1.03);
+  }
+
+  .tabbed-product-card:hover .tabbed-product-card__image--secondary {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  .tabbed-product-card__placeholder {
+    width: 100%;
+    height: 100%;
+    fill: #CFC9BF;
+  }
+
+  /* Discount Badge (Top-Left) */
+  .tabbed-product-card__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 0px;
+    text-transform: uppercase;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .tabbed-product-card__badge.badge--gold {
+    background-color: #E5A83B;
+    color: #1C1C1C;
+  }
+
+  .tabbed-product-card__badge.badge--black {
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+  }
+
+  /* Quick Add "ADD TO BAG" Overlay Button */
+  .tabbed-product-card__quick-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    padding: 0;
+    transform: translateY(101%);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  }
+
+  .tabbed-product-card:hover .tabbed-product-card__quick-add {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .tabbed-product-card__quick-add {
+      transform: translateY(0);
+      opacity: 1;
+      bottom: 6px;
+      left: 6px;
+      right: 6px;
+    }
+  }
+
+  .tabbed-product-card__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background-color: #FFFFFF;
+    color: #1C1C1C;
+    border: none;
+    border-top: 1px solid #E2DDD6;
+    border-radius: 0px;
+    padding: 12px 16px;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .tabbed-product-card__add-btn:hover {
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+  }
+
+  .tabbed-product-card__add-btn.is-loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .tabbed-product-card__add-btn.is-success {
+    background-color: #2E5A36;
+    color: #FFFFFF;
+  }
+
+  .tabbed-product-card__add-btn.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Info Area */
+  .tabbed-product-card__info {
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tabbed-product-card__title-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tabbed-product-card__title {
+    margin: 0;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  .tabbed-product-card__title a {
+    color: #1C1C1C;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .tabbed-product-card__title a:hover {
+    opacity: 0.6;
+  }
+
+  .tabbed-product-card__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    white-space: nowrap;
+    line-height: 1.25;
+  }
+
+  .tabbed-product-card__current-price {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    color: #1C1C1C;
+  }
+
+  .tabbed-product-card__compare-price {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 11px;
+    color: #8C867F;
+    margin-top: 2px;
+  }
+
+  /* Swatches Row */
+  .tabbed-product-card__swatches {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+
+  .tabbed-product-card__swatch-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .tabbed-product-card__swatch-dot.is-active {
+    box-shadow: 0 0 0 1.5px #F2EFE9, 0 0 0 3px #1C1C1C;
+  }
+
+  .tabbed-product-card__swatch-dot:hover {
+    transform: scale(1.15);
+  }
+
+  .tabbed-product-card__more-swatches {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 10.5px;
+    color: #767069;
+    padding-left: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Footer View All */
+  .tabbed-collections__footer {
+    margin-top: 2.75rem;
+    text-align: center;
+  }
+
+  .tabbed-collections__view-all-btn {
+    display: inline-block;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #1C1C1C;
+    text-decoration: none;
+    border-bottom: 1px solid #1C1C1C;
+    padding-bottom: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .tabbed-collections__view-all-btn:hover {
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  (function () {
+    const section = document.getElementById('TabbedCollections-{{ section.id }}');
+    if (!section) return;
+
+    // 1. Tab Switching
+    const tabs = section.querySelectorAll('.tabbed-collections__tab-btn');
+    const panels = section.querySelectorAll('.tabbed-collections__panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const targetPanelId = tab.getAttribute('aria-controls');
+
+        tabs.forEach((t) => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+        });
+
+        panels.forEach((p) => {
+          p.classList.remove('is-active');
+          p.hidden = true;
+        });
+
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+
+        const activePanel = document.getElementById(targetPanelId);
+        if (activePanel) {
+          activePanel.classList.add('is-active');
+          activePanel.hidden = false;
+        }
+      });
+    });
+
+    // 2. Quick Add To Bag AJAX
+    const quickAddButtons = section.querySelectorAll('.js-quick-add');
+    quickAddButtons.forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const variantId = btn.dataset.variantId;
+        if (!variantId) return;
+
+        const originalText = btn.querySelector('span')?.textContent || 'ADD TO BAG';
+        const span = btn.querySelector('span');
+
+        btn.classList.add('is-loading');
+        if (span) span.textContent = 'ADDING...';
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              id: variantId,
+              quantity: 1,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Add to cart failed');
+
+          btn.classList.remove('is-loading');
+          btn.classList.add('is-success');
+          if (span) span.textContent = 'ADDED \u2713';
+
+          // Trigger Cart Drawer
+          setTimeout(() => {
+            if (window.Shopify?.actions?.openCart) {
+              window.Shopify.actions.openCart();
+            } else {
+              const drawer = document.querySelector('theme-drawer#cart-drawer');
+              if (drawer?.open) {
+                drawer.open();
+              } else if (drawer?.show) {
+                drawer.show();
+              } else {
+                window.location.href = '/cart';
+              }
+            }
+
+            // Revert button text after 2s
+            setTimeout(() => {
+              btn.classList.remove('is-success');
+              if (span) span.textContent = originalText;
+            }, 2000);
+          }, 350);
+        } catch (err) {
+          console.error('[Quick Add Error]', err);
+          btn.classList.remove('is-loading');
+          if (span) span.textContent = 'ERROR';
+          setTimeout(() => {
+            if (span) span.textContent = originalText;
+          }, 2000);
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Tabbed Collections",
+  "tag": "section",
+  "class": "tabbed-collections-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wardrobe Fundamentals Spotlight"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Overline Subheading",
+      "default": "CURATED ESSENTIALS"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Maximum products per collection",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show discount badge",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "badge_color",
+      "label": "Badge style",
+      "options": [
+        {
+          "value": "gold",
+          "label": "Gold / Mustard (like reference)"
+        },
+        {
+          "value": "black",
+          "label": "Quiet Luxury Black"
+        }
+      ],
+      "default": "gold"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show Quick 'ADD TO BAG' button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show color swatches",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_swatches",
+      "label": "Max visible swatches before '+X more'",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' link below products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label prefix",
+      "default": "VIEW ALL"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F2EFE9"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection Tab",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab Label",
+          "info": "Leave blank to use the collection's title"
+        },
+        {
+          "type": "url",
+          "id": "custom_link",
+          "label": "Custom 'View All' URL (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabbed Featured Collections",
+      "blocks": [
+        {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "THE MODERN"
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "THE RESORT"
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "THE CLASSIC"
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "BESTSELLERS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
