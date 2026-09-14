@@ -1,4 +1,4 @@
-{% doc %}
+{% comment %}
   Brand Story / Heritage Story Section — Quiet Luxury Edition
   Replicates the editorial high-fashion layout from the reference:
   - Asymmetric overlapping dual-image collage (model portrait + framed macro embroidery detail)
@@ -8,7 +8,7 @@
   - Highlight pull quote with vertical gold accent bar
   - Secondary philosophy narrative
   - Solid dark quiet luxury CTA button with hover arrow glide
-{% enddoc %}
+{% endcomment %}
 
 {%- liquid
   assign bg_color = section.settings.background_color | default: '#F4F0EB'
@@ -39,13 +39,14 @@
         <!-- Back Main Image (Editorial Portrait) -->
         <div class="brand-story__main-image-wrap">
           {%- if section.settings.main_image != blank -%}
+            {%- assign main_alt = section.settings.heading_main | default: 'Heritage Story' | escape -%}
             {{ section.settings.main_image
               | image_url: width: 1000
               | image_tag:
                 loading: 'lazy',
                 widths: '360, 540, 720, 900, 1000',
                 class: 'brand-story__img brand-story__img--main',
-                alt: section.settings.heading_main | default: 'Heritage Story' | escape
+                alt: main_alt
             }}
           {%- else -%}
             <img
@@ -62,13 +63,14 @@
         <!-- Front Overlapping Image (Macro Fabric Detail with Matting Frame) -->
         <div class="brand-story__detail-image-wrap">
           {%- if section.settings.detail_image != blank -%}
+            {%- assign detail_alt = section.settings.heading_italic | default: 'Detail Craftsmanship' | escape -%}
             {{ section.settings.detail_image
               | image_url: width: 800
               | image_tag:
                 loading: 'lazy',
                 widths: '300, 500, 700, 800',
                 class: 'brand-story__img brand-story__img--detail',
-                alt: section.settings.heading_italic | default: 'Detail Craftsmanship' | escape
+                alt: detail_alt
             }}
           {%- else -%}
             <img
