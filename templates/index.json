@@ -748,20 +748,20 @@
             "custom_link": "shopify://collections/the-classic"
           }
         },
-        "collection_tab_Gcb9Bq": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "the-modern-1",
-            "tab_label": "THE MODERN",
-            "custom_link": "shopify://collections/the-modern-1"
-          }
-        },
         "collection_tab_fTtezd": {
           "type": "collection_tab",
           "settings": {
             "collection": "the-modern",
             "tab_label": "THE RESORT",
             "custom_link": "shopify://collections/the-modern"
+          }
+        },
+        "collection_tab_Gcb9Bq": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "the-modern-1",
+            "tab_label": "THE MODERN",
+            "custom_link": "shopify://collections/the-modern-1"
           }
         },
         "collection_tab_FMX7Tm": {
@@ -776,8 +776,8 @@
       },
       "block_order": [
         "collection_tab_K3PE7Y",
-        "collection_tab_Gcb9Bq",
         "collection_tab_fTtezd",
+        "collection_tab_Gcb9Bq",
         "collection_tab_FMX7Tm"
       ],
       "name": "Tabbed Featured Collections",
