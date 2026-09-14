@@ -684,6 +684,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "new-arrival",
@@ -2076,64 +2077,6 @@
         "padding-block-start": 16,
         "padding-block-end": 0
       }
-    },
-    "tabbed_collections_featured": {
-      "type": "tabbed-collections",
-      "blocks": {
-        "collection_tab_1": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "the-modern",
-            "tab_label": "THE MODERN"
-          }
-        },
-        "collection_tab_2": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "bestsellers",
-            "tab_label": "BESTSELLERS"
-          }
-        },
-        "collection_tab_3": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "the-classic",
-            "tab_label": "THE CLASSIC"
-          }
-        },
-        "collection_tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "new-arrival",
-            "tab_label": "NEW ARRIVALS"
-          }
-        }
-      },
-      "block_order": [
-        "collection_tab_1",
-        "collection_tab_2",
-        "collection_tab_3",
-        "collection_tab_4"
-      ],
-      "name": "Tabbed Featured Collections",
-      "settings": {
-        "heading": "Wardrobe Fundamentals Spotlight",
-        "subheading": "CURATED ESSENTIALS",
-        "heading_alignment": "left",
-        "max_products": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_badge": true,
-        "badge_color": "gold",
-        "show_quick_add": true,
-        "show_swatches": true,
-        "max_swatches": 4,
-        "show_view_all": true,
-        "view_all_label": "VIEW ALL",
-        "background_color": "#F2EFE9",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
     }
   },
   "order": [
@@ -2141,7 +2084,6 @@
     "hero_rbNLHa",
     "layered_slideshow_VrhPDV",
     "brand_banners_OR8b2N",
-    "tabbed_collections_featured",
     "product_list_fa6P9H",
     "divider_eWmecW",
     "brand_story_mK7vPq",
