@@ -1,9 +1,13 @@
 {% doc %}
   Tabbed Featured Collections Section
-  Allows adding 3-4 (or more) collections with interactive tabs.
-  Matches the quiet luxury design system: Cormorant Garamond headings,
-  Red Hat Text uppercase tabs, sharp 0px corners, sale badges,
-  quick "ADD TO BAG" hover bar, and fabric color swatches with "+X more" count.
+  Allows adding 3-4 (or more) collections with interactive instant tabs.
+  Matches the quiet luxury design system:
+  - Taller fashion editorial portrait images (2:3 ratio)
+  - Pure fabric color swatches with concentric active rings and "+X more" pill badge
+  - Interactive swatches: hover switches card image, click navigates to color product
+  - Cormorant Garamond headings + Red Hat Text uppercase tabs
+  - Quick "ADD TO BAG" overlay button with AJAX cart addition & cart drawer trigger
+  - Sharp 0px corners across cards and buttons
 {% enddoc %}
 
 {%- liquid
@@ -18,6 +22,18 @@
   assign show_swatches = section.settings.show_swatches
   assign max_swatches = section.settings.max_swatches | default: 4
   assign show_view_all = section.settings.show_view_all
+  assign image_ratio = section.settings.image_aspect_ratio | default: 'tall'
+
+  case image_ratio
+    when 'tall'
+      assign aspect_ratio_css = '2 / 3'
+    when 'portrait'
+      assign aspect_ratio_css = '3 / 4.2'
+    when 'standard'
+      assign aspect_ratio_css = '3 / 4'
+    else
+      assign aspect_ratio_css = '2 / 3'
+  endcase
 -%}
 
 <div
@@ -27,6 +43,7 @@
     background-color: {{ bg_color }};
     padding-top: {{ section.settings.padding_top | default: 60 }}px;
     padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --card-media-ratio: {{ aspect_ratio_css }};
   "
 >
   <div class="page-width">
@@ -124,13 +141,120 @@
                     if prod.variants.size > 1
                       assign has_variants = true
                     endif
+
+                    # Discover Colorways & Swatches
+                    assign prod_handle = prod.handle | downcase
+                    assign siblings_data = ''
+
+                    # 1. Family mappings for ON REPEAT shirts
+                    if prod_handle contains 'smart-casual'
+                      assign siblings_data = 'the-smart-casual-shirt-optic-white:Optic White:#FFFFFF,the-smart-casual-shirt-aegean-blue:Aegean Blue:#4A677E,the-smart-casual-shirt-dune:Dune:#C2B39F,the-smart-casual-shirt-sunset-rose:Sunset Rose:#BA9A91'
+                    elsif prod_handle contains 'popover'
+                      assign siblings_data = 'the-popover-shirt-raw-oat:Raw Oat:#DDD5C7,the-popover-shirt-cacao:Cacao:#3D2F27,the-popover-shirt-midnight-breeze:Midnight Breeze:#222D3E'
+                    elsif prod_handle contains 'cuban'
+                      assign siblings_data = 'the-cuban-collar-shirt-dusty-olive:Dusty Olive:#474B32,the-cuban-collar-shirt-terracotta:Terracotta:#7F372E,the-cuban-collar-shirt-mist-green:Mist Green:#9FB0A6,the-cuban-collar-shirt-solar-yellow:Solar Yellow:#DCA745'
+                    endif
+
+                    # 2. If no family match, check for single-product Color option
+                    if siblings_data == blank
+                      for opt in prod.options_with_values
+                        assign opt_name_lower = opt.name | downcase
+                        if opt_name_lower == 'color' or opt_name_lower == 'colour' or opt_name_lower == 'shade'
+                          for val in opt.values
+                            assign c_slug = val | downcase | strip
+                            assign c_hex = '#DDD5C7'
+                            if c_slug contains 'white' or c_slug contains 'optic'
+                              assign c_hex = '#FFFFFF'
+                            elsif c_slug contains 'pink' or c_slug contains 'rose' or c_slug contains 'sunset'
+                              assign c_hex = '#BA9A91'
+                            elsif c_slug contains 'cacao' or c_slug contains 'brown' or c_slug contains 'espresso' or c_slug contains 'sepia'
+                              assign c_hex = '#4A3427'
+                            elsif c_slug contains 'cranberry' or c_slug contains 'red' or c_slug contains 'wine'
+                              assign c_hex = '#682720'
+                            elsif c_slug contains 'terracotta' or c_slug contains 'rust'
+                              assign c_hex = '#7F372E'
+                            elsif c_slug contains 'olive' or c_slug contains 'arugula'
+                              assign c_hex = '#474B32'
+                            elsif c_slug contains 'green' or c_slug contains 'mist' or c_slug contains 'sage'
+                              assign c_hex = '#9FB0A6'
+                            elsif c_slug contains 'blue' or c_slug contains 'casper' or c_slug contains 'aegean'
+                              assign c_hex = '#4A677E'
+                            elsif c_slug contains 'navy' or c_slug contains 'midnight' or c_slug contains 'breeze'
+                              assign c_hex = '#222D3E'
+                            elsif c_slug contains 'yellow' or c_slug contains 'gold'
+                              assign c_hex = '#DCA745'
+                            elsif c_slug contains 'black' or c_slug contains 'charcoal'
+                              assign c_hex = '#1C1C1C'
+                            elsif c_slug contains 'dune' or c_slug contains 'sand' or c_slug contains 'beige' or c_slug contains 'oat'
+                              assign c_hex = '#C2B39F'
+                            endif
+                            assign entry = prod.handle | append: ':' | append: val | append: ':' | append: c_hex
+                            if siblings_data == blank
+                              assign siblings_data = entry
+                            else
+                              assign siblings_data = siblings_data | append: ',' | append: entry
+                            endif
+                          endfor
+                          break
+                        endif
+                      endfor
+                    endif
+
+                    # 3. If still blank, search collection for matching title prefix
+                    if siblings_data == blank and coll.products.size > 1
+                      assign p_prefix = prod.title | split: ' - ' | first | split: ' — ' | first | strip
+                      for sib in coll.products
+                        if sib.title contains p_prefix
+                          assign s_color = sib.title | split: ' - ' | last | split: ' — ' | last | strip
+                          if s_color == blank or s_color == sib.title
+                            assign s_color = 'Standard'
+                          endif
+                          assign s_lower = s_color | downcase
+                          assign s_hex = '#DDD5C7'
+                          if s_lower contains 'white' or s_lower contains 'optic'
+                            assign s_hex = '#FFFFFF'
+                          elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
+                            assign s_hex = '#BA9A91'
+                          elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia'
+                            assign s_hex = '#4A3427'
+                          elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
+                            assign s_hex = '#682720'
+                          elsif s_lower contains 'terracotta' or s_lower contains 'rust'
+                            assign s_hex = '#7F372E'
+                          elsif s_lower contains 'olive' or s_lower contains 'arugula'
+                            assign s_hex = '#474B32'
+                          elsif s_lower contains 'green' or s_lower contains 'mist' or s_lower contains 'sage'
+                            assign s_hex = '#9FB0A6'
+                          elsif s_lower contains 'blue' or s_lower contains 'casper' or s_lower contains 'aegean'
+                            assign s_hex = '#4A677E'
+                          elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
+                            assign s_hex = '#222D3E'
+                          elsif s_lower contains 'yellow' or s_lower contains 'gold'
+                            assign s_hex = '#DCA745'
+                          elsif s_lower contains 'black' or s_lower contains 'charcoal'
+                            assign s_hex = '#1C1C1C'
+                          elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige' or s_lower contains 'oat'
+                            assign s_hex = '#C2B39F'
+                          endif
+                          assign entry = sib.handle | append: ':' | append: s_color | append: ':' | append: s_hex
+                          if siblings_data == blank
+                            assign siblings_data = entry
+                          else
+                            assign siblings_data = siblings_data | append: ',' | append: entry
+                          endif
+                        endif
+                      endfor
+                    endif
+
+                    assign swatches_array = siblings_data | split: ','
+                    assign total_swatches = swatches_array.size
                   -%}
                   <article
                     class="tabbed-product-card"
                     data-product-id="{{ prod.id }}"
                     data-product-handle="{{ prod.handle }}"
                   >
-                    <!-- Media Image Area -->
+                    <!-- Taller Media Image Area -->
                     <div class="tabbed-product-card__media-wrapper">
                       <a
                         href="{{ prod.url }}"
@@ -139,19 +263,19 @@
                       >
                         {%- if primary_image != blank -%}
                           {{ primary_image
-                            | image_url: width: 800
+                            | image_url: width: 900
                             | image_tag:
                               loading: 'lazy',
-                              widths: '360, 540, 720, 900',
+                              widths: '360, 540, 720, 900, 1080',
                               class: 'tabbed-product-card__image tabbed-product-card__image--primary',
                               alt: prod.title | escape
                           }}
                           {%- if secondary_image != blank -%}
                             {{ secondary_image
-                              | image_url: width: 800
+                              | image_url: width: 900
                               | image_tag:
                                 loading: 'lazy',
-                                widths: '360, 540, 720, 900',
+                                widths: '360, 540, 720, 900, 1080',
                                 class: 'tabbed-product-card__image tabbed-product-card__image--secondary',
                                 alt: prod.title | escape
                             }}
@@ -161,7 +285,7 @@
                         {%- endif -%}
                       </a>
 
-                      <!-- Discount / Sale Badge -->
+                      <!-- Discount / Sale Badge (Top-Left) -->
                       {%- if show_badge and on_sale -%}
                         <div class="tabbed-product-card__badge badge--{{ badge_style }}">
                           SAVE {{ savings_pct }}%
@@ -173,7 +297,7 @@
                         <div class="tabbed-product-card__quick-add">
                           {%- if prod.available -%}
                             {%- if has_variants -%}
-                              <!-- Has sizes/variants: show sizes or link to product -->
+                              <!-- Has sizes/variants: link to product -->
                               <a
                                 href="{{ prod.url }}"
                                 class="tabbed-product-card__add-btn"
@@ -184,7 +308,7 @@
                                   <line x1="3" y1="6" x2="21" y2="6"></line>
                                   <path d="M16 10a4 4 0 0 1-8 0"></path>
                                 </svg>
-                                <span>SELECT SIZE</span>
+                                <span>ADD TO BAG</span>
                               </a>
                             {%- else -%}
                               <!-- Single variant: instant 1-click AJAX add -->
@@ -233,102 +357,62 @@
                         </div>
                       </div>
 
-                      <!-- Color Swatches Row -->
-                      {%- if show_swatches -%}
-                        {%- liquid
-                          # Discover color options or sibling swatches
-                          assign color_list = ''
-                          assign color_images = ''
-                          
-                          # 1. Look for 'Color' or 'Colour' variant option
-                          for opt in prod.options_with_values
-                            assign opt_name_lower = opt.name | downcase
-                            if opt_name_lower == 'color' or opt_name_lower == 'colour' or opt_name_lower == 'shade'
-                              for val in opt.values
-                                assign color_list = color_list | append: val | append: '||'
-                              endfor
-                              break
-                            endif
-                          endfor
+                      <!-- Pure Fabric Color Swatches (No pictures, exact concentric ring) -->
+                      {%- if show_swatches and total_swatches > 0 -%}
+                        <div class="tabbed-product-card__swatches" role="list" aria-label="Available colors">
+                          {%- for s_item in swatches_array limit: max_swatches -%}
+                            {%- liquid
+                              assign parts = s_item | split: ':'
+                              assign s_handle = parts[0] | strip
+                              assign s_name = parts[1] | strip
+                              assign s_hex = parts[2] | strip | default: '#DDD5C7'
 
-                          # 2. If no option found, search collection siblings for matching shirt models
-                          if color_list == blank and coll.products.size > 1
-                            assign prod_title_prefix = prod.title | split: ' - ' | first | split: ' — ' | first | strip
-                            for sib in coll.products
-                              if sib.title contains prod_title_prefix
-                                assign sib_color = sib.title | split: ' - ' | last | split: ' — ' | last | strip
-                                if sib_color != prod.title and sib_color != blank
-                                  assign color_list = color_list | append: sib_color | append: '||'
+                              # Check if this swatch corresponds to the current product
+                              assign is_selected = false
+                              if s_handle == prod.handle
+                                assign is_selected = true
+                              elsif forloop.first and total_swatches > 0 and prod_handle contains s_handle
+                                assign is_selected = true
+                              endif
+
+                              # Sibling product object for image swap
+                              assign s_product = all_products[s_handle]
+                              assign s_img_url = ''
+                              assign s_url = prod.url
+                              if s_product != blank
+                                assign s_url = s_product.url
+                                if s_product.featured_image != blank
+                                  assign s_img_url = s_product.featured_image | image_url: width: 900
                                 endif
                               endif
-                            endfor
-                          endif
-
-                          assign all_colors = color_list | split: '||'
-                          assign total_colors = all_colors.size
-                        -%}
-
-                        {%- if total_colors > 1 -%}
-                          <div class="tabbed-product-card__swatches" role="list" aria-label="Available colors">
-                            {%- for c_name in all_colors limit: max_swatches -%}
-                              {%- liquid
-                                assign c_lower = c_name | downcase | strip
-                                assign swatch_color = '#DDD5C7'
-
-                                if c_lower contains 'white' or c_lower contains 'optic'
-                                  assign swatch_color = '#FFFFFF'
-                                elsif c_lower contains 'pink' or c_lower contains 'rose' or c_lower contains 'sunset'
-                                  assign swatch_color = '#BA9A91'
-                                elsif c_lower contains 'cacao' or c_lower contains 'brown' or c_lower contains 'espresso' or c_lower contains 'sepia'
-                                  assign swatch_color = '#4A3427'
-                                elsif c_lower contains 'cranberry' or c_lower contains 'red' or c_lower contains 'wine'
-                                  assign swatch_color = '#682720'
-                                elsif c_lower contains 'terracotta' or c_lower contains 'rust'
-                                  assign swatch_color = '#7F372E'
-                                elsif c_lower contains 'olive' or c_lower contains 'arugula'
-                                  assign swatch_color = '#474B32'
-                                elsif c_lower contains 'green' or c_lower contains 'mist' or c_lower contains 'sage'
-                                  assign swatch_color = '#9FB0A6'
-                                elsif c_lower contains 'casper' or c_lower contains 'sky' or c_lower contains 'light-blue'
-                                  assign swatch_color = '#A8C3D8'
-                                elsif c_lower contains 'blue' or c_lower contains 'aegean'
-                                  assign swatch_color = '#4A677E'
-                                elsif c_lower contains 'navy' or c_lower contains 'midnight' or c_lower contains 'breeze'
-                                  assign swatch_color = '#222D3E'
-                                elsif c_lower contains 'oat' or c_lower contains 'cream' or c_lower contains 'ecru'
-                                  assign swatch_color = '#DDD5C7'
-                                elsif c_lower contains 'dune' or c_lower contains 'sand' or c_lower contains 'beige'
-                                  assign swatch_color = '#C2B39F'
-                                elsif c_lower contains 'yellow' or c_lower contains 'solar' or c_lower contains 'gold'
-                                  assign swatch_color = '#DCA745'
-                                elsif c_lower contains 'black' or c_lower contains 'charcoal'
-                                  assign swatch_color = '#1C1C1C'
-                                elsif c_lower contains 'grey' or c_lower contains 'gray' or c_lower contains 'silver'
-                                  assign swatch_color = '#A2A09E'
-                                endif
-
-                                assign is_active_color = false
-                                if forloop.first
-                                  assign is_active_color = true
-                                endif
-                              -%}
-                              <span
-                                class="tabbed-product-card__swatch-dot{% if is_active_color %} is-active{% endif %}"
-                                style="background-color: {{ swatch_color }};"
-                                title="{{ c_name | escape }}"
-                                aria-label="{{ c_name | escape }}"
-                                role="listitem"
-                              ></span>
-                            {%- endfor -%}
-
-                            {%- if total_colors > max_swatches -%}
-                              {%- assign remaining = total_colors | minus: max_swatches -%}
-                              <span class="tabbed-product-card__more-swatches">
-                                +{{ remaining }} more
+                            -%}
+                            <a
+                              href="{{ s_url }}"
+                              class="tabbed-swatch-item{% if is_selected %} is-active{% endif %}"
+                              title="{{ s_name | escape }}"
+                              aria-label="{{ s_name | escape }}"
+                              data-color-name="{{ s_name | escape }}"
+                              {% if s_img_url != blank %}data-image-src="{{ s_img_url }}"{% endif %}
+                              role="listitem"
+                            >
+                              <span class="tabbed-swatch-ring">
+                                <span class="tabbed-swatch-inner" style="background-color: {{ s_hex }};"></span>
                               </span>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
+                            </a>
+                          {%- endfor -%}
+
+                          {%- if total_swatches > max_swatches -%}
+                            {%- assign remaining = total_swatches | minus: max_swatches -%}
+                            <a
+                              href="{{ prod.url }}"
+                              class="tabbed-product-card__more-swatches"
+                              title="View all colors for {{ prod.title | escape }}"
+                              aria-label="{{ remaining }} more colors available"
+                            >
+                              +{{ remaining }} more
+                            </a>
+                          {%- endif -%}
+                        </div>
                       {%- endif -%}
                     </div>
                   </article>
@@ -540,11 +624,11 @@
     background: transparent;
   }
 
-  /* Media Wrapper */
+  /* TALLER Media Wrapper (Editorial fashion format) */
   .tabbed-product-card__media-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--card-media-ratio, 2 / 3);
     background-color: #EAE6DF;
     overflow: hidden;
     border-radius: 0px;
@@ -690,7 +774,7 @@
     padding-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   .tabbed-product-card__title-price-row {
@@ -741,45 +825,111 @@
     margin-top: 2px;
   }
 
-  /* Swatches Row */
+  /* Pure Fabric Color Swatches (Exact concentric ring) */
   .tabbed-product-card__swatches {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 4px;
+    margin-top: 2px;
     flex-wrap: wrap;
   }
 
-  .tabbed-product-card__swatch-dot {
-    width: 15px;
-    height: 15px;
+  .tabbed-swatch-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
     border-radius: 50%;
-    display: inline-block;
+    padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .tabbed-swatch-item:hover {
+    transform: scale(1.1);
+  }
+
+  /* Concentric Swatch Ring */
+  .tabbed-swatch-ring {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border: 1.5px solid #D8D3CC;
     box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    transition: border-color 0.15s ease;
+  }
+
+  .tabbed-swatch-item:hover .tabbed-swatch-ring {
+    border-color: #1C1C1C;
+  }
+
+  /* Active Swatch with bold dark ring */
+  .tabbed-swatch-item.is-active .tabbed-swatch-ring {
+    border: 2px solid #1C1C1C;
+  }
+
+  /* Pure Fabric Inner Color Circle */
+  .tabbed-swatch-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
     position: relative;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-sizing: border-box;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
   }
 
-  .tabbed-product-card__swatch-dot.is-active {
-    box-shadow: 0 0 0 1.5px #F2EFE9, 0 0 0 3px #1C1C1C;
+  /* Subtle fabric sheen */
+  .tabbed-swatch-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      rgba(0, 0, 0, 0.08) 100%
+    );
+    pointer-events: none;
   }
 
-  .tabbed-product-card__swatch-dot:hover {
-    transform: scale(1.15);
-  }
-
+  /* Pill Badge for "+X more" colors */
   .tabbed-product-card__more-swatches {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
-    font-size: 10.5px;
-    color: #767069;
-    padding-left: 2px;
+    font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.02em;
+    color: #5C5751;
+    background-color: #FFFFFF;
+    border: 1px solid #D8D3CC;
+    border-radius: 999px;
+    padding: 2px 7px;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .tabbed-product-card__more-swatches:hover {
+    border-color: #1C1C1C;
+    color: #1C1C1C;
   }
 
   /* Footer View All */
   .tabbed-collections__footer {
-    margin-top: 2.75rem;
+    margin-top: 3rem;
     text-align: center;
   }
 
@@ -838,7 +988,45 @@
       });
     });
 
-    // 2. Quick Add To Bag AJAX
+    // 2. Interactive Swatch Hover / Click (Swaps product image)
+    const cards = section.querySelectorAll('.tabbed-product-card');
+    cards.forEach((card) => {
+      const mainImg = card.querySelector('.tabbed-product-card__image--primary');
+      const swatches = card.querySelectorAll('.tabbed-swatch-item');
+      if (!mainImg || swatches.length === 0) return;
+
+      const originalSrc = mainImg.getAttribute('src');
+      const originalSrcset = mainImg.getAttribute('srcset');
+
+      swatches.forEach((swatch) => {
+        const targetImgSrc = swatch.dataset.imageSrc;
+        if (!targetImgSrc) return;
+
+        // Hover swaps image preview
+        swatch.addEventListener('mouseenter', () => {
+          mainImg.setAttribute('src', targetImgSrc);
+          if (mainImg.hasAttribute('srcset')) {
+            mainImg.removeAttribute('srcset');
+          }
+        });
+
+        swatch.addEventListener('mouseleave', () => {
+          // If swatch is not the active one, restore original
+          if (!swatch.classList.contains('is-active')) {
+            const activeSwatch = card.querySelector('.tabbed-swatch-item.is-active');
+            const activeSrc = activeSwatch?.dataset?.imageSrc;
+            if (activeSrc) {
+              mainImg.setAttribute('src', activeSrc);
+            } else if (originalSrc) {
+              mainImg.setAttribute('src', originalSrc);
+              if (originalSrcset) mainImg.setAttribute('srcset', originalSrcset);
+            }
+          }
+        });
+      });
+    });
+
+    // 3. Quick Add To Bag AJAX
     const quickAddButtons = section.querySelectorAll('.js-quick-add');
     quickAddButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
@@ -943,6 +1131,26 @@
         }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Height / Aspect Ratio",
+      "options": [
+        {
+          "value": "tall",
+          "label": "Tall Editorial (2:3 — Recommended)"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait (3:4.2)"
+        },
+        {
+          "value": "standard",
+          "label": "Standard (3:4)"
+        }
+      ],
+      "default": "tall"
     },
     {
       "type": "range",
