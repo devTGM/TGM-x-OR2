@@ -280,7 +280,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h1><strong>Essentials, Worth Repeating</strong></h1>",
+                "text": "<h1><strong style=\"color: #ffffff;\">Essentials, Worth Repeating</strong></h1>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",

@@ -139,7 +139,7 @@
     line-height: 1.15 !important;
     letter-spacing: -0.01em !important;
     text-transform: none !important;
-    color: #1C1C1C !important;
+    color: #1C1C1C;
   }
 
   /* Section headings, collection titles — Mango Serif */
@@ -150,7 +150,7 @@
     font-size: clamp(1.85rem, 3vw, 2.5rem) !important;
     letter-spacing: -0.01em !important;
     text-transform: none !important;
-    color: #1C1C1C !important;
+    color: #1C1C1C;
     line-height: 1.18 !important;
   }
 
@@ -161,7 +161,7 @@
     font-size: clamp(1.5rem, 2.4vw, 2.1rem) !important;
     letter-spacing: -0.01em !important;
     text-transform: none !important;
-    color: #1C1C1C !important;
+    color: #1C1C1C;
     line-height: 1.22 !important;
   }
 
@@ -172,8 +172,34 @@
     font-size: clamp(1.2rem, 1.6vw, 1.5rem) !important;
     letter-spacing: 0em !important;
     text-transform: none !important;
-    color: #1C1C1C !important;
+    color: #1C1C1C;
     line-height: 1.25 !important;
+  }
+
+  /* Block-level custom text color override (from Shopify block settings) */
+  .text-block[style*="--color:"] :is(h1, h2, h3, h4, h5, h6, p, span, strong, em, b, i),
+  .text-block[style*="--color:"] {
+    color: var(--color) !important;
+  }
+
+  /* Layered slideshow — white headings & accents over media slides */
+  .layered-slideshow-section :is(h1, h2, h3, h4, h5, h6),
+  .layered-slideshow-section :is(h1, h2, h3, h4, h5, h6) :is(strong, em, span, b, i),
+  .layered-slideshow__container :is(h1, h2, h3, h4, h5, h6),
+  .layered-slideshow__container :is(h1, h2, h3, h4, h5, h6) :is(strong, em, span, b, i),
+  .layered-slideshow__panel :is(h1, h2, h3, h4, h5, h6),
+  .layered-slideshow__panel :is(h1, h2, h3, h4, h5, h6) :is(strong, em, span, b, i),
+  .layered-slideshow__content :is(h1, h2, h3, h4, h5, h6),
+  .layered-slideshow__content :is(h1, h2, h3, h4, h5, h6) :is(strong, em, span, b, i),
+  .layered-slideshow__content .text-block,
+  .layered-slideshow__content .text-block * {
+    color: #ffffff !important;
+  }
+
+  /* Brand banners — white headlines over dark banner photos */
+  .brand-banners-section .brand-banner-headline,
+  .brand-banner-headline {
+    color: #ffffff !important;
   }
 
   /* Small uppercase labels — clean sans-serif */
