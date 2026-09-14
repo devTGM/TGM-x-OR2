@@ -724,24 +724,18 @@
     },
     "brand_story_mK7vPq": {
       "type": "brand-story",
+      "disabled": true,
       "settings": {
-        "overline": "HERITAGE",
-        "show_overline_line": true,
-        "heading_main": "A Story",
-        "heading_italic": "Worth Wearing",
-        "lead_paragraph": "<p>ON REPEAT was born from a conviction — that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.</p>",
-        "quote_text": "“Not just clothing, but a collectible statement of refined taste.”",
-        "body_paragraph": "<p>We believe in the permanence of quality over the transience of trends. Each Edition is a chapter — deliberate, considered, and made to outlast the season it arrives in.</p>",
-        "button_label": "READ OUR STORY",
+        "overline": "OUR STORY",
+        "heading": "Clothes You Actually Want to Wear",
+        "story_text": "<p>We started with linen because we feel it is one of the most underrated everyday fabrics. 100% pure European flax in 60 Lea — garment washed, breathable, and made to be worn on repeat. Not just for summer. For every day.</p>",
+        "button_label": "Read Our Story",
         "button_link": "/pages/our-story",
-        "background_color": "#F4F0EB",
-        "text_color": "#1C1C1C",
-        "accent_color": "#8F8171",
-        "quote_bar_color": "#C5A880",
-        "frame_color": "#EAE6DF",
-        "layout_direction": "media_first",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "section_width": "page-width",
+        "background_color": "{{ settings.color_palette.background }}",
+        "text_color": "{{ settings.color_palette.foreground }}",
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
     "divider_UqHH3w": {
@@ -1052,126 +1046,6 @@
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 40,
         "padding-block-end": 0
-      }
-    },
-    "brand_banners_P8YBPa": {
-      "type": "brand-banners",
-      "blocks": {
-        "slide_KcFnBi": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Banner1.webp",
-            "eyebrow": "",
-            "headline": "",
-            "subline": "",
-            "cta_label": "",
-            "cta_link": "/collections/all",
-            "text_alignment": "left"
-          }
-        },
-        "slide_eDDnQq": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "LINEN. NOT JUST FOR SUMMER.",
-            "subline": "Made for everyday. Made for every season.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_UDJMz8": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "60 LEA. PURE EUROPEAN FLAX.",
-            "subline": "Garment washed for a softer first wear.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_6LMYMc": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "FROM COFFEE TO DINNER.",
-            "subline": "One shirt. Your whole day.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_YH7Ekq": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "YOUR WARDROBE DOESN'T NEED MORE.",
-            "subline": "It needs better essentials.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_UCnTMJ": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "WEAR IT. WASH IT. WEAR IT AGAIN.",
-            "subline": "That's the point.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_V4r3jF": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "LET LINEN WRINKLE.",
-            "subline": "It's part of the character.",
-            "cta_label": "",
-            "cta_link": "",
-            "text_alignment": "left"
-          }
-        },
-        "slide_XFzK6P": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "eyebrow": "",
-            "headline": "START WITH ONE. BUILD YOUR ESSENTIALS.",
-            "subline": "ON REPEAT.",
-            "cta_label": "Explore Collection",
-            "cta_link": "/collections/all",
-            "text_alignment": "left"
-          }
-        }
-      },
-      "block_order": [
-        "slide_KcFnBi",
-        "slide_eDDnQq",
-        "slide_UDJMz8",
-        "slide_6LMYMc",
-        "slide_YH7Ekq",
-        "slide_UCnTMJ",
-        "slide_V4r3jF",
-        "slide_XFzK6P"
-      ],
-      "name": "Brand Banners",
-      "settings": {
-        "height": 75,
-        "interval": 5,
-        "overlay_opacity": 10,
-        "show_dots": true,
-        "padding_top": 0,
-        "padding_bottom": 0
       }
     },
     "hero_cmya3X": {
@@ -2289,7 +2163,6 @@
     "tabbed_collections_dWqWQG",
     "divider_zTrHC9",
     "product_list_BcEdnq",
-    "brand_banners_P8YBPa",
     "hero_cmya3X",
     "product_list_gRXzLJ",
     "shoppable_video_carousel_x9K2pL",
