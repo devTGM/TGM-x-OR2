@@ -829,8 +829,8 @@
         "corner_radius": "square",
         "width_percent": 100,
         "alignment_horizontal": "center",
-        "padding-block-start": 16,
-        "padding-block-end": 0
+        "padding-block-start": 6,
+        "padding-block-end": 6
       }
     },
     "product_list_BcEdnq": {
