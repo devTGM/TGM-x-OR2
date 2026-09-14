@@ -724,18 +724,25 @@
     },
     "brand_story_mK7vPq": {
       "type": "brand-story",
-      "disabled": true,
+      "name": "Editorial Brand Story",
       "settings": {
-        "overline": "OUR STORY",
-        "heading": "Clothes You Actually Want to Wear",
-        "story_text": "<p>We started with linen because we feel it is one of the most underrated everyday fabrics. 100% pure European flax in 60 Lea — garment washed, breathable, and made to be worn on repeat. Not just for summer. For every day.</p>",
-        "button_label": "Read Our Story",
+        "overline": "HERITAGE",
+        "show_overline_line": true,
+        "heading_main": "A Story",
+        "heading_italic": "Worth Wearing",
+        "lead_paragraph": "<p>ON REPEAT was born from a conviction — that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.</p>",
+        "quote_text": "“Not just clothing, but a collectible statement of refined taste.”",
+        "body_paragraph": "<p>We believe in the permanence of quality over the transience of trends. Each Edition is a chapter — deliberate, considered, and made to outlast the season it arrives in.</p>",
+        "button_label": "READ OUR STORY",
         "button_link": "/pages/our-story",
-        "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
-        "text_color": "{{ settings.color_palette.foreground }}",
-        "padding_top": 20,
-        "padding_bottom": 20
+        "background_color": "#F4F0EB",
+        "text_color": "#1C1C1C",
+        "accent_color": "#8F8171",
+        "quote_bar_color": "#C5A880",
+        "frame_color": "#EAE6DF",
+        "layout_direction": "media_first",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "divider_UqHH3w": {
