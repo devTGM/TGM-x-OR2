@@ -1370,6 +1370,28 @@
         "padding_bottom": 80
       }
     },
+    "image_story_Lx4nQp": {
+      "type": "image-story",
+      "settings": {
+        "overline": "HERITAGE",
+        "show_overline_line": true,
+        "heading_main": "A Story",
+        "heading_italic": "Worth Wearing",
+        "lead_paragraph": "<p>ON REPEAT was born from a conviction — that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.</p>",
+        "quote_text": "\"Not just clothing, but a collectible statement of refined taste.\"",
+        "body_paragraph": "<p>We believe in the permanence of quality over the transience of trends. Each Edition is a chapter — deliberate, considered, and made to outlast the season it arrives in.</p>",
+        "button_label": "READ OUR STORY",
+        "button_link": "/pages/our-story",
+        "background_color": "#F4F0EB",
+        "text_color": "#1C1C1C",
+        "accent_color": "#8F8171",
+        "quote_bar_color": "#C5A880",
+        "frame_color": "#EAE6DF",
+        "layout_direction": "media_first",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "shoppable_video_carousel_x9K2pL": {
       "type": "shoppable-video-carousel",
       "blocks": {
@@ -2165,6 +2187,7 @@
     "hero_cmya3X",
     "product_list_gRXzLJ",
     "brand_story_mK7vPq",
+    "image_story_Lx4nQp",
     "shoppable_video_carousel_x9K2pL",
     "divider_3agVPG",
     "product_list_DjaYkA",
