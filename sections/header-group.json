@@ -116,7 +116,7 @@
         "bubble_style": "default",
         "bubble_background_color": "",
         "bubble_text_color": "",
-        "enable_transparent_header_all": true,
+        "enable_transparent_header_all": false,
         "text_color_transparent_all": "{{ settings.color_palette.foreground }}",
         "enable_transparent_header_home": true,
         "home_inverse_logo": false,
