@@ -176,13 +176,15 @@
       endfor
     endif
 
-    # Known catalog families for ON REPEAT shirts as fallback guarantee
-    if h_lower contains 'smart-casual'
-      assign siblings_list = siblings_list | append: 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,'
-    elsif h_lower contains 'popover'
-      assign siblings_list = siblings_list | append: 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,'
-    elsif h_lower contains 'cuban'
-      assign siblings_list = siblings_list | append: 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,'
+    # Known catalog families for ON REPEAT shirts as fallback guarantee (only if no siblings found in collection)
+    if siblings_list == blank
+      if h_lower contains 'smart-casual'
+        assign siblings_list = siblings_list | append: 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,'
+      elsif h_lower contains 'popover'
+        assign siblings_list = siblings_list | append: 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,'
+      elsif h_lower contains 'cuban'
+        assign siblings_list = siblings_list | append: 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,'
+      endif
     endif
 
     # Search store collections if still only 1

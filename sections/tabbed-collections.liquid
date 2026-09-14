@@ -145,20 +145,284 @@
                       assign has_variants = true
                     endif
 
-                    # Discover Colorways & Swatches
-                    assign prod_handle = prod.handle | downcase
-                    assign siblings_data = ''
+                    # Discover Colorways & Swatches DYNAMICALLY from actual products
+                    assign p_title = prod.title
+                    assign base_title = p_title
+                    assign prod_color = ''
 
-                    # 1. Family mappings for ON REPEAT shirts
-                    if prod_handle contains 'smart-casual'
-                      assign siblings_data = 'the-smart-casual-shirt-optic-white:Optic White:#FFFFFF,the-smart-casual-shirt-aegean-blue:Aegean Blue:#4A677E,the-smart-casual-shirt-dune:Dune:#C2B39F,the-smart-casual-shirt-sunset-rose:Sunset Rose:#BA9A91'
-                    elsif prod_handle contains 'popover'
-                      assign siblings_data = 'the-popover-shirt-raw-oat:Raw Oat:#DDD5C7,the-popover-shirt-cacao:Cacao:#3D2F27,the-popover-shirt-midnight-breeze:Midnight Breeze:#222D3E'
-                    elsif prod_handle contains 'cuban'
-                      assign siblings_data = 'the-cuban-collar-shirt-dusty-olive:Dusty Olive:#474B32,the-cuban-collar-shirt-terracotta:Terracotta:#7F372E,the-cuban-collar-shirt-mist-green:Mist Green:#9FB0A6,the-cuban-collar-shirt-solar-yellow:Solar Yellow:#DCA745'
+                    if p_title contains ' — '
+                      assign title_parts = p_title | split: ' — '
+                      assign base_title = title_parts[0] | strip
+                      assign prod_color = title_parts[1] | strip
+                    elsif p_title contains ' - '
+                      assign title_parts = p_title | split: ' - '
+                      assign base_title = title_parts[0] | strip
+                      assign prod_color = title_parts[1] | strip
+                    elsif p_title contains ' – '
+                      assign title_parts = p_title | split: ' – '
+                      assign base_title = title_parts[0] | strip
+                      assign prod_color = title_parts[1] | strip
+                    elsif p_title contains ' : '
+                      assign title_parts = p_title | split: ' : '
+                      assign base_title = title_parts[0] | strip
+                      assign prod_color = title_parts[1] | strip
                     endif
 
-                    # 2. If no family match, check for single-product Color option
+                    assign siblings_data = ''
+                    assign added_handles = ''
+
+                    # 1. Search current collection for all products sharing base_title
+                    if base_title != blank and coll != blank
+                      for sib in coll.products
+                        if sib.title contains base_title
+                          unless added_handles contains sib.handle
+                            assign added_handles = added_handles | append: sib.handle | append: ','
+
+                            assign s_color = ''
+                            if sib.title contains ' — '
+                              assign s_color = sib.title | split: ' — ' | last | strip
+                            elsif sib.title contains ' - '
+                              assign s_color = sib.title | split: ' - ' | last | strip
+                            elsif sib.title contains ' – '
+                              assign s_color = sib.title | split: ' – ' | last | strip
+                            elsif sib.title contains ' : '
+                              assign s_color = sib.title | split: ' : ' | last | strip
+                            else
+                              assign s_color = sib.title | remove: base_title | strip
+                            endif
+                            if s_color == blank
+                              assign s_color = 'Standard'
+                            endif
+
+                            assign s_lower = s_color | downcase
+                            assign s_hex = '#DDD5C7'
+                            if s_lower contains 'white' or s_lower contains 'optic'
+                              assign s_hex = '#FFFFFF'
+                            elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
+                              assign s_hex = '#C99B9B'
+                            elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia' or s_lower contains 'chocolate'
+                              assign s_hex = '#3D2F27'
+                            elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
+                              assign s_hex = '#682720'
+                            elsif s_lower contains 'terracotta' or s_lower contains 'rust'
+                              assign s_hex = '#8F4236'
+                            elsif s_lower contains 'olive' or s_lower contains 'arugula'
+                              assign s_hex = '#474B32'
+                            elsif s_lower contains 'mist' or s_lower contains 'sage'
+                              assign s_hex = '#9FB0A6'
+                            elsif s_lower contains 'green'
+                              assign s_hex = '#474B32'
+                            elsif s_lower contains 'dusty blue' or s_lower contains 'slate' or s_lower contains 'blue' or s_lower contains 'aegean' or s_lower contains 'casper'
+                              assign s_hex = '#5A7382'
+                            elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
+                              assign s_hex = '#222D3E'
+                            elsif s_lower contains 'solar' or s_lower contains 'yellow' or s_lower contains 'gold'
+                              assign s_hex = '#E4C76C'
+                            elsif s_lower contains 'black' or s_lower contains 'charcoal'
+                              assign s_hex = '#1C1C1C'
+                            elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige'
+                              assign s_hex = '#C2B39F'
+                            elsif s_lower contains 'oat' or s_lower contains 'raw' or s_lower contains 'cream'
+                              assign s_hex = '#DDD5C7'
+                            endif
+
+                            assign entry = sib.handle | append: ':' | append: s_color | append: ':' | append: s_hex
+                            if siblings_data == blank
+                              assign siblings_data = entry
+                            else
+                              assign siblings_data = siblings_data | append: ',' | append: entry
+                            endif
+                          endunless
+                        endif
+                      endfor
+                    endif
+
+                    # 2. Search other tab collections in section.blocks if fewer than 2 siblings found
+                    assign s_count = siblings_data | split: ',' | size
+                    if s_count < 2 and base_title != blank
+                      for blk in section.blocks
+                        assign blk_coll = blk.settings.collection
+                        if blk_coll != blank and blk_coll.id != coll.id
+                          for sib in blk_coll.products
+                            if sib.title contains base_title
+                              unless added_handles contains sib.handle
+                                assign added_handles = added_handles | append: sib.handle | append: ','
+
+                                assign s_color = ''
+                                if sib.title contains ' — '
+                                  assign s_color = sib.title | split: ' — ' | last | strip
+                                elsif sib.title contains ' - '
+                                  assign s_color = sib.title | split: ' - ' | last | strip
+                                elsif sib.title contains ' – '
+                                  assign s_color = sib.title | split: ' – ' | last | strip
+                                elsif sib.title contains ' : '
+                                  assign s_color = sib.title | split: ' : ' | last | strip
+                                else
+                                  assign s_color = sib.title | remove: base_title | strip
+                                endif
+                                if s_color == blank
+                                  assign s_color = 'Standard'
+                                endif
+
+                                assign s_lower = s_color | downcase
+                                assign s_hex = '#DDD5C7'
+                                if s_lower contains 'white' or s_lower contains 'optic'
+                                  assign s_hex = '#FFFFFF'
+                                elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
+                                  assign s_hex = '#C99B9B'
+                                elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia' or s_lower contains 'chocolate'
+                                  assign s_hex = '#3D2F27'
+                                elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
+                                  assign s_hex = '#682720'
+                                elsif s_lower contains 'terracotta' or s_lower contains 'rust'
+                                  assign s_hex = '#8F4236'
+                                elsif s_lower contains 'olive' or s_lower contains 'arugula'
+                                  assign s_hex = '#474B32'
+                                elsif s_lower contains 'mist' or s_lower contains 'sage'
+                                  assign s_hex = '#9FB0A6'
+                                elsif s_lower contains 'green'
+                                  assign s_hex = '#474B32'
+                                elsif s_lower contains 'dusty blue' or s_lower contains 'slate' or s_lower contains 'blue' or s_lower contains 'aegean' or s_lower contains 'casper'
+                                  assign s_hex = '#5A7382'
+                                elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
+                                  assign s_hex = '#222D3E'
+                                elsif s_lower contains 'solar' or s_lower contains 'yellow' or s_lower contains 'gold'
+                                  assign s_hex = '#E4C76C'
+                                elsif s_lower contains 'black' or s_lower contains 'charcoal'
+                                  assign s_hex = '#1C1C1C'
+                                elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige'
+                                  assign s_hex = '#C2B39F'
+                                elsif s_lower contains 'oat' or s_lower contains 'raw' or s_lower contains 'cream'
+                                  assign s_hex = '#DDD5C7'
+                                endif
+
+                                assign entry = sib.handle | append: ':' | append: s_color | append: ':' | append: s_hex
+                                if siblings_data == blank
+                                  assign siblings_data = entry
+                                else
+                                  assign siblings_data = siblings_data | append: ',' | append: entry
+                                endif
+                              endunless
+                            endif
+                          endfor
+                        endif
+                      endfor
+                    endif
+
+                    # 3. Also search all_store_products if still fewer than 2 siblings found
+                    assign s_count = siblings_data | split: ',' | size
+                    if s_count < 2 and base_title != blank and all_store_products != blank
+                      for sib in all_store_products
+                        if sib.title contains base_title
+                          unless added_handles contains sib.handle
+                            assign added_handles = added_handles | append: sib.handle | append: ','
+
+                            assign s_color = ''
+                            if sib.title contains ' — '
+                              assign s_color = sib.title | split: ' — ' | last | strip
+                            elsif sib.title contains ' - '
+                              assign s_color = sib.title | split: ' - ' | last | strip
+                            elsif sib.title contains ' – '
+                              assign s_color = sib.title | split: ' – ' | last | strip
+                            elsif sib.title contains ' : '
+                              assign s_color = sib.title | split: ' : ' | last | strip
+                            else
+                              assign s_color = sib.title | remove: base_title | strip
+                            endif
+                            if s_color == blank
+                              assign s_color = 'Standard'
+                            endif
+
+                            assign s_lower = s_color | downcase
+                            assign s_hex = '#DDD5C7'
+                            if s_lower contains 'white' or s_lower contains 'optic'
+                              assign s_hex = '#FFFFFF'
+                            elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
+                              assign s_hex = '#C99B9B'
+                            elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia' or s_lower contains 'chocolate'
+                              assign s_hex = '#3D2F27'
+                            elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
+                              assign s_hex = '#682720'
+                            elsif s_lower contains 'terracotta' or s_lower contains 'rust'
+                              assign s_hex = '#8F4236'
+                            elsif s_lower contains 'olive' or s_lower contains 'arugula'
+                              assign s_hex = '#474B32'
+                            elsif s_lower contains 'mist' or s_lower contains 'sage'
+                              assign s_hex = '#9FB0A6'
+                            elsif s_lower contains 'green'
+                              assign s_hex = '#474B32'
+                            elsif s_lower contains 'dusty blue' or s_lower contains 'slate' or s_lower contains 'blue' or s_lower contains 'aegean' or s_lower contains 'casper'
+                              assign s_hex = '#5A7382'
+                            elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
+                              assign s_hex = '#222D3E'
+                            elsif s_lower contains 'solar' or s_lower contains 'yellow' or s_lower contains 'gold'
+                              assign s_hex = '#E4C76C'
+                            elsif s_lower contains 'black' or s_lower contains 'charcoal'
+                              assign s_hex = '#1C1C1C'
+                            elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige'
+                              assign s_hex = '#C2B39F'
+                            elsif s_lower contains 'oat' or s_lower contains 'raw' or s_lower contains 'cream'
+                              assign s_hex = '#DDD5C7'
+                            endif
+
+                            assign entry = sib.handle | append: ':' | append: s_color | append: ':' | append: s_hex
+                            if siblings_data == blank
+                              assign siblings_data = entry
+                            else
+                              assign siblings_data = siblings_data | append: ',' | append: entry
+                            endif
+                          endunless
+                        endif
+                      endfor
+                    endif
+
+                    # 4. Ensure current product is included in siblings_data
+                    unless added_handles contains prod.handle
+                      assign self_color = prod_color
+                      if self_color == blank
+                        assign self_color = 'Standard'
+                      endif
+                      assign s_lower = self_color | downcase
+                      assign s_hex = '#DDD5C7'
+                      if s_lower contains 'white' or s_lower contains 'optic'
+                        assign s_hex = '#FFFFFF'
+                      elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
+                        assign s_hex = '#C99B9B'
+                      elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia' or s_lower contains 'chocolate'
+                        assign s_hex = '#3D2F27'
+                      elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
+                        assign s_hex = '#682720'
+                      elsif s_lower contains 'terracotta' or s_lower contains 'rust'
+                        assign s_hex = '#8F4236'
+                      elsif s_lower contains 'olive' or s_lower contains 'arugula'
+                        assign s_hex = '#474B32'
+                      elsif s_lower contains 'mist' or s_lower contains 'sage'
+                        assign s_hex = '#9FB0A6'
+                      elsif s_lower contains 'green'
+                        assign s_hex = '#474B32'
+                      elsif s_lower contains 'dusty blue' or s_lower contains 'slate' or s_lower contains 'blue' or s_lower contains 'aegean' or s_lower contains 'casper'
+                        assign s_hex = '#5A7382'
+                      elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
+                        assign s_hex = '#222D3E'
+                      elsif s_lower contains 'solar' or s_lower contains 'yellow' or s_lower contains 'gold'
+                        assign s_hex = '#E4C76C'
+                      elsif s_lower contains 'black' or s_lower contains 'charcoal'
+                        assign s_hex = '#1C1C1C'
+                      elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige'
+                        assign s_hex = '#C2B39F'
+                      elsif s_lower contains 'oat' or s_lower contains 'raw' or s_lower contains 'cream'
+                        assign s_hex = '#DDD5C7'
+                      endif
+
+                      assign entry = prod.handle | append: ':' | append: self_color | append: ':' | append: s_hex
+                      if siblings_data == blank
+                        assign siblings_data = entry
+                      else
+                        assign siblings_data = siblings_data | append: ',' | append: entry
+                      endif
+                    endunless
+
+                    # 3. Check for single-product Color variants
                     if siblings_data == blank
                       for opt in prod.options_with_values
                         assign opt_name_lower = opt.name | downcase
@@ -169,27 +433,27 @@
                             if c_slug contains 'white' or c_slug contains 'optic'
                               assign c_hex = '#FFFFFF'
                             elsif c_slug contains 'pink' or c_slug contains 'rose' or c_slug contains 'sunset'
-                              assign c_hex = '#BA9A91'
-                            elsif c_slug contains 'cacao' or c_slug contains 'brown' or c_slug contains 'espresso' or c_slug contains 'sepia'
-                              assign c_hex = '#4A3427'
-                            elsif c_slug contains 'cranberry' or c_slug contains 'red' or c_slug contains 'wine'
-                              assign c_hex = '#682720'
+                              assign c_hex = '#C99B9B'
+                            elsif c_slug contains 'cacao' or c_slug contains 'brown' or c_slug contains 'espresso'
+                              assign c_hex = '#3D2F27'
                             elsif c_slug contains 'terracotta' or c_slug contains 'rust'
-                              assign c_hex = '#7F372E'
-                            elsif c_slug contains 'olive' or c_slug contains 'arugula'
+                              assign c_hex = '#8F4236'
+                            elsif c_slug contains 'olive'
                               assign c_hex = '#474B32'
-                            elsif c_slug contains 'green' or c_slug contains 'mist' or c_slug contains 'sage'
+                            elsif c_slug contains 'mist' or c_slug contains 'sage'
                               assign c_hex = '#9FB0A6'
-                            elsif c_slug contains 'blue' or c_slug contains 'casper' or c_slug contains 'aegean'
-                              assign c_hex = '#4A677E'
-                            elsif c_slug contains 'navy' or c_slug contains 'midnight' or c_slug contains 'breeze'
+                            elsif c_slug contains 'blue'
+                              assign c_hex = '#5A7382'
+                            elsif c_slug contains 'navy' or c_slug contains 'midnight'
                               assign c_hex = '#222D3E'
-                            elsif c_slug contains 'yellow' or c_slug contains 'gold'
-                              assign c_hex = '#DCA745'
-                            elsif c_slug contains 'black' or c_slug contains 'charcoal'
+                            elsif c_slug contains 'solar' or c_slug contains 'yellow'
+                              assign c_hex = '#E4C76C'
+                            elsif c_slug contains 'black'
                               assign c_hex = '#1C1C1C'
-                            elsif c_slug contains 'dune' or c_slug contains 'sand' or c_slug contains 'beige' or c_slug contains 'oat'
+                            elsif c_slug contains 'dune'
                               assign c_hex = '#C2B39F'
+                            elsif c_slug contains 'oat'
+                              assign c_hex = '#DDD5C7'
                             endif
                             assign entry = prod.handle | append: ':' | append: val | append: ':' | append: c_hex
                             if siblings_data == blank
@@ -199,52 +463,6 @@
                             endif
                           endfor
                           break
-                        endif
-                      endfor
-                    endif
-
-                    # 3. If still blank, search collection for matching title prefix
-                    if siblings_data == blank and coll.products.size > 1
-                      assign p_prefix = prod.title | split: ' - ' | first | split: ' — ' | first | strip
-                      for sib in coll.products
-                        if sib.title contains p_prefix
-                          assign s_color = sib.title | split: ' - ' | last | split: ' — ' | last | strip
-                          if s_color == blank or s_color == sib.title
-                            assign s_color = 'Standard'
-                          endif
-                          assign s_lower = s_color | downcase
-                          assign s_hex = '#DDD5C7'
-                          if s_lower contains 'white' or s_lower contains 'optic'
-                            assign s_hex = '#FFFFFF'
-                          elsif s_lower contains 'pink' or s_lower contains 'rose' or s_lower contains 'sunset'
-                            assign s_hex = '#BA9A91'
-                          elsif s_lower contains 'cacao' or s_lower contains 'brown' or s_lower contains 'espresso' or s_lower contains 'sepia'
-                            assign s_hex = '#4A3427'
-                          elsif s_lower contains 'cranberry' or s_lower contains 'red' or s_lower contains 'wine'
-                            assign s_hex = '#682720'
-                          elsif s_lower contains 'terracotta' or s_lower contains 'rust'
-                            assign s_hex = '#7F372E'
-                          elsif s_lower contains 'olive' or s_lower contains 'arugula'
-                            assign s_hex = '#474B32'
-                          elsif s_lower contains 'green' or s_lower contains 'mist' or s_lower contains 'sage'
-                            assign s_hex = '#9FB0A6'
-                          elsif s_lower contains 'blue' or s_lower contains 'casper' or s_lower contains 'aegean'
-                            assign s_hex = '#4A677E'
-                          elsif s_lower contains 'navy' or s_lower contains 'midnight' or s_lower contains 'breeze'
-                            assign s_hex = '#222D3E'
-                          elsif s_lower contains 'yellow' or s_lower contains 'gold'
-                            assign s_hex = '#DCA745'
-                          elsif s_lower contains 'black' or s_lower contains 'charcoal'
-                            assign s_hex = '#1C1C1C'
-                          elsif s_lower contains 'dune' or s_lower contains 'sand' or s_lower contains 'beige' or s_lower contains 'oat'
-                            assign s_hex = '#C2B39F'
-                          endif
-                          assign entry = sib.handle | append: ':' | append: s_color | append: ':' | append: s_hex
-                          if siblings_data == blank
-                            assign siblings_data = entry
-                          else
-                            assign siblings_data = siblings_data | append: ',' | append: entry
-                          endif
                         endif
                       endfor
                     endif
@@ -405,9 +623,27 @@
 
                                 assign is_selected = false
                                 if s_handle == prod.handle
-                                  assign is_selected = true
-                                elsif prod.handle contains s_handle or s_handle contains prod.handle
-                                  assign is_selected = true
+                                  if prod_color != blank and s_name != blank
+                                    assign p_col_clean = prod_color | downcase | strip
+                                    assign s_col_clean = s_name | downcase | strip
+                                    if p_col_clean == s_col_clean or p_col_clean contains s_col_clean or s_col_clean contains p_col_clean
+                                      assign is_selected = true
+                                    endif
+                                  elsif prod.options_by_name['Color'] != blank or prod.options_by_name['Colour'] != blank
+                                    if first_avail_variant.options contains s_name
+                                      assign is_selected = true
+                                    elsif forloop.first
+                                      assign is_selected = true
+                                    endif
+                                  else
+                                    assign is_selected = true
+                                  endif
+                                elsif prod_color != blank and s_name != blank
+                                  assign p_col_clean = prod_color | downcase | strip
+                                  assign s_col_clean = s_name | downcase | strip
+                                  if p_col_clean == s_col_clean or p_col_clean contains s_col_clean or s_col_clean contains p_col_clean
+                                    assign is_selected = true
+                                  endif
                                 endif
 
                                 assign s_img_url = ''
@@ -1237,9 +1473,22 @@
         const swatches = card.querySelectorAll('.tabbed-swatch-item');
         if (!mainImg || swatches.length === 0) return;
 
-        // Ensure at least one swatch has is-active
+        // Ensure active swatch is present, matching card title if not pre-selected by Liquid
         if (!card.querySelector('.tabbed-swatch-item.is-active') && swatches.length > 0) {
-          swatches[0].classList.add('is-active');
+          const cardTitle = card.querySelector('.tabbed-product-card__title')?.textContent?.toLowerCase() || '';
+          let matchedSwatch = null;
+          for (const s of swatches) {
+            const colName = s.dataset.colorName?.toLowerCase() || '';
+            if (colName && cardTitle.includes(colName)) {
+              matchedSwatch = s;
+              break;
+            }
+          }
+          if (matchedSwatch) {
+            matchedSwatch.classList.add('is-active');
+          } else {
+            swatches[0].classList.add('is-active');
+          }
         }
 
         const mediaLink = card.querySelector('.tabbed-product-card__media-link');
