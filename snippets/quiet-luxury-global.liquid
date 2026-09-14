@@ -31,13 +31,39 @@
     background-color: #F2EFE9 !important;
   }
 
-  /* Remove gap between header and first section */
+  /* Ensure page top is flush — zero margins and paddings on root containers */
+  html,
+  body,
+  .page-wrapper {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* Header group flush to top */
   #header-group,
   .header-section,
   #header-component,
   .header,
   .header__row {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
     margin-bottom: 0 !important;
+  }
+
+  /* Hide any disabled or phantom announcement bar in header-group */
+  #header-group:has(.announcement-bar[aria-hidden="true"]) .shopify-section:has(.announcement-bar),
+  #header-group .shopify-section:has(.announcement-bar[aria-hidden="true"]),
+  #header-group .header-announcements[aria-hidden="true"],
+  #header-group .shopify-section:empty {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure transparent header sits flush at top: 0 */
+  .header[transparent] {
+    top: 0 !important;
   }
 
   #MainContent,
@@ -63,6 +89,21 @@
   main > .shopify-section:first-child > *:first-child {
     margin-top: 0 !important;
     padding-block-start: 0 !important;
+  }
+
+  /* When transparent header is active, ensure the first section is flush under header */
+  body:has(#header-component[transparent]) #MainContent,
+  body:has(#header-component[transparent]) .content-for-layout {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child,
+  body:has(#header-component[transparent]) .content-for-layout > .shopify-section:first-child,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   /* ------------------------------------------------------------------
