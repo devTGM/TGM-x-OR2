@@ -1,4 +1,4 @@
-{% stylesheet %}
+{% style %}
   /* ==========================================================================
      ON REPEAT — QUIET LUXURY GLOBAL STYLES
      Inspired by linendebeaumont.com
@@ -11,9 +11,9 @@
   body,
   .page-wrapper {
     background-color: #F2EFE9 !important;
-    font-family: 'Mango Serif', 'La Mango', serif !important;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
     font-weight: 400 !important;
-    font-size: 18px !important;
+    font-size: 16.5px !important;
     line-height: 1.75 !important;
     color: #1C1C1C !important;
     -webkit-font-smoothing: antialiased !important;
@@ -72,11 +72,11 @@
   li,
   .rte,
   .rte p {
-    font-family: 'Mango Serif', 'La Mango', serif !important;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
     font-weight: 400 !important;
-    font-size: 18px !important;
+    font-size: 16.5px !important;
     line-height: 1.75 !important;
-    color: #3D3935 !important;
+    color: #2B2723 !important;
   }
 
   /* ------------------------------------------------------------------
@@ -92,10 +92,10 @@
   [class*="hero"] h1,
   [class*="hero"] h2 {
     font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     font-style: normal !important;
     font-size: clamp(2.2rem, 4.2vw, 3.4rem) !important;
-    line-height: 1.12 !important;
+    line-height: 1.15 !important;
     letter-spacing: -0.01em !important;
     text-transform: none !important;
     color: #1C1C1C !important;
@@ -104,7 +104,7 @@
   /* Section headings, collection titles — Mango Serif */
   h1, .h1 {
     font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     font-style: normal !important;
     font-size: clamp(1.85rem, 3vw, 2.5rem) !important;
     letter-spacing: -0.01em !important;
@@ -115,7 +115,7 @@
 
   h2, .h2, .section-heading {
     font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     font-style: normal !important;
     font-size: clamp(1.5rem, 2.4vw, 2.1rem) !important;
     letter-spacing: -0.01em !important;
@@ -126,7 +126,7 @@
 
   h3, .h3 {
     font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     font-style: normal !important;
     font-size: clamp(1.2rem, 1.6vw, 1.5rem) !important;
     letter-spacing: 0em !important;
@@ -135,18 +135,18 @@
     line-height: 1.25 !important;
   }
 
-  /* Small uppercase labels — Mango Serif caps */
+  /* Small uppercase labels — clean sans-serif */
   h4, h5, h6,
   .h4, .h5, .h6,
   .announcement-bar__message,
   .collection-filters__heading {
-    font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 500 !important;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+    font-weight: 600 !important;
     font-style: normal !important;
-    font-size: 12px !important;
+    font-size: 12.5px !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
-    color: #1C1C1C !important;
+    color: #3D3935 !important;
   }
 
   /* ------------------------------------------------------------------
@@ -171,8 +171,8 @@
   .header__menu-item a,
   .header__menu-item span,
   .header__active-menu-item {
-    font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 500 !important;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+    font-weight: 600 !important;
     font-size: 13px !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
@@ -192,9 +192,9 @@
   button[type="submit"],
   .shopify-payment-button__button--unbranded {
     border-radius: 0 !important;
-    font-family: 'Mango Serif', 'La Mango', serif !important;
-    font-weight: 500 !important;
-    font-size: 13px !important;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+    font-weight: 600 !important;
+    font-size: 12.5px !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
     padding: 14px 34px !important;
@@ -358,17 +358,17 @@
   .footer p {
     font-family: var(--font-body-custom--family) !important;
     font-weight: 400 !important;
-    font-size: 14px !important;
-    letter-spacing: 0.04em !important;
-    color: #5C5751 !important;
+    font-size: 14.5px !important;
+    letter-spacing: 0.02em !important;
+    color: #3D3935 !important;
   }
 
   .footer__heading,
   .footer h2,
   .footer h3 {
     font-family: var(--font-body-custom--family) !important;
-    font-weight: 500 !important;
-    font-size: 12px !important;
+    font-weight: 600 !important;
+    font-size: 12.5px !important;
     letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
     color: #1C1C1C !important;
@@ -458,4 +458,4 @@
     border-radius: 0 !important;
   }
 
-{% endstylesheet %}
+{% endstyle %}
