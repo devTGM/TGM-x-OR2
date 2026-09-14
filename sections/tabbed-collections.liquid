@@ -35,6 +35,8 @@
     else
       assign aspect_ratio_css = '2 / 3'
   endcase
+
+  assign all_store_products = collections['all'].products | default: collections.all.products
 -%}
 
 <div
@@ -404,17 +406,91 @@
                                 assign is_selected = false
                                 if s_handle == prod.handle
                                   assign is_selected = true
-                                elsif forloop.first and total_swatches > 0 and prod_handle contains s_handle
+                                elsif prod.handle contains s_handle or s_handle contains prod.handle
                                   assign is_selected = true
                                 endif
 
-                                assign s_product = all_products[s_handle]
                                 assign s_img_url = ''
                                 assign s_url = '/products/' | append: s_handle
-                                if s_product != blank
-                                  assign s_url = s_product.url
-                                  if s_product.featured_image != blank
-                                    assign s_img_url = s_product.featured_image | image_url: width: 900
+                                assign s_title = prod.title
+                                assign s_variant_id = first_avail_variant.id
+                                assign s_price = prod.price | money
+
+                                # 1. Current product
+                                if s_handle == prod.handle
+                                  if primary_image != blank
+                                    assign s_img_url = primary_image | image_url: width: 900
+                                  endif
+                                  assign s_url = prod.url
+                                endif
+
+                                # 2. Sibling in current collection
+                                if s_img_url == blank and coll != blank
+                                  for sib in coll.products
+                                    if sib.handle == s_handle
+                                      if sib.featured_image != blank
+                                        assign s_img_url = sib.featured_image | image_url: width: 900
+                                      endif
+                                      assign s_url = sib.url
+                                      assign s_title = sib.title
+                                      assign s_variant_id = sib.selected_or_first_available_variant.id
+                                      assign s_price = sib.price | money
+                                      break
+                                    endif
+                                  endfor
+                                endif
+
+                                # 3. Sibling in other tab collections
+                                if s_img_url == blank
+                                  for b in section.blocks
+                                    assign b_coll = b.settings.collection
+                                    if b_coll != blank and b_coll.id != coll.id
+                                      for sib in b_coll.products
+                                        if sib.handle == s_handle
+                                          if sib.featured_image != blank
+                                            assign s_img_url = sib.featured_image | image_url: width: 900
+                                          endif
+                                          assign s_url = sib.url
+                                          assign s_title = sib.title
+                                          assign s_variant_id = sib.selected_or_first_available_variant.id
+                                          assign s_price = sib.price | money
+                                          break
+                                        endif
+                                      endfor
+                                    endif
+                                    if s_img_url != blank
+                                      break
+                                    endif
+                                  endfor
+                                endif
+
+                                # 4. Sibling in all store products
+                                if s_img_url == blank and all_store_products != blank
+                                  for sib in all_store_products
+                                    if sib.handle == s_handle
+                                      if sib.featured_image != blank
+                                        assign s_img_url = sib.featured_image | image_url: width: 900
+                                      endif
+                                      assign s_url = sib.url
+                                      assign s_title = sib.title
+                                      assign s_variant_id = sib.selected_or_first_available_variant.id
+                                      assign s_price = sib.price | money
+                                      break
+                                    endif
+                                  endfor
+                                endif
+
+                                # 5. Fallback to all_products
+                                if s_img_url == blank
+                                  assign s_product = all_products[s_handle]
+                                  if s_product != blank
+                                    assign s_url = s_product.url
+                                    assign s_title = s_product.title
+                                    assign s_variant_id = s_product.selected_or_first_available_variant.id
+                                    assign s_price = s_product.price | money
+                                    if s_product.featured_image != blank
+                                      assign s_img_url = s_product.featured_image | image_url: width: 900
+                                    endif
                                   endif
                                 endif
                               -%}
@@ -424,7 +500,12 @@
                                 title="{{ s_name | escape }}"
                                 aria-label="{{ s_name | escape }}"
                                 data-color-name="{{ s_name | escape }}"
+                                data-product-handle="{{ s_handle }}"
                                 {% if s_img_url != blank %}data-image-src="{{ s_img_url }}"{% endif %}
+                                {% if s_url != blank %}data-product-url="{{ s_url }}"{% endif %}
+                                {% if s_title != blank %}data-product-title="{{ s_title | escape }}"{% endif %}
+                                {% if s_variant_id != blank %}data-variant-id="{{ s_variant_id }}"{% endif %}
+                                {% if s_price != blank %}data-product-price="{{ s_price }}"{% endif %}
                                 role="listitem"
                               >
                                 <span class="tabbed-swatch-ring">
@@ -1023,77 +1104,235 @@
   }
 </style>
 
-<script>
-  (function () {
-    const section = document.getElementById('TabbedCollections-{{ section.id }}');
-    if (!section) return;
+  <!-- Section Catalog JSON for Instant Swatch Resolution across all collections -->
+  <script type="application/json" class="js-tabbed-collections-catalog">
+    {
+      {%- assign added_handles = '' -%}
+      {%- for block in section.blocks -%}
+        {%- assign b_coll = block.settings.collection -%}
+        {%- if b_coll != blank -%}
+          {%- for p in b_coll.products -%}
+            {%- unless added_handles contains p.handle -%}
+              {%- assign added_handles = added_handles | append: p.handle | append: ',' -%}
+              "{{ p.handle }}": {
+                "title": {{ p.title | json }},
+                "url": {{ p.url | json }},
+                "image": {{ p.featured_image | image_url: width: 900 | json }},
+                "variantId": {{ p.selected_or_first_available_variant.id | json }},
+                "price": {{ p.price | money | json }}
+              },
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if all_store_products != blank -%}
+        {%- for p in all_store_products limit: 50 -%}
+          {%- unless added_handles contains p.handle -%}
+            {%- assign added_handles = added_handles | append: p.handle | append: ',' -%}
+            "{{ p.handle }}": {
+              "title": {{ p.title | json }},
+              "url": {{ p.url | json }},
+              "image": {{ p.featured_image | image_url: width: 900 | json }},
+              "variantId": {{ p.selected_or_first_available_variant.id | json }},
+              "price": {{ p.price | money | json }}
+            },
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+      "__end__": {}
+    }
+  </script>
 
-    // 1. Tab Switching
-    const tabs = section.querySelectorAll('.tabbed-collections__tab-btn');
-    const panels = section.querySelectorAll('.tabbed-collections__panel');
+  <script>
+    (function () {
+      const section = document.getElementById('TabbedCollections-{{ section.id }}');
+      if (!section) return;
 
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const targetPanelId = tab.getAttribute('aria-controls');
-
-        tabs.forEach((t) => {
-          t.classList.remove('is-active');
-          t.setAttribute('aria-selected', 'false');
-          t.setAttribute('tabindex', '-1');
-        });
-
-        panels.forEach((p) => {
-          p.classList.remove('is-active');
-          p.hidden = true;
-        });
-
-        tab.classList.add('is-active');
-        tab.setAttribute('aria-selected', 'true');
-        tab.setAttribute('tabindex', '0');
-
-        const activePanel = document.getElementById(targetPanelId);
-        if (activePanel) {
-          activePanel.classList.add('is-active');
-          activePanel.hidden = false;
+      // Parse Catalog JSON for Instant Resolution
+      let catalog = {};
+      const catalogScript = section.querySelector('.js-tabbed-collections-catalog');
+      if (catalogScript) {
+        try {
+          catalog = JSON.parse(catalogScript.textContent);
+        } catch (e) {
+          console.error('[Tabbed Collections] Catalog parse error', e);
         }
-      });
-    });
+      }
 
-    // 2. Interactive Swatch Hover / Click (Swaps product image)
-    const cards = section.querySelectorAll('.tabbed-product-card');
-    cards.forEach((card) => {
-      const mainImg = card.querySelector('.tabbed-product-card__image--primary');
-      const swatches = card.querySelectorAll('.tabbed-swatch-item');
-      if (!mainImg || swatches.length === 0) return;
+      // 1. Tab Switching
+      const tabs = section.querySelectorAll('.tabbed-collections__tab-btn');
+      const panels = section.querySelectorAll('.tabbed-collections__panel');
 
-      const originalSrc = mainImg.getAttribute('src');
-      const originalSrcset = mainImg.getAttribute('srcset');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const targetPanelId = tab.getAttribute('aria-controls');
 
-      swatches.forEach((swatch) => {
-        const targetImgSrc = swatch.dataset.imageSrc;
-        if (!targetImgSrc) return;
+          tabs.forEach((t) => {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+            t.setAttribute('tabindex', '-1');
+          });
 
-        swatch.addEventListener('mouseenter', () => {
-          mainImg.setAttribute('src', targetImgSrc);
-          if (mainImg.hasAttribute('srcset')) {
-            mainImg.removeAttribute('srcset');
+          panels.forEach((p) => {
+            p.classList.remove('is-active');
+            p.hidden = true;
+          });
+
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+          tab.setAttribute('tabindex', '0');
+
+          const activePanel = document.getElementById(targetPanelId);
+          if (activePanel) {
+            activePanel.classList.add('is-active');
+            activePanel.hidden = false;
+            window.dispatchEvent(new Event('resize'));
           }
         });
+      });
 
-        swatch.addEventListener('mouseleave', () => {
-          if (!swatch.classList.contains('is-active')) {
-            const activeSwatch = card.querySelector('.tabbed-swatch-item.is-active');
-            const activeSrc = activeSwatch?.dataset?.imageSrc;
-            if (activeSrc) {
-              mainImg.setAttribute('src', activeSrc);
-            } else if (originalSrc) {
-              mainImg.setAttribute('src', originalSrc);
-              if (originalSrcset) mainImg.setAttribute('srcset', originalSrcset);
+      // Helper function to resolve swatch product information
+      async function resolveSwatchData(swatch) {
+        let src = swatch.dataset.imageSrc;
+        let url = swatch.dataset.productUrl;
+        let title = swatch.dataset.productTitle;
+        let variantId = swatch.dataset.variantId;
+        let price = swatch.dataset.productPrice;
+        const handle = swatch.dataset.productHandle;
+
+        if ((!src || !variantId) && handle && catalog[handle]) {
+          const item = catalog[handle];
+          src = src || item.image;
+          url = url || item.url;
+          title = title || item.title;
+          variantId = variantId || item.variantId;
+          price = price || item.price;
+        }
+
+        // Asynchronous fallback if still missing
+        if (!src && handle) {
+          try {
+            const res = await fetch(`/products/${handle}.js`);
+            if (res.ok) {
+              const data = await res.json();
+              src = data.featured_image;
+              url = url || data.url;
+              title = title || data.title;
+              variantId = variantId || (data.variants && data.variants[0]?.id);
+              if (src) swatch.dataset.imageSrc = src;
+              if (url) swatch.dataset.productUrl = url;
+              if (title) swatch.dataset.productTitle = title;
+              if (variantId) swatch.dataset.variantId = variantId;
             }
-          }
+          } catch (e) {}
+        }
+
+        return { src, url, title, variantId, price };
+      }
+
+      // 2. Interactive Swatches: Works Across ALL Collections & Panels
+      const cards = section.querySelectorAll('.tabbed-product-card');
+      cards.forEach((card) => {
+        const mainImg = card.querySelector('.tabbed-product-card__image--primary');
+        const swatches = card.querySelectorAll('.tabbed-swatch-item');
+        if (!mainImg || swatches.length === 0) return;
+
+        // Ensure at least one swatch has is-active
+        if (!card.querySelector('.tabbed-swatch-item.is-active') && swatches.length > 0) {
+          swatches[0].classList.add('is-active');
+        }
+
+        const mediaLink = card.querySelector('.tabbed-product-card__media-link');
+        const titleLink = card.querySelector('.tabbed-product-card__title a');
+        const quickAddBtn = card.querySelector('.tabbed-product-card__quick-add .tabbed-product-card__add-btn');
+        const mobileQuickBtn = card.querySelector('.tabbed-product-card__mobile-icon-btn');
+        const priceElem = card.querySelector('.tabbed-product-card__current-price');
+
+        // Track current active swatch and image
+        const activeSwatch = card.querySelector('.tabbed-swatch-item.is-active') || swatches[0];
+        let currentActiveSrc = activeSwatch?.dataset?.imageSrc || mainImg.getAttribute('src');
+
+        swatches.forEach((swatch) => {
+          // A. Hover preview (Desktop)
+          swatch.addEventListener('mouseenter', async () => {
+            const data = await resolveSwatchData(swatch);
+            if (data.src) {
+              mainImg.setAttribute('src', data.src);
+              if (mainImg.hasAttribute('srcset')) {
+                mainImg.removeAttribute('srcset');
+              }
+            }
+          });
+
+          // B. Mouseleave (Restore active swatch image on Desktop)
+          swatch.addEventListener('mouseleave', () => {
+            const curActive = card.querySelector('.tabbed-swatch-item.is-active');
+            const restoreSrc = curActive?.dataset?.imageSrc || currentActiveSrc;
+            if (restoreSrc) {
+              mainImg.setAttribute('src', restoreSrc);
+            }
+          });
+
+          // C. Click / Tap (Select Colorway on Card or Navigate if already active)
+          swatch.addEventListener('click', async (e) => {
+            if (swatch.classList.contains('is-active')) {
+              // Already selected: follow link to product page
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Set active swatch ring
+            swatches.forEach((s) => s.classList.remove('is-active'));
+            swatch.classList.add('is-active');
+
+            // Resolve and apply data
+            const data = await resolveSwatchData(swatch);
+
+            // 1. Update image
+            if (data.src) {
+              currentActiveSrc = data.src;
+              mainImg.setAttribute('src', data.src);
+              if (mainImg.hasAttribute('srcset')) {
+                mainImg.removeAttribute('srcset');
+              }
+            }
+
+            // 2. Update title
+            if (data.title && titleLink) {
+              titleLink.textContent = data.title;
+            }
+
+            // 3. Update links
+            if (data.url) {
+              if (titleLink) titleLink.setAttribute('href', data.url);
+              if (mediaLink) mediaLink.setAttribute('href', data.url);
+              if (quickAddBtn && quickAddBtn.tagName === 'A') {
+                quickAddBtn.setAttribute('href', data.url);
+              }
+              if (mobileQuickBtn && mobileQuickBtn.tagName === 'A') {
+                mobileQuickBtn.setAttribute('href', data.url);
+              }
+            }
+
+            // 4. Update Quick Add variant ID
+            if (data.variantId) {
+              if (quickAddBtn && quickAddBtn.dataset) {
+                quickAddBtn.dataset.variantId = data.variantId;
+              }
+              if (mobileQuickBtn && mobileQuickBtn.dataset) {
+                mobileQuickBtn.dataset.variantId = data.variantId;
+              }
+            }
+
+            // 5. Update price if present
+            if (data.price && priceElem) {
+              priceElem.textContent = data.price;
+            }
+          });
         });
       });
-    });
 
     // 3. Quick Add To Bag AJAX
     const quickAddButtons = section.querySelectorAll('.js-quick-add');
