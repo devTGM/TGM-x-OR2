@@ -707,6 +707,7 @@
     },
     "divider_eWmecW": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -722,6 +723,7 @@
     },
     "brand_story_mK7vPq": {
       "type": "brand-story",
+      "disabled": true,
       "settings": {
         "overline": "OUR STORY",
         "heading": "Clothes You Actually Want to Wear",
