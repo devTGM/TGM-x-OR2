@@ -1,12 +1,13 @@
 {% doc %}
-  Tabbed Featured Collections Section
-  Allows adding 3-4 (or more) collections with interactive instant tabs.
-  Matches the quiet luxury design system:
-  - Taller fashion editorial portrait images (2:3 ratio)
-  - Pure fabric color swatches with concentric active rings and "+X more" pill badge
-  - Interactive swatches: hover switches card image, click navigates to color product
+  Tabbed Featured Collections Section — Quiet Luxury Edition
+  Features:
+  - 100% uniform product cards with fixed-height alignment
+  - Taller fashion editorial portrait images (2:3 aspect ratio)
+  - Clean, aesthetic mobile view (discreet floating quick-add icon, no bulky white overlay)
+  - Pure solid fabric color swatches with active concentric ring & '+X more' pill badge
+  - Interactive swatches: hover previews colorway image, click navigates to product
   - Cormorant Garamond headings + Red Hat Text uppercase tabs
-  - Quick "ADD TO BAG" overlay button with AJAX cart addition & cart drawer trigger
+  - Desktop hover 'ADD TO BAG' bar with instant AJAX cart drawer trigger
   - Sharp 0px corners across cards and buttons
 {% enddoc %}
 
@@ -254,7 +255,7 @@
                     data-product-id="{{ prod.id }}"
                     data-product-handle="{{ prod.handle }}"
                   >
-                    <!-- Taller Media Image Area -->
+                    <!-- Uniform Taller Media Image Area -->
                     <div class="tabbed-product-card__media-wrapper">
                       <a
                         href="{{ prod.url }}"
@@ -292,18 +293,18 @@
                         </div>
                       {%- endif -%}
 
-                      <!-- Quick Add "ADD TO BAG" Overlay Button -->
+                      <!-- Quick Add Actions -->
                       {%- if show_quick_add -%}
-                        <div class="tabbed-product-card__quick-add">
+                        <!-- Desktop Hover Slide-Up Bar -->
+                        <div class="tabbed-product-card__quick-add desktop-only">
                           {%- if prod.available -%}
                             {%- if has_variants -%}
-                              <!-- Has sizes/variants: link to product -->
                               <a
                                 href="{{ prod.url }}"
                                 class="tabbed-product-card__add-btn"
                                 aria-label="Select size for {{ prod.title | escape }}"
                               >
-                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                                   <line x1="3" y1="6" x2="21" y2="6"></line>
                                   <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -311,14 +312,13 @@
                                 <span>ADD TO BAG</span>
                               </a>
                             {%- else -%}
-                              <!-- Single variant: instant 1-click AJAX add -->
                               <button
                                 type="button"
                                 class="tabbed-product-card__add-btn js-quick-add"
                                 data-variant-id="{{ first_avail_variant.id }}"
                                 aria-label="Add {{ prod.title | escape }} to bag"
                               >
-                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="tabbed-product-card__bag-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                                   <line x1="3" y1="6" x2="21" y2="6"></line>
                                   <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -336,84 +336,117 @@
                             </button>
                           {%- endif -%}
                         </div>
+
+                        <!-- Mobile Minimal Floating Icon (Clean & Unobtrusive) -->
+                        <div class="tabbed-product-card__mobile-quick-btn mobile-only">
+                          {%- if prod.available -%}
+                            {%- if has_variants -%}
+                              <a
+                                href="{{ prod.url }}"
+                                class="tabbed-product-card__mobile-icon-btn"
+                                aria-label="View {{ prod.title | escape }}"
+                              >
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                              </a>
+                            {%- else -%}
+                              <button
+                                type="button"
+                                class="tabbed-product-card__mobile-icon-btn js-quick-add"
+                                data-variant-id="{{ first_avail_variant.id }}"
+                                aria-label="Add {{ prod.title | escape }} to bag"
+                              >
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                              </button>
+                            {%- endif -%}
+                          {%- endif -%}
+                        </div>
                       {%- endif -%}
                     </div>
 
-                    <!-- Details Area: Title + Price + Swatches -->
+                    <!-- Details Area: 100% Uniform Vertical Grid Alignment -->
                     <div class="tabbed-product-card__info">
-                      <div class="tabbed-product-card__title-price-row">
-                        <h3 class="tabbed-product-card__title">
-                          <a href="{{ prod.url }}">{{ prod.title }}</a>
-                        </h3>
-                        <div class="tabbed-product-card__price">
-                          <span class="tabbed-product-card__current-price">
-                            {{ prod.price | money }}
-                          </span>
-                          {%- if on_sale -%}
-                            <s class="tabbed-product-card__compare-price">
-                              {{ prod.compare_at_price | money }}
-                            </s>
-                          {%- endif -%}
-                        </div>
+                      <!-- 1. Title: Reserved 2-line clamped space for absolute uniformity -->
+                      <h3 class="tabbed-product-card__title">
+                        <a href="{{ prod.url }}">{{ prod.title }}</a>
+                      </h3>
+
+                      <!-- 2. Price Row -->
+                      <div class="tabbed-product-card__price">
+                        <span class="tabbed-product-card__current-price">
+                          {{ prod.price | money }}
+                        </span>
+                        {%- if on_sale -%}
+                          <s class="tabbed-product-card__compare-price">
+                            {{ prod.compare_at_price | money }}
+                          </s>
+                        {%- endif -%}
                       </div>
 
-                      <!-- Pure Fabric Color Swatches (No pictures, exact concentric ring) -->
-                      {%- if show_swatches and total_swatches > 0 -%}
-                        <div class="tabbed-product-card__swatches" role="list" aria-label="Available colors">
-                          {%- for s_item in swatches_array limit: max_swatches -%}
-                            {%- liquid
-                              assign parts = s_item | split: ':'
-                              assign s_handle = parts[0] | strip
-                              assign s_name = parts[1] | strip
-                              assign s_hex = parts[2] | strip | default: '#DDD5C7'
+                      <!-- 3. Swatches Row: Fixed height so card bottoms align perfectly -->
+                      <div class="tabbed-product-card__swatches-wrap">
+                        {%- if show_swatches and total_swatches > 0 -%}
+                          <div class="tabbed-product-card__swatches" role="list" aria-label="Available colors">
+                            {%- for s_item in swatches_array limit: max_swatches -%}
+                              {%- liquid
+                                assign parts = s_item | split: ':'
+                                assign s_handle = parts[0] | strip
+                                assign s_name = parts[1] | strip
+                                assign s_hex = parts[2] | strip | default: '#DDD5C7'
 
-                              # Check if this swatch corresponds to the current product
-                              assign is_selected = false
-                              if s_handle == prod.handle
-                                assign is_selected = true
-                              elsif forloop.first and total_swatches > 0 and prod_handle contains s_handle
-                                assign is_selected = true
-                              endif
-
-                              # Sibling product object for image swap
-                              assign s_product = all_products[s_handle]
-                              assign s_img_url = ''
-                              assign s_url = prod.url
-                              if s_product != blank
-                                assign s_url = s_product.url
-                                if s_product.featured_image != blank
-                                  assign s_img_url = s_product.featured_image | image_url: width: 900
+                                assign is_selected = false
+                                if s_handle == prod.handle
+                                  assign is_selected = true
+                                elsif forloop.first and total_swatches > 0 and prod_handle contains s_handle
+                                  assign is_selected = true
                                 endif
-                              endif
-                            -%}
-                            <a
-                              href="{{ s_url }}"
-                              class="tabbed-swatch-item{% if is_selected %} is-active{% endif %}"
-                              title="{{ s_name | escape }}"
-                              aria-label="{{ s_name | escape }}"
-                              data-color-name="{{ s_name | escape }}"
-                              {% if s_img_url != blank %}data-image-src="{{ s_img_url }}"{% endif %}
-                              role="listitem"
-                            >
-                              <span class="tabbed-swatch-ring">
-                                <span class="tabbed-swatch-inner" style="background-color: {{ s_hex }};"></span>
-                              </span>
-                            </a>
-                          {%- endfor -%}
 
-                          {%- if total_swatches > max_swatches -%}
-                            {%- assign remaining = total_swatches | minus: max_swatches -%}
-                            <a
-                              href="{{ prod.url }}"
-                              class="tabbed-product-card__more-swatches"
-                              title="View all colors for {{ prod.title | escape }}"
-                              aria-label="{{ remaining }} more colors available"
-                            >
-                              +{{ remaining }} more
-                            </a>
-                          {%- endif -%}
-                        </div>
-                      {%- endif -%}
+                                assign s_product = all_products[s_handle]
+                                assign s_img_url = ''
+                                assign s_url = '/products/' | append: s_handle
+                                if s_product != blank
+                                  assign s_url = s_product.url
+                                  if s_product.featured_image != blank
+                                    assign s_img_url = s_product.featured_image | image_url: width: 900
+                                  endif
+                                endif
+                              -%}
+                              <a
+                                href="{{ s_url }}"
+                                class="tabbed-swatch-item{% if is_selected %} is-active{% endif %}"
+                                title="{{ s_name | escape }}"
+                                aria-label="{{ s_name | escape }}"
+                                data-color-name="{{ s_name | escape }}"
+                                {% if s_img_url != blank %}data-image-src="{{ s_img_url }}"{% endif %}
+                                role="listitem"
+                              >
+                                <span class="tabbed-swatch-ring">
+                                  <span class="tabbed-swatch-inner" style="background-color: {{ s_hex }};"></span>
+                                </span>
+                              </a>
+                            {%- endfor -%}
+
+                            {%- if total_swatches > max_swatches -%}
+                              {%- assign remaining = total_swatches | minus: max_swatches -%}
+                              <a
+                                href="{{ prod.url }}"
+                                class="tabbed-product-card__more-swatches"
+                                title="View all colors for {{ prod.title | escape }}"
+                                aria-label="{{ remaining }} more colors available"
+                              >
+                                +{{ remaining }} more
+                              </a>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      </div>
                     </div>
                   </article>
                 {%- endfor -%}
@@ -425,12 +458,10 @@
                       {{ 'product-' | append: i | placeholder_svg_tag: 'tabbed-product-card__placeholder' }}
                     </div>
                     <div class="tabbed-product-card__info">
-                      <div class="tabbed-product-card__title-price-row">
-                        <h3 class="tabbed-product-card__title">Essential Linen Shirt</h3>
-                        <div class="tabbed-product-card__price">
-                          <span class="tabbed-product-card__current-price">₹ 2,625</span>
-                          <s class="tabbed-product-card__compare-price">₹ 2,999</s>
-                        </div>
+                      <h3 class="tabbed-product-card__title">Essential Linen Shirt</h3>
+                      <div class="tabbed-product-card__price">
+                        <span class="tabbed-product-card__current-price">₹ 2,625</span>
+                        <s class="tabbed-product-card__compare-price">₹ 2,999</s>
                       </div>
                     </div>
                   </article>
@@ -458,7 +489,7 @@
 
 <style>
   /* ------------------------------------------------------------------
-     TABBED FEATURED COLLECTIONS — QUIET LUXURY STYLING
+     TABBED FEATURED COLLECTIONS — QUIET LUXURY REFINED STYLING
      ------------------------------------------------------------------ */
   .tabbed-collections-section {
     position: relative;
@@ -492,7 +523,7 @@
 
   .tabbed-collections__title {
     font-family: var(--font-editorial--family, 'Cormorant Garamond', Georgia, serif) !important;
-    font-size: clamp(2rem, 3.8vw, 2.75rem) !important;
+    font-size: clamp(2rem, 3.5vw, 2.75rem) !important;
     font-weight: 300 !important;
     font-style: italic !important;
     color: #1C1C1C !important;
@@ -571,12 +602,13 @@
     background-color: #1C1C1C;
   }
 
-  /* Grid Layout */
+  /* Grid Layout: Stretched uniform items */
   .tabbed-collections__grid {
     display: grid;
     gap: 1.5rem;
-    row-gap: 2.5rem;
+    row-gap: 2.75rem;
     width: 100%;
+    align-items: stretch;
   }
 
   .tabbed-collections__grid.grid--cols-3 {
@@ -605,7 +637,7 @@
     .tabbed-collections__grid.grid--cols-3 {
       grid-template-columns: repeat(2, 1fr);
       gap: 0.85rem;
-      row-gap: 1.75rem;
+      row-gap: 2rem;
     }
     .tabbed-collections__tabs-nav {
       gap: 1.5rem;
@@ -616,15 +648,16 @@
     }
   }
 
-  /* Product Card */
+  /* 100% Uniform Product Card */
   .tabbed-product-card {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
     background: transparent;
   }
 
-  /* TALLER Media Wrapper (Editorial fashion format) */
+  /* Uniform TALLER Media Wrapper (Editorial fashion format) */
   .tabbed-product-card__media-wrapper {
     position: relative;
     width: 100%;
@@ -632,6 +665,7 @@
     background-color: #EAE6DF;
     overflow: hidden;
     border-radius: 0px;
+    flex-shrink: 0;
   }
 
   .tabbed-product-card__media-link {
@@ -674,14 +708,14 @@
   /* Discount Badge (Top-Left) */
   .tabbed-product-card__badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 8px;
+    left: 8px;
     z-index: 5;
     font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
     letter-spacing: 0.08em;
-    padding: 4px 8px;
+    padding: 4px 7px;
     border-radius: 0px;
     text-transform: uppercase;
     line-height: 1;
@@ -698,7 +732,7 @@
     color: #FFFFFF;
   }
 
-  /* Quick Add "ADD TO BAG" Overlay Button */
+  /* Desktop Quick Add "ADD TO BAG" Overlay Button */
   .tabbed-product-card__quick-add {
     position: absolute;
     bottom: 0;
@@ -716,16 +750,6 @@
     opacity: 1;
   }
 
-  @media screen and (max-width: 749px) {
-    .tabbed-product-card__quick-add {
-      transform: translateY(0);
-      opacity: 1;
-      bottom: 6px;
-      left: 6px;
-      right: 6px;
-    }
-  }
-
   .tabbed-product-card__add-btn {
     display: flex;
     align-items: center;
@@ -737,11 +761,11 @@
     border: none;
     border-top: 1px solid #E2DDD6;
     border-radius: 0px;
-    padding: 12px 16px;
+    padding: 11px 16px;
     font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
     font-size: 10.5px;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
@@ -769,28 +793,67 @@
     cursor: not-allowed;
   }
 
-  /* Info Area */
+  /* Mobile Clean Floating Icon (Discrete & Aesthetic) */
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+
+  @media screen and (max-width: 749px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: block !important; }
+
+    .tabbed-product-card__mobile-quick-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      z-index: 6;
+    }
+
+    .tabbed-product-card__mobile-icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.94);
+      color: #1C1C1C;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .tabbed-product-card__mobile-icon-btn:active {
+      transform: scale(0.92);
+      background-color: #1C1C1C;
+      color: #FFFFFF;
+    }
+  }
+
+  /* Uniform Details Area */
   .tabbed-product-card__info {
-    padding-top: 12px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    flex-grow: 1;
   }
 
-  .tabbed-product-card__title-price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
+  /* Uniform 2-Line Clamped Title */
   .tabbed-product-card__title {
     margin: 0;
     font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
     font-size: 13px;
     font-weight: 400;
     line-height: 1.35;
-    flex: 1;
+    height: 2.7em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .tabbed-product-card__title a {
@@ -803,12 +866,15 @@
     opacity: 0.6;
   }
 
+  /* Uniform Price Row */
   .tabbed-product-card__price {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 5px;
+    min-height: 18px;
     white-space: nowrap;
-    line-height: 1.25;
+    line-height: 1.2;
   }
 
   .tabbed-product-card__current-price {
@@ -820,17 +886,22 @@
 
   .tabbed-product-card__compare-price {
     font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
-    font-size: 11px;
+    font-size: 11.5px;
     color: #8C867F;
-    margin-top: 2px;
   }
 
-  /* Pure Fabric Color Swatches (Exact concentric ring) */
+  /* Uniform Swatches Wrapper */
+  .tabbed-product-card__swatches-wrap {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+
   .tabbed-product-card__swatches {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 2px;
+    gap: 7px;
     flex-wrap: wrap;
   }
 
@@ -853,17 +924,17 @@
     transform: scale(1.1);
   }
 
-  /* Concentric Swatch Ring */
+  /* Concentric Swatch Ring (Quiet Luxury specification) */
   .tabbed-swatch-ring {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     padding: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #FFFFFF;
-    border: 1.5px solid #D8D3CC;
+    border: 1px solid #D8D3CC;
     box-sizing: border-box;
     transition: border-color 0.15s ease;
   }
@@ -872,9 +943,10 @@
     border-color: #1C1C1C;
   }
 
-  /* Active Swatch with bold dark ring */
+  /* Active Swatch with crisp dark outer ring */
   .tabbed-swatch-item.is-active .tabbed-swatch-ring {
-    border: 2px solid #1C1C1C;
+    border: 1.5px solid #1C1C1C;
+    box-shadow: 0 0 0 1px #1C1C1C;
   }
 
   /* Pure Fabric Inner Color Circle */
@@ -888,7 +960,6 @@
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
   }
 
-  /* Subtle fabric sheen */
   .tabbed-swatch-inner::after {
     content: '';
     position: absolute;
@@ -896,14 +967,14 @@
     border-radius: 50%;
     background: linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(255, 255, 255, 0.05) 40%,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(255, 255, 255, 0.05) 45%,
       rgba(0, 0, 0, 0.08) 100%
     );
     pointer-events: none;
   }
 
-  /* Pill Badge for "+X more" colors */
+  /* Pill Badge for "+X more" colors matching reference */
   .tabbed-product-card__more-swatches {
     display: inline-flex;
     align-items: center;
@@ -1002,7 +1073,6 @@
         const targetImgSrc = swatch.dataset.imageSrc;
         if (!targetImgSrc) return;
 
-        // Hover swaps image preview
         swatch.addEventListener('mouseenter', () => {
           mainImg.setAttribute('src', targetImgSrc);
           if (mainImg.hasAttribute('srcset')) {
@@ -1011,7 +1081,6 @@
         });
 
         swatch.addEventListener('mouseleave', () => {
-          // If swatch is not the active one, restore original
           if (!swatch.classList.contains('is-active')) {
             const activeSwatch = card.querySelector('.tabbed-swatch-item.is-active');
             const activeSrc = activeSwatch?.dataset?.imageSrc;
@@ -1031,6 +1100,7 @@
     quickAddButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const variantId = btn.dataset.variantId;
         if (!variantId) return;
 
