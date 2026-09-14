@@ -207,7 +207,7 @@
             "font": "heading",
             "text_color": "",
             "unit": "percent",
-            "percent_width": 100,
+            "percent_width": 80,
             "pixel_height": 48,
             "custom_mobile_size": false,
             "unit_mobile": "percent",
