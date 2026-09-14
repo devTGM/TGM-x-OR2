@@ -1,0 +1,603 @@
+{% comment %}
+  Brand Story / Heritage Story Section — Quiet Luxury Edition
+  Replicates the editorial high-fashion layout from the reference:
+  - Asymmetric overlapping dual-image collage (model portrait + framed macro embroidery detail)
+  - Refined overline with horizontal hairline divider
+  - Dual-tone headline (regular serif + italic accent)
+  - Editorial lead narrative
+  - Highlight pull quote with vertical gold accent bar
+  - Secondary philosophy narrative
+  - Solid dark quiet luxury CTA button with hover arrow glide
+{% endcomment %}
+
+{%- liquid
+  assign bg_color = section.settings.background_color | default: '#F4F0EB'
+  assign text_color = section.settings.text_color | default: '#1C1C1C'
+  assign accent_color = section.settings.accent_color | default: '#8F8171'
+  assign quote_bar_color = section.settings.quote_bar_color | default: '#C5A880'
+  assign frame_color = section.settings.frame_color | default: '#EAE6DF'
+  assign layout_dir = section.settings.layout_direction | default: 'media_first'
+-%}
+
+<section
+  class="brand-story-editorial section-wrapper"
+  id="BrandStory-{{ section.id }}"
+  style="
+    --story-bg: {{ bg_color }};
+    --story-text-color: {{ text_color }};
+    --story-accent-color: {{ accent_color }};
+    --story-quote-bar: {{ quote_bar_color }};
+    --story-frame-color: {{ frame_color }};
+    padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+  "
+>
+  <div class="page-width">
+    <div class="brand-story__grid layout--{{ layout_dir }}">
+      <!-- Left Column: Overlapping Dual-Image Composition -->
+      <div class="brand-story__media-col">
+        <!-- Back Main Image (Editorial Portrait) -->
+        <div class="brand-story__main-image-wrap">
+          {%- if section.settings.main_image != blank -%}
+            {%- assign main_alt = section.settings.heading_main | default: 'Heritage Story' | escape -%}
+            {{ section.settings.main_image
+              | image_url: width: 1000
+              | image_tag:
+                loading: 'lazy',
+                widths: '360, 540, 720, 900, 1000',
+                class: 'brand-story__img brand-story__img--main',
+                alt: main_alt
+            }}
+          {%- else -%}
+            <img
+              src="{{ 'heritage-story-main.png' | asset_url }}"
+              loading="lazy"
+              width="340"
+              height="380"
+              class="brand-story__img brand-story__img--main"
+              alt="{{ section.settings.heading_main | default: 'Heritage Story' | escape }}"
+            >
+          {%- endif -%}
+        </div>
+
+        <!-- Front Overlapping Image (Macro Fabric Detail with Matting Frame) -->
+        <div class="brand-story__detail-image-wrap">
+          {%- if section.settings.detail_image != blank -%}
+            {%- assign detail_alt = section.settings.heading_italic | default: 'Detail Craftsmanship' | escape -%}
+            {{ section.settings.detail_image
+              | image_url: width: 800
+              | image_tag:
+                loading: 'lazy',
+                widths: '300, 500, 700, 800',
+                class: 'brand-story__img brand-story__img--detail',
+                alt: detail_alt
+            }}
+          {%- else -%}
+            <img
+              src="{{ 'heritage-story-detail.png' | asset_url }}"
+              loading="lazy"
+              width="270"
+              height="290"
+              class="brand-story__img brand-story__img--detail"
+              alt="{{ section.settings.heading_italic | default: 'Detail Craftsmanship' | escape }}"
+            >
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Right Column: Editorial Brand Narrative -->
+      <div class="brand-story__text-col">
+        <!-- 1. Overline with Hairline Divider -->
+        {%- if section.settings.overline != blank -%}
+          <div class="brand-story__overline-wrap">
+            <span class="brand-story__overline">
+              {{- section.settings.overline | escape -}}
+            </span>
+            {%- if section.settings.show_overline_line -%}
+              <span class="brand-story__overline-line" aria-hidden="true"></span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <!-- 2. Dual-Tone Heading -->
+        {%- if section.settings.heading_main != blank or section.settings.heading_italic != blank -%}
+          <h2 class="brand-story__heading">
+            {%- if section.settings.heading_main != blank -%}
+              <span class="brand-story__heading-main">{{ section.settings.heading_main | escape }}</span>
+            {%- endif -%}
+            {%- if section.settings.heading_italic != blank -%}
+              <span class="brand-story__heading-italic">{{ section.settings.heading_italic | escape }}</span>
+            {%- endif -%}
+          </h2>
+        {%- endif -%}
+
+        <!-- 3. Lead Paragraph -->
+        {%- if section.settings.lead_paragraph != blank -%}
+          <div class="brand-story__lead">
+            {{ section.settings.lead_paragraph }}
+          </div>
+        {%- endif -%}
+
+        <!-- 4. Highlight Pull Quote -->
+        {%- if section.settings.quote_text != blank -%}
+          <div class="brand-story__quote">
+            <blockquote class="brand-story__quote-text">
+              {{ section.settings.quote_text }}
+            </blockquote>
+          </div>
+        {%- endif -%}
+
+        <!-- 5. Secondary Body Paragraph -->
+        {%- if section.settings.body_paragraph != blank -%}
+          <div class="brand-story__body">
+            {{ section.settings.body_paragraph }}
+          </div>
+        {%- endif -%}
+
+        <!-- 6. Quiet Luxury CTA Button -->
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <div class="brand-story__action">
+            <a href="{{ section.settings.button_link }}" class="brand-story__btn">
+              <span>{{ section.settings.button_label | escape }}</span>
+              <span class="brand-story__btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-story-editorial {
+    background-color: var(--story-bg, #F4F0EB);
+    color: var(--story-text-color, #1C1C1C);
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .brand-story-editorial * {
+    box-sizing: border-box;
+  }
+
+  .brand-story__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(3.5rem, 6.5vw, 7rem);
+    align-items: center;
+  }
+
+  .brand-story__grid.layout--text_first {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+
+  .brand-story__grid.layout--text_first .brand-story__media-col {
+    order: 2;
+  }
+
+  .brand-story__grid.layout--text_first .brand-story__text-col {
+    order: 1;
+  }
+
+  /* Dual Overlapping Image Collage */
+  .brand-story__media-col {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+
+  /* Main / Back Image */
+  .brand-story__main-image-wrap {
+    position: relative;
+    width: 76%;
+    aspect-ratio: 1 / 1.14;
+    background-color: #E2DDD5;
+    overflow: hidden;
+    border-radius: 0px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  .brand-story__main-image-wrap img,
+  .brand-story__main-image-wrap svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .brand-story__media-col:hover .brand-story__main-image-wrap img {
+    transform: scale(1.02);
+  }
+
+  /* Front Overlapping Detail Image */
+  .brand-story__detail-image-wrap {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 58%;
+    aspect-ratio: 1 / 1.08;
+    background-color: var(--story-frame-color, #EAE6DF);
+    border: 10px solid var(--story-frame-color, #EAE6DF);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border-radius: 0px;
+    z-index: 2;
+  }
+
+  .brand-story__detail-image-wrap img,
+  .brand-story__detail-image-wrap svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .brand-story__media-col:hover .brand-story__detail-image-wrap img {
+    transform: scale(1.03);
+  }
+
+  /* Text Column */
+  .brand-story__text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 560px;
+  }
+
+  /* Overline with Hairline Divider */
+  .brand-story__overline-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+
+  .brand-story__overline {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9C9082;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .brand-story__overline-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #DED7CD;
+  }
+
+  /* Headline */
+  .brand-story__heading {
+    font-family: var(--font-heading-custom--family, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(2.4rem, 4.2vw, 3.85rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--story-text-color, #1C1C1C);
+    margin: 0 0 24px 0;
+  }
+
+  .brand-story__heading-main {
+    display: block;
+  }
+
+  .brand-story__heading-italic {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--story-accent-color, #8F8171);
+    margin-top: 4px;
+  }
+
+  /* Lead Paragraph */
+  .brand-story__lead {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 14.5px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #585149;
+    margin: 0 0 24px 0;
+  }
+
+  .brand-story__lead p {
+    margin: 0;
+  }
+
+  /* Highlight Pull Quote */
+  .brand-story__quote {
+    border-left: 2px solid var(--story-quote-bar, #C5A880);
+    padding-left: 22px;
+    margin: 26px 0;
+  }
+
+  .brand-story__quote-text {
+    font-family: var(--font-heading-custom--family, 'Cormorant Garamond', Georgia, serif);
+    font-style: italic;
+    font-size: clamp(1.22rem, 1.65vw, 1.48rem);
+    font-weight: 400;
+    line-height: 1.48;
+    color: #38312B;
+    margin: 0;
+    quotes: none;
+  }
+
+  .brand-story__quote-text p {
+    margin: 0;
+  }
+
+  /* Secondary Body Paragraph */
+  .brand-story__body {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #6C655E;
+    margin: 0 0 34px 0;
+  }
+
+  .brand-story__body p {
+    margin: 0;
+  }
+
+  /* Action Button */
+  .brand-story__action {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-story__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+    border: 1px solid #1C1C1C;
+    border-radius: 0px;
+    padding: 15px 34px;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', system-ui, sans-serif);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  }
+
+  .brand-story__btn:hover {
+    background-color: #38312B;
+    border-color: #38312B;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  .brand-story__btn-arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .brand-story__btn:hover .brand-story__btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Adjustments */
+  @media screen and (max-width: 860px) {
+    .brand-story__grid {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+
+    .brand-story__grid.layout--text_first .brand-story__media-col {
+      order: 1;
+    }
+
+    .brand-story__grid.layout--text_first .brand-story__text-col {
+      order: 2;
+    }
+
+    .brand-story__media-col {
+      max-width: 420px;
+      padding-bottom: 30px;
+    }
+
+    .brand-story__main-image-wrap {
+      width: 78%;
+    }
+
+    .brand-story__detail-image-wrap {
+      width: 58%;
+      border-width: 8px;
+    }
+
+    .brand-story__text-col {
+      max-width: 100%;
+    }
+
+    .brand-story__heading {
+      font-size: 2.35rem;
+    }
+
+    .brand-story__quote-text {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .brand-story__media-col {
+      max-width: 320px;
+    }
+
+    .brand-story__detail-image-wrap {
+      border-width: 6px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Editorial Brand Story",
+  "tag": "section",
+  "class": "section-brand-story",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagery"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Back Image",
+      "info": "Editorial model portrait. Defaults to reference lifestyle photo."
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image",
+      "label": "Overlapping Detail Image",
+      "info": "Framed macro detail shot. Defaults to reference embroidery close-up."
+    },
+    {
+      "type": "color",
+      "id": "frame_color",
+      "label": "Detail Image Frame Color",
+      "default": "#EAE6DF"
+    },
+    {
+      "type": "select",
+      "id": "layout_direction",
+      "label": "Layout Direction",
+      "options": [
+        { "value": "media_first", "label": "Images Left / Narrative Right" },
+        { "value": "text_first", "label": "Narrative Left / Images Right" }
+      ],
+      "default": "media_first"
+    },
+    {
+      "type": "header",
+      "content": "Narrative Content"
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline Category",
+      "default": "HERITAGE"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overline_line",
+      "label": "Show Line Next to Overline",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_main",
+      "label": "Main Heading Line",
+      "default": "A Story"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Italic Accent Line",
+      "default": "Worth Wearing"
+    },
+    {
+      "type": "richtext",
+      "id": "lead_paragraph",
+      "label": "Lead Paragraph",
+      "default": "<p>ON REPEAT was born from a conviction — that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Highlight Pull Quote",
+      "default": "“Not just clothing, but a collectible statement of refined taste.”"
+    },
+    {
+      "type": "richtext",
+      "id": "body_paragraph",
+      "label": "Philosophy Paragraph",
+      "default": "<p>We believe in the permanence of quality over the transience of trends. Each Edition is a chapter — deliberate, considered, and made to outlast the season it arrives in.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call To Action"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "READ OUR STORY"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/pages/our-story"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F4F0EB"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1C1C1C"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Italic Heading Accent Color",
+      "default": "#8F8171"
+    },
+    {
+      "type": "color",
+      "id": "quote_bar_color",
+      "label": "Quote Border Color",
+      "default": "#C5A880"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Brand Story"
+    }
+  ]
+}
+{% endschema %}
