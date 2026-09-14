@@ -249,6 +249,127 @@
         "padding-block-end": 0
       }
     },
+    "layered_slideshow_VrhPDV": {
+      "type": "layered-slideshow",
+      "blocks": {
+        "layered_slide_Yrjxdi": {
+          "type": "_layered-slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Img.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 32,
+            "padding-block-end": 32,
+            "padding-inline-start": 32,
+            "padding-inline-end": 32
+          },
+          "blocks": {
+            "text_GQFb6H": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h1><strong>The Linen</strong></h1>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "#FFFFFF",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_8Ci3yT": {
+              "type": "text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>We started with linen because we feel it is one of the most underrated everyday fabrics. 100% pure European flax in 60 Lea — garment washed, breathable, and made to be worn on repeat. Not just for summer. For every day.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_ycPChn": {
+              "type": "button",
+              "settings": {
+                "label": "EXPLORE THE COLLECTION",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button-unstyled",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "corner_radius": 0,
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_GQFb6H",
+            "text_8Ci3yT",
+            "button_ycPChn"
+          ]
+        }
+      },
+      "block_order": [
+        "layered_slide_Yrjxdi"
+      ],
+      "name": "t:names.layered_slideshow",
+      "settings": {
+        "section_width": "full-width",
+        "height": "large",
+        "corner_radius": 0,
+        "border_width": 1,
+        "drop_shadow": false,
+        "background_color": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "brand_banners_OR8b2N": {
       "type": "brand-banners",
       "blocks": {
@@ -1958,6 +2079,7 @@
   "order": [
     "hero_jVaWmY",
     "hero_rbNLHa",
+    "layered_slideshow_VrhPDV",
     "brand_banners_OR8b2N",
     "product_list_fa6P9H",
     "divider_eWmecW",
