@@ -817,6 +817,21 @@
         "padding_bottom": 64
       }
     },
+    "divider_zTrHC9": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
+      }
+    },
     "product_list_BcEdnq": {
       "type": "product-list",
       "blocks": {
@@ -1124,7 +1139,7 @@
         "section_height": "large",
         "section_height_custom": 100,
         "background_color": "rgba(0,0,0,0)",
-        "corner_radius": 24,
+        "corner_radius": 0,
         "corner_radius_position": "all",
         "banner_side_padding": 0,
         "toggle_overlay": false,
@@ -1348,22 +1363,6 @@
         "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 40,
-        "padding-block-end": 0
-      }
-    },
-    "divider_zTrHC9": {
-      "type": "divider",
-      "disabled": true,
-      "name": "t:names.divider_section",
-      "settings": {
-        "background_color": "",
-        "divider_color": "{{ settings.color_palette.foreground }}",
-        "section_width": "full-width",
-        "thickness": 1,
-        "corner_radius": "square",
-        "width_percent": 100,
-        "alignment_horizontal": "center",
-        "padding-block-start": 16,
         "padding-block-end": 0
       }
     },
@@ -2153,10 +2152,10 @@
     "brand_story_mK7vPq",
     "divider_UqHH3w",
     "tabbed_collections_dWqWQG",
+    "divider_zTrHC9",
     "product_list_BcEdnq",
     "hero_cmya3X",
     "product_list_gRXzLJ",
-    "divider_zTrHC9",
     "shoppable_video_carousel_x9K2pL",
     "divider_3agVPG",
     "product_list_DjaYkA",
