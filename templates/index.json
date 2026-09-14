@@ -749,7 +749,7 @@
         "corner_radius": "square",
         "width_percent": 100,
         "alignment_horizontal": "center",
-        "padding-block-start": 6,
+        "padding-block-start": 16,
         "padding-block-end": 0
       }
     },
@@ -802,6 +802,7 @@
         "subheading": "CURATED ESSENTIALS",
         "description": "",
         "heading_alignment": "left",
+        "image_aspect_ratio": "tall",
         "max_products": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",
@@ -812,7 +813,7 @@
         "max_swatches": 4,
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
-        "background_color": "#F2EFE9",
+        "background_color": "#f2efe9",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -1025,6 +1026,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "bestsellers",
@@ -1345,6 +1347,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "the-modern-1",
@@ -1636,6 +1639,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "the-modern",
@@ -1659,6 +1663,7 @@
     },
     "divider_a4jACr": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -1728,6 +1733,7 @@
         "text_qggecg",
         "button_R8iadd"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_layout": "slideshow",
@@ -1971,6 +1977,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "the-classic",
@@ -1994,6 +2001,7 @@
     },
     "divider_ptWCnw": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -2139,65 +2147,6 @@
         "alignment_horizontal": "center",
         "padding-block-start": 16,
         "padding-block-end": 0
-      }
-    },
-    "tabbed_collections_featured": {
-      "type": "tabbed-collections",
-      "blocks": {
-        "collection_tab_1": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "the-modern",
-            "tab_label": "THE MODERN"
-          }
-        },
-        "collection_tab_2": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "bestsellers",
-            "tab_label": "BESTSELLERS"
-          }
-        },
-        "collection_tab_3": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "the-classic",
-            "tab_label": "THE CLASSIC"
-          }
-        },
-        "collection_tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "new-arrival",
-            "tab_label": "NEW ARRIVALS"
-          }
-        }
-      },
-      "block_order": [
-        "collection_tab_1",
-        "collection_tab_2",
-        "collection_tab_3",
-        "collection_tab_4"
-      ],
-      "name": "Tabbed Featured Collections",
-      "settings": {
-        "heading": "Wardrobe Fundamentals Spotlight",
-        "subheading": "CURATED ESSENTIALS",
-        "heading_alignment": "left",
-        "image_aspect_ratio": "tall",
-        "max_products": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_badge": true,
-        "badge_color": "gold",
-        "show_quick_add": true,
-        "show_swatches": true,
-        "max_swatches": 4,
-        "show_view_all": true,
-        "view_all_label": "VIEW ALL",
-        "background_color": "#F2EFE9",
-        "padding_top": 64,
-        "padding_bottom": 64
       }
     }
   },
