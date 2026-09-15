@@ -205,9 +205,15 @@
   /* ------------------------------------------------------------------
      EDITORIAL STORY SECTION (Everyday Clothes Worth Repeating)
      ------------------------------------------------------------------ */
-  [id*="section_AbGcQX"] .text-block--text_HEgnzz,
-  .color-custom-section_AbGcQX .text-block--text_HEgnzz,
-  .text-block--text_HEgnzz {
+  [id*="section_AbGcQX"],
+  [class*="section_AbGcQX"] {
+    background-color: #F2EFE9 !important;
+  }
+
+  [id*="section_AbGcQX"] [class*="text_HEgnzz"],
+  [class*="section_AbGcQX"] [class*="text_HEgnzz"],
+  .text-block--text_HEgnzz,
+  [class*="text_HEgnzz"] {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif) !important;
     font-size: 11.5px !important;
     font-weight: 600 !important;
@@ -217,9 +223,9 @@
     margin-bottom: 2px !important;
   }
 
-  [id*="section_AbGcQX"] .text-block--text_HEgnzz *,
-  .color-custom-section_AbGcQX .text-block--text_HEgnzz *,
-  .text-block--text_HEgnzz * {
+  [id*="section_AbGcQX"] [class*="text_HEgnzz"] *,
+  [class*="section_AbGcQX"] [class*="text_HEgnzz"] *,
+  [class*="text_HEgnzz"] * {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif) !important;
     font-size: 11.5px !important;
     font-weight: 600 !important;
@@ -228,12 +234,12 @@
     color: #8F8171 !important;
   }
 
-  [id*="section_AbGcQX"] .text-block--text_WVMRUt h1,
-  [id*="section_AbGcQX"] .text-block--text_zP3KQK h1,
-  .color-custom-section_AbGcQX .text-block--text_WVMRUt h1,
-  .color-custom-section_AbGcQX .text-block--text_zP3KQK h1,
-  .text-block--text_WVMRUt h1,
-  .text-block--text_zP3KQK h1 {
+  [id*="section_AbGcQX"] [class*="text_WVMRUt"] h1,
+  [class*="section_AbGcQX"] [class*="text_WVMRUt"] h1,
+  [id*="section_AbGcQX"] [class*="text_zP3KQK"] h1,
+  [class*="section_AbGcQX"] [class*="text_zP3KQK"] h1,
+  [class*="text_WVMRUt"] h1,
+  [class*="text_zP3KQK"] h1 {
     font-family: 'Mango Serif', 'La Mango', serif !important;
     font-weight: 400 !important;
     font-style: normal !important;
@@ -245,18 +251,12 @@
     margin-bottom: 0 !important;
   }
 
-  [id*="section_AbGcQX"] .text-block--text_WVMRUt + .text-block--text_zP3KQK,
-  .color-custom-section_AbGcQX .text-block--text_WVMRUt + .text-block--text_zP3KQK,
-  .text-block--text_WVMRUt + .text-block--text_zP3KQK {
-    margin-top: -8px !important;
-  }
-
-  [id*="section_AbGcQX"] .text-block--text_tHzFNN p,
-  [id*="section_AbGcQX"] .text-block--text_LN44KT p,
-  .color-custom-section_AbGcQX .text-block--text_tHzFNN p,
-  .color-custom-section_AbGcQX .text-block--text_LN44KT p,
-  .text-block--text_tHzFNN p,
-  .text-block--text_LN44KT p {
+  [id*="section_AbGcQX"] [class*="text_tHzFNN"] p,
+  [id*="section_AbGcQX"] [class*="text_LN44KT"] p,
+  [class*="section_AbGcQX"] [class*="text_tHzFNN"] p,
+  [class*="section_AbGcQX"] [class*="text_LN44KT"] p,
+  [class*="text_tHzFNN"] p,
+  [class*="text_LN44KT"] p {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif) !important;
     font-size: 16px !important;
     line-height: 1.8 !important;
@@ -265,17 +265,15 @@
   }
 
   /* Editorial pull quote with gold accent line — pure charcoal, high contrast */
-  [id*="section_AbGcQX"] .text-block--text_3FLB3H,
-  .color-custom-section_AbGcQX .text-block--text_3FLB3H,
-  .text-block--text_3FLB3H {
-    margin-block: 10px !important;
-    padding-left: 18px !important;
-    border-left: 2px solid #C5A880 !important;
+  [id*="section_AbGcQX"] [class*="text_3FLB3H"],
+  [class*="section_AbGcQX"] [class*="text_3FLB3H"],
+  [class*="text_3FLB3H"] {
+    margin-block: 8px !important;
   }
 
-  [id*="section_AbGcQX"] .text-block--text_3FLB3H :is(h1, h2, h3, h4, p, span, em, strong, *),
-  .color-custom-section_AbGcQX .text-block--text_3FLB3H :is(h1, h2, h3, h4, p, span, em, strong, *),
-  .text-block--text_3FLB3H :is(h1, h2, h3, h4, p, span, em, strong, *) {
+  [id*="section_AbGcQX"] [class*="text_3FLB3H"] :is(h1, h2, h3, h4, p, span, em, strong, *),
+  [class*="section_AbGcQX"] [class*="text_3FLB3H"] :is(h1, h2, h3, h4, p, span, em, strong, *),
+  [class*="text_3FLB3H"] :is(h1, h2, h3, h4, p, span, em, strong, *) {
     font-family: 'Mango Serif', 'La Mango', Georgia, serif !important;
     font-style: italic !important;
     font-weight: 400 !important;
@@ -286,7 +284,9 @@
   }
 
   [id*="section_AbGcQX"] .button,
-  .color-custom-section_AbGcQX .button {
+  [class*="section_AbGcQX"] .button,
+  [class*="section_AbGcQX"] [class*="button_NbgGTT"] a,
+  [class*="section_AbGcQX"] [class*="button_NbgGTT"] button {
     background-color: #1C1C1C !important;
     color: #F2EFE9 !important;
     border-color: #1C1C1C !important;
