@@ -1703,6 +1703,7 @@
     },
     "divider_3agVPG": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -2549,8 +2550,8 @@
     }
   },
   "order": [
-    "hero_jVaWmY",
     "hero_rbNLHa",
+    "hero_jVaWmY",
     "layered_slideshow_VrhPDV",
     "brand_banners_OR8b2N",
     "product_list_fa6P9H",
