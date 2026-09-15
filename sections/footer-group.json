@@ -224,6 +224,7 @@
       "block_order": [
         "logo_ETEq4Q"
       ],
+      "disabled": true,
       "name": "t:names.large_logo",
       "settings": {
         "content_direction": "column",
@@ -302,7 +303,6 @@
         "social_links_Ew63Kq",
         "footer_copyright_jweRK8"
       ],
-      "disabled": true,
       "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
