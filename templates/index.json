@@ -339,7 +339,7 @@
                 "custom_button_text": "{{ settings.color_palette.background }}",
                 "custom_button_border": "{{ settings.color_palette.background }}",
                 "corner_radius": 0,
-                "link_text_color": "",
+                "link_text_color": "#FFFFFF",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
