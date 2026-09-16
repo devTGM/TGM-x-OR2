@@ -69,10 +69,78 @@
     }
   }
 
+  /* Mobile: lock header height strictly to 44px, eliminate drop shadow & hero gap */
   @media screen and (max-width: 749px) {
-    .header__drawer {
+    :root,
+    body,
+    html body {
+      --header-height: 44px !important;
+      --header-group-height: 44px !important;
+      --header-drawer-min-height: 44px !important;
+      --header-mobile-bookend: 44px !important;
+      --transparent-header-offset-boolean: 0 !important;
+      --section-top-offset: 0px !important;
+    }
+
+    #header-group,
+    .header-section,
+    #header-component,
+    .header {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ffffff !important;
+      overflow: visible !important;
+    }
+
+    .header__row,
+    .header__row--top {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #E2DDD6 !important;
+      box-sizing: border-box !important;
+    }
+
+    .header__columns {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+      padding-block: 0 !important;
+      margin-block: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .header__drawer,
+    #header-component[data-menu-style='drawer'] .header__drawer {
       min-height: 44px !important;
       height: 44px !important;
+      max-height: 44px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Completely eliminate any drop shadow or open underlay rogue height on mobile */
+    #header-component .header__underlay-open,
+    #header-component .header__underlay-open::after,
+    .header__underlay-open,
+    .header__underlay-open::after {
+      display: none !important;
+      box-shadow: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      max-height: 0 !important;
+    }
+
+    #header-component .header__underlay-closed {
+      height: 100% !important;
+      max-height: 44px !important;
+      background: #ffffff !important;
     }
   }
 
@@ -393,10 +461,16 @@
     border-bottom: none !important;
   }
 
-  #header-component .header__underlay-closed,
-  #header-component .header__underlay-open {
+  #header-component .header__underlay-closed {
     height: 100% !important;
     background: #ffffff !important;
+  }
+
+  /* Prevent underlay popover from casting drop shadow when closed or idle */
+  #header-component:not([data-submenu-open]) .header__underlay-open,
+  #header-component:not([data-submenu-open]) .header__underlay-open::after,
+  .header__underlay-open::after {
+    box-shadow: none !important;
   }
 
   /* When transparent header is explicitly active, respect transparency */
