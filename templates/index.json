@@ -2286,11 +2286,32 @@
         "padding-block-end": 0
       }
     },
-    "hero_wUGCTR": {
+    "fabric_education_wR9xLm": {
+      "type": "fabric-education",
+      "disabled": true,
+      "settings": {
+        "overline": "FABRIC INNOVATION",
+        "heading": "Why Linen?",
+        "subheading": "Nature's most intelligent fibre, designed for effortless warmth and tropical comfort.",
+        "card_1_title": "Naturally Breathable",
+        "card_1_text": "Hollow linen fibres allow continuous airflow, regulating your body temperature so you stay naturally cooler in the sun.",
+        "card_2_title": "Durable & Ever-Softening",
+        "card_2_text": "Three times stronger than cotton. Linen resists fraying and actually grows softer, more supple, and more luxurious with every wash.",
+        "card_3_title": "100% Pure Natural Flax",
+        "card_3_text": "Crafted from European flax with gentle environmental impact. Hypoallergenic, antibacterial, and completely kind to sensitive skin.",
+        "background_color": "{{ settings.color_palette.background }}",
+        "card_background": "#ffffff",
+        "text_color": "{{ settings.color_palette.foreground }}",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "hero_fNhGmp": {
       "type": "hero",
       "blocks": {
-        "text_h8A4MV": {
+        "text_J3CG68": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<h2>New arrivals</h2>",
             "width": "fit-content",
@@ -2314,8 +2335,9 @@
           },
           "blocks": {}
         },
-        "text_8EXxe6": {
+        "text_dqHQQP": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<p>Made with care and unconditionally loved by our customers.</p>",
             "width": "fit-content",
@@ -2339,9 +2361,10 @@
           },
           "blocks": {}
         },
-        "button_cKxjGz": {
+        "button_GALAYj": {
           "type": "button",
           "name": "t:names.button",
+          "disabled": true,
           "settings": {
             "label": "Shop now",
             "link": "shopify://collections/all",
@@ -2361,9 +2384,9 @@
         }
       },
       "block_order": [
-        "text_h8A4MV",
-        "text_8EXxe6",
-        "button_cKxjGz"
+        "text_J3CG68",
+        "text_dqHQQP",
+        "button_GALAYj"
       ],
       "name": "t:names.hero",
       "settings": {
@@ -2387,7 +2410,7 @@
         "media_type_4_mobile": "image",
         "media_type_5_mobile": "image",
         "media_type_6_mobile": "image",
-        "link": "",
+        "link": "shopify://collections/all",
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -2396,10 +2419,10 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 0,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "custom",
+        "section_height_custom": 100,
         "background_color": "",
         "corner_radius": 0,
         "corner_radius_position": "all",
@@ -2412,26 +2435,6 @@
         "reflection_opacity": 75,
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
-    },
-    "fabric_education_wR9xLm": {
-      "type": "fabric-education",
-      "disabled": true,
-      "settings": {
-        "overline": "FABRIC INNOVATION",
-        "heading": "Why Linen?",
-        "subheading": "Nature's most intelligent fibre, designed for effortless warmth and tropical comfort.",
-        "card_1_title": "Naturally Breathable",
-        "card_1_text": "Hollow linen fibres allow continuous airflow, regulating your body temperature so you stay naturally cooler in the sun.",
-        "card_2_title": "Durable & Ever-Softening",
-        "card_2_text": "Three times stronger than cotton. Linen resists fraying and actually grows softer, more supple, and more luxurious with every wash.",
-        "card_3_title": "100% Pure Natural Flax",
-        "card_3_text": "Crafted from European flax with gentle environmental impact. Hypoallergenic, antibacterial, and completely kind to sensitive skin.",
-        "background_color": "{{ settings.color_palette.background }}",
-        "card_background": "#ffffff",
-        "text_color": "{{ settings.color_palette.foreground }}",
-        "padding_top": 20,
-        "padding_bottom": 20
       }
     },
     "divider_kJByG3": {
@@ -2571,8 +2574,8 @@
     "hero_KfAGNR",
     "product_list_DFVbcb",
     "divider_ptWCnw",
-    "hero_wUGCTR",
     "fabric_education_wR9xLm",
+    "hero_fNhGmp",
     "divider_kJByG3",
     "testimonial_carousel_p9WkLm",
     "divider_LpDWEC"
