@@ -42,9 +42,9 @@
             "navigation_bar": false,
             "background_color_navigation_bar": "{{ settings.color_palette.foreground }}",
             "text_color_navigation_bar": "",
-            "drawer_accordion": false,
+            "drawer_accordion": true,
             "drawer_accordion_expand_first": false,
-            "drawer_dividers": false
+            "drawer_dividers": true
           },
           "blocks": {}
         }
@@ -87,7 +87,7 @@
         "text_color_transparent_all": "{{ settings.color_palette.foreground }}",
         "enable_transparent_header_home": false,
         "home_inverse_logo": false,
-        "text_color_transparent_home": "#1E1E1E",
+        "text_color_transparent_home": "#1e1e1e",
         "enable_transparent_header_product": false,
         "product_inverse_logo": false,
         "text_color_transparent_product": "",
