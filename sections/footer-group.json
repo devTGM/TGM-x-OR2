@@ -62,15 +62,15 @@
                 "text_color": "",
                 "unit": "pixel",
                 "percent_width": 100,
-                "pixel_height": 32,
+                "pixel_height": 24,
                 "custom_mobile_size": true,
                 "unit_mobile": "percent",
-                "percent_width_mobile": 44,
+                "percent_width_mobile": 39,
                 "pixel_height_mobile": 120,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 100,
-                "padding-inline-end": 100
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
