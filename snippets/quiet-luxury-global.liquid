@@ -39,7 +39,7 @@
     padding-top: 0 !important;
   }
 
-  /* Header group flush to top */
+  /* Header group & header components strictly flush with zero extra space */
   #header-group,
   .header-section,
   #header-component,
@@ -48,6 +48,32 @@
     margin-top: 0 !important;
     padding-top: 0 !important;
     margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  #header-group,
+  .header-section,
+  #header-component,
+  .header {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: max-content !important;
+  }
+
+  /* Prevent mobile drawer wrapper from imposing 60px min-height on header row */
+  @media screen and (min-width: 750px) {
+    .header__drawer {
+      display: none !important;
+      min-height: 0 !important;
+      height: 0 !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .header__drawer {
+      min-height: 44px !important;
+      height: 44px !important;
+    }
   }
 
   /* Hide any disabled or phantom announcement bar in header-group */
@@ -75,7 +101,9 @@
   /* Collapse any empty or disabled shopify sections in DOM / Theme Editor */
   .shopify-section:empty,
   .shopify-section[style*="display: none"],
-  .shopify-section[aria-hidden="true"] {
+  .shopify-section[aria-hidden="true"],
+  .shopify-section:has(.hero[style*="display: none"]),
+  .shopify-section:has(.divider[aria-hidden="true"]) {
     display: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -83,24 +111,40 @@
     min-height: 0 !important;
   }
 
-  /* Universal flush hero & banner rules — applies to ALL heroes, not just :first-child */
+  /* Universal flush hero & banner rules — applies to ALL heroes across the site */
   .hero-wrapper,
   .hero-wrapper .hero,
   .hero-wrapper .hero__container,
   .hero-wrapper .hero__media-grid,
   .hero,
   .hero__container,
+  .hero__media-grid,
   .brand-banners-section,
   .layered-slideshow-section {
     margin-top: 0 !important;
     padding-top: 0 !important;
+    padding-block-start: 0 !important;
     --section-top-offset: 0px !important;
     --padding-block-start: 0px !important;
   }
 
+  .hero .hero__container.spacing-style,
+  .hero-wrapper .hero__container.spacing-style,
+  .hero__container.spacing-style {
+    padding-block-start: 0 !important;
+    margin-block-start: 0 !important;
+    --padding-block-start: 0px !important;
+    --margin-block-start: 0px !important;
+    --section-top-offset: 0px !important;
+  }
+
+  /* First visible section in #MainContent sits directly flush against header bottom border */
   #MainContent > .shopify-section:first-child,
   main > .shopify-section:first-child,
   .main-content > .shopify-section:first-child,
+  #MainContent > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+  .content-for-layout > .shopify-section:first-child,
+  .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   #MainContent > .shopify-section:first-child > *:first-child,
   main > .shopify-section:first-child > *:first-child {
     margin-top: 0 !important;
@@ -345,8 +389,25 @@
   .header,
   .header-wrapper,
   .section-header {
-    background-color: transparent !important;
+    background-color: #ffffff !important;
     border-bottom: none !important;
+  }
+
+  #header-component .header__underlay-closed,
+  #header-component .header__underlay-open {
+    height: 100% !important;
+    background: #ffffff !important;
+  }
+
+  /* When transparent header is explicitly active, respect transparency */
+  #header-component[transparent],
+  .header-section:has(#header-component[transparent]),
+  .header[transparent] {
+    background-color: transparent !important;
+  }
+
+  #header-component[transparent] .header__underlay-closed {
+    background: transparent !important;
   }
 
   .header__row {
