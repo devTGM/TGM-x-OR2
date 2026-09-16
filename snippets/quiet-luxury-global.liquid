@@ -80,6 +80,8 @@
       --header-mobile-bookend: 44px !important;
       --transparent-header-offset-boolean: 0 !important;
       --section-top-offset: 0px !important;
+      --margin-block-start: 0px !important;
+      --padding-block-start: 0px !important;
     }
 
     #header-group,
@@ -91,6 +93,10 @@
       max-height: 44px !important;
       margin: 0 !important;
       padding: 0 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      margin-block-end: 0 !important;
+      padding-block-end: 0 !important;
       background-color: #ffffff !important;
       overflow: visible !important;
     }
@@ -102,6 +108,10 @@
       max-height: 44px !important;
       margin: 0 !important;
       padding: 0 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      margin-block-end: 0 !important;
+      padding-block-end: 0 !important;
       background-color: #ffffff !important;
       border-bottom: 1px solid #E2DDD6 !important;
       box-sizing: border-box !important;
@@ -113,6 +123,8 @@
       max-height: 44px !important;
       padding-block: 0 !important;
       margin-block: 0 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
       box-sizing: border-box !important;
     }
 
@@ -123,6 +135,8 @@
       max-height: 44px !important;
       padding: 0 !important;
       margin: 0 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
     }
 
     /* Completely eliminate any drop shadow or open underlay rogue height on mobile */
@@ -141,6 +155,99 @@
       height: 100% !important;
       max-height: 44px !important;
       background: #ffffff !important;
+    }
+
+    /* ------------------------------------------------------------------
+       MOBILE HERO & LAYOUT: FLUSH AT 0PX UNDER 44PX HEADER (NO 32PX GAP)
+       ------------------------------------------------------------------ */
+
+    /* Reset MainContent & layout container top spacing */
+    .page-wrapper {
+      gap: 0 !important;
+      row-gap: 0 !important;
+    }
+
+    #MainContent,
+    .content-for-layout,
+    .page-wrapper > main,
+    main#MainContent,
+    main.content-for-layout {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-block-start: 0 !important;
+      --margin-block-start: 0px !important;
+      --padding-block-start: 0px !important;
+    }
+
+    /* Reset all section wrappers, hero wrappers, hero elements, and media grids on mobile */
+    .shopify-section,
+    .hero-wrapper,
+    .section-wrapper,
+    .hero,
+    .hero__container,
+    .hero__media-grid,
+    .hero__media-item,
+    .hero__media-wrapper {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-block-start: 0 !important;
+      --margin-block-start: 0px !important;
+      --padding-block-start: 0px !important;
+      --section-top-offset: 0px !important;
+    }
+
+    /* Force hero container spacing-style to 0 on mobile */
+    .hero .hero__container.spacing-style,
+    .hero-wrapper .hero__container.spacing-style,
+    .hero__container.spacing-style {
+      padding-block-start: 0 !important;
+      margin-block-start: 0 !important;
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+      --padding-block-start: 0px !important;
+      --margin-block-start: 0px !important;
+      --section-top-offset: 0px !important;
+    }
+
+    /* First visible section in #MainContent sits directly flush against header bottom border */
+    #MainContent > *:first-child,
+    #MainContent > .shopify-section:first-of-type,
+    #MainContent > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+    #MainContent > .hero-wrapper:first-of-type,
+    #MainContent > .shopify-section:has(.hero):first-of-type,
+    #MainContent > .shopify-section:has(.hero):first-child,
+    #MainContent > .shopify-section:first-child > *:first-child,
+    #MainContent > .shopify-section:first-of-type > .hero,
+    .content-for-layout > *:first-child,
+    .content-for-layout > .shopify-section:first-of-type,
+    .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+    .content-for-layout > .hero-wrapper:first-of-type,
+    .shopify-section:has(.hero):first-of-type,
+    .hero-wrapper:has(.hero):first-of-type,
+    .hero-wrapper:first-of-type,
+    .hero-wrapper:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-block-start: 0 !important;
+      --margin-block-start: 0px !important;
+      --padding-block-start: 0px !important;
+      --section-top-offset: 0px !important;
+    }
+
+    #MainContent > *:first-child > *:first-child,
+    #MainContent > .shopify-section:first-of-type > *:first-child,
+    #MainContent > .shopify-section:first-of-type > .hero,
+    .hero-wrapper:first-of-type > .hero,
+    .hero-wrapper:first-of-type .hero__container {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-block-start: 0 !important;
+      --margin-block-start: 0px !important;
+      --padding-block-start: 0px !important;
     }
   }
 
@@ -161,9 +268,15 @@
   }
 
   #MainContent,
-  .content-for-layout {
+  .content-for-layout,
+  .page-wrapper > main,
+  main#MainContent {
     padding-top: 0 !important;
     margin-top: 0 !important;
+    padding-block-start: 0 !important;
+    margin-block-start: 0 !important;
+    --margin-block-start: 0px !important;
+    --padding-block-start: 0px !important;
   }
 
   /* Collapse any empty or disabled shopify sections in DOM / Theme Editor */
@@ -191,9 +304,11 @@
   .layered-slideshow-section {
     margin-top: 0 !important;
     padding-top: 0 !important;
+    margin-block-start: 0 !important;
     padding-block-start: 0 !important;
     --section-top-offset: 0px !important;
     --padding-block-start: 0px !important;
+    --margin-block-start: 0px !important;
   }
 
   .hero .hero__container.spacing-style,
@@ -201,25 +316,37 @@
   .hero__container.spacing-style {
     padding-block-start: 0 !important;
     margin-block-start: 0 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
     --padding-block-start: 0px !important;
     --margin-block-start: 0px !important;
     --section-top-offset: 0px !important;
   }
 
   /* First visible section in #MainContent sits directly flush against header bottom border */
+  #MainContent > *:first-child,
   #MainContent > .shopify-section:first-child,
   main > .shopify-section:first-child,
   .main-content > .shopify-section:first-child,
   #MainContent > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+  #MainContent > .hero-wrapper:first-of-type,
+  #MainContent > .shopify-section:has(.hero):first-of-type,
+  .content-for-layout > *:first-child,
   .content-for-layout > .shopify-section:first-child,
   .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+  .content-for-layout > .hero-wrapper:first-of-type,
+  .shopify-section:has(.hero):first-of-type,
+  .hero-wrapper:first-of-type,
   #MainContent > .shopify-section:first-child > *:first-child,
+  #MainContent > .shopify-section:first-of-type > .hero,
   main > .shopify-section:first-child > *:first-child {
     margin-top: 0 !important;
     padding-top: 0 !important;
+    margin-block-start: 0 !important;
     padding-block-start: 0 !important;
     --section-top-offset: 0px !important;
     --padding-block-start: 0px !important;
+    --margin-block-start: 0px !important;
   }
 
   /* When transparent header is active, ensure the first visible hero/section is flush under header */
