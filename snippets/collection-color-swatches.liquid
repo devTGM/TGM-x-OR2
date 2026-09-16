@@ -93,6 +93,13 @@
     elsif h_lower contains 'cuban'
       assign base_title = 'The Cuban Collar Shirt'
       assign base_handle_prefix = 'the-cuban-collar-shirt'
+    elsif h_lower contains 'classic'
+      assign base_title = 'Classic Shirt'
+      assign base_handle_prefix = 'classic-shirt'
+      if h_lower contains 'the-classic'
+        assign base_title = 'The Classic Shirt'
+        assign base_handle_prefix = 'the-classic-shirt'
+      endif
     endif
 
     # Check for single-product Color variant option
@@ -132,41 +139,33 @@
       assign target_collection = block_settings.collection
     endif
 
-    # From product's collections
+    # From product's own collections — prefer the most specific (smallest) collection
     if target_collection == blank and current_prod.collections.size > 0
+      assign best_coll_size = 9999
       for coll in current_prod.collections
         if coll.handle != 'all' and coll.handle != 'frontpage'
-          assign c_slug = coll.handle | downcase
-          if c_slug contains 'smart-casual' or c_slug contains 'popover' or c_slug contains 'cuban' or c_slug contains 'shirt'
+          if coll.products.size >= 2 and coll.products.size < best_coll_size
             assign target_collection = coll
-            break
+            assign best_coll_size = coll.products.size
           endif
         endif
       endfor
-
-      if target_collection == blank
-        for coll in current_prod.collections
-          if coll.handle != 'all' and coll.handle != 'frontpage' and coll.products.size >= 2
-            assign target_collection = coll
-            break
-          endif
-        endfor
-      endif
     endif
 
-    # Collect sibling handles
+    # Collect sibling handles — STRICT matching: only products that share the base handle prefix
     assign siblings_list = ''
 
     if target_collection != blank and target_collection.products.size > 0
       for p in target_collection.products
         assign is_sibling = false
-        if p.handle contains base_handle_prefix
+        # Primary match: handle must contain the base_handle_prefix
+        if p.handle contains base_handle_prefix and base_handle_prefix != ''
           assign is_sibling = true
-        elsif p.title contains base_title
+        # Secondary match: title must start with base_title (same product family)
+        elsif p.title contains base_title and base_title != '' and base_title != p.title
           assign is_sibling = true
-        elsif target_collection.products.size <= 12
-          assign is_sibling = true
-        elsif p.type == current_prod.type and current_prod.type != blank
+        # Tertiary match: same product.type AND current product has a recognised type
+        elsif p.type == current_prod.type and current_prod.type != blank and p.type != blank
           assign is_sibling = true
         endif
 
