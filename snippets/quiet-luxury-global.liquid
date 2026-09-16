@@ -508,6 +508,84 @@
   }
 
   /* ------------------------------------------------------------------
+     4b. SUBMENU / MEGA MENU — WARM PARCHMENT (#F5F0EC)
+     ------------------------------------------------------------------ */
+  .menu-list__submenu,
+  .menu-list__submenu-inner,
+  .mega-menu,
+  .overflow-menu::part(overflow),
+  .overflow-menu::part(overflow-list) {
+    background-color: #F5F0EC !important;
+  }
+
+  .menu-list__submenu {
+    border-bottom: 1px solid #E2DDD6 !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .header__underlay-open {
+    background: #F5F0EC !important;
+  }
+
+  /* Seamless header row background when submenu is open on desktop */
+  @media screen and (min-width: 750px) {
+    #header-component:has([aria-expanded='true']),
+    #header-component:has(.menu-list__submenu:not([inert])),
+    #header-component:has(.menu-list__submenu:hover),
+    #header-component:has(.menu-list__list-item:hover .menu-list__submenu) {
+      background-color: #F5F0EC !important;
+    }
+
+    #header-component:has([aria-expanded='true']) .header__row,
+    #header-component:has(.menu-list__submenu:not([inert])) .header__row,
+    #header-component:has(.menu-list__submenu:hover) .header__row,
+    #header-component:has(.menu-list__list-item:hover .menu-list__submenu) .header__row {
+      background-color: #F5F0EC !important;
+      border-bottom-color: #F5F0EC !important;
+    }
+
+    #header-component:has([aria-expanded='true']) .header__underlay-closed,
+    #header-component:has(.menu-list__submenu:not([inert])) .header__underlay-closed,
+    #header-component:has(.menu-list__submenu:hover) .header__underlay-closed,
+    #header-component:has(.menu-list__list-item:hover .menu-list__submenu) .header__underlay-closed {
+      background: #F5F0EC !important;
+    }
+  }
+
+  /* Submenu column headings ("SHOP THE COLLECTION", "THE 3 SILHOUETTES") */
+  .mega-menu__link.mega-menu__link--parent,
+  .mega-menu__column > .mega-menu__link:first-child,
+  .menu-list__submenu .mega-menu__link--parent {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: #1C1C1C !important;
+    margin-bottom: 12px !important;
+    padding: 0 !important;
+  }
+
+  /* Submenu links ("All Products", "New Arrivals", "Best Sellers", etc.) */
+  .mega-menu__list-item .mega-menu__link,
+  .mega-menu__column .mega-menu__list .mega-menu__link,
+  .menu-list__submenu .mega-menu__link:not(.mega-menu__link--parent) {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.02em !important;
+    color: #706A65 !important;
+    padding: 6px 0 !important;
+    transition: color 0.2s ease !important;
+  }
+
+  .mega-menu__list-item .mega-menu__link:hover,
+  .mega-menu__column .mega-menu__list .mega-menu__link:hover,
+  .menu-list__submenu .mega-menu__link:not(.mega-menu__link--parent):hover {
+    color: #1C1C1C !important;
+  }
+
+  /* ------------------------------------------------------------------
      5. BUTTONS — SHARP ARCHITECTURAL EDGES
      ------------------------------------------------------------------ */
   .button,
