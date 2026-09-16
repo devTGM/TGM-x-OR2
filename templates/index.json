@@ -128,7 +128,7 @@
         "section_height_custom": 100,
         "background_color": "",
         "corner_radius": 0,
-        "corner_radius_position": "all",
+        "corner_radius_position": "bottom",
         "banner_side_padding": 0,
         "toggle_overlay": true,
         "overlay_color": "#00000026",
