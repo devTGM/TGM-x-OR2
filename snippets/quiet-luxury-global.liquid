@@ -986,4 +986,70 @@
     border-radius: 0 !important;
   }
 
+  /* ------------------------------------------------------------------
+     15. MOBILE HERO GAP — DEFINITIVE FIX
+     Override --hero-height-offset directly at the point of consumption
+     in hero.liquid. JS sets --header-group-height to 60px+ (due to
+     header__drawer min-height), which subtracts too much from min-height.
+     Forcing --hero-height-offset: 44px ensures calc(100svh - 44px) is used,
+     and that the hero's top edge is flush with the header's bottom edge.
+  ------------------------------------------------------------------ */
+  @media screen and (max-width: 749px) {
+    /* Override the CSS variable at the point of consumption */
+    .hero-wrapper:first-child,
+    body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child {
+      --hero-height-offset: 44px !important;
+    }
+
+    /* Also hard-code the hero min-height so no variable chain can override it */
+    .hero-wrapper:first-child > .hero,
+    body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child .hero {
+      min-height: calc(100svh - 44px) !important;
+    }
+  }
+
 {% endstyle %}
+
+{% comment %} MOBILE GAP FIX — intercept JS header height measurement on mobile {% endcomment %}
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  // Only clamp on mobile viewports
+  if (window.innerWidth >= 750) return;
+
+  var MOBILE_HEADER_HEIGHT = '44px';
+
+  // 1. Intercept ALL future body.style.setProperty calls for header height variables
+  var _origSet = CSSStyleDeclaration.prototype.setProperty;
+  CSSStyleDeclaration.prototype.setProperty = function(prop, value, priority) {
+    if ((prop === '--header-group-height' || prop === '--header-height') && window.innerWidth < 750) {
+      value = MOBILE_HEADER_HEIGHT;
+    }
+    return _origSet.call(this, prop, value, priority);
+  };
+
+  // 2. Clamp body CSS custom properties and hero-wrapper inline style
+  function clampHeaderHeights() {
+    if (window.innerWidth >= 750) return;
+    if (document.body) {
+      // Use original to avoid infinite recursion (though our intercept guards against it)
+      _origSet.call(document.body.style, '--header-group-height', MOBILE_HEADER_HEIGHT);
+      _origSet.call(document.body.style, '--header-height', MOBILE_HEADER_HEIGHT);
+    }
+    // Force --hero-height-offset on the first hero wrapper element via inline style
+    var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child');
+    if (heroWrapper) {
+      heroWrapper.style.setProperty('--hero-height-offset', MOBILE_HEADER_HEIGHT);
+    }
+  }
+
+  // Run after DOM is ready (catches the mid-parse measureHeaderHeights call)
+  document.addEventListener('DOMContentLoaded', clampHeaderHeights);
+  // Run after full page load (catches ResizeObserver-based updates from header.js)
+  window.addEventListener('load', clampHeaderHeights);
+  // Also run on resize in case viewport crosses the 750px boundary
+  window.addEventListener('resize', function() {
+    if (window.innerWidth < 750) clampHeaderHeights();
+  });
+})();
+</script>
