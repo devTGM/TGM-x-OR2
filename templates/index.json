@@ -851,6 +851,78 @@
         "padding-block-end": 0
       }
     },
+    "product_hotspots_pDPNhF": {
+      "type": "product-hotspots",
+      "blocks": {
+        "hotspot_product_fJ9fr8": {
+          "type": "_hotspot-product",
+          "settings": {
+            "product": "",
+            "x-position": 40,
+            "y-position": 40
+          },
+          "blocks": {}
+        },
+        "hotspot_product_zkBiBA": {
+          "type": "_hotspot-product",
+          "settings": {
+            "product": "",
+            "x-position": 60,
+            "y-position": 60
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "name": "t:names.heading",
+          "static": true,
+          "settings": {
+            "text": "<h2>Shop the look</h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h4",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "hotspot_product_fJ9fr8",
+        "hotspot_product_zkBiBA"
+      ],
+      "name": "t:names.product_hotspots",
+      "settings": {
+        "image": "shopify://shop_images/mainclose.png",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "section_width": "full-width",
+        "section_height": "16 / 9",
+        "hotspot_color": "#FFFFFF57",
+        "bullseye_color": "#ffffff",
+        "background_color": "",
+        "product_title_gap": 8,
+        "product_title_preset": "",
+        "product_price_preset": "",
+        "padding-block-start": 5,
+        "padding-block-end": 20
+      }
+    },
     "tabbed_collections_dWqWQG": {
       "type": "tabbed-collections",
       "blocks": {
@@ -894,6 +966,7 @@
         "collection_tab_Gcb9Bq",
         "collection_tab_FMX7Tm"
       ],
+      "disabled": true,
       "name": "Tabbed Featured Collections",
       "settings": {
         "heading": "Wardrobe Fundamentals Spotlight",
@@ -2460,6 +2533,7 @@
     "product_list_fa6P9H",
     "divider_eWmecW",
     "divider_UqHH3w",
+    "product_hotspots_pDPNhF",
     "tabbed_collections_dWqWQG",
     "divider_zTrHC9",
     "hero_cmya3X",
