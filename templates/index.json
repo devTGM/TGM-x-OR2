@@ -652,7 +652,7 @@
         "image_radius": 0,
         "background_color": "#f5f0ec",
         "accent_color": "#1c1c1c",
-        "padding_top": 0,
+        "padding_top": 12,
         "padding_bottom": 12
       }
     },
