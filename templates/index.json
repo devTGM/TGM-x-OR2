@@ -737,83 +737,132 @@
         "padding-block-end": 6
       }
     },
-    "editorial_image_grid_9kLCRm": {
-      "type": "editorial-image-grid",
+    "premium_editorial_grid_AkpjnG": {
+      "type": "premium-editorial-grid",
       "blocks": {
-        "card_TfEFmT": {
-          "type": "card",
+        "editorial_card_YRXQGn": {
+          "type": "editorial_card",
           "settings": {
-            "image": "shopify://shop_images/OR-editorial.png",
+            "image": "shopify://shop_images/Ab123.png",
+            "logo": "shopify://shop_images/on-repeat-logo-black-2000px.png",
+            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
+            "large_button_text": "Explore",
+            "large_button_link": "",
+            "large_text_alignment": "left",
             "heading": "Discover more",
-            "text": "",
+            "description": "<p>Explore our collection.</p>",
             "button_text": "Explore",
             "link": "",
             "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 15
           }
         },
-        "card_QnmXGP": {
-          "type": "card",
+        "editorial_card_kAq7YA": {
+          "type": "editorial_card",
           "settings": {
-            "heading": "Discover more",
-            "text": "",
-            "button_text": "Explore",
-            "link": "",
+            "image": "shopify://shop_images/Or-edit.png",
+            "rich_text": "<p>EFFORTLESSLY LIGHT. DISTINCTLY YOU.</p>",
+            "large_button_text": "Explore",
+            "large_button_link": "",
+            "large_text_alignment": "left",
+            "heading": "",
+            "description": "",
+            "button_text": "EFFORTLESSLY LIGHT. DISTINCTLY YOU.",
+            "link": "shopify://collections/the-modern",
             "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 15
           }
         },
-        "card_tB3DME": {
-          "type": "card",
+        "editorial_card_6V4cYz": {
+          "type": "editorial_card",
           "settings": {
+            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Designed to move effortlessly from relaxed mornings to afternoons out and evenings in.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
+            "large_button_text": "Explore",
+            "large_button_link": "",
+            "large_text_alignment": "left",
             "heading": "Discover more",
-            "text": "",
+            "description": "<p>Explore our collection.</p>",
             "button_text": "Explore",
             "link": "",
             "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 35
           }
         },
-        "card_LdUfFw": {
-          "type": "card",
+        "editorial_card_J77e9k": {
+          "type": "editorial_card",
           "settings": {
+            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Designed to move effortlessly from relaxed mornings to afternoons out and evenings in.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
+            "large_button_text": "Explore",
+            "large_button_link": "",
+            "large_text_alignment": "left",
             "heading": "Discover more",
-            "text": "",
+            "description": "<p>Explore our collection.</p>",
             "button_text": "Explore",
             "link": "",
             "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 35
           }
         },
-        "card_NggnCY": {
-          "type": "card",
+        "editorial_card_gyQHwF": {
+          "type": "editorial_card",
           "settings": {
+            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Designed to move effortlessly from relaxed mornings to afternoons out and evenings in.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
+            "large_button_text": "Explore",
+            "large_button_link": "",
+            "large_text_alignment": "left",
             "heading": "Discover more",
-            "text": "",
+            "description": "<p>Explore our collection.</p>",
             "button_text": "Explore",
             "link": "",
             "text_alignment": "left",
-            "overlay_opacity": 30
+            "overlay_opacity": 35
           }
         }
       },
       "block_order": [
-        "card_TfEFmT",
-        "card_QnmXGP",
-        "card_tB3DME",
-        "card_LdUfFw",
-        "card_NggnCY"
+        "editorial_card_YRXQGn",
+        "editorial_card_kAq7YA",
+        "editorial_card_6V4cYz",
+        "editorial_card_J77e9k",
+        "editorial_card_gyQHwF"
       ],
-      "name": "Editorial Image Grid",
+      "name": "Premium Editorial Grid",
       "settings": {
-        "max_width": 1600,
-        "desktop_height": 700,
-        "mobile_height": 300,
+        "max_width": 1800,
+        "desktop_height": 800,
+        "large_column_width": 1.5,
         "grid_gap": 4,
         "border_radius": 0,
-        "heading_size": 24,
-        "text_size": 15,
-        "text_color": "#FFFFFF"
+        "section_padding_top": 20,
+        "section_padding_bottom": 20,
+        "section_padding_horizontal": 40,
+        "mobile_horizontal_padding": 12,
+        "background_color": "#FFFFFF",
+        "large_text_color": "#3C281D",
+        "large_text_size": 20,
+        "mobile_large_text_size": 15,
+        "large_line_height": 1.5,
+        "large_font_weight": "400",
+        "large_letter_spacing": 0,
+        "paragraph_spacing": 18,
+        "large_content_width": 50,
+        "large_content_left": 8,
+        "large_content_top": 16,
+        "logo_width": 130,
+        "logo_spacing": 50,
+        "large_button_spacing": 45,
+        "button_font_size": 11,
+        "small_text_color": "#FFFFFF",
+        "small_heading_size": 20,
+        "small_text_size": 14,
+        "small_content_padding": 30,
+        "mobile_large_height": 580,
+        "mobile_small_height": 260,
+        "mobile_grid_gap": 3,
+        "mobile_content_width": 78,
+        "mobile_content_left": 8,
+        "mobile_content_top": 10,
+        "mobile_logo_width": 90
       }
     },
     "hero_cmya3X": {
@@ -2216,7 +2265,7 @@
     "feature_callouts_yqBiKJ",
     "tabbed_collections_dWqWQG",
     "divider_zTrHC9",
-    "editorial_image_grid_9kLCRm",
+    "premium_editorial_grid_AkpjnG",
     "hero_cmya3X",
     "product_list_gRXzLJ",
     "section_AbGcQX",
