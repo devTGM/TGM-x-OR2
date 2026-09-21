@@ -851,76 +851,52 @@
         "padding-block-end": 0
       }
     },
-    "product_hotspots_pDPNhF": {
-      "type": "product-hotspots",
+    "feature_callouts_yqBiKJ": {
+      "type": "feature-callouts",
       "blocks": {
-        "hotspot_product_fJ9fr8": {
-          "type": "_hotspot-product",
+        "callout_LPCpzc": {
+          "type": "callout",
           "settings": {
-            "product": "",
-            "x-position": 46,
-            "y-position": 32
-          },
-          "blocks": {}
+            "pin_x": 60,
+            "pin_y": 50,
+            "label": "Fabric",
+            "detail_heading": "100% European Flax Linen",
+            "detail_body": "<p>Made from <strong>100% European flax</strong>, our linen is chosen for its natural character, exceptional breathability, and effortless elegance.</p><p>Flax is one of the oldest textile fibres in the world, valued for centuries for its strength and comfort. When woven into linen, it creates a fabric that feels naturally light against the skin while allowing air to move freely—making it particularly suited to warm days, relaxed occasions, and everything in between.</p><p>What makes linen special is its character. The natural texture, subtle slub, and gentle variations in the weave give every shirt a distinctive depth that perfectly captures the beauty of an authentic natural fabric. It doesn't try to look perfectly uniform—and that's precisely what makes it feel refined.</p>",
+            "cta_text": "",
+            "cta_url": ""
+          }
         },
-        "hotspot_product_zkBiBA": {
-          "type": "_hotspot-product",
+        "callout_qPB73d": {
+          "type": "callout",
           "settings": {
-            "product": "",
-            "x-position": 60,
-            "y-position": 60
-          },
-          "blocks": {}
-        },
-        "heading": {
-          "type": "text",
-          "name": "t:names.heading",
-          "static": true,
-          "settings": {
-            "text": "<h2>Shop the look</h2>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "pin_x": 35,
+            "pin_y": 66,
+            "label": "Buttons",
+            "detail_heading": "Mother of Pearl Buttons",
+            "detail_body": "<p>A subtle detail can make all the difference. Our shirts are finished with <strong>genuine Mother of Pearl buttons</strong>, chosen for their natural beauty, understated elegance, and distinctive character.</p><p>Formed from the inner shell of molluscs, Mother of Pearl has a soft, natural lustre that catches the light differently from every angle. Unlike ordinary plastic buttons, each button carries its own unique texture, depth, and gentle iridescence—making every shirt feel a little more refined.</p><p>But the appeal goes beyond appearance. Mother of Pearl is naturally hard and durable, making it a thoughtful choice for shirts designed to be worn and enjoyed over time. Its smooth, polished surface adds a tactile quality that you can appreciate every time you fasten your shirt.</p>",
+            "cta_text": "",
+            "cta_url": ""
+          }
         }
       },
       "block_order": [
-        "hotspot_product_fJ9fr8",
-        "hotspot_product_zkBiBA"
+        "callout_LPCpzc",
+        "callout_qPB73d"
       ],
-      "name": "t:names.product_hotspots",
+      "name": "Feature Callouts",
       "settings": {
-        "image": "shopify://shop_images/mainclose.png",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "section_width": "full-width",
-        "section_height": "16 / 9",
-        "hotspot_color": "#ffffff57",
-        "bullseye_color": "#ffffff",
-        "background_color": "",
-        "product_title_gap": 8,
-        "product_title_preset": "",
-        "product_price_preset": "",
-        "padding-block-start": 5,
-        "padding-block-end": 20
+        "intro_alignment": "center",
+        "overline": "",
+        "heading": "",
+        "writeup": "",
+        "product_image": "shopify://shop_images/close_up.png",
+        "image_aspect_ratio": "3/4",
+        "image_width": 6,
+        "image_radius": 0,
+        "background_color": "#F5F0EC",
+        "accent_color": "#1C1C1C",
+        "padding_top": 0,
+        "padding_bottom": 12
       }
     },
     "tabbed_collections_dWqWQG": {
@@ -2533,7 +2509,7 @@
     "product_list_fa6P9H",
     "divider_eWmecW",
     "divider_UqHH3w",
-    "product_hotspots_pDPNhF",
+    "feature_callouts_yqBiKJ",
     "tabbed_collections_dWqWQG",
     "divider_zTrHC9",
     "hero_cmya3X",
