@@ -3,13 +3,7 @@
   assign accent_color = section.settings.accent_color | default: '#1C1C1C'
 -%}
 
-<section
-  class="fcs-section section-wrapper"
-  id="FeatureCallouts-{{ section.id }}"
-  style="background-color: {{ section_bg }};"
->
-
-  {{- '<!-- Feature Callouts — ON REPEAT -->' -}}
+  <!-- Feature Callouts -->
 
   {%- if section.settings.overline != blank or section.settings.heading != blank or section.settings.writeup != blank -%}
     <div class="fcs__intro">
@@ -114,10 +108,16 @@
     </div>
 
   </div>
-</section>
+
+
+
 
 <style>
   /* ─── Layout ────────────────────────────────────────────── */
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section_bg }};
+  }
+
   .fcs-section {
     padding: {{ section.settings.padding_top }}px var(--page-margin, 24px) {{ section.settings.padding_bottom }}px;
   }
@@ -423,7 +423,8 @@
 {% schema %}
 {
   "name": "Feature Callouts",
-  "tag": null,
+  "tag": "section",
+  "class": "fcs-section section-wrapper",
   "settings": [
     {
       "type": "header",
