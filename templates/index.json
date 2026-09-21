@@ -743,6 +743,7 @@
         "card_TfEFmT": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/OR-editorial.png",
             "heading": "Discover more",
             "text": "",
             "button_text": "Explore",
