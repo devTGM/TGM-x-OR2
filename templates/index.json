@@ -858,8 +858,8 @@
           "type": "_hotspot-product",
           "settings": {
             "product": "",
-            "x-position": 40,
-            "y-position": 40
+            "x-position": 46,
+            "y-position": 32
           },
           "blocks": {}
         },
