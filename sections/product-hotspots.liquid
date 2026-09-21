@@ -1,739 +1,624 @@
+{%- liquid
+  assign section_bg   = section.settings.background_color | default: '#F5F0EC'
+  assign accent_color = section.settings.accent_color | default: '#1C1C1C'
+-%}
 
-
-<script
-  src="{{ 'product-hotspot.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
-{% render 'quick-add-styles' %}
-{% render 'quick-add-modal-styles' %}
-{% render 'swatch-styles' %}
-{% render 'quantity-selector-styles' %}
-{% render 'variant-picker-styles' %}
-{% render 'buy-buttons-styles' %}
-{% render 'product-badges-styles' %}
-
-{% liquid
-  if section.settings.background_color != blank
-    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
-  endif
-%}
-
-<div
-  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
-></div>
-
-<div
-  class="
-    section
-    section--{{ section.settings.section_width }}
-    section-product-hotspots
-    {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
-    spacing-style
-    gap-style
-  "
-  data-testid="product-hotspots"
-  style="
-    {% render 'spacing-style', settings: section.settings %}
-    {% render 'gap-style', value: 28 %}
-    {% if section.settings.section_height != 'auto' %}
-      --ratio: {{ section.settings.section_height }};
-    {% elsif section.settings.image != blank %}
-      --ratio: {{ section.settings.image.aspect_ratio }};
-    {% endif %}
-    --product-title-gap: {{ section.settings.product_title_gap }}px;
-    --hotspot-size: 36px;
-    --minimum-width-dialog: 260px;
-    --maximum-width-dialog: 330px;
-    --width-product-image-dialog: 110px;
-  "
+<section
+  class="phs-section section-wrapper"
+  id="ProductHotspots-{{ section.id }}"
+  style="background-color: {{ section_bg }};"
 >
-  <div class="section-product-hotspots__wrapper">
-    <div class="section-product-hotspots__header">
-      {% content_for 'block', type: 'text', id: 'heading' %}
+  {%- if section.settings.overline != blank or section.settings.heading != blank -%}
+    <div class="phs__intro">
+      {%- if section.settings.overline != blank -%}
+        <p class="phs__overline">{{ section.settings.overline }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="phs__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
     </div>
+  {%- endif -%}
 
-    <div class="section-product-hotspots__content">
-      {% if section.settings.toggle_overlay %}
-        {% render 'overlay', settings: section.settings, layer: 'var(--layer-flat)' %}
-      {% endif %}
+  <div class="phs__layout">
 
-      {% if section.settings.image != blank %}
-        {% render 'image', image: section.settings.image, class: 'hotspots__background-image' %}
-      {% else %}
-        {{ 'hero-apparel-1' | placeholder_svg_tag: 'hotspots__background-image' }}
-      {% endif %}
+    <!-- LEFT: Image + pins -->
+    <div class="phs__image-col">
+      <div class="phs__image-wrap" id="PhsImageWrap-{{ section.id }}">
 
-      <div class="hotspots-container">
-        {% content_for 'blocks' %}
+        {%- if section.settings.product_image != blank -%}
+          {{
+            section.settings.product_image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'phs__product-img',
+              loading: 'lazy',
+              widths: '400,600,800,1000,1200',
+              sizes: '(max-width: 749px) 100vw, 55vw'
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'phs__product-img phs__product-img--placeholder' }}
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          <button
+            class="phs__pin{% if forloop.first %} is-active{% endif %}"
+            data-phs-pin="{{ forloop.index }}"
+            data-section="{{ section.id }}"
+            style="left:{{ block.settings.pin_x | default: 50 }}%;top:{{ block.settings.pin_y | default: 30 }}%;--pin-accent:{{ accent_color }};"
+            aria-label="{{ block.settings.label | default: 'Feature' }}"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="phs__pin-ring"></span>
+            <span class="phs__pin-number">{{ forloop.index }}</span>
+          </button>
+        {%- endfor -%}
+
       </div>
     </div>
+
+    <!-- RIGHT: Detail panel -->
+    <div class="phs__detail-col" id="PhsDetailCol-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div
+          class="phs__detail{% if forloop.first %} is-active{% endif %}"
+          data-phs-detail="{{ forloop.index }}"
+          data-section="{{ section.id }}"
+          aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="phs__detail-inner">
+
+            <div class="phs__detail-header">
+              <span class="phs__detail-num" style="--pin-accent:{{ accent_color }};">{{ forloop.index }}</span>
+              <span class="phs__detail-label">{{ block.settings.label | default: 'Feature' }}</span>
+            </div>
+
+            {%- if block.settings.detail_heading != blank -%}
+              <h3 class="phs__detail-heading">{{ block.settings.detail_heading }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.detail_body != blank -%}
+              <div class="phs__detail-body rte">{{ block.settings.detail_body }}</div>
+            {%- endif -%}
+
+            {%- if block.settings.detail_image != blank -%}
+              <div class="phs__detail-img-wrap">
+                {{
+                  block.settings.detail_image
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'phs__detail-img',
+                    loading: 'lazy',
+                    widths: '280,400,600',
+                    sizes: '(max-width: 749px) 80vw, 280px'
+                }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.cta_text != blank and block.settings.cta_url != blank -%}
+              <a href="{{ block.settings.cta_url }}" class="phs__detail-cta">
+                {{ block.settings.cta_text }}<span class="phs__cta-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            {%- endif -%}
+
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
   </div>
-</div>
+</section>
 
-{% stylesheet %}
-  /* Section layout */
-  .section-product-hotspots {
-    position: relative;
+<style>
+  /* ─── Layout shell ─────────────────────────────────────── */
+  .phs-section {
+    padding: {{ section.settings.padding_top }}px var(--page-margin, 24px) {{ section.settings.padding_bottom }}px;
   }
 
-  .section-product-hotspots__wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
-    width: 100%;
-    height: 100%;
+  .phs__intro {
+    text-align: center;
+    margin: 0 auto clamp(36px, 5vw, 60px);
+    max-width: 640px;
   }
 
-  /* Image container */
-  .section-product-hotspots__content {
-    position: relative;
-    aspect-ratio: var(--ratio, 21 / 9);
-    overflow: hidden;
-  }
-
-  /* Hide hotspots without products on touch devices (tablets included) */
-  @media (hover: none) {
-    .hotspot.hotspot--hidden-touch {
-      display: none;
-    }
-  }
-
-  /* Responsive adjustments */
-  @media screen and (max-width: 749px) {
-    /* Hide dialog on mobile - hotspot opens quick-add modal instead */
-    .hotspot .hotspot-dialog {
-      display: none;
-    }
-  }
-
-  /* Hotspot button - positioned element with clickable area */
-  .hotspot {
-    position: absolute;
-    cursor: pointer;
-    width: var(--button-size);
-    height: var(--button-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    outline: none;
-    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
-    z-index: var(--layer-flat);
-  }
-
-  .hotspot:has(.hotspot-dialog[open]) {
-    z-index: var(--layer-raised);
-  }
-
-  .hotspot .hotspot-trigger {
-    padding: 0;
-    border: none;
-  }
-
-  .hotspot-dialog__product-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: var(--padding-xs);
-    padding-inline-start: 0;
-    overflow: hidden;
-  }
-
-  /* Visual target circle */
-  .hotspot-trigger {
-    width: var(--hotspot-size);
-    height: var(--hotspot-size);
-    background: var(--hotspot-bg, rgb(0 0 0 / 0.5));
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    transition: width 0.1s ease-out, height 0.1s ease-out;
-  }
-
-  /* On mobile, ensure trigger is tappable */
-  @media screen and (max-width: 749px) {
-    .hotspot-trigger {
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-  }
-
-  /* Bullseye using ::after pseudo-element */
-  .hotspot-trigger::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(var(--hotspot-size) * 0.4);
-    height: calc(var(--hotspot-size) * 0.4);
-    background: var(--hotspot-bullseye, #fff);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.1s ease-out, height 0.1s ease-out, background 0.1s ease-out;
-  }
-
-  /* Bullseye grows on hover or when dialog is open (desktop only) */
-  @media screen and (min-width: 750px) {
-    .hotspot:hover .hotspot-trigger::after,
-    .hotspot:has(.hotspot-dialog[open]) .hotspot-trigger::after {
-      width: calc(var(--hotspot-size) * 0.55);
-      height: calc(var(--hotspot-size) * 0.55);
-      transition: width 0.2s ease-out, height 0.2s ease-out, background 0.2s ease-out;
-      transition-delay: 0.2s;
-    }
-  }
-
-  .hotspots-container {
-    position: absolute;
-    inset: 0;
-    z-index: var(--layer-flat);
-    overflow: clip;
-  }
-
-  .hotspots__background-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  /* Dialog positioning */
-  .hotspot .hotspot-dialog {
-    position: absolute;
-    padding: 0;
-    border-radius: var(--style-border-radius-popover);
-    border: var(--style-border-popover);
-    width: max-content;
-    min-width: var(--minimum-width-dialog);
-    max-width: var(--maximum-width-dialog);
-    box-shadow: var(--shadow-popover);
-
-    &[data-placement*='bottom'] {
-      --offset-y: 0px;
-      --origin-y: calc(var(--hotspot-size) / 2);
-      top: calc((var(--button-size) - var(--hotspot-size)) / 2 + var(--dialog-vertical-offset, 0px));
-      bottom: unset;
-    }
-    &[data-placement*='top'] {
-      --offset-y: 0px;
-      --origin-y: calc(100% - (var(--hotspot-size) * 0.5));
-      top: unset;
-      bottom: calc((var(--button-size) - var(--hotspot-size)) * 0.5 - var(--dialog-vertical-offset, 0px));
-    }
-    &[data-placement*='left'] {
-      --offset-x: calc((var(--button-size) - var(--hotspot-size)) * 0.5);
-      --origin-x: calc(100% - (var(--hotspot-size) * 0.5));
-      left: unset;
-      right: 100%;
-    }
-    &[data-placement*='right'] {
-      --offset-x: calc((var(--button-size) - var(--hotspot-size)) * -0.5);
-      --origin-x: calc(var(--hotspot-size) * 0.5);
-      left: 100%;
-      right: unset;
-    }
-    &[data-placement*='center'] {
-      left: 50%;
-      translate: -50% 0;
-      right: unset;
-    }
-    &[data-placement*='center'][data-placement*='bottom'] {
-      --origin-y: calc(var(--hotspot-size) * 0.5);
-      --origin-x: 50%;
-      --offset-y: calc((var(--button-size) - var(--hotspot-size)) * -0.5);
-      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
-      --offset-x: 0;
-      top: 100%;
-      bottom: unset;
-      margin: 0;
-    }
-    &[data-placement*='center'][data-placement*='top'] {
-      --origin-y: calc(100% - (var(--hotspot-size) * 0.5));
-      --origin-x: 50%;
-      --offset-y: calc((var(--button-size) - var(--hotspot-size)) * 0.5);
-      /* stylelint-disable-next-line declaration-property-value-disallowed-list */
-      --offset-x: 0;
-      bottom: 100%;
-    }
-  }
-
-  .hotspot .hotspot-dialog:is(:focus, :focus-visible),
-  .hotspot .hotspot-dialog__link:is(:focus, :focus-visible) {
-    outline: none;
-  }
-
-  .hotspot-dialog__product {
-    display: grid;
-    grid-template-columns: auto 1fr;
-  }
-
-  .hotspot-dialog__product-image,
-  .hotspot-dialog svg.hotspot-dialog__placeholder-product-image {
-    width: var(--width-product-image-dialog);
-    height: var(--width-product-image-dialog);
-    aspect-ratio: 1;
-    padding: var(--padding-product-image-popover, var(--padding-xs));
-    object-fit: cover;
-    border-radius: var(--style-border-radius-popover);
-  }
-
-  .hotspot-dialog__link {
-    position: absolute;
-    inset: 0;
-    z-index: var(--layer-flat);
-  }
-
-  .hotspot-dialog__product-title {
-    margin-block-end: var(--product-title-gap);
-    padding-inline-end: var(--padding-sm);
-    min-width: 0;
-  }
-
-  .hotspot .hotspot-dialog .hotspot-dialog__sold-out-badge {
-    display: flex;
-    width: fit-content;
-    justify-self: flex-end;
-    align-self: flex-end;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--font-body--size);
-    padding: var(--padding-2xs) var(--padding-sm);
-    background: rgb(var(--color-foreground-rgb) / var(--opacity-10));
-    border-radius: var(--border-radius-sm);
+  .phs__overline {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-sm);
-    opacity: var(--opacity-80);
+    color: #8A8580;
+    margin: 0 0 10px;
   }
 
-  /* Dialog transitions */
-  .hotspot .hotspot-dialog {
-    --hotspot-blur: 4px;
-    --hotspot-scale: 0.8;
-    --hotspot-entry-duration: 0.2s;
-    --hotspot-exit-duration: 0.1s;
-
-    /* Firefox doesn't have reverse transitions */
-    /* in webkit/chromium we can set a closing attribute as we transition the exit and hook there */
-    filter: blur(var(--hotspot-blur));
-    opacity: 0;
-    transform: scale(var(--hotspot-scale)) translate(0, 0);
-    transition-property: display, opacity, filter, transform;
-    transition-duration: var(--hotspot-entry-duration);
-    transition-timing-function: ease;
-
-    transform: scale(var(--hotspot-scale)) translate(var(--offset-x), var(--offset-y));
-    transform-origin: var(--origin-x) var(--origin-y);
-    transition-timing-function: cubic-bezier(0.65, -0.49, 0.35, 1.12);
-
-    &[data-closing='true'] {
-      transition-duration: var(--hotspot-exit-duration);
-      transition-timing-function: ease-out;
-      transform: scale(1) translate(0, calc(var(--hotspot-size) * 0.25));
-    }
-
-    /* We can only set transition-behavior once we've measured the dialog dimensions */
-    &[data-showing='true'] {
-      transition-behavior: allow-discrete;
-    }
+  .phs__heading {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #1C1C1C;
+    margin: 0;
   }
 
-  .hotspot .hotspot-dialog[open][data-showing='true'] {
-    opacity: 1;
-    transform: scale(1) translate(0, 0);
-    filter: blur(0px);
-  }
-
-  @starting-style {
-    .hotspot .hotspot-dialog[open][data-showing='true'] {
-      opacity: 0;
-      filter: blur(var(--hotspot-blur));
-      transform: scale(var(--hotspot-scale)) translate(var(--offset-x), var(--offset-y));
-      transform-origin: var(--origin-x) var(--origin-y);
-    }
-  }
-
-  /* Safety triangles for dialogs */
-  .hotspot .hotspot-dialog::after {
-    content: '';
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: all;
-    transition: opacity 0.22s ease-out, translate 0.22s 0.1s ease-out;
-    scale: var(--scale-x, 1) var(--scale-y, 1);
-    z-index: var(--layer-flat);
-  }
-
-  .hotspot-dialog[open]:is([data-placement*='left'], [data-placement*='right'])::after {
-    /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
-    width: calc(var(--button-size) / 2 + var(--hotspot-size) * 0.5);
-  }
-
-  .hotspot-dialog[open][data-placement*='right']::after {
-    right: 100%;
-    left: unset;
-  }
-
-  .hotspot-dialog[open][data-placement*='left']::after {
-    left: 100%;
-    right: unset;
-    --scale-x: -1;
-  }
-
-  .hotspot-dialog[open][data-placement*='top']::after {
-    --scale-y: -1;
-  }
-
-  .hotspot-dialog[open][data-placement*='center']::after {
-    height: calc(var(--button-size) / 2 + var(--hotspot-size) * 0.5);
-    width: 100%;
-    /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
-    clip-path: polygon(0 0, 100% 0, 50% calc(100% - var(--hotspot-size) * 0.25));
-    --scale-x: 1;
-    --scale-y: 1;
-  }
-
-  .hotspot-dialog[open][data-placement*='center'][data-placement*='bottom']::after {
-    top: unset;
-    bottom: 100%;
-    --scale-y: -1;
-  }
-
-  .hotspot-dialog[open][data-placement*='center'][data-placement*='top']::after {
-    top: 100%;
-    bottom: unset;
-  }
-
-  /* Quick add button */
-  .hotspot-dialog {
-    .quick-add {
-      display: flex;
-      justify-content: flex-end;
-      position: relative;
-      z-index: var(--layer-flat);
-    }
-
-    .quick-add__button.add-to-cart-button {
-      width: calc(var(--button-size-md) - 4px);
-      position: relative;
-      transform: translateX(2px);
-      justify-self: flex-end;
-      height: fit-content;
-      border: none;
-      color: var(--quick-add-foreground, var(--color-foreground));
-      background-color: var(--quick-add-background, var(--color-background));
-      pointer-events: all;
-      opacity: 1;
-      overflow: hidden;
-      outline: 2px solid transparent;
-
-      @media (prefers-reduced-motion: no-preference) {
-        transition: width var(--animation-speed) var(--ease-out-cubic),
-          outline-color var(--animation-speed) var(--ease-out-cubic) var(--animation-speed-slow),
-          transform var(--animation-speed) var(--ease-out-cubic);
-      }
-
-      &:is(:hover, :active) {
-        outline-color: rgb(var(--color-foreground-rgb) / var(--opacity-15));
-      }
-
-      &:focus-visible {
-        outline-color: currentcolor;
-        transition-delay: 0s;
-      }
-    }
-
-    .quick-add__button.add-to-cart-button[data-added='true'] {
-      color: transparent;
-    }
+  .phs__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
   }
 
   @media screen and (min-width: 750px) {
-    .hotspot-dialog {
-      .quick-add__button:is(:hover, :focus-visible) {
-        width: max-content;
-        transform: translateX(0);
-      }
+    .phs__layout {
+      grid-template-columns: {{ section.settings.image_width }}fr {{ 10 | minus: section.settings.image_width }}fr;
+      gap: clamp(40px, 6vw, 88px);
     }
   }
-{% endstylesheet %}
+
+  /* ─── Image wrap ────────────────────────────────────────── */
+  .phs__image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    border-radius: {{ section.settings.image_radius }}px;
+    overflow: hidden;
+    background: #EAE6DF;
+  }
+
+  .phs__product-img,
+  .phs__product-img--placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .phs__product-img--placeholder { opacity: 0.4; }
+
+  /* ─── Pins ──────────────────────────────────────────────── */
+  .phs__pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: transform 0.25s ease;
+  }
+  .phs__pin:hover { transform: translate(-50%, -50%) scale(1.12); }
+
+  .phs__pin-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.22);
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .phs__pin.is-active .phs__pin-ring,
+  .phs__pin:hover .phs__pin-ring {
+    background: var(--pin-accent, #1C1C1C);
+    border-color: var(--pin-accent, #1C1C1C);
+  }
+
+  .phs__pin-number {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 13px;
+    font-weight: 600;
+    color: #1C1C1C;
+    transition: color 0.25s ease;
+    line-height: 1;
+  }
+  .phs__pin.is-active .phs__pin-number,
+  .phs__pin:hover .phs__pin-number { color: #fff; }
+
+  /* Pulse animation on inactive pins */
+  .phs__pin:not(.is-active) .phs__pin-ring::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.55);
+    animation: phs-pulse 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes phs-pulse {
+    0%   { opacity: 0.85; transform: scale(1); }
+    70%  { opacity: 0;    transform: scale(1.55); }
+    100% { opacity: 0;    transform: scale(1.55); }
+  }
+
+  @media screen and (max-width: 749px) {
+    .phs__pin { width: 30px; height: 30px; }
+    .phs__pin-number { font-size: 11px; }
+  }
+
+  /* ─── Detail column ─────────────────────────────────────── */
+  .phs__detail-col {
+    position: relative;
+    min-height: 260px;
+  }
+
+  /* Desktop: absolute-stacked, fade/slide transition */
+  @media screen and (min-width: 750px) {
+    .phs__detail {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .phs__detail.is-active {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile: simple show/hide */
+  @media screen and (max-width: 749px) {
+    .phs__detail-col { min-height: unset; }
+    .phs__detail { display: none; }
+    .phs__detail.is-active { display: block; }
+  }
+
+  .phs__detail-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* Number + label row */
+  .phs__detail-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .phs__detail-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--pin-accent, #1C1C1C);
+    color: #fff;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .phs__detail-label {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8A8580;
+  }
+
+  /* Heading */
+  .phs__detail-heading {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: #1C1C1C;
+    margin: 0;
+  }
+
+  /* Body text */
+  .phs__detail-body {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: #4A4540;
+  }
+  .phs__detail-body p { margin: 0 0 10px; }
+  .phs__detail-body p:last-child { margin-bottom: 0; }
+
+  /* Close-up image */
+  .phs__detail-img-wrap {
+    overflow: hidden;
+    border-radius: 4px;
+    max-width: 320px;
+  }
+  .phs__detail-img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+  }
+
+  /* CTA */
+  .phs__detail-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1C1C1C;
+    text-decoration: none;
+    border-bottom: 1px solid #1C1C1C;
+    padding-bottom: 2px;
+    width: fit-content;
+    transition: opacity 0.2s ease;
+  }
+  .phs__detail-cta:hover { opacity: 0.55; }
+  .phs__cta-arrow { transition: transform 0.2s ease; display: inline-block; }
+  .phs__detail-cta:hover .phs__cta-arrow { transform: translateX(4px); }
+</style>
+
+<script>
+  (function () {
+    var sid     = '{{ section.id }}';
+    var imgWrap = document.getElementById('PhsImageWrap-' + sid);
+    var detCol  = document.getElementById('PhsDetailCol-' + sid);
+    if (!imgWrap || !detCol) return;
+
+    var pins    = Array.from(imgWrap.querySelectorAll('[data-phs-pin][data-section="' + sid + '"]'));
+    var details = Array.from(detCol.querySelectorAll('[data-phs-detail][data-section="' + sid + '"]'));
+
+    function activate(idx) {
+      pins.forEach(function (p, i) {
+        var on = (i === idx);
+        p.classList.toggle('is-active', on);
+        p.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d, i) {
+        var on = (i === idx);
+        d.classList.toggle('is-active', on);
+        d.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+    }
+
+    pins.forEach(function (pin, i) {
+      pin.addEventListener('click', function () { activate(i); });
+    });
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "t:names.product_hotspots",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "blocks": [
-    {
-      "type": "_hotspot-product"
-    }
-  ],
+  "name": "Product Hotspots",
+  "tag": null,
   "settings": [
     {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline (small caps)",
+      "default": "Craftsmanship"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Made with intention"
+    },
+    {
+      "type": "header",
+      "content": "Product image"
+    },
+    {
       "type": "image_picker",
-      "id": "image",
-      "label": "t:settings.image"
-    },
-    {
-      "type": "checkbox",
-      "id": "toggle_overlay",
-      "label": "t:settings.media_overlay"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "t:settings.overlay_color",
-      "alpha": true,
-      "default": "#00000026",
-      "visible_if": "{{ section.settings.toggle_overlay }}"
+      "id": "product_image",
+      "label": "Product image"
     },
     {
       "type": "select",
-      "id": "overlay_style",
-      "label": "t:settings.overlay_style",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
       "options": [
-        {
-          "value": "solid",
-          "label": "t:options.solid"
-        },
-        {
-          "value": "gradient",
-          "label": "t:options.gradient"
-        }
+        { "value": "3/4",  "label": "Portrait 3:4" },
+        { "value": "4/5",  "label": "Portrait 4:5" },
+        { "value": "1/1",  "label": "Square 1:1" },
+        { "value": "4/3",  "label": "Landscape 4:3" },
+        { "value": "16/9", "label": "Wide 16:9" }
       ],
-      "default": "solid",
-      "visible_if": "{{ section.settings.toggle_overlay }}"
+      "default": "3/4"
     },
     {
-      "type": "select",
-      "id": "gradient_direction",
-      "label": "t:settings.gradient_direction",
-      "options": [
-        {
-          "value": "to top",
-          "label": "t:options.up"
-        },
-        {
-          "value": "to bottom",
-          "label": "t:options.down"
-        }
-      ],
-      "default": "to top",
-      "visible_if": "{{ section.settings.toggle_overlay and section.settings.overlay_style == 'gradient' }}"
+      "type": "range",
+      "id": "image_width",
+      "label": "Image column width (out of 10)",
+      "min": 4,
+      "max": 7,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",
-      "content": "t:content.section_layout"
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "select",
-      "id": "section_height",
-      "label": "t:settings.height",
-      "options": [
-        {
-          "value": "auto",
-          "label": "t:options.auto"
-        },
-        {
-          "value": "21 / 9",
-          "label": "t:options.small"
-        },
-        {
-          "value": "16 / 9",
-          "label": "t:options.medium"
-        },
-        {
-          "value": "4 / 3",
-          "label": "t:options.large"
-        }
-      ],
-      "default": "auto"
-    },
-    {
-      "type": "header",
-      "content": "t:content.colors"
-    },
-    {
-      "type": "color",
-      "id": "hotspot_color",
-      "label": "t:settings.hotspot_color",
-      "default": "#FFFFFF57",
-      "alpha": true
-    },
-    {
-      "type": "color",
-      "id": "bullseye_color",
-      "label": "t:settings.bullseye_color",
-      "default": "#ffffff",
-      "alpha": true
+      "content": "Colours"
     },
     {
       "type": "color",
       "id": "background_color",
-      "placeholder": "t:settings.default",
-      "label": "t:settings.background_color"
+      "label": "Section background",
+      "default": "#F5F0EC"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Pin and accent colour",
+      "default": "#1C1C1C"
     },
     {
       "type": "header",
-      "content": "t:content.popover"
+      "content": "Padding"
     },
     {
       "type": "range",
-      "id": "product_title_gap",
-      "label": "t:settings.vertical_gap",
+      "id": "padding_top",
+      "label": "Top",
       "min": 0,
-      "max": 50,
-      "step": 1,
+      "max": 120,
+      "step": 4,
       "unit": "px",
-      "default": 8
+      "default": 80
     },
     {
-      "type": "select",
-      "id": "product_title_preset",
-      "label": "t:settings.product_title_typography",
-      "options": [
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
         {
-          "value": "",
-          "label": "t:options.default"
+          "type": "header",
+          "content": "Pin position"
         },
         {
-          "value": "paragraph",
-          "label": "t:options.paragraph"
+          "type": "paragraph",
+          "content": "Set X (left to right) and Y (top to bottom) as a percentage within the image."
         },
         {
-          "value": "h4",
-          "label": "t:options.h4"
+          "type": "range",
+          "id": "pin_x",
+          "label": "Horizontal position (X %)",
+          "min": 2,
+          "max": 98,
+          "step": 1,
+          "unit": "%",
+          "default": 50
         },
         {
-          "value": "h5",
-          "label": "t:options.h5"
+          "type": "range",
+          "id": "pin_y",
+          "label": "Vertical position (Y %)",
+          "min": 2,
+          "max": 98,
+          "step": 1,
+          "unit": "%",
+          "default": 30
         },
         {
-          "value": "h6",
-          "label": "t:options.h6"
+          "type": "header",
+          "content": "Detail content"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Feature label",
+          "default": "Collar",
+          "info": "Short uppercase label shown beside the pin number"
+        },
+        {
+          "type": "text",
+          "id": "detail_heading",
+          "label": "Heading",
+          "default": "Italian poplin collar"
+        },
+        {
+          "type": "richtext",
+          "id": "detail_body",
+          "label": "Body text",
+          "default": "<p>Crafted from 100-thread-count European flax, the collar holds its shape through dozens of washes — no starch required.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "detail_image",
+          "label": "Close-up image (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Optional link"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Link text",
+          "placeholder": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Link URL"
         }
-      ],
-      "default": "",
-      "info": "t:info.edit_presets_in_theme_settings"
-    },
-    {
-      "type": "select",
-      "id": "product_price_preset",
-      "label": "t:settings.product_price_typography",
-      "options": [
-        {
-          "value": "",
-          "label": "t:options.default"
-        },
-        {
-          "value": "paragraph",
-          "label": "t:options.paragraph"
-        },
-        {
-          "value": "h4",
-          "label": "t:options.h4"
-        },
-        {
-          "value": "h5",
-          "label": "t:options.h5"
-        },
-        {
-          "value": "h6",
-          "label": "t:options.h6"
-        }
-      ],
-      "default": "",
-      "info": "t:info.edit_presets_in_theme_settings"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 40
+      ]
     }
   ],
   "presets": [
     {
-      "name": "t:names.product_hotspots",
-      "category": "t:categories.products",
-      "settings": {
-        "section_width": "page-width",
-        "product_title_gap": 8,
-        "padding-block-start": 40,
-        "padding-block-end": 40
-      },
-      "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.heading",
-          "static": true,
+      "name": "Product Hotspots",
+      "blocks": [
+        {
+          "type": "hotspot",
           "settings": {
-            "text": "t:text_defaults.shop_the_look",
-            "type_preset": "h4"
+            "pin_x": 50,
+            "pin_y": 16,
+            "label": "Collar",
+            "detail_heading": "Italian poplin collar",
+            "detail_body": "<p>The collar is fused with a hair-canvas interlining — it holds its shape wash after wash without a drop of starch.</p>"
           }
         },
-        "hotspot-1": {
-          "type": "_hotspot-product",
+        {
+          "type": "hotspot",
           "settings": {
-            "x-position": 40,
-            "y-position": 40
+            "pin_x": 38,
+            "pin_y": 44,
+            "label": "Fabric",
+            "detail_heading": "100% European Flax Linen",
+            "detail_body": "<p>Stone-washed at 60 degrees for pre-shrinking and that naturally relaxed drape. Breathable in summer, insulating in winter.</p>"
           }
         },
-        "hotspot-2": {
-          "type": "_hotspot-product",
+        {
+          "type": "hotspot",
           "settings": {
-            "x-position": 60,
-            "y-position": 60
+            "pin_x": 54,
+            "pin_y": 68,
+            "label": "Buttons",
+            "detail_heading": "Corozo nut buttons",
+            "detail_body": "<p>Each button is carved from the tagua nut — a sustainable alternative to plastic. Naturally matte, no two are identical.</p>"
           }
         }
-      },
-      "block_order": ["hotspot-1", "hotspot-2"]
+      ]
     }
   ]
 }
