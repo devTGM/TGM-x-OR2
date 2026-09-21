@@ -4,53 +4,59 @@
 -%}
 
 <section
-  class="phs-section section-wrapper"
-  id="ProductHotspots-{{ section.id }}"
+  class="fcs-section section-wrapper"
+  id="FeatureCallouts-{{ section.id }}"
   style="background-color: {{ section_bg }};"
 >
-  {%- if section.settings.overline != blank or section.settings.heading != blank -%}
-    <div class="phs__intro">
+
+  {{- '<!-- Feature Callouts — ON REPEAT -->' -}}
+
+  {%- if section.settings.overline != blank or section.settings.heading != blank or section.settings.writeup != blank -%}
+    <div class="fcs__intro">
       {%- if section.settings.overline != blank -%}
-        <p class="phs__overline">{{ section.settings.overline }}</p>
+        <p class="fcs__overline">{{ section.settings.overline }}</p>
       {%- endif -%}
       {%- if section.settings.heading != blank -%}
-        <h2 class="phs__heading">{{ section.settings.heading }}</h2>
+        <h2 class="fcs__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.writeup != blank -%}
+        <div class="fcs__writeup rte">{{ section.settings.writeup }}</div>
       {%- endif -%}
     </div>
   {%- endif -%}
 
-  <div class="phs__layout">
+  <div class="fcs__layout">
 
     <!-- LEFT: Image + pins -->
-    <div class="phs__image-col">
-      <div class="phs__image-wrap" id="PhsImageWrap-{{ section.id }}">
+    <div class="fcs__image-col">
+      <div class="fcs__image-wrap" id="FcsImageWrap-{{ section.id }}">
 
         {%- if section.settings.product_image != blank -%}
           {{
             section.settings.product_image
             | image_url: width: 1200
             | image_tag:
-              class: 'phs__product-img',
+              class: 'fcs__product-img',
               loading: 'lazy',
               widths: '400,600,800,1000,1200',
               sizes: '(max-width: 749px) 100vw, 55vw'
           }}
         {%- else -%}
-          {{ 'product-1' | placeholder_svg_tag: 'phs__product-img phs__product-img--placeholder' }}
+          {{ 'product-1' | placeholder_svg_tag: 'fcs__product-img fcs__product-img--placeholder' }}
         {%- endif -%}
 
         {%- for block in section.blocks -%}
           <button
-            class="phs__pin{% if forloop.first %} is-active{% endif %}"
-            data-phs-pin="{{ forloop.index }}"
+            class="fcs__pin{% if forloop.first %} is-active{% endif %}"
+            data-fcs-pin="{{ forloop.index }}"
             data-section="{{ section.id }}"
             style="left:{{ block.settings.pin_x | default: 50 }}%;top:{{ block.settings.pin_y | default: 30 }}%;--pin-accent:{{ accent_color }};"
             aria-label="{{ block.settings.label | default: 'Feature' }}"
             aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
             {{ block.shopify_attributes }}
           >
-            <span class="phs__pin-ring"></span>
-            <span class="phs__pin-number">{{ forloop.index }}</span>
+            <span class="fcs__pin-ring"></span>
+            <span class="fcs__pin-number">{{ forloop.index }}</span>
           </button>
         {%- endfor -%}
 
@@ -58,37 +64,37 @@
     </div>
 
     <!-- RIGHT: Detail panel -->
-    <div class="phs__detail-col" id="PhsDetailCol-{{ section.id }}">
+    <div class="fcs__detail-col" id="FcsDetailCol-{{ section.id }}">
       {%- for block in section.blocks -%}
         <div
-          class="phs__detail{% if forloop.first %} is-active{% endif %}"
-          data-phs-detail="{{ forloop.index }}"
+          class="fcs__detail{% if forloop.first %} is-active{% endif %}"
+          data-fcs-detail="{{ forloop.index }}"
           data-section="{{ section.id }}"
           aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
           {{ block.shopify_attributes }}
         >
-          <div class="phs__detail-inner">
+          <div class="fcs__detail-inner">
 
-            <div class="phs__detail-header">
-              <span class="phs__detail-num" style="--pin-accent:{{ accent_color }};">{{ forloop.index }}</span>
-              <span class="phs__detail-label">{{ block.settings.label | default: 'Feature' }}</span>
+            <div class="fcs__detail-header">
+              <span class="fcs__detail-num" style="--pin-accent:{{ accent_color }};">{{ forloop.index }}</span>
+              <span class="fcs__detail-label">{{ block.settings.label | default: 'Feature' }}</span>
             </div>
 
             {%- if block.settings.detail_heading != blank -%}
-              <h3 class="phs__detail-heading">{{ block.settings.detail_heading }}</h3>
+              <h3 class="fcs__detail-heading">{{ block.settings.detail_heading }}</h3>
             {%- endif -%}
 
             {%- if block.settings.detail_body != blank -%}
-              <div class="phs__detail-body rte">{{ block.settings.detail_body }}</div>
+              <div class="fcs__detail-body rte">{{ block.settings.detail_body }}</div>
             {%- endif -%}
 
             {%- if block.settings.detail_image != blank -%}
-              <div class="phs__detail-img-wrap">
+              <div class="fcs__detail-img-wrap">
                 {{
                   block.settings.detail_image
                   | image_url: width: 600
                   | image_tag:
-                    class: 'phs__detail-img',
+                    class: 'fcs__detail-img',
                     loading: 'lazy',
                     widths: '280,400,600',
                     sizes: '(max-width: 749px) 80vw, 280px'
@@ -97,8 +103,8 @@
             {%- endif -%}
 
             {%- if block.settings.cta_text != blank and block.settings.cta_url != blank -%}
-              <a href="{{ block.settings.cta_url }}" class="phs__detail-cta">
-                {{ block.settings.cta_text }}<span class="phs__cta-arrow" aria-hidden="true">&#8594;</span>
+              <a href="{{ block.settings.cta_url }}" class="fcs__detail-cta">
+                {{ block.settings.cta_text }}<span class="fcs__cta-arrow" aria-hidden="true">&#8594;</span>
               </a>
             {%- endif -%}
 
@@ -111,38 +117,54 @@
 </section>
 
 <style>
-  /* ─── Layout shell ─────────────────────────────────────── */
-  .phs-section {
+  /* ─── Layout ────────────────────────────────────────────── */
+  .fcs-section {
     padding: {{ section.settings.padding_top }}px var(--page-margin, 24px) {{ section.settings.padding_bottom }}px;
   }
 
-  .phs__intro {
-    text-align: center;
+  /* ─── Intro block ───────────────────────────────────────── */
+  .fcs__intro {
+    text-align: {{ section.settings.intro_alignment }};
     margin: 0 auto clamp(36px, 5vw, 60px);
-    max-width: 640px;
+    max-width: 720px;
   }
 
-  .phs__overline {
+  .fcs__overline {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #8A8580;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
   }
 
-  .phs__heading {
+  .fcs__heading {
     font-family: var(--font-heading--family, Georgia, serif);
     font-size: clamp(1.6rem, 3.5vw, 2.6rem);
     font-weight: 400;
     line-height: 1.2;
     letter-spacing: -0.01em;
     color: #1C1C1C;
-    margin: 0;
+    margin: 0 0 20px;
   }
 
-  .phs__layout {
+  /* ── Write-up paragraph ─────────────────────────────────── */
+  .fcs__writeup {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 16px;
+    line-height: 1.8;
+    color: #4A4540;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .fcs__writeup p { margin: 0 0 12px; }
+  .fcs__writeup p:last-child { margin-bottom: 0; }
+
+  /* ─── Two-column layout ────────────────────────────────── */
+  .fcs__layout {
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px;
@@ -152,14 +174,14 @@
   }
 
   @media screen and (min-width: 750px) {
-    .phs__layout {
+    .fcs__layout {
       grid-template-columns: {{ section.settings.image_width }}fr {{ 10 | minus: section.settings.image_width }}fr;
       gap: clamp(40px, 6vw, 88px);
     }
   }
 
   /* ─── Image wrap ────────────────────────────────────────── */
-  .phs__image-wrap {
+  .fcs__image-wrap {
     position: relative;
     width: 100%;
     aspect-ratio: {{ section.settings.image_aspect_ratio }};
@@ -168,17 +190,17 @@
     background: #EAE6DF;
   }
 
-  .phs__product-img,
-  .phs__product-img--placeholder {
+  .fcs__product-img,
+  .fcs__product-img--placeholder {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
-  .phs__product-img--placeholder { opacity: 0.4; }
+  .fcs__product-img--placeholder { opacity: 0.4; }
 
   /* ─── Pins ──────────────────────────────────────────────── */
-  .phs__pin {
+  .fcs__pin {
     position: absolute;
     transform: translate(-50%, -50%);
     width: 36px;
@@ -194,9 +216,9 @@
     z-index: 10;
     transition: transform 0.25s ease;
   }
-  .phs__pin:hover { transform: translate(-50%, -50%) scale(1.12); }
+  .fcs__pin:hover { transform: translate(-50%, -50%) scale(1.12); }
 
-  .phs__pin-ring {
+  .fcs__pin-ring {
     position: absolute;
     inset: 0;
     border-radius: 50%;
@@ -208,13 +230,13 @@
     transition: background 0.25s ease, border-color 0.25s ease;
   }
 
-  .phs__pin.is-active .phs__pin-ring,
-  .phs__pin:hover .phs__pin-ring {
+  .fcs__pin.is-active .fcs__pin-ring,
+  .fcs__pin:hover .fcs__pin-ring {
     background: var(--pin-accent, #1C1C1C);
     border-color: var(--pin-accent, #1C1C1C);
   }
 
-  .phs__pin-number {
+  .fcs__pin-number {
     position: relative;
     z-index: 1;
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
@@ -224,39 +246,39 @@
     transition: color 0.25s ease;
     line-height: 1;
   }
-  .phs__pin.is-active .phs__pin-number,
-  .phs__pin:hover .phs__pin-number { color: #fff; }
+  .fcs__pin.is-active .fcs__pin-number,
+  .fcs__pin:hover .fcs__pin-number { color: #fff; }
 
-  /* Pulse animation on inactive pins */
-  .phs__pin:not(.is-active) .phs__pin-ring::after {
+  /* Pulse on inactive pins */
+  .fcs__pin:not(.is-active) .fcs__pin-ring::after {
     content: '';
     position: absolute;
     inset: -5px;
     border-radius: 50%;
     border: 1.5px solid rgba(255,255,255,0.55);
-    animation: phs-pulse 2.4s ease-out infinite;
+    animation: fcs-pulse 2.4s ease-out infinite;
     pointer-events: none;
   }
-  @keyframes phs-pulse {
+  @keyframes fcs-pulse {
     0%   { opacity: 0.85; transform: scale(1); }
     70%  { opacity: 0;    transform: scale(1.55); }
     100% { opacity: 0;    transform: scale(1.55); }
   }
 
   @media screen and (max-width: 749px) {
-    .phs__pin { width: 30px; height: 30px; }
-    .phs__pin-number { font-size: 11px; }
+    .fcs__pin { width: 30px; height: 30px; }
+    .fcs__pin-number { font-size: 11px; }
   }
 
   /* ─── Detail column ─────────────────────────────────────── */
-  .phs__detail-col {
+  .fcs__detail-col {
     position: relative;
     min-height: 260px;
   }
 
-  /* Desktop: absolute-stacked, fade/slide transition */
+  /* Desktop: absolute-stacked, fade/slide */
   @media screen and (min-width: 750px) {
-    .phs__detail {
+    .fcs__detail {
       position: absolute;
       inset: 0;
       opacity: 0;
@@ -264,7 +286,7 @@
       transform: translateY(10px);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .phs__detail.is-active {
+    .fcs__detail.is-active {
       position: relative;
       opacity: 1;
       pointer-events: auto;
@@ -272,27 +294,27 @@
     }
   }
 
-  /* Mobile: simple show/hide */
+  /* Mobile: show/hide */
   @media screen and (max-width: 749px) {
-    .phs__detail-col { min-height: unset; }
-    .phs__detail { display: none; }
-    .phs__detail.is-active { display: block; }
+    .fcs__detail-col { min-height: unset; }
+    .fcs__detail { display: none; }
+    .fcs__detail.is-active { display: block; }
   }
 
-  .phs__detail-inner {
+  .fcs__detail-inner {
     display: flex;
     flex-direction: column;
     gap: 18px;
   }
 
   /* Number + label row */
-  .phs__detail-header {
+  .fcs__detail-header {
     display: flex;
     align-items: center;
     gap: 14px;
   }
 
-  .phs__detail-num {
+  .fcs__detail-num {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -308,7 +330,7 @@
     line-height: 1;
   }
 
-  .phs__detail-label {
+  .fcs__detail-label {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
     font-size: 11px;
     font-weight: 500;
@@ -317,8 +339,7 @@
     color: #8A8580;
   }
 
-  /* Heading */
-  .phs__detail-heading {
+  .fcs__detail-heading {
     font-family: var(--font-heading--family, Georgia, serif);
     font-size: clamp(1.3rem, 2.4vw, 1.85rem);
     font-weight: 400;
@@ -328,31 +349,28 @@
     margin: 0;
   }
 
-  /* Body text */
-  .phs__detail-body {
+  .fcs__detail-body {
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
     font-size: 15.5px;
     line-height: 1.75;
     color: #4A4540;
   }
-  .phs__detail-body p { margin: 0 0 10px; }
-  .phs__detail-body p:last-child { margin-bottom: 0; }
+  .fcs__detail-body p { margin: 0 0 10px; }
+  .fcs__detail-body p:last-child { margin-bottom: 0; }
 
-  /* Close-up image */
-  .phs__detail-img-wrap {
+  .fcs__detail-img-wrap {
     overflow: hidden;
     border-radius: 4px;
     max-width: 320px;
   }
-  .phs__detail-img {
+  .fcs__detail-img {
     width: 100%;
     display: block;
     object-fit: cover;
     aspect-ratio: 4/3;
   }
 
-  /* CTA */
-  .phs__detail-cta {
+  .fcs__detail-cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -368,20 +386,20 @@
     width: fit-content;
     transition: opacity 0.2s ease;
   }
-  .phs__detail-cta:hover { opacity: 0.55; }
-  .phs__cta-arrow { transition: transform 0.2s ease; display: inline-block; }
-  .phs__detail-cta:hover .phs__cta-arrow { transform: translateX(4px); }
+  .fcs__detail-cta:hover { opacity: 0.55; }
+  .fcs__cta-arrow { display: inline-block; transition: transform 0.2s ease; }
+  .fcs__detail-cta:hover .fcs__cta-arrow { transform: translateX(4px); }
 </style>
 
 <script>
   (function () {
     var sid     = '{{ section.id }}';
-    var imgWrap = document.getElementById('PhsImageWrap-' + sid);
-    var detCol  = document.getElementById('PhsDetailCol-' + sid);
+    var imgWrap = document.getElementById('FcsImageWrap-' + sid);
+    var detCol  = document.getElementById('FcsDetailCol-' + sid);
     if (!imgWrap || !detCol) return;
 
-    var pins    = Array.from(imgWrap.querySelectorAll('[data-phs-pin][data-section="' + sid + '"]'));
-    var details = Array.from(detCol.querySelectorAll('[data-phs-detail][data-section="' + sid + '"]'));
+    var pins    = Array.from(imgWrap.querySelectorAll('[data-fcs-pin][data-section="' + sid + '"]'));
+    var details = Array.from(detCol.querySelectorAll('[data-fcs-detail][data-section="' + sid + '"]'));
 
     function activate(idx) {
       pins.forEach(function (p, i) {
@@ -404,17 +422,27 @@
 
 {% schema %}
 {
-  "name": "Product Hotspots",
+  "name": "Feature Callouts",
   "tag": null,
   "settings": [
     {
       "type": "header",
-      "content": "Section header"
+      "content": "Section intro"
+    },
+    {
+      "type": "select",
+      "id": "intro_alignment",
+      "label": "Intro alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
     },
     {
       "type": "text",
       "id": "overline",
-      "label": "Overline (small caps)",
+      "label": "Overline (small caps label)",
       "default": "Craftsmanship"
     },
     {
@@ -422,6 +450,13 @@
       "id": "heading",
       "label": "Heading",
       "default": "Made with intention"
+    },
+    {
+      "type": "richtext",
+      "id": "writeup",
+      "label": "Write-up / intro paragraph",
+      "info": "Optional editorial paragraph shown below the heading, above the image and details.",
+      "default": "<p>Every detail of this shirt has been considered from the ground up — from the stone-washed European flax to the hand-finished corozo buttons. Here is what sets it apart.</p>"
     },
     {
       "type": "header",
@@ -507,8 +542,8 @@
   ],
   "blocks": [
     {
-      "type": "hotspot",
-      "name": "Hotspot",
+      "type": "callout",
+      "name": "Callout",
       "settings": [
         {
           "type": "header",
@@ -540,14 +575,14 @@
         },
         {
           "type": "header",
-          "content": "Detail content"
+          "content": "Detail write-up"
         },
         {
           "type": "text",
           "id": "label",
           "label": "Feature label",
           "default": "Collar",
-          "info": "Short uppercase label shown beside the pin number"
+          "info": "Short all-caps label shown beside the pin number"
         },
         {
           "type": "text",
@@ -558,8 +593,8 @@
         {
           "type": "richtext",
           "id": "detail_body",
-          "label": "Body text",
-          "default": "<p>Crafted from 100-thread-count European flax, the collar holds its shape through dozens of washes — no starch required.</p>"
+          "label": "Write-up",
+          "default": "<p>Crafted from 100-thread-count European flax, the collar holds its shape through dozens of washes — no starch required. The inner lining is hand-fused for a crisp, flat appearance that relaxes beautifully over time.</p>"
         },
         {
           "type": "image_picker",
@@ -586,20 +621,20 @@
   ],
   "presets": [
     {
-      "name": "Product Hotspots",
+      "name": "Feature Callouts",
       "blocks": [
         {
-          "type": "hotspot",
+          "type": "callout",
           "settings": {
             "pin_x": 50,
             "pin_y": 16,
             "label": "Collar",
             "detail_heading": "Italian poplin collar",
-            "detail_body": "<p>The collar is fused with a hair-canvas interlining — it holds its shape wash after wash without a drop of starch.</p>"
+            "detail_body": "<p>The collar is fused with a hair-canvas interlining — holds its shape wash after wash, no starch needed.</p>"
           }
         },
         {
-          "type": "hotspot",
+          "type": "callout",
           "settings": {
             "pin_x": 38,
             "pin_y": 44,
@@ -609,13 +644,13 @@
           }
         },
         {
-          "type": "hotspot",
+          "type": "callout",
           "settings": {
             "pin_x": 54,
             "pin_y": 68,
             "label": "Buttons",
             "detail_heading": "Corozo nut buttons",
-            "detail_body": "<p>Each button is carved from the tagua nut — a sustainable alternative to plastic. Naturally matte, no two are identical.</p>"
+            "detail_body": "<p>Carved from the tagua nut — a sustainable alternative to plastic. Naturally matte, no two are identical.</p>"
           }
         }
       ]
