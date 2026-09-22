@@ -1074,10 +1074,10 @@
       "settings": {
         "product": "classic-linen-shirt-dusty-olive",
         "recommendation_type": "related",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": true,
-        "max_products": 4,
-        "columns": 4,
+        "max_products": 9,
+        "columns": 3,
         "mobile_columns": "2",
         "columns_gap": 12,
         "rows_gap": 24,
