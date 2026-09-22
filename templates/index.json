@@ -598,11 +598,12 @@
         "campaign_card_pz4VHT": {
           "type": "campaign_card",
           "settings": {
-            "eyebrow": "The Collection",
-            "heading": "Discover the collection",
-            "description": "<p>Designed with timeless style and exceptional detail.</p>",
+            "image": "shopify://shop_images/The_Classic.png",
+            "eyebrow": "The Classic",
+            "heading": "Made for Everyday You",
+            "description": "",
             "button_text": "Shop Now",
-            "link": "",
+            "link": "shopify://collections/the-classic",
             "overlay_opacity": 20,
             "text_alignment": "left",
             "content_left": 10,
