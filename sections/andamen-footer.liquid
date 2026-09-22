@@ -1,14 +1,15 @@
 {% comment %}
-  ON REPEAT — Premium Footer
-  Brand Palette:
-  Ivory
-  Sand
-  Warm Beige
-  Muted Olive
-  Dusty Blue
+  ON REPEAT — Premium Dark Footer
 
-  Primary Font:
-  Mango
+  Brand direction:
+  - Deep Olive Charcoal
+  - Deep Muted Green
+  - Ivory
+  - Warm Beige
+  - Muted Olive
+  - Mango typography
+
+  Fully responsive Shopify section.
 {% endcomment %}
 
 <footer
@@ -28,9 +29,9 @@
 
   <div class="or-footer-main">
 
-    <!-- ========================================= -->
-    <!-- CONTACT -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         CONTACT
+         ===================================================== -->
 
     <div class="or-footer-column or-footer-contact">
 
@@ -80,26 +81,21 @@
         >
 
           <span class="or-contact-icon">
-
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"
                 fill="currentColor"
               />
             </svg>
-
           </span>
 
           <span class="or-contact-copy">
-
             <strong>Call Us</strong>
-
             <small>{{ section.settings.phone }}</small>
 
             {% if section.settings.contact_hours != blank %}
               <small>{{ section.settings.contact_hours }}</small>
             {% endif %}
-
           </span>
 
         </a>
@@ -115,22 +111,17 @@
         >
 
           <span class="or-contact-icon">
-
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"
                 fill="currentColor"
               />
             </svg>
-
           </span>
 
           <span class="or-contact-copy">
-
             <strong>Email Us</strong>
-
             <small>{{ section.settings.email }}</small>
-
           </span>
 
         </a>
@@ -175,7 +166,12 @@
                 stroke="currentColor"
                 stroke-width="1.5"
               />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1"
+                fill="currentColor"
+              />
             </svg>
           </a>
         {% endif %}
@@ -219,9 +215,9 @@
     </div>
 
 
-    <!-- ========================================= -->
-    <!-- SHOP -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         SHOP
+         ===================================================== -->
 
     <div class="or-footer-column or-footer-menu">
 
@@ -231,21 +227,16 @@
         </h3>
       {% endif %}
 
-
       {% if section.settings.shop_menu != blank %}
 
         <ul>
-
           {% for link in section.settings.shop_menu.links %}
-
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
-
           {% endfor %}
-
         </ul>
 
       {% endif %}
@@ -253,9 +244,9 @@
     </div>
 
 
-    <!-- ========================================= -->
-    <!-- INFORMATION -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         INFO
+         ===================================================== -->
 
     <div class="or-footer-column or-footer-menu">
 
@@ -265,21 +256,16 @@
         </h3>
       {% endif %}
 
-
       {% if section.settings.info_menu != blank %}
 
         <ul>
-
           {% for link in section.settings.info_menu.links %}
-
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
-
           {% endfor %}
-
         </ul>
 
       {% endif %}
@@ -287,9 +273,9 @@
     </div>
 
 
-    <!-- ========================================= -->
-    <!-- MANAGE -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         MANAGE
+         ===================================================== -->
 
     <div class="or-footer-column or-footer-menu">
 
@@ -299,21 +285,16 @@
         </h3>
       {% endif %}
 
-
       {% if section.settings.manage_menu != blank %}
 
         <ul>
-
           {% for link in section.settings.manage_menu.links %}
-
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
-
           {% endfor %}
-
         </ul>
 
       {% endif %}
@@ -321,9 +302,9 @@
     </div>
 
 
-    <!-- ========================================= -->
-    <!-- NEWSLETTER / BRAND PANEL -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         BRAND / NEWSLETTER PANEL
+         ===================================================== -->
 
     <div class="or-footer-panel">
 
@@ -378,10 +359,13 @@
 
           </div>
 
+
           {% if form.posted_successfully? %}
+
             <p class="or-form-message">
               {{ section.settings.success_message }}
             </p>
+
           {% endif %}
 
 
@@ -422,9 +406,9 @@
   </div>
 
 
-  <!-- ========================================= -->
-  <!-- FOOTER BOTTOM -->
-  <!-- ========================================= -->
+  <!-- =====================================================
+       BOTTOM FOOTER
+       ===================================================== -->
 
   <div class="or-footer-bottom">
 
@@ -476,9 +460,9 @@
 
 <style>
 
-  /* =====================================================
+  /* =========================================================
      ON REPEAT FOOTER
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} {
 
@@ -502,35 +486,35 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      MAIN GRID
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-main {
 
     display: grid;
 
     grid-template-columns:
-      1.25fr
-      0.75fr
-      0.75fr
-      0.75fr
-      1.55fr;
+      1.2fr
+      0.78fr
+      0.78fr
+      0.78fr
+      1.65fr;
 
-    min-height: 440px;
+    min-height: 450px;
 
     border-top: 1px solid var(--or-footer-border);
 
   }
 
 
-  /* =====================================================
+  /* =========================================================
      COLUMNS
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-column {
 
-    padding: 64px 32px 58px;
+    padding: 66px 32px 58px;
 
     border-right: 1px solid var(--or-footer-border);
 
@@ -539,14 +523,14 @@
 
   #on-repeat-footer-{{ section.id }} .or-footer-contact {
 
-    padding-left: clamp(28px, 5vw, 80px);
+    padding-left: clamp(30px, 5vw, 82px);
 
   }
 
 
-  /* =====================================================
+  /* =========================================================
      HEADINGS
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-heading {
 
@@ -554,13 +538,13 @@
 
     font-family: var(--or-font);
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 500;
 
     line-height: 1.2;
 
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
 
     text-transform: uppercase;
 
@@ -569,9 +553,9 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      CONTACT
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-contact-item {
 
@@ -581,7 +565,7 @@
 
     gap: 14px;
 
-    margin-bottom: 22px;
+    margin-bottom: 23px;
 
     color: var(--or-footer-text);
 
@@ -596,7 +580,7 @@
 
   #on-repeat-footer-{{ section.id }} .or-contact-item:hover {
 
-    opacity: 0.7;
+    opacity: 0.72;
 
     transform: translateX(3px);
 
@@ -674,13 +658,13 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      SOCIAL
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-social-heading {
 
-    margin-top: 50px;
+    margin-top: 52px;
 
     margin-bottom: 18px;
 
@@ -693,7 +677,7 @@
 
     align-items: center;
 
-    gap: 18px;
+    gap: 15px;
 
   }
 
@@ -732,18 +716,18 @@
 
   #on-repeat-footer-{{ section.id }} .or-social-links svg {
 
-    width: 19px;
+    width: 18px;
 
-    height: 19px;
+    height: 18px;
 
     display: block;
 
   }
 
 
-  /* =====================================================
-     MENUS
-     ===================================================== */
+  /* =========================================================
+     MENU
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu ul {
 
@@ -758,7 +742,7 @@
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu li {
 
-    margin: 0 0 14px;
+    margin: 0 0 15px;
 
   }
 
@@ -781,8 +765,7 @@
 
     line-height: 1.5;
 
-    transition:
-      opacity 0.25s ease;
+    transition: opacity 0.25s ease;
 
   }
 
@@ -795,13 +778,13 @@
 
     left: 0;
 
-    bottom: -3px;
+    bottom: -4px;
 
     width: 0;
 
     height: 1px;
 
-    background: currentColor;
+    background: var(--or-footer-accent);
 
     transition: width 0.25s ease;
 
@@ -810,7 +793,7 @@
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu a:hover {
 
-    opacity: 0.7;
+    opacity: 0.75;
 
   }
 
@@ -822,15 +805,15 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      RIGHT PANEL
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-panel {
 
     background: var(--or-footer-panel);
 
-    padding: 64px clamp(28px, 4vw, 65px);
+    padding: 64px clamp(30px, 4vw, 68px);
 
     display: flex;
 
@@ -845,13 +828,13 @@
 
     margin-bottom: 20px;
 
-    color: var(--or-footer-muted);
+    color: var(--or-footer-accent);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 500;
 
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
 
     text-transform: uppercase;
 
@@ -866,11 +849,11 @@
 
     font-family: var(--or-font);
 
-    font-size: clamp(28px, 2.5vw, 44px);
+    font-size: clamp(30px, 2.5vw, 45px);
 
     font-weight: 400;
 
-    line-height: 1.13;
+    line-height: 1.12;
 
     letter-spacing: -0.025em;
 
@@ -881,22 +864,22 @@
 
   #on-repeat-footer-{{ section.id }} .or-panel-description {
 
-    max-width: 440px;
+    max-width: 430px;
 
-    margin-top: 20px;
+    margin-top: 21px;
 
     color: var(--or-footer-muted);
 
     font-size: 14px;
 
-    line-height: 1.65;
+    line-height: 1.7;
 
   }
 
 
-  /* =====================================================
+  /* =========================================================
      NEWSLETTER
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-newsletter-form {
 
@@ -926,7 +909,7 @@
 
     flex: 1;
 
-    height: 48px;
+    height: 50px;
 
     padding: 0;
 
@@ -949,7 +932,7 @@
 
     color: var(--or-footer-muted);
 
-    opacity: 0.85;
+    opacity: 0.8;
 
   }
 
@@ -966,11 +949,11 @@
 
     font-family: var(--or-font);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 500;
 
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
 
     text-transform: uppercase;
 
@@ -992,9 +975,9 @@
   }
 
 
-  /* =====================================================
-     PANEL BUTTON
-     ===================================================== */
+  /* =========================================================
+     BUTTON
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-panel-button {
 
@@ -1002,7 +985,7 @@
 
     max-width: 330px;
 
-    min-height: 58px;
+    min-height: 59px;
 
     margin-top: 28px;
 
@@ -1024,26 +1007,29 @@
 
     font-family: var(--or-font);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 500;
 
-    letter-spacing: 0.15em;
+    letter-spacing: 0.16em;
 
     text-transform: uppercase;
 
     transition:
       background 0.25s ease,
-      color 0.25s ease;
+      color 0.25s ease,
+      border-color 0.25s ease;
 
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-panel-button:hover {
 
-    background: var(--or-footer-accent);
+    background: transparent;
 
-    color: var(--or-footer-bg);
+    color: var(--or-footer-text);
+
+    border-color: var(--or-footer-text);
 
   }
 
@@ -1066,9 +1052,9 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      BOTTOM
-     ===================================================== */
+     ========================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-bottom {
 
@@ -1081,7 +1067,7 @@
 
     min-height: 82px;
 
-    padding: 20px clamp(28px, 5vw, 80px);
+    padding: 20px clamp(30px, 5vw, 82px);
 
     display: flex;
 
@@ -1138,9 +1124,9 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      TABLET
-     ===================================================== */
+     ========================================================= */
 
   @media screen and (max-width: 1100px) {
 
@@ -1158,7 +1144,7 @@
 
       grid-column: 1 / -1;
 
-      min-height: 330px;
+      min-height: 340px;
 
       border-top: 1px solid var(--or-footer-border);
 
@@ -1167,9 +1153,9 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      MOBILE
-     ===================================================== */
+     ========================================================= */
 
   @media screen and (max-width: 749px) {
 
@@ -1204,21 +1190,23 @@
 
       margin-bottom: 24px;
 
-      font-size: 11px;
+      font-size: 10px;
+
+      letter-spacing: 0.18em;
 
     }
 
 
     #on-repeat-footer-{{ section.id }} .or-contact-item {
 
-      margin-bottom: 19px;
+      margin-bottom: 20px;
 
     }
 
 
     #on-repeat-footer-{{ section.id }} .or-social-heading {
 
-      margin-top: 38px;
+      margin-top: 40px;
 
     }
 
@@ -1234,7 +1222,7 @@
 
     #on-repeat-footer-{{ section.id }} .or-footer-menu li {
 
-      margin-bottom: 12px;
+      margin-bottom: 13px;
 
     }
 
@@ -1248,7 +1236,7 @@
 
     #on-repeat-footer-{{ section.id }} .or-footer-panel {
 
-      padding: 48px 24px;
+      padding: 50px 24px;
 
       min-height: auto;
 
@@ -1257,11 +1245,18 @@
     }
 
 
+    #on-repeat-footer-{{ section.id }} .or-panel-eyebrow {
+
+      margin-bottom: 17px;
+
+    }
+
+
     #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
 
       font-size: 31px;
 
-      line-height: 1.15;
+      line-height: 1.13;
 
     }
 
@@ -1270,6 +1265,8 @@
 
       font-size: 13px;
 
+      line-height: 1.65;
+
       margin-top: 18px;
 
     }
@@ -1277,7 +1274,7 @@
 
     #on-repeat-footer-{{ section.id }} .or-newsletter-form {
 
-      margin-top: 24px;
+      margin-top: 25px;
 
     }
 
@@ -1286,7 +1283,7 @@
 
       max-width: none;
 
-      margin-top: 24px;
+      margin-top: 25px;
 
     }
 
@@ -1295,7 +1292,7 @@
 
       min-height: auto;
 
-      padding: 24px;
+      padding: 25px 24px;
 
       display: flex;
 
@@ -1319,9 +1316,9 @@
   }
 
 
-  /* =====================================================
+  /* =========================================================
      SMALL MOBILE
-     ===================================================== */
+     ========================================================= */
 
   @media screen and (max-width: 420px) {
 
@@ -1384,57 +1381,57 @@
     {
       "type": "color",
       "id": "footer_bg",
-      "label": "Ivory Background",
-      "default": "#F6F1E8"
+      "label": "Main Background",
+      "default": "#1F2925"
     },
 
     {
       "type": "color",
       "id": "panel_bg",
-      "label": "Sand Panel",
-      "default": "#E8DED0"
+      "label": "Panel Background",
+      "default": "#293733"
     },
 
     {
       "type": "color",
       "id": "accent_color",
       "label": "Muted Olive",
-      "default": "#727A62"
+      "default": "#89927B"
     },
 
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text",
-      "default": "#30352F"
+      "label": "Ivory Text",
+      "default": "#F3EDE1"
     },
 
     {
       "type": "color",
       "id": "muted_color",
-      "label": "Muted Text",
-      "default": "#74766D"
+      "label": "Warm Beige Text",
+      "default": "#B9B6A8"
     },
 
     {
       "type": "color",
       "id": "border_color",
       "label": "Borders",
-      "default": "#D5CCBD"
+      "default": "#3B4741"
     },
 
     {
       "type": "color",
       "id": "button_bg",
       "label": "Button Background",
-      "default": "#727A62"
+      "default": "#89927B"
     },
 
     {
       "type": "color",
       "id": "button_text",
       "label": "Button Text",
-      "default": "#F6F1E8"
+      "default": "#1F2925"
     },
 
 
