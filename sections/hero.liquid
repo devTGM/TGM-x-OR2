@@ -1161,6 +1161,74 @@
     background: rgba(0, 0, 0, 0.65);
     transform: scale(1.06);
   }
+
+
+  /* =========================================================
+     MOBILE HERO FIX
+     Mobile banners are 1080 x 1350 (4:5).
+     This keeps the complete creative visible and removes
+     the unwanted spacing between the header and hero.
+  ========================================================= */
+
+  @media screen and (max-width: 749px) {
+    .hero-wrapper {
+      margin-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-top: 0 !important;
+      padding-block-start: 0 !important;
+    }
+
+    .hero {
+      min-height: 0 !important;
+      height: auto !important;
+      margin-top: 0 !important;
+      margin-block-start: 0 !important;
+      padding-top: 0 !important;
+      padding-block-start: 0 !important;
+    }
+
+    .hero__container {
+      min-height: 0 !important;
+      height: auto !important;
+      padding-top: 0 !important;
+      padding-block-start: 0 !important;
+      --padding-block-start: 0px !important;
+    }
+
+    .hero__media-grid {
+      position: relative !important;
+      inset: auto !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      aspect-ratio: 4 / 5 !important;
+      overflow: hidden !important;
+    }
+
+    .hero__media-item,
+    .hero__media-wrapper--mobile,
+    picture.hero__media {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .hero__media {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+
+    .hero__content-wrapper {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 5;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
