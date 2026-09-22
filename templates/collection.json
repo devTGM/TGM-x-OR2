@@ -238,7 +238,7 @@
       "settings": {
         "background_color": "",
         "divider_color": "#1e1e1e",
-        "section_width": "page-width",
+        "section_width": "full-width",
         "thickness": 1,
         "corner_radius": "square",
         "width_percent": 100,
@@ -1137,7 +1137,7 @@
       "settings": {
         "background_color": "",
         "divider_color": "#1e1e1e",
-        "section_width": "page-width",
+        "section_width": "full-width",
         "thickness": 1,
         "corner_radius": "square",
         "width_percent": 100,
