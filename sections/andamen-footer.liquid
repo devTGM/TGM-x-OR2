@@ -1,107 +1,185 @@
-<footer id="andamen-footer-{{ section.id }}" class="andamen-footer">
+{% comment %}
+  ON REPEAT — Premium Footer
+  Brand Palette:
+  Ivory
+  Sand
+  Warm Beige
+  Muted Olive
+  Dusty Blue
 
-  <div class="andamen-footer__grid">
+  Primary Font:
+  Mango
+{% endcomment %}
 
+<footer
+  id="on-repeat-footer-{{ section.id }}"
+  class="on-repeat-footer"
+  style="
+    --or-footer-bg: {{ section.settings.footer_bg }};
+    --or-footer-panel: {{ section.settings.panel_bg }};
+    --or-footer-accent: {{ section.settings.accent_color }};
+    --or-footer-text: {{ section.settings.text_color }};
+    --or-footer-muted: {{ section.settings.muted_color }};
+    --or-footer-border: {{ section.settings.border_color }};
+    --or-footer-button-bg: {{ section.settings.button_bg }};
+    --or-footer-button-text: {{ section.settings.button_text }};
+  "
+>
+
+  <div class="or-footer-main">
+
+    <!-- ========================================= -->
     <!-- CONTACT -->
-    <div class="andamen-footer__column contact-column">
+    <!-- ========================================= -->
 
-      <div class="footer-heading">
-        {{ section.settings.contact_heading }}
-      </div>
+    <div class="or-footer-column or-footer-contact">
+
+      {% if section.settings.contact_heading != blank %}
+        <h3 class="or-footer-heading">
+          {{ section.settings.contact_heading }}
+        </h3>
+      {% endif %}
+
 
       {% if section.settings.whatsapp != blank %}
+
         <a
           href="https://wa.me/{{ section.settings.whatsapp | remove: '+' | remove: ' ' | remove: '-' }}"
-          class="footer-contact"
+          class="or-contact-item"
           target="_blank"
           rel="noopener"
         >
-          <span class="footer-icon">
-            <svg viewBox="0 0 24 24" fill="none">
+
+          <span class="or-contact-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
-                d="M20 11.5a8.5 8.5 0 0 1-12.9 7.2L4 20l1.3-3A8.5 8.5 0 1 1 20 11.5Z"
-                stroke="currentColor"
-                stroke-width="1.4"
-              />
-              <path
-                d="M9.1 8.2c.2-.3.4-.3.7-.3h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4 0 .6l-.5.7c-.1.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.1.6-.1l.7-.6c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5v.5c0 .3-.1.5-.3.7-.4.4-1 .6-1.6.5-1.1-.2-2.4-.9-3.6-2-1.2-1-2.2-2.3-2.8-3.5-.4-.8-.6-1.6-.4-2.1.1-.1.2-.3.4-.5Z"
-                stroke="currentColor"
-                stroke-width="1.2"
+                d="M20.5 3.5A11.8 11.8 0 0 0 12.08 0C5.55 0 .23 5.31.23 11.84c0 2.09.55 4.13 1.59 5.93L.13 24l6.37-1.67a11.83 11.83 0 0 0 5.58 1.42h.01c6.53 0 11.84-5.31 11.84-11.84 0-3.17-1.23-6.14-3.43-8.41ZM12.09 21.72h-.01a9.82 9.82 0 0 1-5.01-1.37l-.36-.21-3.78.99 1.01-3.68-.23-.38a9.82 9.82 0 0 1-1.5-5.23C2.21 6.42 6.64 2 12.09 2c2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.43 9.83-9.88 9.83Zm5.4-7.37c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.68-2.08-.18-.3-.02-.46.13-.61.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.08-.81.38-.28.3-1.06 1.03-1.06 2.51s1.09 2.91 1.24 3.11c.15.2 2.14 3.27 5.18 4.58.72.31 1.29.5 1.73.64.73.23 1.39.2 1.91.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"
+                fill="currentColor"
               />
             </svg>
           </span>
 
-          <span>
-            <strong>Whatsapp Us</strong>
-            <small>{{ section.settings.contact_hours }}</small>
+          <span class="or-contact-copy">
+            <strong>WhatsApp Us</strong>
+
+            {% if section.settings.contact_hours != blank %}
+              <small>{{ section.settings.contact_hours }}</small>
+            {% endif %}
           </span>
+
         </a>
+
       {% endif %}
 
 
       {% if section.settings.phone != blank %}
+
         <a
           href="tel:{{ section.settings.phone | remove: ' ' }}"
-          class="footer-contact"
+          class="or-contact-item"
         >
-          <span class="footer-icon">
-            <svg viewBox="0 0 24 24" fill="none">
+
+          <span class="or-contact-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
-                d="M6.5 3.8 9 3l2 4.4-1.8 1.5a15.2 15.2 0 0 0 5.9 5.9l1.5-1.8 4.4 2-.8 2.5c-.3 1-1.3 1.6-2.3 1.5C10.6 18.3 5.7 13.4 5 6.1c-.1-1 .5-2 1.5-2.3Z"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linejoin="round"
+                d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"
+                fill="currentColor"
               />
             </svg>
+
           </span>
 
-          <span>
+          <span class="or-contact-copy">
+
             <strong>Call Us</strong>
+
             <small>{{ section.settings.phone }}</small>
-            <small>{{ section.settings.contact_hours }}</small>
+
+            {% if section.settings.contact_hours != blank %}
+              <small>{{ section.settings.contact_hours }}</small>
+            {% endif %}
+
           </span>
+
         </a>
+
       {% endif %}
 
 
       {% if section.settings.email != blank %}
+
         <a
           href="mailto:{{ section.settings.email }}"
-          class="footer-contact"
+          class="or-contact-item"
         >
-          <span class="footer-icon">
-            <svg viewBox="0 0 24 24" fill="none">
-              <rect
-                x="3.2"
-                y="5.5"
-                width="17.6"
-                height="13"
-                rx="1"
-                stroke="currentColor"
-                stroke-width="1.4"
-              />
+
+          <span class="or-contact-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
-                d="m4 7 8 6 8-6"
-                stroke="currentColor"
-                stroke-width="1.4"
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"
+                fill="currentColor"
               />
             </svg>
+
           </span>
 
-          <span>
+          <span class="or-contact-copy">
+
             <strong>Email Us</strong>
-            <small>{{ section.settings.contact_hours }}</small>
+
+            <small>{{ section.settings.email }}</small>
+
           </span>
+
         </a>
+
       {% endif %}
 
 
-      <div class="footer-heading social-heading">
-        {{ section.settings.social_heading }}
-      </div>
+      <!-- SOCIAL -->
+
+      {% if section.settings.social_heading != blank %}
+        <h3 class="or-footer-heading or-social-heading">
+          {{ section.settings.social_heading }}
+        </h3>
+      {% endif %}
 
 
-      <div class="footer-socials">
+      <div class="or-social-links">
+
+        {% if section.settings.instagram != blank %}
+          <a
+            href="{{ section.settings.instagram }}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+          >
+            <svg viewBox="0 0 24 24">
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+            </svg>
+          </a>
+        {% endif %}
+
 
         {% if section.settings.facebook != blank %}
           <a
@@ -112,42 +190,7 @@
           >
             <svg viewBox="0 0 24 24">
               <path
-                fill="currentColor"
-                d="M13.6 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.5-1.5h1.7V4c-.3 0-1.3-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.1H8v3h2.6v8h3Z"
-              />
-            </svg>
-          </a>
-        {% endif %}
-
-
-        {% if section.settings.instagram != blank %}
-          <a
-            href="{{ section.settings.instagram }}"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 24 24" fill="none">
-              <rect
-                x="4"
-                y="4"
-                width="16"
-                height="16"
-                rx="4"
-                stroke="currentColor"
-                stroke-width="1.8"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="3.5"
-                stroke="currentColor"
-                stroke-width="1.8"
-              />
-              <circle
-                cx="17.2"
-                cy="6.8"
-                r="1"
+                d="M14 8h3V4h-3c-2.76 0-5 2.24-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.55.45-1 1-1Z"
                 fill="currentColor"
               />
             </svg>
@@ -164,8 +207,8 @@
           >
             <svg viewBox="0 0 24 24">
               <path
+                d="M6.5 8.5H3V21h3.5V8.5ZM4.75 3A2.05 2.05 0 1 0 4.75 7.1 2.05 2.05 0 0 0 4.75 3ZM21 13.84c0-3.76-2-5.51-4.67-5.51-2.15 0-3.11 1.18-3.65 2v-1.83H9.18V21h3.5v-6.19c0-1.63.31-3.2 2.32-3.2 1.98 0 2.01 1.85 2.01 3.31V21H21v-7.16Z"
                 fill="currentColor"
-                d="M6 8.5A1.5 1.5 0 1 0 6 5a1.5 1.5 0 0 0 0 3.5ZM4.7 19h2.6v-8.2H4.7V19ZM9 10.8V19h2.6v-4.5c0-1.2.2-2.4 1.8-2.4 1.5 0 1.5 1.4 1.5 2.5V19h2.6v-5c0-2.5-.5-4.4-3.4-4.4-1.4 0-2.3.8-2.7 1.4h-.1v-1.2H9Z"
               />
             </svg>
           </a>
@@ -176,96 +219,200 @@
     </div>
 
 
+    <!-- ========================================= -->
     <!-- SHOP -->
-    <div class="footer-menu">
+    <!-- ========================================= -->
 
-      <div class="footer-heading">
-        {{ section.settings.shop_heading }}
-      </div>
+    <div class="or-footer-column or-footer-menu">
+
+      {% if section.settings.shop_heading != blank %}
+        <h3 class="or-footer-heading">
+          {{ section.settings.shop_heading }}
+        </h3>
+      {% endif %}
+
 
       {% if section.settings.shop_menu != blank %}
+
         <ul>
+
           {% for link in section.settings.shop_menu.links %}
+
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
+
           {% endfor %}
+
         </ul>
+
       {% endif %}
 
     </div>
 
 
-    <!-- INFO -->
-    <div class="footer-menu">
+    <!-- ========================================= -->
+    <!-- INFORMATION -->
+    <!-- ========================================= -->
 
-      <div class="footer-heading">
-        {{ section.settings.info_heading }}
-      </div>
+    <div class="or-footer-column or-footer-menu">
+
+      {% if section.settings.info_heading != blank %}
+        <h3 class="or-footer-heading">
+          {{ section.settings.info_heading }}
+        </h3>
+      {% endif %}
+
 
       {% if section.settings.info_menu != blank %}
+
         <ul>
+
           {% for link in section.settings.info_menu.links %}
+
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
+
           {% endfor %}
+
         </ul>
+
       {% endif %}
 
     </div>
 
 
+    <!-- ========================================= -->
     <!-- MANAGE -->
-    <div class="footer-menu">
+    <!-- ========================================= -->
 
-      <div class="footer-heading">
-        {{ section.settings.manage_heading }}
-      </div>
+    <div class="or-footer-column or-footer-menu">
+
+      {% if section.settings.manage_heading != blank %}
+        <h3 class="or-footer-heading">
+          {{ section.settings.manage_heading }}
+        </h3>
+      {% endif %}
+
 
       {% if section.settings.manage_menu != blank %}
+
         <ul>
+
           {% for link in section.settings.manage_menu.links %}
+
             <li>
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
             </li>
+
           {% endfor %}
+
         </ul>
+
       {% endif %}
 
     </div>
 
 
-    <!-- CLUB ANDAMEN -->
-    <div class="footer-membership">
+    <!-- ========================================= -->
+    <!-- NEWSLETTER / BRAND PANEL -->
+    <!-- ========================================= -->
 
-      <h2>
-        {{ section.settings.membership_heading }}
-      </h2>
+    <div class="or-footer-panel">
 
-      <div class="membership-description">
-        {{ section.settings.membership_description }}
-      </div>
+      {% if section.settings.panel_eyebrow != blank %}
+        <div class="or-panel-eyebrow">
+          {{ section.settings.panel_eyebrow }}
+        </div>
+      {% endif %}
 
-      {% if section.settings.membership_link != blank %}
+
+      {% if section.settings.panel_heading != blank %}
+
+        <h2>
+          {{ section.settings.panel_heading }}
+        </h2>
+
+      {% endif %}
+
+
+      {% if section.settings.panel_text != blank %}
+
+        <div class="or-panel-description">
+          {{ section.settings.panel_text }}
+        </div>
+
+      {% endif %}
+
+
+      {% if section.settings.newsletter_enable %}
+
+        {% form 'customer', class: 'or-newsletter-form' %}
+
+          <input
+            type="hidden"
+            name="contact[tags]"
+            value="newsletter"
+          >
+
+          <div class="or-newsletter-field">
+
+            <input
+              type="email"
+              name="contact[email]"
+              placeholder="{{ section.settings.email_placeholder }}"
+              required
+              autocomplete="email"
+            >
+
+            <button type="submit">
+              {{ section.settings.subscribe_button }}
+            </button>
+
+          </div>
+
+          {% if form.posted_successfully? %}
+            <p class="or-form-message">
+              {{ section.settings.success_message }}
+            </p>
+          {% endif %}
+
+
+          {% if form.errors %}
+
+            <div class="or-form-message">
+              {{ form.errors | default_errors }}
+            </div>
+
+          {% endif %}
+
+        {% endform %}
+
+      {% endif %}
+
+
+      {% if section.settings.panel_button_text != blank and section.settings.panel_button_link != blank %}
 
         <a
-          href="{{ section.settings.membership_link }}"
-          class="membership-button"
+          href="{{ section.settings.panel_button_link }}"
+          class="or-panel-button"
         >
+
           <span>
-            {{ section.settings.membership_button }}
+            {{ section.settings.panel_button_text }}
           </span>
 
-          <span class="membership-arrow">
+          <span class="or-panel-arrow">
             →
           </span>
+
         </a>
 
       {% endif %}
@@ -275,12 +422,51 @@
   </div>
 
 
-  <!-- COPYRIGHT -->
+  <!-- ========================================= -->
+  <!-- FOOTER BOTTOM -->
+  <!-- ========================================= -->
 
-  <div class="footer-bottom">
+  <div class="or-footer-bottom">
 
-    <div>
-      {{ section.settings.copyright }}
+    <div class="or-footer-bottom-inner">
+
+      <div class="or-copyright">
+        {{ section.settings.copyright }}
+      </div>
+
+
+      {% if section.settings.show_policy_links %}
+
+        <div class="or-legal-links">
+
+          {% if shop.privacy_policy != blank %}
+            <a href="{{ shop.privacy_policy.url }}">
+              Privacy Policy
+            </a>
+          {% endif %}
+
+          {% if shop.refund_policy != blank %}
+            <a href="{{ shop.refund_policy.url }}">
+              Refund Policy
+            </a>
+          {% endif %}
+
+          {% if shop.terms_of_service != blank %}
+            <a href="{{ shop.terms_of_service.url }}">
+              Terms
+            </a>
+          {% endif %}
+
+          {% if shop.shipping_policy != blank %}
+            <a href="{{ shop.shipping_policy.url }}">
+              Shipping
+            </a>
+          {% endif %}
+
+        </div>
+
+      {% endif %}
+
     </div>
 
   </div>
@@ -290,197 +476,140 @@
 
 <style>
 
-  #andamen-footer-{{ section.id }} {
+  /* =====================================================
+     ON REPEAT FOOTER
+     ===================================================== */
 
-    --footer-bg: {{ section.settings.footer_background }};
-    --footer-panel: {{ section.settings.membership_background }};
-    --footer-text: {{ section.settings.footer_text }};
-    --footer-muted: {{ section.settings.footer_muted }};
-    --footer-border: {{ section.settings.footer_border }};
+  #on-repeat-footer-{{ section.id }} {
 
-    background: var(--footer-bg);
-    color: var(--footer-text);
+    --or-font:
+      "Mango",
+      "Mango Grotesk",
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+
+    font-family: var(--or-font);
+
+    background: var(--or-footer-bg);
+
+    color: var(--or-footer-text);
 
     width: 100%;
 
-    font-family: inherit;
+    overflow: hidden;
 
   }
 
 
-  /* ==============================================
+  /* =====================================================
      MAIN GRID
-  ============================================== */
+     ===================================================== */
 
-  #andamen-footer-{{ section.id }}
-  .andamen-footer__grid {
+  #on-repeat-footer-{{ section.id }} .or-footer-main {
 
     display: grid;
 
     grid-template-columns:
-      1.1fr
-      .72fr
-      .82fr
-      .82fr
-      1.65fr;
+      1.25fr
+      0.75fr
+      0.75fr
+      0.75fr
+      1.55fr;
 
-    min-height: 410px;
+    min-height: 440px;
 
-  }
-
-
-  /* ==============================================
-     COMMON COLUMNS
-  ============================================== */
-
-  #andamen-footer-{{ section.id }}
-  .contact-column,
-  #andamen-footer-{{ section.id }}
-  .footer-menu {
-
-    padding: 76px 36px 55px;
+    border-top: 1px solid var(--or-footer-border);
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .contact-column {
+  /* =====================================================
+     COLUMNS
+     ===================================================== */
 
-    padding-left: 5vw;
+  #on-repeat-footer-{{ section.id }} .or-footer-column {
+
+    padding: 64px 32px 58px;
+
+    border-right: 1px solid var(--or-footer-border);
 
   }
 
 
-  /* ==============================================
+  #on-repeat-footer-{{ section.id }} .or-footer-contact {
+
+    padding-left: clamp(28px, 5vw, 80px);
+
+  }
+
+
+  /* =====================================================
      HEADINGS
-  ============================================== */
+     ===================================================== */
 
-  #andamen-footer-{{ section.id }}
-  .footer-heading {
+  #on-repeat-footer-{{ section.id }} .or-footer-heading {
 
-    margin-bottom: 22px;
+    margin: 0 0 30px;
 
-    color: var(--footer-muted);
+    font-family: var(--or-font);
 
-    font-size: 13px;
+    font-size: 12px;
+
+    font-weight: 500;
 
     line-height: 1.2;
 
-    letter-spacing: .2em;
+    letter-spacing: 0.18em;
 
     text-transform: uppercase;
+
+    color: var(--or-footer-muted);
 
   }
 
 
-  /* ==============================================
+  /* =====================================================
      CONTACT
-  ============================================== */
+     ===================================================== */
 
-  #andamen-footer-{{ section.id }}
-  .footer-contact {
+  #on-repeat-footer-{{ section.id }} .or-contact-item {
 
     display: flex;
 
     align-items: flex-start;
 
-    gap: 13px;
+    gap: 14px;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 
-    color: var(--footer-text);
+    color: var(--or-footer-text);
 
     text-decoration: none;
 
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .footer-icon {
-
-    width: 25px;
-
-    min-width: 25px;
-
-    height: 25px;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-icon svg {
+  #on-repeat-footer-{{ section.id }} .or-contact-item:hover {
 
-    width: 25px;
+    opacity: 0.7;
 
-    height: 25px;
-
-    display: block;
+    transform: translateX(3px);
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-contact strong {
+  #on-repeat-footer-{{ section.id }} .or-contact-icon {
 
-    display: block;
+    width: 20px;
 
-    font-size: 16px;
+    height: 20px;
 
-    font-weight: 400;
-
-    line-height: 1.4;
-
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .footer-contact small {
-
-    display: block;
-
-    color: var(--footer-muted);
-
-    font-size: 14px;
-
-    line-height: 1.9;
-
-    font-style: italic;
-
-  }
-
-
-  /* ==============================================
-     SOCIAL
-  ============================================== */
-
-  #andamen-footer-{{ section.id }}
-  .social-heading {
-
-    margin-top: 43px;
-
-    margin-bottom: 13px;
-
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .footer-socials {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 30px;
-
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .footer-socials a {
-
-    width: 27px;
-
-    height: 27px;
+    flex: 0 0 20px;
 
     display: flex;
 
@@ -488,27 +617,135 @@
 
     justify-content: center;
 
-    color: var(--footer-text);
+    margin-top: 1px;
+
+    color: var(--or-footer-accent);
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-socials svg {
+  #on-repeat-footer-{{ section.id }} .or-contact-icon svg {
 
-    width: 26px;
+    width: 18px;
 
-    height: 26px;
+    height: 18px;
+
+    display: block;
 
   }
 
 
-  /* ==============================================
+  #on-repeat-footer-{{ section.id }} .or-contact-copy {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy strong {
+
+    font-family: var(--or-font);
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    line-height: 1.4;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy small {
+
+    font-family: var(--or-font);
+
+    font-size: 12px;
+
+    font-weight: 400;
+
+    line-height: 1.4;
+
+    color: var(--or-footer-muted);
+
+  }
+
+
+  /* =====================================================
+     SOCIAL
+     ===================================================== */
+
+  #on-repeat-footer-{{ section.id }} .or-social-heading {
+
+    margin-top: 50px;
+
+    margin-bottom: 18px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-social-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-social-links a {
+
+    width: 30px;
+
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--or-footer-text);
+
+    text-decoration: none;
+
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-social-links a:hover {
+
+    opacity: 0.65;
+
+    transform: translateY(-2px);
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-social-links svg {
+
+    width: 19px;
+
+    height: 19px;
+
+    display: block;
+
+  }
+
+
+  /* =====================================================
      MENUS
-  ============================================== */
+     ===================================================== */
 
-  #andamen-footer-{{ section.id }}
-  .footer-menu ul {
+  #on-repeat-footer-{{ section.id }} .or-footer-menu ul {
 
     list-style: none;
 
@@ -519,44 +756,81 @@
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-menu li {
+  #on-repeat-footer-{{ section.id }} .or-footer-menu li {
 
-    margin-bottom: 17px;
+    margin: 0 0 14px;
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-menu a {
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a {
 
-    color: var(--footer-text);
+    position: relative;
+
+    display: inline-block;
+
+    color: var(--or-footer-text);
 
     text-decoration: none;
 
-    font-size: 16px;
+    font-family: var(--or-font);
 
-    line-height: 1.35;
+    font-size: 14px;
 
-    transition: opacity .2s ease;
+    font-weight: 400;
 
-  }
+    line-height: 1.5;
 
-
-  #andamen-footer-{{ section.id }}
-  .footer-menu a:hover {
-
-    opacity: .55;
+    transition:
+      opacity 0.25s ease;
 
   }
 
 
-  /* ==============================================
-     MEMBERSHIP PANEL
-  ============================================== */
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a::after {
 
-  #andamen-footer-{{ section.id }}
-  .footer-membership {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -3px;
+
+    width: 0;
+
+    height: 1px;
+
+    background: currentColor;
+
+    transition: width 0.25s ease;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a:hover {
+
+    opacity: 0.7;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a:hover::after {
+
+    width: 100%;
+
+  }
+
+
+  /* =====================================================
+     RIGHT PANEL
+     ===================================================== */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-panel {
+
+    background: var(--or-footer-panel);
+
+    padding: 64px clamp(28px, 4vw, 65px);
 
     display: flex;
 
@@ -564,59 +838,175 @@
 
     justify-content: center;
 
-    padding: 65px 5vw;
+  }
 
-    background: var(--footer-panel);
+
+  #on-repeat-footer-{{ section.id }} .or-panel-eyebrow {
+
+    margin-bottom: 20px;
+
+    color: var(--or-footer-muted);
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .footer-membership h2 {
-
-    max-width: 500px;
-
-    margin: 0 0 27px;
-
-    color: var(--footer-text);
-
-    font-size: clamp(28px, 2.1vw, 40px);
-
-    line-height: 1.28;
-
-    font-weight: 300;
-
-    letter-spacing: -.025em;
-
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .membership-description {
-
-    max-width: 520px;
-
-    margin-bottom: 24px;
-
-    color: var(--footer-text);
-
-    font-size: 17px;
-
-    line-height: 1.55;
-
-  }
-
-
-  #andamen-footer-{{ section.id }}
-  .membership-description p {
+  #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
 
     margin: 0;
 
+    max-width: 500px;
+
+    font-family: var(--or-font);
+
+    font-size: clamp(28px, 2.5vw, 44px);
+
+    font-weight: 400;
+
+    line-height: 1.13;
+
+    letter-spacing: -0.025em;
+
+    color: var(--or-footer-text);
+
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .membership-button {
+  #on-repeat-footer-{{ section.id }} .or-panel-description {
+
+    max-width: 440px;
+
+    margin-top: 20px;
+
+    color: var(--or-footer-muted);
+
+    font-size: 14px;
+
+    line-height: 1.65;
+
+  }
+
+
+  /* =====================================================
+     NEWSLETTER
+     ===================================================== */
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-form {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    margin-top: 28px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field {
+
+    display: flex;
+
+    width: 100%;
+
+    border-bottom: 1px solid var(--or-footer-border);
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
+
+    min-width: 0;
+
+    flex: 1;
+
+    height: 48px;
+
+    padding: 0;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: var(--or-footer-text);
+
+    font-family: var(--or-font);
+
+    font-size: 13px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field input::placeholder {
+
+    color: var(--or-footer-muted);
+
+    opacity: 0.85;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
+
+    border: 0;
+
+    padding: 0 4px;
+
+    background: transparent;
+
+    color: var(--or-footer-text);
+
+    font-family: var(--or-font);
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-form-message {
+
+    margin: 12px 0 0;
+
+    color: var(--or-footer-muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+  }
+
+
+  /* =====================================================
+     PANEL BUTTON
+     ===================================================== */
+
+  #on-repeat-footer-{{ section.id }} .or-panel-button {
+
+    width: 100%;
+
+    max-width: 330px;
+
+    min-height: 58px;
+
+    margin-top: 28px;
+
+    padding: 0 22px;
 
     display: flex;
 
@@ -624,198 +1014,351 @@
 
     justify-content: space-between;
 
-    width: 296px;
+    border: 1px solid var(--or-footer-accent);
 
-    min-height: 63px;
+    background: var(--or-footer-button-bg);
 
-    padding: 0 22px 0 40px;
-
-    border: 1px solid var(--footer-text);
-
-    color: var(--footer-text);
+    color: var(--or-footer-button-text);
 
     text-decoration: none;
 
-    font-size: 13px;
+    font-family: var(--or-font);
 
-    letter-spacing: .22em;
+    font-size: 11px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.15em;
 
     text-transform: uppercase;
 
     transition:
-      background .25s ease,
-      color .25s ease;
+      background 0.25s ease,
+      color 0.25s ease;
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .membership-button:hover {
+  #on-repeat-footer-{{ section.id }} .or-panel-button:hover {
 
-    background: var(--footer-text);
+    background: var(--or-footer-accent);
 
-    color: var(--footer-panel);
+    color: var(--or-footer-bg);
 
   }
 
 
-  #andamen-footer-{{ section.id }}
-  .membership-arrow {
+  #on-repeat-footer-{{ section.id }} .or-panel-arrow {
 
     font-size: 20px;
 
-    letter-spacing: 0;
+    line-height: 1;
+
+    transition: transform 0.25s ease;
 
   }
 
 
-  /* ==============================================
-     COPYRIGHT
-  ============================================== */
+  #on-repeat-footer-{{ section.id }} .or-panel-button:hover .or-panel-arrow {
 
-  #andamen-footer-{{ section.id }}
-  .footer-bottom {
+    transform: translateX(5px);
 
-    min-height: 92px;
+  }
+
+
+  /* =====================================================
+     BOTTOM
+     ===================================================== */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-bottom {
+
+    border-top: 1px solid var(--or-footer-border);
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-bottom-inner {
+
+    min-height: 82px;
+
+    padding: 20px clamp(28px, 5vw, 80px);
 
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    justify-content: space-between;
 
-    padding: 20px 30px;
-
-    border-top: 1px solid var(--footer-border);
-
-    color: var(--footer-muted);
-
-    font-size: 15px;
-
-    text-align: center;
+    gap: 30px;
 
   }
 
 
-  /* ==============================================
+  #on-repeat-footer-{{ section.id }} .or-copyright {
+
+    color: var(--or-footer-muted);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-legal-links {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+
+    gap: 22px;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-legal-links a {
+
+    color: var(--or-footer-muted);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    transition: opacity 0.25s ease;
+
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-legal-links a:hover {
+
+    opacity: 0.6;
+
+  }
+
+
+  /* =====================================================
      TABLET
-  ============================================== */
+     ===================================================== */
 
   @media screen and (max-width: 1100px) {
 
-    #andamen-footer-{{ section.id }}
-    .andamen-footer__grid {
+    #on-repeat-footer-{{ section.id }} .or-footer-main {
 
       grid-template-columns:
-        1fr
-        1fr
-        1fr;
+        1.15fr
+        0.8fr
+        0.8fr;
 
     }
 
 
-    #andamen-footer-{{ section.id }}
-    .footer-membership {
+    #on-repeat-footer-{{ section.id }} .or-footer-panel {
 
       grid-column: 1 / -1;
 
-      min-height: 320px;
+      min-height: 330px;
+
+      border-top: 1px solid var(--or-footer-border);
 
     }
 
   }
 
 
-  /* ==============================================
+  /* =====================================================
      MOBILE
-  ============================================== */
+     ===================================================== */
 
   @media screen and (max-width: 749px) {
 
-    #andamen-footer-{{ section.id }}
-    .andamen-footer__grid {
+    #on-repeat-footer-{{ section.id }} .or-footer-main {
 
       display: block;
 
-      min-height: 0;
+      min-height: auto;
 
     }
 
 
-    #andamen-footer-{{ section.id }}
-    .contact-column,
-    #andamen-footer-{{ section.id }}
-    .footer-menu {
+    #on-repeat-footer-{{ section.id }} .or-footer-column {
 
-      padding: 42px 24px 30px;
+      padding: 42px 24px;
 
-    }
+      border-right: 0;
 
-
-    #andamen-footer-{{ section.id }}
-    .contact-column {
-
-      padding-top: 48px;
+      border-bottom: 1px solid var(--or-footer-border);
 
     }
 
 
-    #andamen-footer-{{ section.id }}
-    .footer-menu {
-
-      border-top: 1px solid var(--footer-border);
-
-    }
-
-
-    #andamen-footer-{{ section.id }}
-    .footer-membership {
-
-      min-height: 350px;
-
-      padding: 55px 24px;
-
-    }
-
-
-    #andamen-footer-{{ section.id }}
-    .footer-membership h2 {
-
-      font-size: 29px;
-
-    }
-
-
-    #andamen-footer-{{ section.id }}
-    .membership-description {
-
-      font-size: 15px;
-
-    }
-
-
-    #andamen-footer-{{ section.id }}
-    .membership-button {
-
-      width: 100%;
-
-      max-width: 340px;
-
-      min-height: 58px;
+    #on-repeat-footer-{{ section.id }} .or-footer-contact {
 
       padding-left: 24px;
 
     }
 
 
-    #andamen-footer-{{ section.id }}
-    .footer-bottom {
+    #on-repeat-footer-{{ section.id }} .or-footer-heading {
 
-      min-height: 75px;
+      margin-bottom: 24px;
 
-      padding: 18px 24px;
+      font-size: 11px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-contact-item {
+
+      margin-bottom: 19px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-social-heading {
+
+      margin-top: 38px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-menu {
+
+      padding-top: 34px;
+
+      padding-bottom: 34px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-menu li {
+
+      margin-bottom: 12px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-menu a {
+
+      font-size: 14px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-panel {
+
+      padding: 48px 24px;
+
+      min-height: auto;
+
+      border-top: 0;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
+
+      font-size: 31px;
+
+      line-height: 1.15;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-panel-description {
 
       font-size: 13px;
+
+      margin-top: 18px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-newsletter-form {
+
+      margin-top: 24px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-panel-button {
+
+      max-width: none;
+
+      margin-top: 24px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-footer-bottom-inner {
+
+      min-height: auto;
+
+      padding: 24px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: flex-start;
+
+      gap: 18px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-legal-links {
+
+      justify-content: flex-start;
+
+      gap: 12px 18px;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SMALL MOBILE
+     ===================================================== */
+
+  @media screen and (max-width: 420px) {
+
+    #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
+
+      font-size: 28px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-newsletter-field {
+
+      display: block;
+
+      border-bottom: 0;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
+
+      width: 100%;
+
+      border-bottom: 1px solid var(--or-footer-border);
+
+      margin-bottom: 14px;
+
+    }
+
+
+    #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
+
+      width: 100%;
+
+      height: 46px;
+
+      border: 1px solid var(--or-footer-accent);
 
     }
 
@@ -827,48 +1370,71 @@
 {% schema %}
 
 {
-  "name": "Premium Footer",
+  "name": "ON REPEAT Footer",
+  "tag": "section",
+  "class": "section-on-repeat-footer",
 
   "settings": [
 
     {
       "type": "header",
-      "content": "Footer Colors"
+      "content": "Brand Colors"
     },
 
     {
       "type": "color",
-      "id": "footer_background",
-      "label": "Main background",
-      "default": "#001922"
+      "id": "footer_bg",
+      "label": "Ivory Background",
+      "default": "#F6F1E8"
     },
 
     {
       "type": "color",
-      "id": "membership_background",
-      "label": "Membership panel",
-      "default": "#102B34"
+      "id": "panel_bg",
+      "label": "Sand Panel",
+      "default": "#E8DED0"
     },
 
     {
       "type": "color",
-      "id": "footer_text",
+      "id": "accent_color",
+      "label": "Muted Olive",
+      "default": "#727A62"
+    },
+
+    {
+      "type": "color",
+      "id": "text_color",
       "label": "Text",
-      "default": "#F5F5F5"
+      "default": "#30352F"
     },
 
     {
       "type": "color",
-      "id": "footer_muted",
-      "label": "Muted text",
-      "default": "#7D8D92"
+      "id": "muted_color",
+      "label": "Muted Text",
+      "default": "#74766D"
     },
 
     {
       "type": "color",
-      "id": "footer_border",
-      "label": "Divider",
-      "default": "#173038"
+      "id": "border_color",
+      "label": "Borders",
+      "default": "#D5CCBD"
+    },
+
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#727A62"
+    },
+
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "#F6F1E8"
     },
 
 
@@ -887,48 +1453,54 @@
     {
       "type": "text",
       "id": "whatsapp",
-      "label": "WhatsApp number",
-      "default": "+919873999110"
+      "label": "WhatsApp Number",
+      "default": "+919999999999"
     },
 
     {
       "type": "text",
       "id": "phone",
-      "label": "Phone number",
-      "default": "+91 9873999110"
+      "label": "Phone Number",
+      "default": "+91 99999 99999"
     },
 
     {
       "type": "text",
       "id": "email",
       "label": "Email",
-      "default": "hello@andamen.com"
+      "default": "hello@onrepeat.in"
     },
 
     {
       "type": "text",
       "id": "contact_hours",
-      "label": "Contact hours",
-      "default": "Mon-Fri: 10am-6:30pm"
+      "label": "Contact Hours",
+      "default": "Mon - Sat · 10 AM - 7 PM"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Social Media"
     },
 
     {
       "type": "text",
       "id": "social_heading",
-      "label": "Social heading",
+      "label": "Social Heading",
       "default": "Connect With Us"
-    },
-
-    {
-      "type": "url",
-      "id": "facebook",
-      "label": "Facebook"
     },
 
     {
       "type": "url",
       "id": "instagram",
       "label": "Instagram"
+    },
+
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook"
     },
 
     {
@@ -959,7 +1531,7 @@
 
     {
       "type": "header",
-      "content": "Info Menu"
+      "content": "Information Menu"
     },
 
     {
@@ -997,54 +1569,96 @@
 
     {
       "type": "header",
-      "content": "Club / Membership"
+      "content": "Newsletter / Brand Panel"
     },
 
     {
       "type": "text",
-      "id": "membership_heading",
+      "id": "panel_eyebrow",
+      "label": "Eyebrow",
+      "default": "Stay In The Loop"
+    },
+
+    {
+      "type": "textarea",
+      "id": "panel_heading",
       "label": "Heading",
-      "default": "Join Club Andamen to get exclusive offer and benefits."
+      "default": "Good things are worth repeating."
     },
 
     {
-      "type": "richtext",
-      "id": "membership_description",
+      "type": "textarea",
+      "id": "panel_text",
       "label": "Description",
-      "default": "<p>We'll send you updates on new launches, products and events, only good stuff.</p>"
+      "default": "Sign up for first access to new drops, thoughtful edits and stories from ON REPEAT."
+    },
+
+    {
+      "type": "checkbox",
+      "id": "newsletter_enable",
+      "label": "Enable Newsletter",
+      "default": true
     },
 
     {
       "type": "text",
-      "id": "membership_button",
-      "label": "Button text",
-      "default": "Become A Member"
+      "id": "email_placeholder",
+      "label": "Email Placeholder",
+      "default": "Your email address"
+    },
+
+    {
+      "type": "text",
+      "id": "subscribe_button",
+      "label": "Subscribe Button",
+      "default": "Subscribe"
+    },
+
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "You're on the list."
+    },
+
+    {
+      "type": "text",
+      "id": "panel_button_text",
+      "label": "Secondary Button Text",
+      "default": "Explore ON REPEAT"
     },
 
     {
       "type": "url",
-      "id": "membership_link",
-      "label": "Button link"
+      "id": "panel_button_link",
+      "label": "Secondary Button Link"
     },
 
 
     {
       "type": "header",
-      "content": "Copyright"
+      "content": "Bottom Footer"
     },
 
     {
       "type": "text",
       "id": "copyright",
-      "label": "Copyright text",
-      "default": "© 2026, Andamen – All rights reserved."
+      "label": "Copyright",
+      "default": "© 2026, ON REPEAT. All rights reserved."
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_policy_links",
+      "label": "Show Policy Links",
+      "default": true
     }
 
   ],
 
   "presets": [
     {
-      "name": "Premium Footer"
+      "name": "ON REPEAT Footer"
     }
   ]
 
