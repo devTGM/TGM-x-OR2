@@ -1165,69 +1165,155 @@
 
   /* =========================================================
      MOBILE HERO FIX
-     Mobile banners are 1080 x 1350 (4:5).
-     This keeps the complete creative visible and removes
-     the unwanted spacing between the header and hero.
+     Dedicated mobile creatives: 1080 x 1350 (4:5)
   ========================================================= */
 
   @media screen and (max-width: 749px) {
-    .hero-wrapper {
+
+    /* Remove every source of spacing around the mobile hero */
+    .hero-wrapper,
+    .hero-wrapper.section-wrapper {
+      margin: 0 !important;
       margin-top: 0 !important;
+      margin-bottom: 0 !important;
       margin-block-start: 0 !important;
+      margin-block-end: 0 !important;
+      padding: 0 !important;
       padding-top: 0 !important;
+      padding-bottom: 0 !important;
       padding-block-start: 0 !important;
+      padding-block-end: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
     }
 
+    /* Do not let the theme's desktop/full-screen height affect mobile */
     .hero {
+      position: relative !important;
       min-height: 0 !important;
       height: auto !important;
-      margin-top: 0 !important;
-      margin-block-start: 0 !important;
-      padding-top: 0 !important;
-      padding-block-start: 0 !important;
+      max-height: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
     }
 
+    /* The container must size itself entirely from the 4:5 media */
     .hero__container {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
       min-height: 0 !important;
       height: auto !important;
+      max-height: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
       padding-top: 0 !important;
+      padding-bottom: 0 !important;
       padding-block-start: 0 !important;
+      padding-block-end: 0 !important;
       --padding-block-start: 0px !important;
+      --padding-block-end: 0px !important;
     }
 
+    /* Exact 1080 x 1350 mobile canvas */
     .hero__media-grid {
       position: relative !important;
       inset: auto !important;
+      display: block !important;
       width: 100% !important;
       height: auto !important;
       min-height: 0 !important;
       max-height: none !important;
-      aspect-ratio: 4 / 5 !important;
+      aspect-ratio: 1080 / 1350 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Slideshow/fade must fill the 4:5 canvas */
+    .hero[data-media-layout='slideshow'] .hero__media-grid,
+    .hero[data-media-layout='fade'] .hero__media-grid {
+      position: relative !important;
+      inset: auto !important;
+      height: auto !important;
+      aspect-ratio: 1080 / 1350 !important;
+    }
+
+    .hero__media-item {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      max-height: none !important;
       overflow: hidden !important;
     }
 
-    .hero__media-item,
-    .hero__media-wrapper--mobile,
-    picture.hero__media {
+    .hero__media-wrapper--mobile {
+      position: absolute !important;
+      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      overflow: hidden !important;
     }
 
-    .hero__media {
+    picture.hero__media {
+      position: absolute !important;
+      inset: 0 !important;
       display: block !important;
       width: 100% !important;
       height: 100% !important;
+      min-height: 0 !important;
+      overflow: hidden !important;
+    }
+
+    /* Preserve the complete 4:5 campaign creative */
+    .hero__media {
+      position: absolute !important;
+      inset: 0 !important;
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
+      max-width: none !important;
+      max-height: none !important;
       object-fit: cover !important;
       object-position: center center !important;
     }
 
+    /* Content remains layered over the banner */
     .hero__content-wrapper {
       position: absolute !important;
       inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
-      z-index: 5;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      z-index: 5 !important;
     }
+
+    /* Do not allow the blurred reflection to create visual/section residue */
+    .hero__blurred-image,
+    .hero__blurred-image--mobile {
+      display: none !important;
+    }
+
+    /* Remove section spacing that may be injected by theme spacing helpers */
+    .hero .section,
+    .hero__container.spacing-style {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      padding-block-start: 0 !important;
+      padding-block-end: 0 !important;
+    }
+
   }
 {% endstylesheet %}
 
