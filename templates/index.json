@@ -358,7 +358,7 @@
         "horizontal_alignment": "flex-start",
         "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
+        "padding-block-start": 22,
         "padding-block-end": 0
       }
     },
