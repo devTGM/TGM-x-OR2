@@ -293,7 +293,7 @@
               "type": "icon",
               "settings": {
                 "icon": "silhouette",
-                "width": 32,
+                "width": 26,
                 "link": "",
                 "open_in_new_tab": false,
                 "icon_color": ""
@@ -344,7 +344,7 @@
                   "settings": {
                     "text": "<h5>Slow & Precise Tailoring</h5>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "center",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -418,7 +418,7 @@
               "type": "icon",
               "settings": {
                 "icon": "price_tag",
-                "width": 32,
+                "width": 26,
                 "link": "",
                 "open_in_new_tab": false,
                 "icon_color": ""
@@ -469,7 +469,7 @@
                   "settings": {
                     "text": "<h5>Built On Research & Innovation</h5>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "center",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -543,7 +543,7 @@
               "type": "icon",
               "settings": {
                 "icon": "shirt",
-                "width": 32,
+                "width": 26,
                 "link": "",
                 "open_in_new_tab": false,
                 "icon_color": ""
@@ -668,7 +668,7 @@
               "type": "icon",
               "settings": {
                 "icon": "star",
-                "width": 32,
+                "width": 26,
                 "link": "",
                 "open_in_new_tab": false,
                 "icon_color": ""
@@ -760,13 +760,13 @@
       "name": "t:names.icons_with_text",
       "settings": {
         "content_direction": "row",
-        "vertical_on_mobile": false,
+        "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
+        "gap": 5,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
