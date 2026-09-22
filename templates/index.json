@@ -954,11 +954,11 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h2>Related products</h2>",
+            "text": "<h2><strong>Recommended For You</strong></h2>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h3",
+            "type_preset": "h2",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
