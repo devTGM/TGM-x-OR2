@@ -254,8 +254,8 @@
         "accent_color": "#727a62",
         "padding_top": 30,
         "padding_bottom": 30,
-        "mobile_padding_top": 55,
-        "mobile_padding_bottom": 60
+        "mobile_padding_top": 20,
+        "mobile_padding_bottom": 20
       }
     },
     "divider_rG3WCV": {
