@@ -112,7 +112,7 @@
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/Banner-Mobile_1.webp",
+        "image_1_mobile": "shopify://shop_images/The_Modern_3.png",
         "media_type_2_mobile": "image",
         "image_2_mobile": "shopify://shop_images/OR-Mobile_Banner-3_1.png",
         "media_type_3_mobile": "image",
@@ -1072,7 +1072,7 @@
       ],
       "name": "t:names.product_recommendations",
       "settings": {
-        "product": "{{ closest.product }}",
+        "product": "",
         "recommendation_type": "complementary",
         "layout_type": "grid",
         "carousel_on_mobile": true,
@@ -1086,8 +1086,8 @@
         "section_width": "page-width",
         "gap": 28,
         "background_color": "",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 18,
+        "padding-block-end": 18
       }
     },
     "hero_cmya3X": {
@@ -2451,7 +2451,6 @@
         "testimonial_4",
         "testimonial_5"
       ],
-      "disabled": true,
       "settings": {
         "heading": "What Our Customers Say",
         "heading_color": "#000000",
@@ -2466,7 +2465,6 @@
     },
     "divider_LpDWEC": {
       "type": "divider",
-      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
