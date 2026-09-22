@@ -11,6 +11,28 @@
   "type": "footer",
   "name": "t:names.footer",
   "sections": {
+    "andamen_footer_jDjk8Q": {
+      "type": "andamen-footer",
+      "name": "Premium Footer",
+      "settings": {
+        "contact_heading": "Need Help?",
+        "whatsapp": "+919873999110",
+        "phone": "+91 9873999110",
+        "email": "hello@andamen.com",
+        "contact_hours": "Mon-Fri: 10am-6:30pm",
+        "social_heading": "Connect With Us",
+        "instagram": "",
+        "facebook": "",
+        "linkedin": "",
+        "shop_heading": "Shop",
+        "shop_menu": "",
+        "info_heading": "Info",
+        "info_menu": "",
+        "manage_heading": "Manage",
+        "manage_menu": "",
+        "copyright": "© 2026, OnRepeat. Designed & Managed by Think Grow Media– All rights reserved."
+      }
+    },
     "footer_m9NzUG": {
       "type": "footer",
       "blocks": {
@@ -188,6 +210,7 @@
         "menu_fYdAxj",
         "email_signup_crihX7"
       ],
+      "disabled": true,
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
@@ -303,6 +326,7 @@
         "social_links_Ew63Kq",
         "footer_copyright_jweRK8"
       ],
+      "disabled": true,
       "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
@@ -316,6 +340,7 @@
     }
   },
   "order": [
+    "andamen_footer_jDjk8Q",
     "footer_m9NzUG",
     "section_bxmxCc",
     "footer_utilities_jLGE8U"
