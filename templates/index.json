@@ -630,11 +630,11 @@
         "campaign_card_iR4Wam": {
           "type": "campaign_card",
           "settings": {
-            "eyebrow": "The Collection",
+            "eyebrow": "The RESORT",
             "heading": "Discover the collection",
-            "description": "<p>Designed with timeless style and exceptional detail.</p>",
+            "description": "",
             "button_text": "Shop Now",
-            "link": "",
+            "link": "shopify://collections/the-modern",
             "overlay_opacity": 20,
             "text_alignment": "left",
             "content_left": 10,
