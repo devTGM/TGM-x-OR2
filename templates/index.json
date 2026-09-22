@@ -860,10 +860,10 @@
             "large_button_text": "Explore",
             "large_button_link": "",
             "large_text_alignment": "left",
-            "heading": "Discover more",
-            "description": "<p>Explore our collection.</p>",
-            "button_text": "Explore",
-            "link": "",
+            "heading": "",
+            "description": "",
+            "button_text": "ESCAPE IN EFFORTLESS STYLE.",
+            "link": "shopify://collections/the-modern-1",
             "text_alignment": "left",
             "overlay_opacity": 35
           }
