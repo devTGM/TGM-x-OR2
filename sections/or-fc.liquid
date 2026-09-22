@@ -1,0 +1,158 @@
+{% schema %}
+
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "class": "section-on-repeat-featured-collection",
+
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Recommended Collection"
+    },
+
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Recommended For You"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You might also like"
+    },
+
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "A considered edit of pieces selected to complement your wardrobe."
+    },
+
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "View Collection"
+    },
+
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to Show",
+      "min": 4,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#F6F1E8"
+    },
+
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#30352F"
+    },
+
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text",
+      "default": "#77796F"
+    },
+
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#D5CCBD"
+    },
+
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#727A62"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Top Padding",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 80,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Bottom Padding",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 90,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile Top Padding",
+      "min": 15,
+      "max": 100,
+      "step": 5,
+      "default": 55,
+      "unit": "px"
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile Bottom Padding",
+      "min": 15,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+
+}
+
+{% endschema %}
