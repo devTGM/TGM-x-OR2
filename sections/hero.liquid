@@ -1212,20 +1212,22 @@
       position: relative !important;
       display: block !important;
       min-height: 0 !important;
-      height: auto !important;
+      height: calc(100vw * 1.25) !important;
       max-height: none !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
+      --hero-min-height: 0px !important;
+      --hero-height-offset: 0px !important;
     }
 
-    /* The container must size itself entirely from the 4:5 media */
+    /* The container is exactly the same 4:5 height as the banner */
     .hero__container {
       position: relative !important;
       display: block !important;
       width: 100% !important;
       min-height: 0 !important;
-      height: auto !important;
+      height: 100% !important;
       max-height: none !important;
       margin: 0 !important;
       padding: 0 !important;
@@ -1246,7 +1248,7 @@
       inset: auto !important;
       display: block !important;
       width: 100% !important;
-      height: auto !important;
+      height: 100% !important;
       min-height: 0 !important;
       max-height: none !important;
       aspect-ratio: 1080 / 1350 !important;
@@ -1260,7 +1262,7 @@
     .hero[data-media-layout='fade'] .hero__media-grid {
       position: relative !important;
       inset: auto !important;
-      height: auto !important;
+      height: 100% !important;
       aspect-ratio: 1080 / 1350 !important;
     }
 
