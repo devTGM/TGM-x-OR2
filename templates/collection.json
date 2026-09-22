@@ -264,7 +264,7 @@
         "width_percent": 100,
         "alignment_horizontal": "center",
         "padding-block-start": 16,
-        "padding-block-end": 16
+        "padding-block-end": 0
       }
     },
     "section_6NJwWC": {
@@ -803,8 +803,8 @@
         "border_opacity": 100,
         "border_color": "",
         "border_radius": 0,
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 12,
+        "padding-block-end": 12
       }
     },
     "product_list_WKLhFD": {
