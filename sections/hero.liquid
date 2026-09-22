@@ -1172,7 +1172,10 @@
 
     /* Remove every source of spacing around the mobile hero */
     .hero-wrapper,
-    .hero-wrapper.section-wrapper {
+    .hero-wrapper.section-wrapper,
+    section.hero-wrapper.section-wrapper {
+      display: block !important;
+      position: relative !important;
       margin: 0 !important;
       margin-top: 0 !important;
       margin-bottom: 0 !important;
@@ -1185,11 +1188,29 @@
       padding-block-end: 0 !important;
       min-height: 0 !important;
       height: auto !important;
+      max-height: none !important;
+      min-block-size: 0 !important;
+      block-size: auto !important;
+      flex: none !important;
+      grid-template-rows: auto !important;
+    }
+
+    /* The Hero wrapper itself must end immediately after the 4:5 banner. */
+    .hero-wrapper.section-wrapper:has(> #Hero-{{ section.id }}) {
+      display: block !important;
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      block-size: auto !important;
+      min-block-size: 0 !important;
+      padding-block: 0 !important;
     }
 
     /* Do not let the theme's desktop/full-screen height affect mobile */
+    #Hero-{{ section.id }},
     .hero {
       position: relative !important;
+      display: block !important;
       min-height: 0 !important;
       height: auto !important;
       max-height: none !important;
@@ -1214,6 +1235,9 @@
       padding-block-end: 0 !important;
       --padding-block-start: 0px !important;
       --padding-block-end: 0px !important;
+      min-block-size: 0 !important;
+      block-size: auto !important;
+      flex: none !important;
     }
 
     /* Exact 1080 x 1350 mobile canvas */
