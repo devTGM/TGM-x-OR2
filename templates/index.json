@@ -616,7 +616,7 @@
           "settings": {
             "image": "shopify://shop_images/The_Modern_1.png",
             "eyebrow": "The Modern",
-            "heading": "Discover the collection",
+            "heading": "Clean lines. Modern attitude.",
             "description": "",
             "button_text": "Shop Now",
             "link": "shopify://collections/the-modern-1",
@@ -630,6 +630,7 @@
         "campaign_card_iR4Wam": {
           "type": "campaign_card",
           "settings": {
+            "image": "shopify://shop_images/The_Resort.png",
             "eyebrow": "The RESORT",
             "heading": "Discover the collection",
             "description": "",
