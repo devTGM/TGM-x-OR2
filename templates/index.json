@@ -579,7 +579,6 @@
     },
     "divider_eWmecW": {
       "type": "divider",
-      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -591,6 +590,83 @@
         "alignment_horizontal": "center",
         "padding-block-start": 16,
         "padding-block-end": 16
+      }
+    },
+    "campaign_three_image_LWNKTq": {
+      "type": "campaign-three-image",
+      "blocks": {
+        "campaign_card_pz4VHT": {
+          "type": "campaign_card",
+          "settings": {
+            "eyebrow": "The Collection",
+            "heading": "Discover the collection",
+            "description": "<p>Designed with timeless style and exceptional detail.</p>",
+            "button_text": "Shop Now",
+            "link": "",
+            "overlay_opacity": 20,
+            "text_alignment": "left",
+            "content_left": 10,
+            "content_bottom": 10,
+            "content_width": 75
+          }
+        },
+        "campaign_card_rRCmwQ": {
+          "type": "campaign_card",
+          "settings": {
+            "eyebrow": "The Collection",
+            "heading": "Discover the collection",
+            "description": "<p>Designed with timeless style and exceptional detail.</p>",
+            "button_text": "Shop Now",
+            "link": "",
+            "overlay_opacity": 20,
+            "text_alignment": "left",
+            "content_left": 10,
+            "content_bottom": 10,
+            "content_width": 75
+          }
+        },
+        "campaign_card_iR4Wam": {
+          "type": "campaign_card",
+          "settings": {
+            "eyebrow": "The Collection",
+            "heading": "Discover the collection",
+            "description": "<p>Designed with timeless style and exceptional detail.</p>",
+            "button_text": "Shop Now",
+            "link": "",
+            "overlay_opacity": 20,
+            "text_alignment": "left",
+            "content_left": 10,
+            "content_bottom": 10,
+            "content_width": 75
+          }
+        }
+      },
+      "block_order": [
+        "campaign_card_pz4VHT",
+        "campaign_card_rRCmwQ",
+        "campaign_card_iR4Wam"
+      ],
+      "name": "3 Image Campaign Grid",
+      "settings": {
+        "max_width": 1800,
+        "desktop_height": 700,
+        "gap": 10,
+        "border_radius": 0,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_horizontal": 40,
+        "mobile_padding": 10,
+        "mobile_gap": 5,
+        "mobile_height": 500,
+        "background_color": "#FFFFFF",
+        "text_color": "#FFFFFF",
+        "eyebrow_size": 11,
+        "heading_size": 34,
+        "mobile_heading_size": 28,
+        "description_size": 14,
+        "button_size": 10,
+        "heading_weight": "400",
+        "heading_letter_spacing": 0
       }
     },
     "divider_UqHH3w": {
@@ -2404,6 +2480,7 @@
     "product_list_BcEdnq",
     "product_list_fa6P9H",
     "divider_eWmecW",
+    "campaign_three_image_LWNKTq",
     "divider_UqHH3w",
     "feature_callouts_yqBiKJ",
     "tabbed_collections_dWqWQG",
