@@ -1072,7 +1072,7 @@
       ],
       "name": "t:names.product_recommendations",
       "settings": {
-        "product": "cuban-collar-linen-shirt-terracotta",
+        "product": "classic-linen-shirt-dusty-olive",
         "recommendation_type": "related",
         "layout_type": "grid",
         "carousel_on_mobile": true,
