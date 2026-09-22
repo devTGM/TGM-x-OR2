@@ -1072,8 +1072,8 @@
       ],
       "name": "t:names.product_recommendations",
       "settings": {
-        "product": "",
-        "recommendation_type": "complementary",
+        "product": "cuban-collar-linen-shirt-terracotta",
+        "recommendation_type": "related",
         "layout_type": "grid",
         "carousel_on_mobile": true,
         "max_products": 4,
