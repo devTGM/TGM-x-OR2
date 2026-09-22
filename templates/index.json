@@ -189,7 +189,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>Our Bestsellers</h3>",
+                "text": "<h2>Our Bestsellers</h2>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "left",
