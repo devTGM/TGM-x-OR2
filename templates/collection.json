@@ -1163,7 +1163,7 @@
         "width_percent": 100,
         "alignment_horizontal": "center",
         "padding-block-start": 16,
-        "padding-block-end": 0
+        "padding-block-end": 2
       }
     }
   },
