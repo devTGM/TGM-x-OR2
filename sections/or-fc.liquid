@@ -1,42 +1,1044 @@
+{% comment %}
+  ON REPEAT
+  Automatic Recommended Collection
+
+  Recommendation logic:
+
+  The Classic -> The Modern
+  The Modern  -> The Classic
+  The Resort  -> The Classic
+
+  No collection selection required.
+{% endcomment %}
+
+
+{% assign current_handle = collection.handle %}
+
+{% assign recommended_handle = '' %}
+
+{% if current_handle == 'the-classic' %}
+
+  {% assign recommended_handle = 'the-modern' %}
+
+{% elsif current_handle == 'the-modern' %}
+
+  {% assign recommended_handle = 'the-classic' %}
+
+{% elsif current_handle == 'the-resort' %}
+
+  {% assign recommended_handle = 'the-classic' %}
+
+{% endif %}
+
+
+{% assign recommended_collection = collections[recommended_handle] %}
+
+
+{% if recommended_collection != blank and recommended_collection.products_count > 0 %}
+
+<section
+  id="or-recommended-{{ section.id }}"
+  class="or-recommended"
+  style="
+    --or-bg: {{ section.settings.background_color }};
+    --or-text: {{ section.settings.text_color }};
+    --or-muted: {{ section.settings.muted_color }};
+    --or-border: {{ section.settings.border_color }};
+    --or-accent: {{ section.settings.accent_color }};
+  "
+>
+
+  <div class="or-recommended__container">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="or-recommended__header">
+
+      <div class="or-recommended__heading-wrap">
+
+        {% if section.settings.eyebrow != blank %}
+
+          <div class="or-recommended__eyebrow">
+            {{ section.settings.eyebrow }}
+          </div>
+
+        {% endif %}
+
+
+        <h2 class="or-recommended__title">
+
+          {% if current_handle == 'the-classic' %}
+
+            {{ section.settings.classic_heading }}
+
+          {% elsif current_handle == 'the-modern' %}
+
+            {{ section.settings.modern_heading }}
+
+          {% elsif current_handle == 'the-resort' %}
+
+            {{ section.settings.resort_heading }}
+
+          {% else %}
+
+            {{ section.settings.default_heading }}
+
+          {% endif %}
+
+        </h2>
+
+
+        <div class="or-recommended__description">
+
+          {% if current_handle == 'the-classic' %}
+
+            {{ section.settings.classic_description }}
+
+          {% elsif current_handle == 'the-modern' %}
+
+            {{ section.settings.modern_description }}
+
+          {% elsif current_handle == 'the-resort' %}
+
+            {{ section.settings.resort_description }}
+
+          {% else %}
+
+            {{ section.settings.default_description }}
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+
+      <!-- DESKTOP CTA -->
+
+      <a
+        href="{{ recommended_collection.url }}"
+        class="or-recommended__view-all"
+      >
+
+        <span>
+          {{ section.settings.button_text }}
+        </span>
+
+        <span class="or-recommended__arrow">
+          →
+        </span>
+
+      </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRODUCT GRID
+         ===================================================== -->
+
+    <div class="or-recommended__grid">
+
+      {% for product in recommended_collection.products limit: section.settings.products_to_show %}
+
+        <article class="or-recommended__product">
+
+
+          <!-- PRODUCT IMAGE -->
+
+          <a
+            href="{{ product.url }}"
+            class="or-recommended__image"
+            aria-label="{{ product.title | escape }}"
+          >
+
+            {% if product.featured_image != blank %}
+
+              <div class="or-recommended__image-primary">
+
+                {{
+                  product.featured_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400, 600, 800, 1000, 1200',
+                    sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 33vw, 50vw',
+                    alt: product.featured_image.alt | default: product.title
+                }}
+
+              </div>
+
+
+              {% if product.images.size > 1 %}
+
+                <div class="or-recommended__image-secondary">
+
+                  {{
+                    product.images[1]
+                    | image_url: width: 1200
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '400, 600, 800, 1000, 1200',
+                      sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 33vw, 50vw',
+                      alt: product.images[1].alt | default: product.title
+                  }}
+
+                </div>
+
+              {% endif %}
+
+
+            {% else %}
+
+              <div class="or-recommended__placeholder">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+
+            {% endif %}
+
+
+            <!-- BADGE -->
+
+            {% if product.available == false %}
+
+              <span class="or-recommended__badge">
+                Sold Out
+              </span>
+
+            {% elsif product.compare_at_price > product.price %}
+
+              <span class="or-recommended__badge">
+                Sale
+              </span>
+
+            {% endif %}
+
+          </a>
+
+
+          <!-- PRODUCT INFO -->
+
+          <div class="or-recommended__info">
+
+            <a
+              href="{{ product.url }}"
+              class="or-recommended__product-title"
+            >
+              {{ product.title }}
+            </a>
+
+
+            <div class="or-recommended__price">
+
+              {% if product.compare_at_price > product.price %}
+
+                <span class="or-recommended__sale-price">
+                  {{ product.price | money }}
+                </span>
+
+                <span class="or-recommended__compare-price">
+                  {{ product.compare_at_price | money }}
+                </span>
+
+              {% else %}
+
+                <span>
+                  {{ product.price | money }}
+                </span>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE CTA
+         ===================================================== -->
+
+    <a
+      href="{{ recommended_collection.url }}"
+      class="or-recommended__mobile-button"
+    >
+
+      <span>
+        {{ section.settings.button_text }}
+      </span>
+
+      <span class="or-recommended__mobile-arrow">
+        →
+      </span>
+
+    </a>
+
+
+  </div>
+
+</section>
+
+{% endif %}
+
+
+<style>
+
+  /* =========================================================
+     BASE
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} {
+
+    --or-font:
+      "Mango",
+      "Mango Grotesk",
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+
+    width: 100%;
+
+    background: var(--or-bg);
+
+    color: var(--or-text);
+
+  }
+
+
+  #or-recommended-{{ section.id }} * {
+
+    box-sizing: border-box;
+
+  }
+
+
+  /* =========================================================
+     CONTAINER
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__container {
+
+    width: 100%;
+
+    max-width: 1440px;
+
+    margin: 0 auto;
+
+    padding:
+      {{ section.settings.padding_top }}px
+      clamp(24px, 4vw, 64px)
+      {{ section.settings.padding_bottom }}px;
+
+  }
+
+
+  /* =========================================================
+     HEADER
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    margin-bottom: 42px;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__heading-wrap {
+
+    max-width: 720px;
+
+  }
+
+
+  /* =========================================================
+     EYEBROW
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__eyebrow {
+
+    margin-bottom: 14px;
+
+    color: var(--or-muted);
+
+    font-family: var(--or-font);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    letter-spacing: 0.2em;
+
+    text-transform: uppercase;
+
+  }
+
+
+  /* =========================================================
+     TITLE
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__title {
+
+    margin: 0;
+
+    color: var(--or-text);
+
+    font-family: var(--or-font);
+
+    font-size: clamp(32px, 4vw, 58px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.025em;
+
+  }
+
+
+  /* =========================================================
+     DESCRIPTION
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__description {
+
+    max-width: 580px;
+
+    margin-top: 18px;
+
+    color: var(--or-muted);
+
+    font-family: var(--or-font);
+
+    font-size: 14px;
+
+    font-weight: 400;
+
+    line-height: 1.65;
+
+  }
+
+
+  /* =========================================================
+     VIEW ALL
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__view-all {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid var(--or-text);
+
+    color: var(--or-text);
+
+    font-family: var(--or-font);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.16em;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    transition:
+      opacity 0.25s ease;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__view-all:hover {
+
+    opacity: 0.55;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__arrow {
+
+    font-size: 18px;
+
+    transition:
+      transform 0.25s ease;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__view-all:hover
+  .or-recommended__arrow {
+
+    transform: translateX(5px);
+
+  }
+
+
+  /* =========================================================
+     PRODUCT GRID
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__grid {
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    column-gap: 18px;
+
+    row-gap: 45px;
+
+  }
+
+
+  /* =========================================================
+     PRODUCT CARD
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__product {
+
+    min-width: 0;
+
+  }
+
+
+  /* =========================================================
+     PRODUCT IMAGE
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__image {
+
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    aspect-ratio: 3 / 4;
+
+    background: #dcd7cc;
+
+    text-decoration: none;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__image-primary,
+
+  #or-recommended-{{ section.id }} .or-recommended__image-secondary {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__image-primary img,
+
+  #or-recommended-{{ section.id }} .or-recommended__image-secondary img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__image-primary {
+
+    z-index: 1;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__image-secondary {
+
+    z-index: 2;
+
+    opacity: 0;
+
+    transition:
+      opacity 0.45s ease;
+
+  }
+
+
+  #or-recommended-{{ section.id }}
+  .or-recommended__image:hover
+  .or-recommended__image-secondary {
+
+    opacity: 1;
+
+  }
+
+
+  /* =========================================================
+     BADGE
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__badge {
+
+    position: absolute;
+
+    top: 14px;
+
+    left: 14px;
+
+    z-index: 5;
+
+    padding: 7px 10px;
+
+    background: var(--or-bg);
+
+    color: var(--or-text);
+
+    font-family: var(--or-font);
+
+    font-size: 9px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+  }
+
+
+  /* =========================================================
+     PRODUCT INFO
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__info {
+
+    padding-top: 15px;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__product-title {
+
+    display: inline-block;
+
+    color: var(--or-text);
+
+    font-family: var(--or-font);
+
+    font-size: 14px;
+
+    font-weight: 400;
+
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    transition:
+      opacity 0.25s ease;
+
+  }
+
+
+  #or-recommended-{{ section.id }}
+  .or-recommended__product-title:hover {
+
+    opacity: 0.6;
+
+  }
+
+
+  /* =========================================================
+     PRICE
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__price {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 6px;
+
+    color: var(--or-text);
+
+    font-family: var(--or-font);
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__sale-price {
+
+    color: var(--or-text);
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__compare-price {
+
+    color: var(--or-muted);
+
+    text-decoration: line-through;
+
+  }
+
+
+  /* =========================================================
+     PLACEHOLDER
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__placeholder {
+
+    position: absolute;
+
+    inset: 0;
+
+  }
+
+
+  #or-recommended-{{ section.id }} .or-recommended__placeholder svg {
+
+    width: 100%;
+
+    height: 100%;
+
+  }
+
+
+  /* =========================================================
+     MOBILE BUTTON
+     ========================================================= */
+
+  #or-recommended-{{ section.id }} .or-recommended__mobile-button {
+
+    display: none;
+
+  }
+
+
+  /* =========================================================
+     TABLET
+     ========================================================= */
+
+  @media screen and (max-width: 1000px) {
+
+    #or-recommended-{{ section.id }} .or-recommended__grid {
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    }
+
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 749px) {
+
+    #or-recommended-{{ section.id }} .or-recommended__container {
+
+      padding:
+        {{ section.settings.mobile_padding_top }}px
+        18px
+        {{ section.settings.mobile_padding_bottom }}px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__header {
+
+      display: block;
+
+      margin-bottom: 28px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__eyebrow {
+
+      margin-bottom: 11px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__title {
+
+      font-size: 34px;
+
+      line-height: 1.08;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__description {
+
+      margin-top: 14px;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__view-all {
+
+      display: none;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__grid {
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      column-gap: 10px;
+
+      row-gap: 30px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__image {
+
+      aspect-ratio: 3 / 4;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__info {
+
+      padding-top: 11px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__product-title {
+
+      font-size: 12px;
+
+      line-height: 1.35;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__price {
+
+      margin-top: 5px;
+
+      font-size: 11px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__badge {
+
+      top: 9px;
+
+      left: 9px;
+
+      padding: 6px 8px;
+
+      font-size: 8px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__mobile-button {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      width: 100%;
+
+      min-height: 52px;
+
+      margin-top: 34px;
+
+      padding: 0 18px;
+
+      border: 1px solid var(--or-text);
+
+      color: var(--or-text);
+
+      font-family: var(--or-font);
+
+      font-size: 10px;
+
+      font-weight: 500;
+
+      letter-spacing: 0.14em;
+
+      text-decoration: none;
+
+      text-transform: uppercase;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__mobile-arrow {
+
+      font-size: 18px;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     SMALL MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 420px) {
+
+    #or-recommended-{{ section.id }} .or-recommended__title {
+
+      font-size: 30px;
+
+    }
+
+
+    #or-recommended-{{ section.id }} .or-recommended__grid {
+
+      column-gap: 8px;
+
+    }
+
+  }
+
+</style>
+
+
 {% schema %}
 
 {
-  "name": "Featured Collection",
+  "name": "Recommended Collection",
   "tag": "section",
-  "class": "section-on-repeat-featured-collection",
+  "class": "section-on-repeat-recommended",
 
   "settings": [
 
     {
       "type": "header",
-      "content": "Collection"
-    },
-
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Recommended Collection"
+      "content": "Content"
     },
 
     {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Recommended For You"
+      "default": "You May Also Like"
     },
 
     {
       "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "You might also like"
+      "id": "classic_heading",
+      "label": "Classic Page Heading",
+      "default": "Explore The Modern"
     },
 
     {
       "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "A considered edit of pieces selected to complement your wardrobe."
+      "id": "classic_description",
+      "label": "Classic Page Description",
+      "default": "A contemporary edit of considered pieces, designed for a modern wardrobe."
+    },
+
+    {
+      "type": "text",
+      "id": "modern_heading",
+      "label": "Modern Page Heading",
+      "default": "Explore The Classic"
+    },
+
+    {
+      "type": "textarea",
+      "id": "modern_description",
+      "label": "Modern Page Description",
+      "default": "Timeless pieces made to stay in rotation, season after season."
+    },
+
+    {
+      "type": "text",
+      "id": "resort_heading",
+      "label": "Resort Page Heading",
+      "default": "Discover The Classic"
+    },
+
+    {
+      "type": "textarea",
+      "id": "resort_description",
+      "label": "Resort Page Description",
+      "default": "Refined essentials that bring effortless ease to everyday dressing."
+    },
+
+    {
+      "type": "text",
+      "id": "default_heading",
+      "label": "Default Heading",
+      "default": "Explore More"
+    },
+
+    {
+      "type": "textarea",
+      "id": "default_description",
+      "label": "Default Description",
+      "default": "Discover more from the ON REPEAT collection."
     },
 
     {
@@ -49,12 +1051,13 @@
     {
       "type": "range",
       "id": "products_to_show",
-      "label": "Products to Show",
+      "label": "Products To Show",
       "min": 4,
       "max": 8,
       "step": 1,
       "default": 4
     },
+
 
     {
       "type": "header",
@@ -96,15 +1099,16 @@
       "default": "#727A62"
     },
 
+
     {
       "type": "header",
-      "content": "Spacing"
+      "content": "Desktop Spacing"
     },
 
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Desktop Top Padding",
+      "label": "Top Padding",
       "min": 20,
       "max": 150,
       "step": 5,
@@ -115,7 +1119,7 @@
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Desktop Bottom Padding",
+      "label": "Bottom Padding",
       "min": 20,
       "max": 150,
       "step": 5,
@@ -123,10 +1127,16 @@
       "unit": "px"
     },
 
+
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+
     {
       "type": "range",
       "id": "mobile_padding_top",
-      "label": "Mobile Top Padding",
+      "label": "Top Padding",
       "min": 15,
       "max": 100,
       "step": 5,
@@ -137,7 +1147,7 @@
     {
       "type": "range",
       "id": "mobile_padding_bottom",
-      "label": "Mobile Bottom Padding",
+      "label": "Bottom Padding",
       "min": 15,
       "max": 100,
       "step": 5,
@@ -149,7 +1159,7 @@
 
   "presets": [
     {
-      "name": "Featured Collection"
+      "name": "Recommended Collection"
     }
   ]
 
