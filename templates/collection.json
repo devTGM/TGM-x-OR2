@@ -232,6 +232,21 @@
         "padding-block-end": 32
       }
     },
+    "divider_rG3WCV": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "#1e1e1e",
+        "section_width": "page-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    },
     "section_6NJwWC": {
       "type": "section",
       "blocks": {
@@ -745,7 +760,7 @@
       "name": "t:names.icons_with_text",
       "settings": {
         "content_direction": "row",
-        "vertical_on_mobile": true,
+        "vertical_on_mobile": false,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
@@ -1135,6 +1150,7 @@
   "order": [
     "section",
     "main",
+    "divider_rG3WCV",
     "section_6NJwWC",
     "product_list_WKLhFD",
     "product_recommendations_z4jMyw",
