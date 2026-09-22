@@ -871,16 +871,17 @@
         "editorial_card_J77e9k": {
           "type": "editorial_card",
           "settings": {
+            "image": "shopify://shop_images/OR_Editorial_2.png",
             "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Designed to move effortlessly from relaxed mornings to afternoons out and evenings in.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
             "large_button_text": "Explore",
             "large_button_link": "",
             "large_text_alignment": "left",
-            "heading": "Discover more",
-            "description": "<p>Explore our collection.</p>",
-            "button_text": "Explore",
-            "link": "",
+            "heading": "",
+            "description": "",
+            "button_text": "MADE FOR THE JOURNEY.",
+            "link": "shopify://products/popover-linen-shirt-ice-blue",
             "text_alignment": "left",
-            "overlay_opacity": 35
+            "overlay_opacity": 15
           }
         },
         "editorial_card_gyQHwF": {
