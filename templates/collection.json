@@ -15,6 +15,7 @@
         "text_tqQTNE": {
           "type": "text",
           "name": "t:names.title",
+          "disabled": true,
           "settings": {
             "text": "<h1>{{ closest.collection.title }}</h1>",
             "width": "fit-content",
