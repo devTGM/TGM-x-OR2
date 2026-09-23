@@ -673,6 +673,22 @@
         "heading_letter_spacing": 0
       }
     },
+    "divider_UqHH3w": {
+      "type": "divider",
+      "disabled": true,
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "{{ settings.color_palette.foreground }}",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 0
+      }
+    },
     "premium_editorial_grid_AkpjnG": {
       "type": "premium-editorial-grid",
       "blocks": {
@@ -804,22 +820,6 @@
         "mobile_logo_width": 90
       }
     },
-    "divider_UqHH3w": {
-      "type": "divider",
-      "disabled": true,
-      "name": "t:names.divider_section",
-      "settings": {
-        "background_color": "",
-        "divider_color": "{{ settings.color_palette.foreground }}",
-        "section_width": "full-width",
-        "thickness": 1,
-        "corner_radius": "square",
-        "width_percent": 100,
-        "alignment_horizontal": "center",
-        "padding-block-start": 16,
-        "padding-block-end": 0
-      }
-    },
     "feature_callouts_yqBiKJ": {
       "type": "feature-callouts",
       "blocks": {
@@ -842,7 +842,7 @@
             "pin_y": 72,
             "label": "Buttons",
             "detail_heading": "Mother of Pearl Buttons",
-            "detail_body": "<p>A subtle detail can make all the difference. Our shirts are finished with <strong>genuine Mother of Pearl buttons</strong>, chosen for their natural beauty, understated elegance, and distinctive character.</p><p>Formed from the inner shell of molluscs, Mother of Pearl has a soft, natural lustre that catches the light differently from every angle. Unlike ordinary plastic buttons, each button carries its own unique texture, depth, and gentle iridescence—making every shirt feel a little more refined.</p><p>But the appeal goes beyond appearance. Mother of Pearl is naturally hard and durable, making it a thoughtful choice for shirts designed to be worn and enjoyed over time. Its smooth, polished surface adds a tactile quality that you can appreciate every time you fasten your shirt.</p>",
+            "detail_body": "<p>A subtle detail can make all the difference. Our shirts are finished with <strong>genuine Mother of Pearl buttons</strong>, chosen for their natural beauty, understated elegance, and distinctive character.</p><p>Formed from the inner shell of molluscs, Mother of Pearl has a soft, natural lustre that catches the light differently from every angle. Unlike ordinary plastic buttons, each button carries its own unique texture, depth, and gentle iridescence—making every shirt feel a little more refined.</p><p></p>",
             "cta_text": "",
             "cta_url": ""
           }
