@@ -616,8 +616,8 @@
           "type": "campaign_card",
           "settings": {
             "image": "shopify://shop_images/The_Modern_1.png",
-            "eyebrow": "The Modern",
-            "heading": "Clean lines. Modern attitude.",
+            "eyebrow": "Clean lines. Modern attitude.",
+            "heading": "The Modern",
             "description": "",
             "button_text": "Shop Now",
             "link": "shopify://collections/the-modern-1",
