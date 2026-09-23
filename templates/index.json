@@ -697,7 +697,7 @@
           "settings": {
             "image": "shopify://shop_images/Ab123.png",
             "logo": "shopify://shop_images/on-repeat-logo-black-2000px.png",
-            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p>Finished with thoughtful details for a refined touch.</p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
+            "rich_text": "<p>Crafted from 100% European flax linen, this shirt brings natural ease to your everyday wardrobe.</p><p>Lightweight, breathable, and beautifully textured, it feels as good as it looks.</p><p></p><p><strong>Timeless comfort, made to be lived in.</strong></p>",
             "large_button_text": "Explore",
             "large_button_link": "shopify://collections/all",
             "large_text_alignment": "left",
