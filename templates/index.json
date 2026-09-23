@@ -661,7 +661,7 @@
         "padding_horizontal": 40,
         "mobile_padding": 10,
         "mobile_gap": 5,
-        "mobile_height": 500,
+        "mobile_height": 370,
         "background_color": "#ffffff",
         "text_color": "#ffffff",
         "eyebrow_size": 11,
