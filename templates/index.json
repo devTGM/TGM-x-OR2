@@ -632,8 +632,8 @@
           "type": "campaign_card",
           "settings": {
             "image": "shopify://shop_images/The_Resort.png",
-            "eyebrow": "The RESORT",
-            "heading": "Easy silhouettes. Endless escapes.",
+            "eyebrow": "Easy silhouettes. Endless escapes.",
+            "heading": "The Resort",
             "description": "",
             "button_text": "Shop Now",
             "link": "shopify://collections/the-modern",
