@@ -1090,7 +1090,7 @@
         "gap": 28,
         "background_color": "",
         "padding-block-start": 18,
-        "padding-block-end": 18
+        "padding-block-end": 35
       }
     },
     "hero_cmya3X": {
@@ -2370,6 +2370,7 @@
     },
     "divider_kJByG3": {
       "type": "divider",
+      "disabled": true,
       "name": "t:names.divider_section",
       "settings": {
         "background_color": "",
@@ -2462,8 +2463,8 @@
         "scroll_speed": 35,
         "card_radius": 12,
         "background_color": "",
-        "padding-block-start": 48,
-        "padding-block-end": 56
+        "padding-block-start": 0,
+        "padding-block-end": 28
       }
     },
     "divider_LpDWEC": {
