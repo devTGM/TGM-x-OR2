@@ -359,7 +359,7 @@
         "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 22,
-        "padding-block-end": 0
+        "padding-block-end": 20
       }
     },
     "product_list_fa6P9H": {
