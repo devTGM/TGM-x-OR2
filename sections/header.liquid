@@ -3,44 +3,62 @@
    TRANSPARENT HEADER
    ========================================================= */
 
-/* Transparent header layout */
+/* Keep the first section pulled underneath the transparent header */
 body:has(#header-component[transparent])
   .content-for-layout
   > .shopify-section:first-child {
-  margin-top: 0 !important;
+  margin-top: calc(var(--header-group-height) * -1);
 }
 
-/* Header itself must not create any additional vertical space */
-body:has(#header-component[transparent]) #header-group {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Header section sits over the first section */
+/* Keep transparent header above the Hero */
 body:has(#header-component[transparent])
   #header-group
   > .header-section {
-  margin: 0 !important;
-  padding: 0 !important;
+  position: relative;
   z-index: var(--layer-menu-drawer);
 }
 
-/* Transparent header is already positioned absolutely by
-   .header[transparent]. Keep it at the very top. */
-body:has(#header-component[transparent]) #header-component {
+/* Keep any other header-group content below the header */
+body:has(#header-component[transparent])
+  #header-group
+  > .shopify-section:not(.header-section) {
+  z-index: calc(var(--layer-menu-drawer) - 1);
+}
+
+/* IMPORTANT:
+   Do NOT add header height again when the first section
+   is already the Hero. */
+
+.header-section:has(.header[transparent])
+  + .shopify-section {
+  margin-top: 0;
+}
+
+/* =========================================================
+   ON REPEAT
+   REMOVE TOP WHITE GAP
+   ========================================================= */
+
+html,
+body {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Do not add the header height back to the Hero */
-.header-section:has(.header[transparent]) + .shopify-section {
-  margin-top: 0 !important;
+#header-group {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Make sure the first page section starts at the viewport top */
-body:has(#header-component[transparent])
-  .content-for-layout
-  > .shopify-section:first-child {
-  margin-block-start: 0 !important;
-  padding-block-start: 0 !important;
+#header-group > .header-section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#header-component {
+  margin: 0 !important;
+}
+
+.header[transparent] {
+  top: 0 !important;
 }
