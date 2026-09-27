@@ -173,12 +173,12 @@ class HeaderComponent extends Component {
 
   #updateScrollState = () => {
     const stickyMode = this.getAttribute('sticky');
-    if (!this.#offscreen && stickyMode !== 'always') return;
+    if (!stickyMode) return;
 
-    const scrollTop = getScrollTop();
-    const headerTop = this.getBoundingClientRect().top;
+    const scrollTop = Math.max(0, getScrollTop());
+    const headerHeight = this.offsetHeight || 60;
     const isScrollingUp = scrollTop < this.#lastScrollTop;
-    const isAtTop = headerTop >= 0;
+    const isAtTop = scrollTop <= 10;
 
     if (this.#timeout) {
       clearTimeout(this.#timeout);
@@ -188,34 +188,35 @@ class HeaderComponent extends Component {
     if (stickyMode === 'always') {
       if (isAtTop) {
         this.dataset.scrollDirection = 'none';
+        this.dataset.stickyState = 'inactive';
       } else if (isScrollingUp) {
         this.dataset.scrollDirection = 'up';
+        this.dataset.stickyState = 'active';
       } else {
         this.dataset.scrollDirection = 'down';
+        this.dataset.stickyState = 'active';
       }
 
       this.#lastScrollTop = scrollTop;
       return;
     }
 
-    if (isScrollingUp) {
-      if (isAtTop) {
-        // reset sticky state when header is scrolled up to natural position
-        this.#offscreen = false;
-        this.dataset.stickyState = 'inactive';
-        this.dataset.scrollDirection = 'none';
-      } else {
-        // show sticky header when scrolling up
-        this.dataset.stickyState = 'active';
-        this.dataset.scrollDirection = 'up';
-      }
-    } else if (this.dataset.stickyState === 'active') {
+    // stickyMode === 'scroll-up'
+    if (isAtTop) {
+      // Scrolled to the very top: restore natural idle transparent state
+      this.#offscreen = false;
+      this.dataset.stickyState = 'inactive';
       this.dataset.scrollDirection = 'none';
-
-      this.dataset.stickyState = 'idle';
+    } else if (isScrollingUp && scrollTop > headerHeight) {
+      // Scrolling up past header height: reveal sticky header with white bg & black text
+      this.#offscreen = true;
+      this.dataset.stickyState = 'active';
+      this.dataset.scrollDirection = 'up';
     } else {
-      this.dataset.scrollDirection = 'none';
+      // Scrolling down: hide header
+      this.#offscreen = true;
       this.dataset.stickyState = 'idle';
+      this.dataset.scrollDirection = 'none';
     }
 
     this.#lastScrollTop = scrollTop;
@@ -233,6 +234,7 @@ class HeaderComponent extends Component {
       if (stickyMode === 'scroll-up' || stickyMode === 'always') {
         this.#scrollContainer = getScrollEventTarget();
         this.#scrollContainer.addEventListener('scroll', this.#handleWindowScroll);
+        window.addEventListener('scroll', this.#handleWindowScroll, { passive: true });
       }
 
       scrollContainerMediaQuery.addEventListener('change', this.#handleBreakpointChange);
@@ -246,6 +248,7 @@ class HeaderComponent extends Component {
     this.removeEventListener('overflowMinimum', this.#handleOverflowMinimum);
     scrollContainerMediaQuery.removeEventListener('change', this.#handleBreakpointChange);
     this.#scrollContainer?.removeEventListener('scroll', this.#handleWindowScroll);
+    window.removeEventListener('scroll', this.#handleWindowScroll);
     this.#scrollContainer = null;
     if (this.#scrollRafId !== null) {
       cancelAnimationFrame(this.#scrollRafId);

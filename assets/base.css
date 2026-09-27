@@ -2025,7 +2025,7 @@ body:has(#header-component[transparent]) #header-component:not(:hover):not(:focu
   box-shadow: none !important;
 }
 
-/* Float transparent header seamlessly over hero (non-sticky) */
+/* Transparent header: absolute at top, fixed slide-down on scroll up, hidden on scroll down */
 body.template-index #header-component,
 body:has(#header-component[transparent]) #header-component {
   position: absolute !important;
@@ -2035,6 +2035,28 @@ body:has(#header-component[transparent]) #header-component {
   width: 100% !important;
   pointer-events: auto !important;
   z-index: 100 !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+body.template-index #header-component[data-sticky-state='active'],
+body:has(#header-component[transparent]) #header-component[data-sticky-state='active'],
+#header-component[data-sticky-state='active'] {
+  position: fixed !important;
+  top: 0 !important;
+  transform: translateY(0) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  pointer-events: auto !important;
+  z-index: var(--layer-menu-drawer, 100) !important;
+}
+
+body.template-index #header-component[data-sticky-state='idle'],
+body:has(#header-component[transparent]) #header-component[data-sticky-state='idle'],
+#header-component[data-sticky-state='idle'] {
+  position: fixed !important;
+  top: 0 !important;
+  transform: translateY(-100%) !important;
+  pointer-events: none !important;
 }
 
 /* Ensure the first page section starts at the very top */

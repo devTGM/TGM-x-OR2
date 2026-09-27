@@ -448,6 +448,7 @@
     min-height: 0 !important;
     pointer-events: auto !important;
     z-index: 100 !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
   }
 
   body.template-index #header-component *,
@@ -455,12 +456,36 @@
     pointer-events: auto !important;
   }
 
-  /* Sticky header disabled — header stays at top of page and scrolls off-screen naturally */
-  body.template-index #header-component[data-sticky-state],
-  body:has(#header-component[transparent]) #header-component[data-sticky-state],
-  #header-component[transparent][data-sticky-state] {
-    position: absolute !important;
+  /* Scroll-up Sticky Header:
+     1. Natural state at page top: flush over hero with white text & transparent background
+     2. Scrolling DOWN: slide up out of view (-100%)
+     3. Scrolling UP: slide down into view (0) with solid white background and black text */
+  #header-component[data-sticky-state='active'] {
+    position: fixed !important;
     top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    transform: translateY(0) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    pointer-events: auto !important;
+    z-index: var(--layer-menu-drawer, 100) !important;
+  }
+
+  #header-component[data-sticky-state='idle'] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    transform: translateY(-100%) !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+  }
+
+  #header-component:not([data-sticky-state='active']):not([data-sticky-state='idle']) {
+    transform: translateY(0) !important;
   }
 
   body.template-index #MainContent,
