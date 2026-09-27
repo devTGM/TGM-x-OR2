@@ -48,6 +48,26 @@
     row-gap: 0 !important;
   }
 
+  /* Accessibility skip link and drawers must never introduce top spacing or flow displacement */
+  .skip-to-content-link:not(:focus) {
+    display: none !important;
+    position: fixed !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  theme-drawer,
+  theme-drawer#chat-drawer {
+    display: contents !important;
+  }
+
   /* Global reset for transparent header offset variables across all viewports */
   :root,
   body,
@@ -384,11 +404,16 @@
      1. #header-group and .header-section take 0px vertical flow height so hero starts at y = 0
      2. #header-component floats seamlessly at top: 0 with pointer-events
      3. All first sections/heroes have 0 margin, 0 padding, and 0 offsets */
-  body:has(#header-component[transparent]:not([data-sticky-state='active'])) #header-group,
-  body:has(#header-component[transparent]:not([data-sticky-state='active'])) .header-section {
+  body:has(#header-component[transparent]) #header-group,
+  body:has(#header-component[transparent]) .header-section,
+  #header-group:has(#header-component[transparent]),
+  .header-section:has(#header-component[transparent]),
+  .header-section:has(> #header-component[transparent]),
+  .header-section:has(.header[transparent]) {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
+    right: 0 !important;
     width: 100% !important;
     height: 0 !important;
     min-height: 0 !important;
@@ -402,17 +427,33 @@
     z-index: var(--layer-menu-drawer, 50) !important;
   }
 
-  body:has(#header-component[transparent]:not([data-sticky-state='active'])) #header-group > *,
-  body:has(#header-component[transparent]:not([data-sticky-state='active'])) #header-component {
+  body:has(#header-component[transparent]) #header-group > *,
+  body:has(#header-component[transparent]) #header-component,
+  #header-group:has(#header-component[transparent]) #header-component {
     pointer-events: auto !important;
   }
 
-  body:has(#header-component[transparent]) #header-component {
+  body:has(#header-component[transparent]) #header-component,
+  #header-component[transparent] {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
+    pointer-events: auto !important;
+    z-index: var(--layer-menu-drawer, 50) !important;
+  }
+
+  body:has(#header-component[transparent]) #header-component[data-sticky-state='active'],
+  #header-component[transparent][data-sticky-state='active'] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    pointer-events: auto !important;
     z-index: var(--layer-menu-drawer, 50) !important;
   }
 
@@ -1609,10 +1650,19 @@
     return _origSet.call(this, prop, value, priority);
   };
 
-  // 2. Clamp body CSS custom properties and hero-wrapper inline style
+  // 2. Clamp body CSS custom properties, header group flow, and hero-wrapper inline style
   function clampHeaderHeights() {
     var header = document.querySelector('#header-component');
     var isTransparent = header && header.hasAttribute('transparent');
+
+    // Always ensure skip-to-content-link never displaces page wrapper
+    var skipLink = document.querySelector('.skip-to-content-link');
+    if (skipLink && document.activeElement !== skipLink) {
+      skipLink.style.display = 'none';
+      skipLink.style.position = 'fixed';
+      skipLink.style.top = '-9999px';
+      skipLink.style.left = '-9999px';
+    }
 
     if (document.body) {
       if (isTransparent) {
@@ -1624,11 +1674,52 @@
         _origSet.call(document.body.style, '--header-height', MOBILE_HEADER_HEIGHT);
       }
     }
-    // Force --hero-height-offset on the first hero wrapper element via inline style
-    var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper');
-    if (heroWrapper && isTransparent) {
-      heroWrapper.style.setProperty('--hero-height-offset', '0px');
+
+    if (isTransparent) {
+      var headerGroup = document.querySelector('#header-group');
+      if (headerGroup) {
+        headerGroup.style.position = 'absolute';
+        headerGroup.style.top = '0px';
+        headerGroup.style.left = '0px';
+        headerGroup.style.width = '100%';
+        headerGroup.style.height = '0px';
+        headerGroup.style.pointerEvents = 'none';
+      }
+      var headerSection = document.querySelector('.header-section');
+      if (headerSection) {
+        headerSection.style.position = 'absolute';
+        headerSection.style.top = '0px';
+        headerSection.style.left = '0px';
+        headerSection.style.width = '100%';
+        headerSection.style.height = '0px';
+        headerSection.style.pointerEvents = 'none';
+      }
+      var mainContent = document.querySelector('#MainContent');
+      if (mainContent) {
+        mainContent.style.marginTop = '0px';
+        mainContent.style.paddingTop = '0px';
+      }
+      var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper');
+      if (heroWrapper) {
+        heroWrapper.style.setProperty('--hero-height-offset', '0px');
+        heroWrapper.style.marginTop = '0px';
+        heroWrapper.style.paddingTop = '0px';
+      }
     }
+  }
+
+  // Restore skip link on keyboard tab navigation for accessibility
+  window.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      var skipLink = document.querySelector('.skip-to-content-link');
+      if (skipLink) skipLink.style.display = '';
+    }
+  });
+
+  // Run immediately and on animation frames
+  clampHeaderHeights();
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(clampHeaderHeights);
   }
 
   // Run after DOM is ready (catches the mid-parse measureHeaderHeights call)

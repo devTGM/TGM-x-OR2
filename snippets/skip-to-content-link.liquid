@@ -16,21 +16,37 @@
   {{ text | t }}
 </a>
 
-{% stylesheet %}
+<style>
   .skip-to-content-link {
-    position: absolute;
-    inset-inline-start: -99999px;
+    position: fixed !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
   }
 
   .skip-to-content-link:focus {
-    z-index: var(--layer-temporary);
-    overflow: auto;
-    width: auto;
-    height: auto;
-    padding: var(--padding-lg) var(--padding-4xl);
-    inset-inline-start: var(--margin-lg);
-    top: var(--margin-lg);
-    background-color: var(--color-background);
-    box-shadow: 0 0 0 var(--focus-outline-offset) var(--color-background);
+    z-index: var(--layer-temporary, 999999) !important;
+    overflow: auto !important;
+    width: auto !important;
+    height: auto !important;
+    line-height: normal !important;
+    font-size: 1rem !important;
+    padding: var(--padding-lg, 12px) var(--padding-4xl, 24px) !important;
+    left: var(--margin-lg, 16px) !important;
+    top: var(--margin-lg, 16px) !important;
+    clip: auto !important;
+    clip-path: none !important;
+    background-color: var(--color-background, #ffffff) !important;
+    box-shadow: 0 0 0 var(--focus-outline-offset, 2px) var(--color-background, #ffffff) !important;
   }
-{% endstylesheet %}
+</style>
