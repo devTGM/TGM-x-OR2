@@ -18,7 +18,10 @@
     render 'slideshow-styles'
   endif
 
-  if section.settings.enable_transparent_header_home and template.name == 'index'
+  if section.settings.enable_transparent_header_all
+    assign transparent = 'always'
+    assign transparent_text_color_setting = section.settings.text_color_transparent_all | default: section.settings.text_color_transparent_home
+  elsif section.settings.enable_transparent_header_home and template.name == 'index'
     assign transparent = 'always'
     assign transparent_text_color_setting = section.settings.text_color_transparent_home
   elsif section.settings.enable_transparent_header_product and template.name == 'product'
@@ -1740,6 +1743,23 @@
       "label": "t:settings.text",
       "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.bubble_style == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:settings.transparent_background"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_header_all",
+      "label": "Transparent background on all pages",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color_transparent_all",
+      "label": "Transparent text & icons color (all pages)",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ section.settings.enable_transparent_header_all }}"
     },
     {
       "type": "header",
