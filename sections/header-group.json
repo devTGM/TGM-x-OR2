@@ -84,16 +84,16 @@
         "bubble_background_color": "",
         "bubble_text_color": "",
         "enable_transparent_header_all": false,
-        "text_color_transparent_all": "{{ settings.color_palette.foreground }}",
-        "enable_transparent_header_home": false,
-        "home_inverse_logo": false,
-        "text_color_transparent_home": "#1e1e1e",
+        "text_color_transparent_all": "#ffffff",
+        "enable_transparent_header_home": true,
+        "home_inverse_logo": true,
+        "text_color_transparent_home": "#ffffff",
         "enable_transparent_header_product": false,
         "product_inverse_logo": false,
-        "text_color_transparent_product": "",
+        "text_color_transparent_product": "#ffffff",
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
-        "text_color_transparent_collection": ""
+        "text_color_transparent_collection": "#ffffff"
       }
     }
   },

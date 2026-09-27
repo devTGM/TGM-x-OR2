@@ -100,8 +100,12 @@
       padding-bottom: 0 !important;
       margin-block-end: 0 !important;
       padding-block-end: 0 !important;
-      background-color: #ffffff !important;
       overflow: visible !important;
+    }
+
+    #header-component:not([transparent]),
+    .header:not([transparent]) {
+      background-color: #ffffff !important;
     }
 
     .header__row,
@@ -115,9 +119,13 @@
       padding-bottom: 0 !important;
       margin-block-end: 0 !important;
       padding-block-end: 0 !important;
-      background-color: #ffffff !important;
-      border-bottom: 1px solid #E2DDD6 !important;
       box-sizing: border-box !important;
+    }
+
+    #header-component:not([transparent]) .header__row,
+    #header-component:not([transparent]) .header__row--top {
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #EAEAEA !important;
     }
 
     .header__columns {
@@ -363,14 +371,15 @@
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:first-child,
   body:has(#header-component[transparent]) .hero-wrapper:first-of-type,
   body:has(#header-component[transparent]) .hero-wrapper:first-of-type .hero {
-    margin-top: calc(var(--header-group-height) * -1) !important;
+    margin-top: 0 !important;
     padding-top: 0 !important;
   }
 
   /* If a disabled section sits at :first-child, also target the first visible hero */
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   body:has(#header-component[transparent]) .hero-wrapper:not([style*="display: none"]):first-of-type {
-    margin-top: calc(var(--header-group-height) * -1) !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   /* ------------------------------------------------------------------
@@ -580,20 +589,50 @@
   }
 
   /* ------------------------------------------------------------------
-     4. HEADER — MINIMAL PARCHMENT BAR
+     4. HEADER — TRANSPARENT ON IDLE, CLEAN WHITE ON HOVER / ACTIVE
      ------------------------------------------------------------------ */
-  .header-section,
+  /* Common transitions across header elements for smooth luxury feel */
   #header-component,
-  .header,
-  .header-wrapper,
-  .section-header {
-    background-color: #ffffff !important;
-    border-bottom: none !important;
-  }
-
-  #header-component .header__underlay-closed {
-    height: 100% !important;
-    background: #ffffff !important;
+  #header-component .header__row,
+  #header-component .header__underlay-closed,
+  #header-component .header-logo img,
+  #header-component .header-logo svg,
+  #header-component .header-logo__image,
+  #header-component .header__menu-item a,
+  #header-component .header__menu-item span,
+  #header-component .menu-list__link,
+  #header-component .menu-list__link span,
+  #header-component .header-actions__action,
+  #header-component .header-actions__action span,
+  #header-component .account-button__text,
+  #header-component .account-button__icon,
+  #header-component .header-actions svg,
+  #header-component .header-actions svg path,
+  #header-component .search-action,
+  #header-component .search-action button,
+  #header-component .search-action span,
+  #header-component .search-action svg,
+  #header-component .search-action svg path,
+  #header-component .header__icon,
+  #header-component .header__icon span,
+  #header-component .header__icon svg,
+  #header-component .header__icon svg path,
+  #header-component .header-drawer-icon,
+  #header-component .header-drawer-icon svg,
+  #header-component .header-drawer-icon svg path,
+  #header-component .localization-button,
+  #header-component .localization-button span,
+  #header-component .localization-button svg,
+  #header-component .localization-button svg path,
+  #header-component .cart-bubble__background,
+  #header-component .cart-bubble__text {
+    transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                stroke 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                fill 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   /* Prevent underlay popover from casting drop shadow when closed or idle */
@@ -603,38 +642,484 @@
     box-shadow: none !important;
   }
 
-  /* When transparent header is explicitly active, respect transparency */
-  #header-component[transparent],
-  .header-section:has(#header-component[transparent]),
-  .header[transparent] {
-    background-color: transparent !important;
+  /* Standard (non-transparent) pages: solid white background */
+  #header-component:not([transparent]),
+  .header-section:not(:has(#header-component[transparent])),
+  .header:not([transparent]),
+  .header-wrapper:not(:has(#header-component[transparent])),
+  .section-header:not(:has(#header-component[transparent])) {
+    background-color: #ffffff !important;
+    border-bottom: none !important;
   }
 
-  #header-component[transparent] .header__underlay-closed {
-    background: transparent !important;
+  #header-component:not([transparent]) .header__underlay-closed {
+    height: 100% !important;
+    background: #ffffff !important;
   }
 
-  .header__row {
+  #header-component:not([transparent]) .header__row {
     background-color: #ffffff !important;
     border-bottom: 1px solid #EAEAEA !important;
   }
 
-  /* Nav links */
+  /* Nav link typography (shared across all header states) */
   .header__menu-item,
   .header__menu-item a,
   .header__menu-item span,
-  .header__active-menu-item {
+  .header__active-menu-item,
+  .menu-list__link,
+  .menu-list__link span {
     font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
     font-weight: 600 !important;
     font-size: 13px !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
-    color: #1C1C1C !important;
   }
 
   .header__menu-item:hover a,
-  .header__menu-item:hover span {
-    opacity: 0.5 !important;
+  .header__menu-item:hover span,
+  .menu-list__link:hover {
+    opacity: 0.6 !important;
+  }
+
+  /* Standard non-transparent header colors: black text/icons */
+  #header-component:not([transparent]) .header__menu-item,
+  #header-component:not([transparent]) .header__menu-item a,
+  #header-component:not([transparent]) .header__menu-item span,
+  #header-component:not([transparent]) .menu-list__link,
+  #header-component:not([transparent]) .menu-list__link span,
+  #header-component:not([transparent]) .header-actions__action,
+  #header-component:not([transparent]) .header-actions__action span,
+  #header-component:not([transparent]) .header-actions__cart-icon,
+  #header-component:not([transparent]) .header-actions__cart-icon span,
+  #header-component:not([transparent]) .account-button__text,
+  #header-component:not([transparent]) .account-button__icon,
+  #header-component:not([transparent]) .header-actions svg,
+  #header-component:not([transparent]) .header-actions svg path,
+  #header-component:not([transparent]) .search-action,
+  #header-component:not([transparent]) .search-action button,
+  #header-component:not([transparent]) .search-action span,
+  #header-component:not([transparent]) .search-action svg,
+  #header-component:not([transparent]) .search-action svg path,
+  #header-component:not([transparent]) .header__icon,
+  #header-component:not([transparent]) .header__icon span,
+  #header-component:not([transparent]) .header__icon svg,
+  #header-component:not([transparent]) .header__icon svg path,
+  #header-component:not([transparent]) .header-drawer-icon,
+  #header-component:not([transparent]) .header-drawer-icon svg,
+  #header-component:not([transparent]) .header-drawer-icon svg path,
+  #header-component:not([transparent]) .localization-button,
+  #header-component:not([transparent]) .localization-button span,
+  #header-component:not([transparent]) .localization-button svg,
+  #header-component:not([transparent]) .localization-button svg path {
+    color: #1C1C1C !important;
+    stroke: #1C1C1C !important;
+  }
+
+  #header-component:not([transparent]) .cart-bubble__background {
+    background-color: #1C1C1C !important;
+  }
+  #header-component:not([transparent]) .cart-bubble__text {
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------------
+     4a. TRANSPARENT HEADER — IDLE STATE
+     ------------------------------------------------------------------ */
+  #header-component[transparent],
+  .header-section:has(#header-component[transparent]),
+  .header[transparent],
+  .header-wrapper:has(#header-component[transparent]),
+  .section-header:has(#header-component[transparent]) {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  #header-component[transparent] .header__underlay-closed {
+    background: transparent !important;
+    height: 0 !important;
+  }
+
+  #header-component[transparent] .header__row {
+    background-color: transparent !important;
+    border-bottom: 1px solid transparent !important;
+  }
+
+  /* Logo: pure crisp white silhouette when transparent */
+  #header-component[transparent] .header-logo img,
+  #header-component[transparent] .header-logo svg,
+  #header-component[transparent] .header-logo__image {
+    filter: brightness(0) invert(1) !important;
+  }
+
+  /* Header text & icons: pure white when transparent */
+  #header-component[transparent] .header__menu-item,
+  #header-component[transparent] .header__menu-item a,
+  #header-component[transparent] .header__menu-item span,
+  #header-component[transparent] .menu-list__link,
+  #header-component[transparent] .menu-list__link span,
+  #header-component[transparent] .header-actions__action,
+  #header-component[transparent] .header-actions__action span,
+  #header-component[transparent] .header-actions__cart-icon,
+  #header-component[transparent] .header-actions__cart-icon span,
+  #header-component[transparent] .account-button__text,
+  #header-component[transparent] .account-button__icon,
+  #header-component[transparent] .header-actions svg,
+  #header-component[transparent] .header-actions svg path,
+  #header-component[transparent] .search-action,
+  #header-component[transparent] .search-action button,
+  #header-component[transparent] .search-action span,
+  #header-component[transparent] .search-action svg,
+  #header-component[transparent] .search-action svg path,
+  #header-component[transparent] .header__icon,
+  #header-component[transparent] .header__icon span,
+  #header-component[transparent] .header__icon svg,
+  #header-component[transparent] .header__icon svg path,
+  #header-component[transparent] .header-drawer-icon,
+  #header-component[transparent] .header-drawer-icon svg,
+  #header-component[transparent] .header-drawer-icon svg path,
+  #header-component[transparent] .localization-button,
+  #header-component[transparent] .localization-button span,
+  #header-component[transparent] .localization-button svg,
+  #header-component[transparent] .localization-button svg path {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /* Cart bubble in idle transparent state: white background with black text */
+  #header-component[transparent] .cart-bubble__background {
+    background-color: #ffffff !important;
+  }
+  #header-component[transparent] .cart-bubble__text {
+    color: #1C1C1C !important;
+  }
+
+  /* ------------------------------------------------------------------
+     4b. TRANSPARENT HEADER — HOVER & ACTIVE (WHITE BG, BLACK TEXT & LOGO)
+     Triggers: mouse hover, focus-within, sticky scroll active, drawer open, submenu open
+     ------------------------------------------------------------------ */
+  #header-component[transparent]:hover,
+  #header-component[transparent]:focus-within,
+  #header-component[transparent][data-sticky-state='active'],
+  #header-component[transparent][data-submenu-open],
+  #header-component[transparent]:has([aria-expanded='true']),
+  #header-component[transparent]:has(details[open]),
+  #header-component[transparent]:has(.menu-list__submenu:hover),
+  #header-component[transparent]:has(.menu-list__list-item:hover) {
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  #header-component[transparent]:hover .header__row,
+  #header-component[transparent]:focus-within .header__row,
+  #header-component[transparent][data-sticky-state='active'] .header__row,
+  #header-component[transparent][data-submenu-open] .header__row,
+  #header-component[transparent]:has([aria-expanded='true']) .header__row,
+  #header-component[transparent]:has(details[open]) .header__row,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__row,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__row {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #EAEAEA !important;
+  }
+
+  #header-component[transparent]:hover .header__underlay-closed,
+  #header-component[transparent]:focus-within .header__underlay-closed,
+  #header-component[transparent][data-sticky-state='active'] .header__underlay-closed,
+  #header-component[transparent][data-submenu-open] .header__underlay-closed,
+  #header-component[transparent]:has([aria-expanded='true']) .header__underlay-closed,
+  #header-component[transparent]:has(details[open]) .header__underlay-closed,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__underlay-closed,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__underlay-closed {
+    background: #ffffff !important;
+    height: 100% !important;
+  }
+
+  /* Logo: restore original black on hover/active */
+  #header-component[transparent]:hover .header-logo img,
+  #header-component[transparent]:hover .header-logo svg,
+  #header-component[transparent]:hover .header-logo__image,
+  #header-component[transparent]:focus-within .header-logo img,
+  #header-component[transparent]:focus-within .header-logo svg,
+  #header-component[transparent]:focus-within .header-logo__image,
+  #header-component[transparent][data-sticky-state='active'] .header-logo img,
+  #header-component[transparent][data-sticky-state='active'] .header-logo svg,
+  #header-component[transparent][data-sticky-state='active'] .header-logo__image,
+  #header-component[transparent][data-submenu-open] .header-logo img,
+  #header-component[transparent][data-submenu-open] .header-logo svg,
+  #header-component[transparent][data-submenu-open] .header-logo__image,
+  #header-component[transparent]:has([aria-expanded='true']) .header-logo img,
+  #header-component[transparent]:has([aria-expanded='true']) .header-logo svg,
+  #header-component[transparent]:has([aria-expanded='true']) .header-logo__image,
+  #header-component[transparent]:has(details[open]) .header-logo img,
+  #header-component[transparent]:has(details[open]) .header-logo svg,
+  #header-component[transparent]:has(details[open]) .header-logo__image,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-logo img,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-logo svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-logo__image,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-logo img,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-logo svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-logo__image {
+    filter: none !important;
+  }
+
+  /* Header text & icons: switch to black (#1C1C1C) on hover/active */
+  #header-component[transparent]:hover .header__menu-item,
+  #header-component[transparent]:hover .header__menu-item a,
+  #header-component[transparent]:hover .header__menu-item span,
+  #header-component[transparent]:hover .menu-list__link,
+  #header-component[transparent]:hover .menu-list__link span,
+  #header-component[transparent]:hover .header-actions__action,
+  #header-component[transparent]:hover .header-actions__action span,
+  #header-component[transparent]:hover .header-actions__cart-icon,
+  #header-component[transparent]:hover .header-actions__cart-icon span,
+  #header-component[transparent]:hover .account-button__text,
+  #header-component[transparent]:hover .account-button__icon,
+  #header-component[transparent]:hover .header-actions svg,
+  #header-component[transparent]:hover .header-actions svg path,
+  #header-component[transparent]:hover .search-action,
+  #header-component[transparent]:hover .search-action button,
+  #header-component[transparent]:hover .search-action span,
+  #header-component[transparent]:hover .search-action svg,
+  #header-component[transparent]:hover .search-action svg path,
+  #header-component[transparent]:hover .header__icon,
+  #header-component[transparent]:hover .header__icon span,
+  #header-component[transparent]:hover .header__icon svg,
+  #header-component[transparent]:hover .header__icon svg path,
+  #header-component[transparent]:hover .header-drawer-icon,
+  #header-component[transparent]:hover .header-drawer-icon svg,
+  #header-component[transparent]:hover .header-drawer-icon svg path,
+  #header-component[transparent]:hover .localization-button,
+  #header-component[transparent]:hover .localization-button span,
+  #header-component[transparent]:hover .localization-button svg,
+  #header-component[transparent]:hover .localization-button svg path,
+  #header-component[transparent]:focus-within .header__menu-item,
+  #header-component[transparent]:focus-within .header__menu-item a,
+  #header-component[transparent]:focus-within .header__menu-item span,
+  #header-component[transparent]:focus-within .menu-list__link,
+  #header-component[transparent]:focus-within .menu-list__link span,
+  #header-component[transparent]:focus-within .header-actions__action,
+  #header-component[transparent]:focus-within .header-actions__action span,
+  #header-component[transparent]:focus-within .header-actions__cart-icon,
+  #header-component[transparent]:focus-within .header-actions__cart-icon span,
+  #header-component[transparent]:focus-within .account-button__text,
+  #header-component[transparent]:focus-within .account-button__icon,
+  #header-component[transparent]:focus-within .header-actions svg,
+  #header-component[transparent]:focus-within .header-actions svg path,
+  #header-component[transparent]:focus-within .search-action,
+  #header-component[transparent]:focus-within .search-action button,
+  #header-component[transparent]:focus-within .search-action span,
+  #header-component[transparent]:focus-within .search-action svg,
+  #header-component[transparent]:focus-within .search-action svg path,
+  #header-component[transparent]:focus-within .header__icon,
+  #header-component[transparent]:focus-within .header__icon span,
+  #header-component[transparent]:focus-within .header__icon svg,
+  #header-component[transparent]:focus-within .header__icon svg path,
+  #header-component[transparent]:focus-within .header-drawer-icon,
+  #header-component[transparent]:focus-within .header-drawer-icon svg,
+  #header-component[transparent]:focus-within .header-drawer-icon svg path,
+  #header-component[transparent]:focus-within .localization-button,
+  #header-component[transparent]:focus-within .localization-button span,
+  #header-component[transparent]:focus-within .localization-button svg,
+  #header-component[transparent]:focus-within .localization-button svg path,
+  #header-component[transparent][data-sticky-state='active'] .header__menu-item,
+  #header-component[transparent][data-sticky-state='active'] .header__menu-item a,
+  #header-component[transparent][data-sticky-state='active'] .header__menu-item span,
+  #header-component[transparent][data-sticky-state='active'] .menu-list__link,
+  #header-component[transparent][data-sticky-state='active'] .menu-list__link span,
+  #header-component[transparent][data-sticky-state='active'] .header-actions__action,
+  #header-component[transparent][data-sticky-state='active'] .header-actions__action span,
+  #header-component[transparent][data-sticky-state='active'] .header-actions__cart-icon,
+  #header-component[transparent][data-sticky-state='active'] .header-actions__cart-icon span,
+  #header-component[transparent][data-sticky-state='active'] .account-button__text,
+  #header-component[transparent][data-sticky-state='active'] .account-button__icon,
+  #header-component[transparent][data-sticky-state='active'] .header-actions svg,
+  #header-component[transparent][data-sticky-state='active'] .header-actions svg path,
+  #header-component[transparent][data-sticky-state='active'] .search-action,
+  #header-component[transparent][data-sticky-state='active'] .search-action button,
+  #header-component[transparent][data-sticky-state='active'] .search-action span,
+  #header-component[transparent][data-sticky-state='active'] .search-action svg,
+  #header-component[transparent][data-sticky-state='active'] .search-action svg path,
+  #header-component[transparent][data-sticky-state='active'] .header__icon,
+  #header-component[transparent][data-sticky-state='active'] .header__icon span,
+  #header-component[transparent][data-sticky-state='active'] .header__icon svg,
+  #header-component[transparent][data-sticky-state='active'] .header__icon svg path,
+  #header-component[transparent][data-sticky-state='active'] .header-drawer-icon,
+  #header-component[transparent][data-sticky-state='active'] .header-drawer-icon svg,
+  #header-component[transparent][data-sticky-state='active'] .header-drawer-icon svg path,
+  #header-component[transparent][data-sticky-state='active'] .localization-button,
+  #header-component[transparent][data-sticky-state='active'] .localization-button span,
+  #header-component[transparent][data-sticky-state='active'] .localization-button svg,
+  #header-component[transparent][data-sticky-state='active'] .localization-button svg path,
+  #header-component[transparent][data-submenu-open] .header__menu-item,
+  #header-component[transparent][data-submenu-open] .header__menu-item a,
+  #header-component[transparent][data-submenu-open] .header__menu-item span,
+  #header-component[transparent][data-submenu-open] .menu-list__link,
+  #header-component[transparent][data-submenu-open] .menu-list__link span,
+  #header-component[transparent][data-submenu-open] .header-actions__action,
+  #header-component[transparent][data-submenu-open] .header-actions__action span,
+  #header-component[transparent][data-submenu-open] .header-actions__cart-icon,
+  #header-component[transparent][data-submenu-open] .header-actions__cart-icon span,
+  #header-component[transparent][data-submenu-open] .account-button__text,
+  #header-component[transparent][data-submenu-open] .account-button__icon,
+  #header-component[transparent][data-submenu-open] .header-actions svg,
+  #header-component[transparent][data-submenu-open] .header-actions svg path,
+  #header-component[transparent][data-submenu-open] .search-action,
+  #header-component[transparent][data-submenu-open] .search-action button,
+  #header-component[transparent][data-submenu-open] .search-action span,
+  #header-component[transparent][data-submenu-open] .search-action svg,
+  #header-component[transparent][data-submenu-open] .search-action svg path,
+  #header-component[transparent][data-submenu-open] .header__icon,
+  #header-component[transparent][data-submenu-open] .header__icon span,
+  #header-component[transparent][data-submenu-open] .header__icon svg,
+  #header-component[transparent][data-submenu-open] .header__icon svg path,
+  #header-component[transparent][data-submenu-open] .header-drawer-icon,
+  #header-component[transparent][data-submenu-open] .header-drawer-icon svg,
+  #header-component[transparent][data-submenu-open] .header-drawer-icon svg path,
+  #header-component[transparent][data-submenu-open] .localization-button,
+  #header-component[transparent][data-submenu-open] .localization-button span,
+  #header-component[transparent][data-submenu-open] .localization-button svg,
+  #header-component[transparent][data-submenu-open] .localization-button svg path,
+  #header-component[transparent]:has([aria-expanded='true']) .header__menu-item,
+  #header-component[transparent]:has([aria-expanded='true']) .header__menu-item a,
+  #header-component[transparent]:has([aria-expanded='true']) .header__menu-item span,
+  #header-component[transparent]:has([aria-expanded='true']) .menu-list__link,
+  #header-component[transparent]:has([aria-expanded='true']) .menu-list__link span,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions__action,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions__action span,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions__cart-icon,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions__cart-icon span,
+  #header-component[transparent]:has([aria-expanded='true']) .account-button__text,
+  #header-component[transparent]:has([aria-expanded='true']) .account-button__icon,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions svg,
+  #header-component[transparent]:has([aria-expanded='true']) .header-actions svg path,
+  #header-component[transparent]:has([aria-expanded='true']) .search-action,
+  #header-component[transparent]:has([aria-expanded='true']) .search-action button,
+  #header-component[transparent]:has([aria-expanded='true']) .search-action span,
+  #header-component[transparent]:has([aria-expanded='true']) .search-action svg,
+  #header-component[transparent]:has([aria-expanded='true']) .search-action svg path,
+  #header-component[transparent]:has([aria-expanded='true']) .header__icon,
+  #header-component[transparent]:has([aria-expanded='true']) .header__icon span,
+  #header-component[transparent]:has([aria-expanded='true']) .header__icon svg,
+  #header-component[transparent]:has([aria-expanded='true']) .header__icon svg path,
+  #header-component[transparent]:has([aria-expanded='true']) .header-drawer-icon,
+  #header-component[transparent]:has([aria-expanded='true']) .header-drawer-icon svg,
+  #header-component[transparent]:has([aria-expanded='true']) .header-drawer-icon svg path,
+  #header-component[transparent]:has([aria-expanded='true']) .localization-button,
+  #header-component[transparent]:has([aria-expanded='true']) .localization-button span,
+  #header-component[transparent]:has([aria-expanded='true']) .localization-button svg,
+  #header-component[transparent]:has([aria-expanded='true']) .localization-button svg path,
+  #header-component[transparent]:has(details[open]) .header__menu-item,
+  #header-component[transparent]:has(details[open]) .header__menu-item a,
+  #header-component[transparent]:has(details[open]) .header__menu-item span,
+  #header-component[transparent]:has(details[open]) .menu-list__link,
+  #header-component[transparent]:has(details[open]) .menu-list__link span,
+  #header-component[transparent]:has(details[open]) .header-actions__action,
+  #header-component[transparent]:has(details[open]) .header-actions__action span,
+  #header-component[transparent]:has(details[open]) .header-actions__cart-icon,
+  #header-component[transparent]:has(details[open]) .header-actions__cart-icon span,
+  #header-component[transparent]:has(details[open]) .account-button__text,
+  #header-component[transparent]:has(details[open]) .account-button__icon,
+  #header-component[transparent]:has(details[open]) .header-actions svg,
+  #header-component[transparent]:has(details[open]) .header-actions svg path,
+  #header-component[transparent]:has(details[open]) .search-action,
+  #header-component[transparent]:has(details[open]) .search-action button,
+  #header-component[transparent]:has(details[open]) .search-action span,
+  #header-component[transparent]:has(details[open]) .search-action svg,
+  #header-component[transparent]:has(details[open]) .search-action svg path,
+  #header-component[transparent]:has(details[open]) .header__icon,
+  #header-component[transparent]:has(details[open]) .header__icon span,
+  #header-component[transparent]:has(details[open]) .header__icon svg,
+  #header-component[transparent]:has(details[open]) .header__icon svg path,
+  #header-component[transparent]:has(details[open]) .header-drawer-icon,
+  #header-component[transparent]:has(details[open]) .header-drawer-icon svg,
+  #header-component[transparent]:has(details[open]) .header-drawer-icon svg path,
+  #header-component[transparent]:has(details[open]) .localization-button,
+  #header-component[transparent]:has(details[open]) .localization-button span,
+  #header-component[transparent]:has(details[open]) .localization-button svg,
+  #header-component[transparent]:has(details[open]) .localization-button svg path,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__menu-item,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__menu-item a,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__menu-item span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .menu-list__link,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .menu-list__link span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions__action,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions__action span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions__cart-icon,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions__cart-icon span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .account-button__text,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .account-button__icon,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-actions svg path,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .search-action,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .search-action button,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .search-action span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .search-action svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .search-action svg path,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__icon,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__icon span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__icon svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header__icon svg path,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-drawer-icon,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-drawer-icon svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .header-drawer-icon svg path,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .localization-button,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .localization-button span,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .localization-button svg,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .localization-button svg path,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__menu-item,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__menu-item a,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__menu-item span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .menu-list__link,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .menu-list__link span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions__action,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions__action span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions__cart-icon,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions__cart-icon span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .account-button__text,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .account-button__icon,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-actions svg path,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .search-action,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .search-action button,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .search-action span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .search-action svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .search-action svg path,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__icon,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__icon span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__icon svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header__icon svg path,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-drawer-icon,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-drawer-icon svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .header-drawer-icon svg path,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .localization-button,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .localization-button span,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .localization-button svg,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .localization-button svg path {
+    color: #1C1C1C !important;
+    stroke: #1C1C1C !important;
+  }
+
+  /* Cart bubble when hovered / active */
+  #header-component[transparent]:hover .cart-bubble__background,
+  #header-component[transparent]:focus-within .cart-bubble__background,
+  #header-component[transparent][data-sticky-state='active'] .cart-bubble__background,
+  #header-component[transparent][data-submenu-open] .cart-bubble__background,
+  #header-component[transparent]:has([aria-expanded='true']) .cart-bubble__background,
+  #header-component[transparent]:has(details[open]) .cart-bubble__background,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .cart-bubble__background,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .cart-bubble__background {
+    background-color: #1C1C1C !important;
+  }
+  #header-component[transparent]:hover .cart-bubble__text,
+  #header-component[transparent]:focus-within .cart-bubble__text,
+  #header-component[transparent][data-sticky-state='active'] .cart-bubble__text,
+  #header-component[transparent][data-submenu-open] .cart-bubble__text,
+  #header-component[transparent]:has([aria-expanded='true']) .cart-bubble__text,
+  #header-component[transparent]:has(details[open]) .cart-bubble__text,
+  #header-component[transparent]:has(.menu-list__submenu:hover) .cart-bubble__text,
+  #header-component[transparent]:has(.menu-list__list-item:hover) .cart-bubble__text {
+    color: #ffffff !important;
   }
 
   /* ------------------------------------------------------------------
@@ -992,22 +1477,27 @@
   /* ------------------------------------------------------------------
      15. MOBILE HERO GAP — DEFINITIVE FIX
      Override --hero-height-offset directly at the point of consumption
-     in hero.liquid. JS sets --header-group-height to 60px+ (due to
-     header__drawer min-height), which subtracts too much from min-height.
-     Forcing --hero-height-offset: 44px ensures calc(100svh - 44px) is used,
-     and that the hero's top edge is flush with the header's bottom edge.
+     in hero.liquid.
+     When header is transparent: hero takes full viewport (0px offset).
+     When header is solid: hero takes calc(100svh - 44px).
   ------------------------------------------------------------------ */
   @media screen and (max-width: 749px) {
-    /* Override the CSS variable at the point of consumption */
-    .hero-wrapper:first-child,
-    body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child {
+    /* For solid headers, offset hero by 44px mobile header height */
+    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child {
       --hero-height-offset: 44px !important;
     }
-
-    /* Also hard-code the hero min-height so no variable chain can override it */
-    .hero-wrapper:first-child > .hero,
-    body:has(#header-group > .header-section > #header-component) .hero-wrapper:first-child .hero {
+    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child > .hero,
+    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child .hero {
       min-height: calc(100svh - 44px) !important;
+    }
+
+    /* For transparent headers, hero goes full height behind the floating header */
+    body:has(#header-component[transparent]) .hero-wrapper:first-child {
+      --hero-height-offset: 0px !important;
+    }
+    body:has(#header-component[transparent]) .hero-wrapper:first-child > .hero,
+    body:has(#header-component[transparent]) .hero-wrapper:first-child .hero {
+      min-height: 100svh !important;
     }
   }
 
@@ -1034,15 +1524,19 @@
   // 2. Clamp body CSS custom properties and hero-wrapper inline style
   function clampHeaderHeights() {
     if (window.innerWidth >= 750) return;
+    var header = document.querySelector('#header-component');
+    var isTransparent = header && header.hasAttribute('transparent');
+    var mobileHeaderHeight = '44px';
+
     if (document.body) {
       // Use original to avoid infinite recursion (though our intercept guards against it)
-      _origSet.call(document.body.style, '--header-group-height', MOBILE_HEADER_HEIGHT);
-      _origSet.call(document.body.style, '--header-height', MOBILE_HEADER_HEIGHT);
+      _origSet.call(document.body.style, '--header-group-height', mobileHeaderHeight);
+      _origSet.call(document.body.style, '--header-height', mobileHeaderHeight);
     }
     // Force --hero-height-offset on the first hero wrapper element via inline style
     var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child');
     if (heroWrapper) {
-      heroWrapper.style.setProperty('--hero-height-offset', MOBILE_HEADER_HEIGHT);
+      heroWrapper.style.setProperty('--hero-height-offset', isTransparent ? '0px' : mobileHeaderHeight);
     }
   }
 
