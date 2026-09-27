@@ -404,6 +404,8 @@
      1. #header-group and .header-section use display: contents so they take 0px vertical flow height and hero starts at y = 0
      2. #header-component floats seamlessly at top: 0 with pointer-events and full size
      3. Sticky scroll activates solid white background and fixed positioning */
+  body.template-index #header-group,
+  body.template-index .header-section,
   body:has(#header-component[transparent]) #header-group,
   body:has(#header-component[transparent]) .header-section,
   #header-group:has(#header-component[transparent]),
@@ -413,12 +415,15 @@
     display: contents !important;
   }
 
+  body.template-index #header-group > *,
+  body.template-index #header-component,
   body:has(#header-component[transparent]) #header-group > *,
   body:has(#header-component[transparent]) #header-component,
   #header-group:has(#header-component[transparent]) #header-component {
     pointer-events: auto !important;
   }
 
+  body.template-index #header-component,
   body:has(#header-component[transparent]) #header-component,
   #header-component[transparent] {
     position: absolute !important;
@@ -430,6 +435,7 @@
     z-index: 100 !important;
   }
 
+  body.template-index #header-component[data-sticky-state='active'],
   body:has(#header-component[transparent]) #header-component[data-sticky-state='active'],
   #header-component[transparent][data-sticky-state='active'] {
     position: fixed !important;
@@ -443,6 +449,8 @@
     z-index: var(--layer-menu-drawer, 50) !important;
   }
 
+  body.template-index #MainContent,
+  body.template-index .content-for-layout,
   body:has(#header-component[transparent]) #MainContent,
   body:has(#header-component[transparent]) .content-for-layout {
     margin-top: 0 !important;
@@ -453,6 +461,16 @@
     --padding-block-start: 0px !important;
   }
 
+  body.template-index #MainContent > .shopify-section:first-child,
+  body.template-index .content-for-layout > .shopify-section:first-child,
+  body.template-index .hero-wrapper:first-of-type,
+  body.template-index .hero-wrapper:first-child,
+  body.template-index .hero-wrapper:first-of-type .hero,
+  body.template-index .hero-wrapper:first-of-type .hero__container,
+  body.template-index .hero-wrapper:first-of-type .hero__media-grid,
+  body.template-index .hero-wrapper:first-child .hero,
+  body.template-index .hero-wrapper:first-child .hero__container,
+  body.template-index .hero-wrapper:first-child .hero__media-grid,
   body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child,
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:first-child,
   body:has(#header-component[transparent]) .hero-wrapper:first-of-type,
@@ -475,6 +493,8 @@
   }
 
   /* If a disabled section sits at :first-child, also target the first visible hero */
+  body.template-index .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
+  body.template-index .hero-wrapper:not([style*="display: none"]):first-of-type,
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   body:has(#header-component[transparent]) .hero-wrapper:not([style*="display: none"]):first-of-type {
     margin-top: 0 !important;
@@ -1639,7 +1659,8 @@
   // 2. Clamp body CSS custom properties, header group flow, and hero-wrapper inline style
   function clampHeaderHeights() {
     var header = document.querySelector('#header-component');
-    var isTransparent = header && header.hasAttribute('transparent');
+    var isHome = (document.body && document.body.classList.contains('template-index')) || window.location.pathname === '/' || window.location.pathname === '';
+    var isTransparent = (header && header.hasAttribute('transparent')) || isHome;
 
     // Always ensure skip-to-content-link never displaces page wrapper
     var skipLink = document.querySelector('.skip-to-content-link');
@@ -1662,14 +1683,23 @@
     }
 
     if (isTransparent) {
+      var headerGroup = document.querySelector('#header-group');
+      if (headerGroup) {
+        headerGroup.style.margin = '0px';
+        headerGroup.style.padding = '0px';
+      }
       var mainContent = document.querySelector('#MainContent');
       if (mainContent) {
         mainContent.style.marginTop = '0px';
         mainContent.style.paddingTop = '0px';
+        mainContent.style.setProperty('--margin-block-start', '0px');
+        mainContent.style.setProperty('--padding-block-start', '0px');
       }
       var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper');
       if (heroWrapper) {
         heroWrapper.style.setProperty('--hero-height-offset', '0px');
+        heroWrapper.style.setProperty('--margin-block-start', '0px');
+        heroWrapper.style.setProperty('--padding-block-start', '0px');
         heroWrapper.style.marginTop = '0px';
         heroWrapper.style.paddingTop = '0px';
       }

@@ -1973,12 +1973,21 @@ main > :first-child {
    ========================================================= */
 
 /* Zero flow height for header containers when transparent */
+body.template-index #header-group,
+body.template-index .header-section,
 body:has(#header-component[transparent]) #header-group,
 body:has(#header-component[transparent]) .header-section {
   display: contents !important;
 }
 
 /* Idle transparent layers (not on hover or sticky) */
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]),
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::before,
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::after,
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header,
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row,
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--top,
+body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--bottom,
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]),
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::before,
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::after,
@@ -1994,6 +2003,7 @@ body:has(#header-component[transparent]) #header-component:not(:hover):not(:focu
 }
 
 /* Float idle transparent header seamlessly over hero */
+body.template-index #header-component:not([data-sticky-state='active']),
 body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) {
   position: absolute !important;
   top: 0 !important;
@@ -2005,12 +2015,18 @@ body:has(#header-component[transparent]) #header-component:not([data-sticky-stat
 }
 
 /* Ensure the first page section starts at the very top */
-body:has(#header-component[transparent]) main {
+body.template-index main,
+body.template-index #MainContent,
+body:has(#header-component[transparent]) main,
+body:has(#header-component[transparent]) #MainContent {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
-body:has(#header-component[transparent]) main > .hero-wrapper:first-child {
+body.template-index main > .hero-wrapper:first-child,
+body.template-index #MainContent > .shopify-section:first-child,
+body:has(#header-component[transparent]) main > .hero-wrapper:first-child,
+body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
