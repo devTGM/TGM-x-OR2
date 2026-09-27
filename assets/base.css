@@ -2025,9 +2025,9 @@ body:has(#header-component[transparent]) #header-component:not(:hover):not(:focu
   box-shadow: none !important;
 }
 
-/* Float idle transparent header seamlessly over hero */
-body.template-index #header-component:not([data-sticky-state='active']),
-body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) {
+/* Float transparent header seamlessly over hero (non-sticky) */
+body.template-index #header-component,
+body:has(#header-component[transparent]) #header-component {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;

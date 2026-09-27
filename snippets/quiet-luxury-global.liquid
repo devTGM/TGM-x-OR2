@@ -455,18 +455,12 @@
     pointer-events: auto !important;
   }
 
-  body.template-index #header-component[data-sticky-state='active'],
-  body:has(#header-component[transparent]) #header-component[data-sticky-state='active'],
-  #header-component[transparent][data-sticky-state='active'] {
-    position: fixed !important;
+  /* Sticky header disabled — header stays at top of page and scrolls off-screen naturally */
+  body.template-index #header-component[data-sticky-state],
+  body:has(#header-component[transparent]) #header-component[data-sticky-state],
+  #header-component[transparent][data-sticky-state] {
+    position: absolute !important;
     top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-    pointer-events: auto !important;
-    z-index: var(--layer-menu-drawer, 50) !important;
   }
 
   body.template-index #MainContent,
