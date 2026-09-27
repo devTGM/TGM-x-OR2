@@ -9,32 +9,25 @@
   {% render 'skip-to-content-link', href: '#MainContent', text: 'Skip to main content' %}
 {%- enddoc -%}
 
-<a
-  class="skip-to-content-link button-secondary"
-  href="{{ href }}"
->
-  {{ text | t }}
-</a>
-
 <style>
-  .skip-to-content-link {
+  .skip-to-content-link:not(:focus) {
+    display: none !important;
     position: fixed !important;
     top: -9999px !important;
     left: -9999px !important;
-    width: 1px !important;
-    height: 1px !important;
+    width: 0 !important;
+    height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    clip-path: inset(50%) !important;
-    white-space: nowrap !important;
     border: 0 !important;
     line-height: 0 !important;
     font-size: 0 !important;
   }
 
   .skip-to-content-link:focus {
+    display: block !important;
+    position: fixed !important;
     z-index: var(--layer-temporary, 999999) !important;
     overflow: auto !important;
     width: auto !important;
@@ -44,9 +37,14 @@
     padding: var(--padding-lg, 12px) var(--padding-4xl, 24px) !important;
     left: var(--margin-lg, 16px) !important;
     top: var(--margin-lg, 16px) !important;
-    clip: auto !important;
-    clip-path: none !important;
     background-color: var(--color-background, #ffffff) !important;
     box-shadow: 0 0 0 var(--focus-outline-offset, 2px) var(--color-background, #ffffff) !important;
   }
 </style>
+
+<a
+  class="skip-to-content-link button-secondary"
+  href="{{ href }}"
+>
+  {{ text | t }}
+</a>

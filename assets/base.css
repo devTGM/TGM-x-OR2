@@ -1972,46 +1972,36 @@ main > :first-child {
    REMOVE WHITE STRIP ABOVE HERO
    ========================================================= */
 
-/* Remove any spacing before the header */
+/* Zero flow height for header containers when transparent */
 body:has(#header-component[transparent]) #header-group,
-body:has(#header-component[transparent]) .header-section,
-body:has(#header-component[transparent]) #header-component {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+body:has(#header-component[transparent]) .header-section {
+  display: contents !important;
 }
 
-/* Force all transparent header layers to be transparent */
-body:has(#header-component[transparent]) #header-component,
-body:has(#header-component[transparent]) #header-component::before,
-body:has(#header-component[transparent]) #header-component::after,
-body:has(#header-component[transparent]) .header,
-body:has(#header-component[transparent]) .header__row,
-body:has(#header-component[transparent]) .header__row--top,
-body:has(#header-component[transparent]) .header__row--bottom {
+/* Idle transparent layers (not on hover or sticky) */
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]),
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::before,
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::after,
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header,
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row,
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--top,
+body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--bottom {
   background: transparent !important;
+  background-color: transparent !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
-/* Remove accidental spacing from anything inside header group */
-body:has(#header-component[transparent]) #header-group > * {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* Put transparent header directly over Hero */
-body:has(#header-component[transparent]) #header-component {
+/* Float idle transparent header seamlessly over hero */
+body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
+  pointer-events: auto !important;
   z-index: 100 !important;
-}
-
-/* Ensure transparent home header has no border/divider */
-body:has(#header-component[transparent]) #header-component {
-  border-top: 0 !important;
-  border-bottom: 0 !important;
-  box-shadow: none !important;
 }
 
 /* Ensure the first page section starts at the very top */

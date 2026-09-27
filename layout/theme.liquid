@@ -33,11 +33,8 @@
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
-    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
-
-    {% render 'chat-drawer' %}
-
     <div class="page-wrapper">
+      {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
       <div id="header-group">
         {% sections 'header-group' %}
       </div>
@@ -167,6 +164,7 @@
 
     {% render 'cart-drawer', render_wrapper: true %}
     {% render 'theme-drawer' %}
+    {% render 'chat-drawer' %}
 
     {% render 'search-modal' %}
 
