@@ -1827,3 +1827,141 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/* =========================================================
+   ON REPEAT - REMOVE WHITE GAP ABOVE TRANSPARENT HEADER
+   ========================================================= */
+
+/* Reset page-level spacing */
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Header group */
+#header-group {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Header section */
+#header-group > .header-section,
+.header-section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Header component */
+#header-component {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-block-start: 0 !important;
+  padding-block-start: 0 !important;
+}
+
+/* Remove any spacing from the header's immediate wrappers */
+#header-group > *,
+#header-group > .header-section > * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* =========================================================
+   TRANSPARENT HEADER
+   ========================================================= */
+
+body:has(#header-component[transparent]) #header-group,
+body:has(#header-component[transparent]) .header-section,
+body:has(#header-component[transparent]) #header-component {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Make transparent header sit directly at viewport top */
+#header-component[transparent] {
+  top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+#MainContent,
+main {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* First section immediately after header */
+#MainContent > :first-child,
+main > :first-child {
+  margin-top: 0 !important;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-wrapper,
+.hero-wrapper.section-wrapper {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.hero {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media screen and (min-width: 750px) {
+
+  #header-group,
+  #header-group > .header-section,
+  #header-component {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #MainContent,
+  main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  #header-group,
+  #header-group > .header-section,
+  #header-component {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #MainContent,
+  main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .hero-wrapper,
+  .hero-wrapper.section-wrapper,
+  .hero {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+}
