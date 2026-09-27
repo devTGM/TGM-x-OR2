@@ -76,21 +76,28 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#ffffff",
-        "text_color_top": "#000000",
+
+        "background_color_top": "",
+        "text_color_top": "#ffffff",
+
         "background_color_bottom": "",
-        "text_color_bottom": "",
+        "text_color_bottom": "#ffffff",
+
         "bubble_style": "default",
         "bubble_background_color": "",
         "bubble_text_color": "",
+
         "enable_transparent_header_all": false,
         "text_color_transparent_all": "#ffffff",
+
         "enable_transparent_header_home": true,
         "home_inverse_logo": true,
         "text_color_transparent_home": "#ffffff",
+
         "enable_transparent_header_product": false,
         "product_inverse_logo": false,
         "text_color_transparent_product": "#ffffff",
+
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": "#ffffff"
