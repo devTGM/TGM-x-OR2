@@ -9,8 +9,11 @@
      1. GLOBAL RESET & BACKGROUND
      ------------------------------------------------------------------ */
   body,
-  .page-wrapper {
-    background-color: #F2EFE9 !important;
+  .page-wrapper,
+  main,
+  #MainContent,
+  .content-for-layout {
+    background-color: #ffffff !important;
     font-family: var(--font-body-custom--family, 'Red Hat Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
     font-weight: 400 !important;
     font-size: 16.5px !important;
@@ -20,7 +23,7 @@
     -moz-osx-font-smoothing: grayscale !important;
   }
 
-  /* Warm background across all panels */
+  /* Clean white background across all panels */
   .cart-drawer,
   .popover,
   [data-menu-drawer],
@@ -28,7 +31,7 @@
   .search-modal,
   .quick-add-modal,
   .predictive-search {
-    background-color: #F2EFE9 !important;
+    background-color: #ffffff !important;
   }
 
   /* Ensure page top is flush — zero margins and paddings on root containers */
@@ -471,7 +474,7 @@
      ------------------------------------------------------------------ */
   [id*="section_AbGcQX"],
   [class*="section_AbGcQX"] {
-    background-color: #F2EFE9 !important;
+    background-color: #ffffff !important;
   }
 
   [id*="section_AbGcQX"] [class*="text_HEgnzz"],
@@ -552,7 +555,7 @@
   [class*="section_AbGcQX"] [class*="button_NbgGTT"] a,
   [class*="section_AbGcQX"] [class*="button_NbgGTT"] button {
     background-color: #1C1C1C !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
     border-color: #1C1C1C !important;
     font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif) !important;
     font-size: 11px !important;
@@ -613,7 +616,7 @@
 
   .header__row {
     background-color: #ffffff !important;
-    border-bottom: 1px solid #E2DDD6 !important;
+    border-bottom: 1px solid #EAEAEA !important;
   }
 
   /* Nav links */
@@ -635,23 +638,23 @@
   }
 
   /* ------------------------------------------------------------------
-     4b. SUBMENU / MEGA MENU — WARM PARCHMENT (#F5F0EC)
+     4b. SUBMENU / MEGA MENU — CLEAN WHITE (#ffffff)
      ------------------------------------------------------------------ */
   .menu-list__submenu,
   .menu-list__submenu-inner,
   .mega-menu,
   .overflow-menu::part(overflow),
   .overflow-menu::part(overflow-list) {
-    background-color: #F5F0EC !important;
+    background-color: #ffffff !important;
   }
 
   .menu-list__submenu {
-    border-bottom: 1px solid #E2DDD6 !important;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04) !important;
   }
 
   .header__underlay-open {
-    background: #F5F0EC !important;
+    background: #ffffff !important;
   }
 
   /* Seamless header row background when submenu is open on desktop */
@@ -660,22 +663,22 @@
     #header-component:has(.menu-list__submenu:not([inert])),
     #header-component:has(.menu-list__submenu:hover),
     #header-component:has(.menu-list__list-item:hover .menu-list__submenu) {
-      background-color: #F5F0EC !important;
+      background-color: #ffffff !important;
     }
 
     #header-component:has([aria-expanded='true']) .header__row,
     #header-component:has(.menu-list__submenu:not([inert])) .header__row,
     #header-component:has(.menu-list__submenu:hover) .header__row,
     #header-component:has(.menu-list__list-item:hover .menu-list__submenu) .header__row {
-      background-color: #F5F0EC !important;
-      border-bottom-color: #F5F0EC !important;
+      background-color: #ffffff !important;
+      border-bottom-color: #EAEAEA !important;
     }
 
     #header-component:has([aria-expanded='true']) .header__underlay-closed,
     #header-component:has(.menu-list__submenu:not([inert])) .header__underlay-closed,
     #header-component:has(.menu-list__submenu:hover) .header__underlay-closed,
     #header-component:has(.menu-list__list-item:hover .menu-list__submenu) .header__underlay-closed {
-      background: #F5F0EC !important;
+      background: #ffffff !important;
     }
   }
 
@@ -731,14 +734,14 @@
   /* Primary: flat black */
   .button--primary {
     background-color: #1C1C1C !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
     border: none !important;
     border-radius: 0 !important;
   }
 
   .button--primary:hover {
     background-color: #3D3935 !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
   }
 
   /* Secondary: outlined */
@@ -751,7 +754,7 @@
 
   .button--secondary:hover {
     background-color: #1C1C1C !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
   }
 
   /* ------------------------------------------------------------------
@@ -829,7 +832,7 @@
   .quick-add__submit,
   .card .button {
     background-color: #1C1C1C !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
     border-radius: 0 !important;
     font-family: var(--font-body-custom--family) !important;
     font-size: 12px !important;
@@ -846,7 +849,7 @@
   .collection-hero,
   .collection-hero__inner,
   .page-header {
-    background-color: #F2EFE9 !important;
+    background-color: #ffffff !important;
   }
 
   .collection-hero__title,
@@ -873,12 +876,12 @@
   }
 
   /* ------------------------------------------------------------------
-     9. FOOTER — WARM AND MINIMAL
+     9. FOOTER — CLEAN WHITE
      ------------------------------------------------------------------ */
   .footer,
   .footer-section {
-    background-color: #EAE6DF !important;
-    border-top: 1px solid #D8D3CC !important;
+    background-color: #ffffff !important;
+    border-top: 1px solid #EAEAEA !important;
   }
 
   .footer a,
@@ -888,7 +891,7 @@
     font-weight: 400 !important;
     font-size: 14.5px !important;
     letter-spacing: 0.02em !important;
-    color: #3D3935 !important;
+    color: #4A4A4A !important;
   }
 
   .footer__heading,
@@ -913,8 +916,8 @@
   input[type="search"],
   select,
   textarea {
-    background-color: #F2EFE9 !important;
-    border: 1px solid #D8D3CC !important;
+    background-color: #ffffff !important;
+    border: 1px solid #E5E5E5 !important;
     border-radius: 0 !important;
     font-family: var(--font-body-custom--family) !important;
     font-size: 15px !important;
@@ -945,7 +948,7 @@
     font-size: 13px !important;
     font-weight: 400 !important;
     letter-spacing: 0.12em !important;
-    color: #F2EFE9 !important;
+    color: #ffffff !important;
     text-transform: uppercase !important;
   }
 
@@ -954,7 +957,7 @@
      ------------------------------------------------------------------ */
   .divider,
   hr {
-    border-color: #D8D3CC !important;
+    border-color: #EAEAEA !important;
     opacity: 1 !important;
   }
 
@@ -972,17 +975,17 @@
   }
 
   /* ------------------------------------------------------------------
-     14. SCROLLBAR — WARM MINIMAL
+     14. SCROLLBAR — MINIMAL
      ------------------------------------------------------------------ */
   ::-webkit-scrollbar {
     width: 4px !important;
     height: 4px !important;
   }
   ::-webkit-scrollbar-track {
-    background: #F2EFE9 !important;
+    background: #ffffff !important;
   }
   ::-webkit-scrollbar-thumb {
-    background: #C8C3BB !important;
+    background: #D4D4D4 !important;
     border-radius: 0 !important;
   }
 

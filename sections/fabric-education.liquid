@@ -1,10 +1,10 @@
-﻿{% doc %}
+{% doc %}
   Fabric Education Section ("Why Linen?") for ON REPEAT
   Complies with Notion brand guidelines for linen texture, air, and softness.
 {% enddoc %}
 
 {% liquid
-  assign bg_color = section.settings.background_color | default: settings.color_palette.background | default: '#FAF8F5'
+  assign bg_color = section.settings.background_color | default: settings.color_palette.background | default: '#ffffff'
   assign text_color = section.settings.text_color | default: settings.color_palette.foreground | default: '#1C1C1C'
   assign card_bg = section.settings.card_background | default: '#FFFFFF'
 %}
@@ -130,7 +130,7 @@
 
   .fabric-pillar-card {
     background: var(--fabric-edu-card-bg);
-    border: 1px solid #EAE6DF;
+    border: 1px solid #EAEAEA;
     border-radius: 16px;
     padding: 36px 28px;
     text-align: left;

@@ -929,7 +929,7 @@
         "max_swatches": 4,
         "show_view_all": true,
         "view_all_label": "VIEW ALL",
-        "background_color": "#f2efe9",
+        "background_color": "#ffffff",
         "padding_top": 40,
         "padding_bottom": 32
       }

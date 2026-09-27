@@ -1,8 +1,8 @@
 {%- liquid
-  assign footer_bg = section.settings.background_color | default: settings.color_palette.background | default: '#FAF8F5'
+  assign footer_bg = section.settings.background_color | default: settings.color_palette.background | default: '#ffffff'
   assign footer_text = section.settings.text_color | default: settings.color_palette.foreground | default: '#1C1C1C'
   assign footer_muted = section.settings.muted_text_color | default: '#5A5550'
-  assign footer_border = section.settings.border_color | default: settings.color_palette.color2 | default: '#E6E1DA'
+  assign footer_border = section.settings.border_color | default: settings.color_palette.color2 | default: '#EAEAEA'
   
   assign brand_logo = section.settings.logo | default: settings.logo
   assign logo_width = section.settings.logo_width | default: 170
@@ -469,8 +469,8 @@
     bottom: calc(anchor(top) + 0.75rem);
     left: anchor(left);
     border-radius: 12px;
-    background: var(--luxury-footer-bg, #FAF8F5);
-    border: 1px solid var(--luxury-footer-border, #E6E1DA);
+    background: var(--luxury-footer-bg, #ffffff);
+    border: 1px solid var(--luxury-footer-border, #EAEAEA);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     padding: 8px 0;
     margin: 0;
@@ -811,7 +811,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background Color",
-      "default": "#FAF8F5"
+      "default": "#ffffff"
     },
     {
       "type": "color",

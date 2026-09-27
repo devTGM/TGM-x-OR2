@@ -1,0 +1,530 @@
+{%- liquid
+  assign section_bg = section.settings.background_color | default: '#ffffff'
+  assign text_color = section.settings.text_color | default: '#1C1C1C'
+-%}
+
+  <!-- Editorial Mosaic — ON REPEAT -->
+
+  <div class="em__wrap">
+
+    <!-- LEFT: Hero panel -->
+    <div class="em__hero">
+      {%- if section.settings.hero_image != blank -%}
+        {{
+          section.settings.hero_image
+          | image_url: width: 1200
+          | image_tag:
+            class: 'em__hero-img',
+            loading: 'lazy',
+            widths: '600,800,1000,1200',
+            sizes: '(max-width: 749px) 100vw, 45vw',
+            alt: section.settings.hero_image.alt | default: ''
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'em__hero-img em__hero-img--placeholder' }}
+      {%- endif -%}
+
+      <div class="em__hero-content" style="color: {{ text_color }};">
+        {%- if section.settings.hero_icon != blank -%}
+          <div class="em__hero-icon">
+            {{
+              section.settings.hero_icon
+              | image_url: width: 160
+              | image_tag:
+                loading: 'lazy',
+                widths: '80,120,160',
+                alt: 'Brand icon'
+            }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.hero_heading != blank -%}
+          <h2 class="em__hero-heading">{{ section.settings.hero_heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.hero_text != blank -%}
+          <div class="em__hero-text rte">{{ section.settings.hero_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.hero_cta_text != blank and section.settings.hero_cta_url != blank -%}
+          <a href="{{ section.settings.hero_cta_url }}" class="em__hero-cta">
+            {{ section.settings.hero_cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- RIGHT: 2x2 image grid -->
+    <div class="em__grid">
+      {%- for block in section.blocks -%}
+        <a
+          class="em__tile"
+          href="{{ block.settings.tile_url | default: '#' }}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.tile_image != blank -%}
+            {{
+              block.settings.tile_image
+              | image_url: width: 800
+              | image_tag:
+                class: 'em__tile-img',
+                loading: 'lazy',
+                widths: '400,600,800',
+                sizes: '(max-width: 749px) 100vw, 27vw',
+                alt: block.settings.tile_image.alt | default: ''
+            }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'em__tile-img em__tile-img--placeholder' }}
+          {%- endif -%}
+
+          <div class="em__tile-overlay"></div>
+
+          <div class="em__tile-content">
+            {%- if block.settings.tile_text != blank -%}
+              <p class="em__tile-text">{{ block.settings.tile_text }}</p>
+            {%- endif -%}
+            {%- if block.settings.tile_cta != blank -%}
+              <span class="em__tile-cta">{{ block.settings.tile_cta }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 -%}
+        {%- for i in (1..4) -%}
+          <div class="em__tile em__tile--empty">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'em__tile-img em__tile-img--placeholder' }}
+            <div class="em__tile-overlay"></div>
+            <div class="em__tile-content">
+              <p class="em__tile-text">Add a tile image</p>
+              <span class="em__tile-cta">Explore</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+
+<style>
+  /* ─── Section wrapper ───────────────────────────────────── */
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section_bg }};
+  }
+
+  .em__wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .em__wrap {
+      grid-template-columns: {{ section.settings.hero_width }}fr {{ 10 | minus: section.settings.hero_width }}fr;
+      min-height: {{ section.settings.section_height }}px;
+    }
+  }
+
+  /* ─── Hero panel ─────────────────────────────────────────── */
+  .em__hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .em__hero { min-height: unset; }
+  }
+
+  .em__hero-img,
+  .em__hero-img--placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .em__hero-img--placeholder { opacity: 0.35; background: #F0F0F0; }
+
+  /* Subtle dark gradient at the bottom for text legibility */
+  .em__hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 30%,
+      rgba(0,0,0,{{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}) 100%
+    );
+    pointer-events: none;
+  }
+
+  .em__hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(24px, 4vw, 48px);
+    gap: 14px;
+  }
+
+  .em__hero-icon {
+    margin-bottom: 8px;
+  }
+  .em__hero-icon img {
+    width: {{ section.settings.icon_width }}px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .em__hero-heading {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: inherit;
+  }
+
+  .em__hero-text {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: clamp(13.5px, 1.4vw, 15.5px);
+    line-height: 1.75;
+    color: inherit;
+    opacity: 0.88;
+    margin: 0;
+    max-width: 380px;
+  }
+  .em__hero-text p { margin: 0 0 6px; }
+  .em__hero-text p:last-child { margin-bottom: 0; }
+
+  .em__hero-cta {
+    display: inline-block;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    width: fit-content;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+    margin-top: 4px;
+  }
+  .em__hero-cta:hover { opacity: 1; }
+
+  /* ─── 2×2 grid ──────────────────────────────────────────── */
+  .em__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .em__grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+  }
+
+  /* ─── Individual tile ───────────────────────────────────── */
+  .em__tile {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    min-height: 180px;
+    background: #F0F0F0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .em__tile { min-height: unset; }
+  }
+
+  .em__tile-img,
+  .em__tile-img--placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .em__tile-img--placeholder { opacity: 0.4; }
+
+  .em__tile:hover .em__tile-img {
+    transform: scale(1.04);
+  }
+
+  /* Dark gradient overlay on tiles */
+  .em__tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 30%,
+      rgba(0,0,0,{{ section.settings.tile_overlay_opacity | divided_by: 100.0 }}) 100%
+    );
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .em__tile:hover .em__tile-overlay {
+    opacity: 0.85;
+  }
+
+  /* Tile text content */
+  .em__tile-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: clamp(14px, 2vw, 22px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .em__tile-text {
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: clamp(12px, 1.3vw, 14.5px);
+    font-weight: 400;
+    line-height: 1.45;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  .em__tile-cta {
+    display: inline-block;
+    font-family: var(--font-body-custom--family, 'Red Hat Text', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    padding-bottom: 2px;
+    width: fit-content;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .em__tile:hover .em__tile-cta {
+    color: #fff;
+    border-color: #fff;
+  }
+
+  /* ─── Mobile stack ──────────────────────────────────────── */
+  @media screen and (max-width: 749px) {
+    .em__hero { aspect-ratio: 4/5; }
+    .em__tile  { aspect-ratio: 1/1; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Editorial Mosaic",
+  "tag": "section",
+  "class": "editorial-mosaic section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_width",
+      "label": "Hero column width (out of 10)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "info": "4 = ~40% for hero, 60% for grid"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height (desktop, px)",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap between grid tiles",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero (left) image"
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "label": "Hero overlay darkness",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Hero content"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_icon",
+      "label": "Icon / logo image (optional)"
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "label": "Icon width",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "placeholder": "10+ years of premium fashion."
+    },
+    {
+      "type": "richtext",
+      "id": "hero_text",
+      "label": "Body text",
+      "default": "<p>10+ years of premium fashion.<br>Over 2 lakh happy customers.<br>1500+ unique styles.</p><p>And a relentless vision of setting a new benchmark for premium Indian fashion.</p>"
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_text",
+      "label": "CTA link text",
+      "default": "Read reviews"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_url",
+      "label": "CTA link URL"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Hero text colour",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "tile_overlay_opacity",
+      "label": "Tile overlay darkness",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Image tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "tile_image",
+          "label": "Tile image"
+        },
+        {
+          "type": "textarea",
+          "id": "tile_text",
+          "label": "Overlay text",
+          "default": "Explore the incredible materials we use"
+        },
+        {
+          "type": "text",
+          "id": "tile_cta",
+          "label": "CTA label",
+          "default": "Explore"
+        },
+        {
+          "type": "url",
+          "id": "tile_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Editorial Mosaic",
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "tile_text": "Explore the incredible materials we use",
+            "tile_cta": "Explore"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_text": "Read about our amazing factory partners",
+            "tile_cta": "Explore"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_text": "Our promise of great quality",
+            "tile_cta": "Explore"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_text": "Discover our pursuit of sustainability",
+            "tile_cta": "Explore"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

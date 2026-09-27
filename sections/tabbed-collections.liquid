@@ -12,7 +12,7 @@
 {% enddoc %}
 
 {%- liquid
-  assign bg_color = section.settings.background_color | default: '#F2EFE9'
+  assign bg_color = section.settings.background_color | default: '#ffffff'
   assign text_align = section.settings.heading_alignment | default: 'left'
   assign cols_desktop = section.settings.columns_desktop | default: 4
   assign cols_mobile = section.settings.columns_mobile | default: 2
@@ -980,7 +980,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: var(--card-media-ratio, 2 / 3);
-    background-color: #EAE6DF;
+    background-color: #F5F5F5;
     overflow: hidden;
     border-radius: 0px;
     flex-shrink: 0;
@@ -1816,7 +1816,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#F2EFE9"
+      "default": "#ffffff"
     },
     {
       "type": "range",

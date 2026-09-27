@@ -6,11 +6,11 @@
 {% endcomment %}
 
 {%- liquid
-  assign bg      = section.settings.background_color | default: '#F4F0EB'
+  assign bg      = section.settings.background_color | default: '#ffffff'
   assign txt     = section.settings.text_color       | default: '#1C1C1C'
   assign accent  = section.settings.accent_color     | default: '#8F8171'
   assign qbar    = section.settings.quote_bar_color  | default: '#C5A880'
-  assign frame   = section.settings.frame_color      | default: '#EAE6DF'
+  assign frame   = section.settings.frame_color      | default: '#F5F5F5'
   assign dir     = section.settings.layout_direction  | default: 'media_first'
 -%}
 
@@ -126,7 +126,7 @@
 <style>
   /* ── Base ── */
   .imgstory {
-    background-color: var(--is-bg, #F4F0EB);
+    background-color: var(--is-bg, #ffffff);
     color: var(--is-txt, #1C1C1C);
     width: 100%;
     position: relative;
@@ -178,8 +178,8 @@
     right: 0; bottom: 0;
     width: 58%;
     aspect-ratio: 1 / 1.08;
-    background-color: var(--is-frame, #EAE6DF);
-    border: 10px solid var(--is-frame, #EAE6DF);
+    background-color: var(--is-frame, #F5F5F5);
+    border: 10px solid var(--is-frame, #F5F5F5);
     box-shadow: 0 16px 40px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
     overflow: hidden;
     z-index: 2;
@@ -338,7 +338,7 @@
       "type": "color",
       "id": "frame_color",
       "label": "Detail Frame Color",
-      "default": "#EAE6DF"
+      "default": "#F5F5F5"
     },
     {
       "type": "select",
@@ -420,7 +420,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background Color",
-      "default": "#F4F0EB"
+      "default": "#ffffff"
     },
     {
       "type": "color",

@@ -1,5 +1,5 @@
 {%- liquid
-  assign section_bg   = section.settings.background_color | default: '#F5F0EC'
+  assign section_bg   = section.settings.background_color | default: '#ffffff'
   assign accent_color = section.settings.accent_color | default: '#1C1C1C'
 -%}
 
@@ -187,7 +187,7 @@
     aspect-ratio: {{ section.settings.image_aspect_ratio }};
     border-radius: {{ section.settings.image_radius }}px;
     overflow: hidden;
-    background: #EAE6DF;
+    background: #F5F5F5;
   }
 
   .fcs__product-img,
@@ -508,7 +508,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Section background",
-      "default": "#F5F0EC"
+      "default": "#ffffff"
     },
     {
       "type": "color",
