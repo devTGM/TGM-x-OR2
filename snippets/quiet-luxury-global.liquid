@@ -401,7 +401,7 @@
   }
 
   /* When transparent header is active:
-     1. #header-group and .header-section use display: contents so they take 0px vertical flow height and hero starts at y = 0
+     1. #header-group and .header-section use position: absolute with height: 0 so they take 0px vertical flow height and hero starts at y = 0
      2. #header-component floats seamlessly at top: 0 with pointer-events and full size
      3. Sticky scroll activates solid white background and fixed positioning */
   body.template-index #header-group,
@@ -412,7 +412,20 @@
   .header-section:has(#header-component[transparent]),
   .header-section:has(> #header-component[transparent]),
   .header-section:has(.header[transparent]) {
-    display: contents !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: visible !important;
+    pointer-events: none !important;
+    z-index: 100 !important;
   }
 
   body.template-index #header-group > *,
@@ -431,8 +444,15 @@
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
     pointer-events: auto !important;
     z-index: 100 !important;
+  }
+
+  body.template-index #header-component *,
+  body:has(#header-component[transparent]) #header-component * {
+    pointer-events: auto !important;
   }
 
   body.template-index #header-component[data-sticky-state='active'],
@@ -1685,8 +1705,35 @@
     if (isTransparent) {
       var headerGroup = document.querySelector('#header-group');
       if (headerGroup) {
+        headerGroup.style.position = 'absolute';
+        headerGroup.style.top = '0px';
+        headerGroup.style.left = '0px';
+        headerGroup.style.right = '0px';
+        headerGroup.style.width = '100%';
+        headerGroup.style.height = '0px';
+        headerGroup.style.minHeight = '0px';
+        headerGroup.style.maxHeight = '0px';
         headerGroup.style.margin = '0px';
         headerGroup.style.padding = '0px';
+        headerGroup.style.border = '0px';
+        headerGroup.style.overflow = 'visible';
+        headerGroup.style.pointerEvents = 'none';
+      }
+      var headerSection = document.querySelector('#header-group .header-section');
+      if (headerSection) {
+        headerSection.style.position = 'absolute';
+        headerSection.style.top = '0px';
+        headerSection.style.left = '0px';
+        headerSection.style.right = '0px';
+        headerSection.style.width = '100%';
+        headerSection.style.height = '0px';
+        headerSection.style.minHeight = '0px';
+        headerSection.style.maxHeight = '0px';
+        headerSection.style.margin = '0px';
+        headerSection.style.padding = '0px';
+        headerSection.style.border = '0px';
+        headerSection.style.overflow = 'visible';
+        headerSection.style.pointerEvents = 'none';
       }
       var mainContent = document.querySelector('#MainContent');
       if (mainContent) {

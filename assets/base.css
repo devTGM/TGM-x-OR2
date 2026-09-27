@@ -1977,7 +1977,30 @@ body.template-index #header-group,
 body.template-index .header-section,
 body:has(#header-component[transparent]) #header-group,
 body:has(#header-component[transparent]) .header-section {
-  display: contents !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+  z-index: 100 !important;
+}
+
+body.template-index #header-component,
+body:has(#header-component[transparent]) #header-component {
+  pointer-events: auto !important;
+}
+
+body.template-index #header-component *,
+body:has(#header-component[transparent]) #header-component * {
+  pointer-events: auto !important;
 }
 
 /* Idle transparent layers (not on hover or sticky) */
