@@ -1,63 +1,184 @@
 {% stylesheet %}
   /* ==========================================================================
-     QUICK-ADD MODAL — CUSTOM BRAND STYLING
-     Matches the reference design: bottom sheet on mobile with
-     thumbnail + title/price header, flat size buttons, trust strip.
+     QUICK-ADD MODAL — PREMIUM BRAND STYLING
+     Clean, minimal, editorial feel for both desktop dialog and mobile sheet.
      ========================================================================== */
 
-  /* ── Always show quick-add button on mobile (triggers custom bottom sheet) ── */
+  /* Show quick-add button on mobile (triggers custom bottom sheet) */
   @media screen and (max-width: 749px) {
-    /* Override the theme's default hidden state for the quick-add button */
     button.quick-add__button {
       --quick-add-mobile-display: flex !important;
       --quick-add-mobile-opacity: 1 !important;
       opacity: 1 !important;
     }
-
-    /* Make sure the card's quick-add overlay is pointer-interactive on mobile */
     .quick-add {
       pointer-events: auto;
     }
   }
 
-  /* ── Mobile bottom sheet overrides ─────────────────────────────────── */
-  @media screen and (max-width: 749px) {
-    .quick-add-modal {
-      border-top-left-radius: 20px !important;
-      border-top-right-radius: 20px !important;
-      background: #ffffff !important;
-      max-height: 92svh !important;
+  /* ==========================================================================
+     DESKTOP — clean up the native dialog
+     ========================================================================== */
+
+  @media screen and (min-width: 750px) {
+
+    /* Trust strip + view details — desktop-only hide (mobile-only elements) */
+    .quick-add-modal__trust-strip,
+    .quick-add-modal__view-details {
+      display: none !important;
     }
 
-    /* The scrollable content area */
+    /* Title — prevent clipping, proper sizing */
+    .quick-add-modal__content .view-product-title a {
+      -webkit-line-clamp: 3;
+      font-size: clamp(17px, 2vw, 22px) !important;
+      font-weight: 600 !important;
+      line-height: 1.25 !important;
+      letter-spacing: -0.02em !important;
+      color: #111 !important;
+    }
+
+    .quick-add-modal__content .view-product-title {
+      padding-block: 0 !important;
+      margin-block-end: 10px !important;
+    }
+
+    /* Price */
+    .quick-add-modal__content .product-details product-price .price-item--regular,
+    .quick-add-modal__content .product-details product-price .price-item--sale {
+      font-size: 17px !important;
+      font-weight: 500 !important;
+      color: #1C1C1C !important;
+    }
+
+    /* Option labels */
+    .quick-add-modal__content .variant-option__legend-title {
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      color: #6b7280 !important;
+    }
+
+    /* Size buttons — flat, sharp, editorial */
+    .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label {
+      min-width: 58px !important;
+      height: 40px !important;
+      border-radius: 0 !important;
+      border: 1.5px solid #d1cbc3 !important;
+      background: #fff !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.07em !important;
+      text-transform: uppercase !important;
+      color: #1C1C1C !important;
+      transition: all 0.15s ease !important;
+    }
+
+    .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) {
+      background: #1C1C1C !important;
+      color: #fff !important;
+      border-color: #1C1C1C !important;
+    }
+
+    /* ATC button */
+    .quick-add-modal__content .product-details .add-to-cart-button {
+      height: 48px !important;
+      border-radius: 0 !important;
+      background: #1C1C1C !important;
+      color: #fff !important;
+      border: 1.5px solid #1C1C1C !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.14em !important;
+      text-transform: uppercase !important;
+    }
+
+    /* BIN button */
+    .quick-add-modal__content .product-details .shopify-payment-button__button {
+      height: 46px !important;
+      border-radius: 0 !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+    }
+
+    /* Quantity — slim */
+    .quick-add-modal__content .quantity-selector {
+      height: 44px !important;
+    }
+
+    /* Swatch spacing */
+    .quick-add-modal__content .variant-option--swatches {
+      gap: 10px !important;
+    }
+
+    /* Tighten padding */
+    .quick-add-modal__content .product-details > .group-block {
+      padding-block: 28px 0 !important;
+    }
+
+    .quick-add-modal__content :where(.product-details > .group-block > .group-block-content > *) {
+      padding-inline: 28px !important;
+    }
+  }
+
+  /* ==========================================================================
+     MOBILE — bottom sheet
+     ========================================================================== */
+
+  @media screen and (max-width: 749px) {
+
+    /* Sheet container */
+    .quick-add-modal {
+      border-top-left-radius: 24px !important;
+      border-top-right-radius: 24px !important;
+      background: #fff !important;
+      max-height: 93svh !important;
+    }
+
+    /* Drag pill indicator */
+    .quick-add-modal::before {
+      content: '' !important;
+      display: block !important;
+      width: 36px !important;
+      height: 4px !important;
+      border-radius: 99px !important;
+      background: #d1d5db !important;
+      margin: 12px auto 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Content area */
     .quick-add-modal__content {
       display: flex !important;
       flex-direction: column !important;
       padding: 0 !important;
       gap: 0 !important;
       overflow-y: auto !important;
+      max-height: calc(93svh - 28px) !important;
     }
 
-    /* ── Product header row (image + title/price) ────────────────────── */
+    /* Product header row */
     .quick-add-modal__content .product-header {
       display: flex !important;
       flex-direction: row !important;
       align-items: flex-start !important;
       gap: 14px !important;
-      padding: 20px 20px 14px 20px !important;
+      padding: 16px 20px !important;
       grid-column: unset !important;
       grid-row: unset !important;
       border-bottom: 1px solid #f0ebe4 !important;
     }
 
     /* Thumbnail */
-    .quick-add-modal__content .product-header .product-media-container,
     .quick-add-modal__content .product-information__media {
-      width: 90px !important;
-      height: 90px !important;
-      min-width: 90px !important;
+      width: 80px !important;
+      height: 80px !important;
+      min-width: 80px !important;
       flex-shrink: 0 !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       overflow: hidden !important;
       grid-column: unset !important;
       grid-row: unset !important;
@@ -83,79 +204,70 @@
     }
 
     .quick-add-modal__content .view-product-title a {
-      font-size: 16px !important;
+      font-size: 15px !important;
       font-weight: 500 !important;
       color: #1C1C1C !important;
       line-height: 1.3 !important;
       letter-spacing: -0.01em !important;
+      -webkit-line-clamp: 2 !important;
     }
 
     /* Price */
-    .quick-add-modal__content product-price .price,
-    .quick-add-modal__content .price-item {
-      font-size: 16px !important;
+    .quick-add-modal__content product-price .price-item--regular,
+    .quick-add-modal__content product-price .price-item--sale {
+      font-size: 15px !important;
       font-weight: 600 !important;
       color: #111827 !important;
     }
 
-    /* ── "NEW" badge / metadata ─────────────────────────────────────── */
-    .quick-add-modal__quick-meta {
-      font-size: 11px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.1em !important;
-      text-transform: uppercase !important;
-      color: #6b7280 !important;
-      margin-bottom: 2px !important;
-    }
-
-    /* ── Variant picker section ─────────────────────────────────────── */
+    /* Variant picker area */
     .quick-add-modal__content variant-picker,
     .quick-add-modal__content .product-details .variant-picker {
       grid-column: unset !important;
-      padding: 18px 20px 0 20px !important;
+      padding: 16px 20px 0 20px !important;
     }
 
-    /* "SELECT SIZE & FIT" section label */
+    /* Option legend */
     .quick-add-modal__content .variant-option__legend-row {
       display: flex !important;
       align-items: center !important;
-      margin-bottom: 12px !important;
+      margin-bottom: 10px !important;
       padding: 0 !important;
     }
 
     .quick-add-modal__content .variant-option__legend-title {
-      font-size: 11px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.12em !important;
+      font-size: 10.5px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.13em !important;
       text-transform: uppercase !important;
       color: #374151 !important;
     }
 
-    /* ── Size option buttons ─────────────────────────────────────────── */
+    /* Size buttons */
     .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) {
       display: flex !important;
       flex-wrap: wrap !important;
       gap: 8px !important;
       padding: 0 !important;
-      margin: 0 0 16px 0 !important;
+      margin: 0 0 14px 0 !important;
       border: none !important;
     }
 
     .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label {
-      min-width: 60px !important;
-      height: 42px !important;
+      min-width: 54px !important;
+      height: 40px !important;
       border-radius: 0 !important;
-      border: 1px solid #D8D3CC !important;
-      background-color: #ffffff !important;
+      border: 1.5px solid #D8D3CC !important;
+      background-color: #fff !important;
       color: #1C1C1C !important;
-      font-size: 12px !important;
+      font-size: 11.5px !important;
       font-weight: 500 !important;
-      letter-spacing: 0.06em !important;
+      letter-spacing: 0.07em !important;
       text-transform: uppercase !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      padding: 0 12px !important;
+      padding: 0 10px !important;
       cursor: pointer !important;
       white-space: nowrap !important;
       transition: all 0.15s ease !important;
@@ -163,92 +275,105 @@
 
     .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has(:checked) {
       background-color: #1C1C1C !important;
-      color: #ffffff !important;
+      color: #fff !important;
       border-color: #1C1C1C !important;
     }
 
-    /* Unavailable (sold out) size */
+    /* Sold out */
     .quick-add-modal__content .variant-option--buttons:not(.variant-option--swatches) .variant-option__button-label:has([data-option-available='false']) {
       background-color: #fafafa !important;
       border-color: #e5e7eb !important;
-      color: #9ca3af !important;
+      color: #c0bdb8 !important;
+      text-decoration: line-through !important;
     }
 
-    /* ── Buy buttons ─────────────────────────────────────────────────── */
+    /* Swatch spacing */
+    .quick-add-modal__content .variant-option--swatches {
+      gap: 10px !important;
+      padding-inline-start: 0 !important;
+    }
+
+    /* Hide quantity on mobile */
+    .quick-add-modal__content .quantity-selector-wrapper {
+      display: none !important;
+    }
+
+    /* Buy buttons — sticky footer */
     .quick-add-modal__content .product-details .buy-buttons-block {
       position: sticky !important;
       bottom: 0 !important;
-      background: #ffffff !important;
-      padding: 12px 20px 0 20px !important;
+      background: #fff !important;
+      padding: 14px 20px 16px 20px !important;
       margin-top: 0 !important;
       z-index: 10 !important;
+      border-top: 1px solid #f0ebe4 !important;
     }
 
     .quick-add-modal__content .product-details .buy-buttons-block::before {
       display: none !important;
     }
 
+    /* ADD TO CART */
     .quick-add-modal__content .product-details .add-to-cart-button {
-      height: 50px !important;
+      height: 48px !important;
       border-radius: 0 !important;
       background-color: #1C1C1C !important;
-      color: #ffffff !important;
-      border: 1px solid #1C1C1C !important;
-      font-size: 12px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.14em !important;
+      color: #fff !important;
+      border: 1.5px solid #1C1C1C !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.15em !important;
       text-transform: uppercase !important;
       width: 100% !important;
     }
 
-    .quick-add-modal__content .product-details .add-to-cart-button:hover {
-      background-color: #000000 !important;
+    /* BUY IT NOW */
+    .quick-add-modal__content .product-details .shopify-payment-button__button {
+      height: 46px !important;
+      border-radius: 0 !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      margin-top: 8px !important;
     }
 
-    /* ── Trust badge strip ───────────────────────────────────────────── */
+    /* Trust strip */
     .quick-add-modal__trust-strip {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      gap: 0 !important;
-      padding: 10px 20px 6px !important;
-      font-size: 11.5px !important;
-      color: #6b7280 !important;
+      padding: 10px 20px 4px !important;
+      font-size: 11px !important;
+      color: #9ca3af !important;
       font-weight: 400 !important;
       text-align: center !important;
       letter-spacing: 0.01em !important;
-      background: #ffffff !important;
+      background: #fff !important;
     }
 
-    /* ── View Details link ───────────────────────────────────────────── */
+    /* View Details link */
     .quick-add-modal__view-details {
       display: flex !important;
       justify-content: flex-start !important;
       padding: 8px 20px 20px !important;
-      background: #ffffff !important;
+      background: #fff !important;
     }
 
     .quick-add-modal__view-details a {
-      font-size: 12px !important;
+      font-size: 11.5px !important;
       font-weight: 500 !important;
-      letter-spacing: 0.06em !important;
+      letter-spacing: 0.07em !important;
       text-transform: uppercase !important;
       text-decoration: underline !important;
       text-underline-offset: 3px !important;
       color: #1C1C1C !important;
     }
 
-    /* ── Close button positioning ────────────────────────────────────── */
+    /* Close button */
     .quick-add-modal .quick-add-modal__close {
-      top: 16px !important;
+      top: 18px !important;
       right: 16px !important;
-    }
-
-    /* ── Price sub-text (MRP incl. taxes) ───────────────────────────── */
-    .quick-add-modal__price-note {
-      font-size: 11px !important;
-      color: #9ca3af !important;
-      margin-top: 2px !important;
     }
   }
 {% endstylesheet %}
