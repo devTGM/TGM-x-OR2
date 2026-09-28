@@ -2077,11 +2077,11 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT
-   QUICK ADD - FINAL CLEAN VERSION
+   ON REPEAT - QUICK ADD
+   FINAL VERSION
    ========================================================= */
 
-/* QUICK ADD CONTAINER */
+/* Quick Add container */
 .quick-add {
   position: absolute !important;
 
@@ -2090,8 +2090,8 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   right: 14px !important;
   bottom: 14px !important;
 
-  width: 64px !important;
-  height: 64px !important;
+  width: 60px !important;
+  height: 60px !important;
 
   margin: 0 !important;
   padding: 0 !important;
@@ -2100,9 +2100,8 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   box-sizing: border-box !important;
 
-  /* Circle */
   background: #F8F5EF !important;
-  border: 3px solid #806B61 !important;
+  border: 2px solid #806B61 !important;
   border-radius: 50% !important;
 
   overflow: hidden !important;
@@ -2110,11 +2109,16 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease !important;
 }
 
 
 /* =========================================================
-   HIDE EVERYTHING SHOPIFY PUTS INSIDE
+   HIDE SHOPIFY'S ORIGINAL BUTTON CONTENT
    ========================================================= */
 
 .quick-add > *,
@@ -2126,7 +2130,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
 
 /* =========================================================
-   REMOVE BUTTON'S OWN STYLING
+   RESET NATIVE BUTTON
    ========================================================= */
 
 .quick-add button,
@@ -2151,14 +2155,18 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   background: transparent !important;
 
   font-size: 0 !important;
+  line-height: 0 !important;
+
   color: transparent !important;
 
   display: block !important;
+
+  cursor: pointer !important;
 }
 
 
 /* =========================================================
-   OUR OWN BAG + PLUS ICON
+   CUSTOM BAG + PLUS ICON
    ========================================================= */
 
 .quick-add::before {
@@ -2169,14 +2177,14 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   top: 50% !important;
   left: 50% !important;
 
-  width: 30px !important;
-  height: 30px !important;
+  width: 22px !important;
+  height: 22px !important;
 
   transform: translate(-50%, -50%) !important;
 
   display: block !important;
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 11h18l-1.5 15h-15L7 11Z'/%3E%3Cpath d='M11 11V8a5 5 0 0 1 10 0v3'/%3E%3Cpath d='M23 20v8'/%3E%3Cpath d='M19 24h8'/%3E%3C/svg%3E") !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 12h16l-1.2 14H9.2L8 12Z'/%3E%3Cpath d='M12 12V9a4 4 0 0 1 8 0v3'/%3E%3Cpath d='M23 22v6' stroke-width='1.5'/%3E%3Cpath d='M20 25h6' stroke-width='1.5'/%3E%3C/svg%3E") !important;
 
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -2208,14 +2216,14 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
     right: 10px !important;
     bottom: 10px !important;
 
-    width: 56px !important;
-    height: 56px !important;
+    width: 52px !important;
+    height: 52px !important;
 
-    border-width: 2.5px !important;
+    border-width: 2px !important;
   }
 
   .quick-add::before {
-    width: 26px !important;
-    height: 26px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 }
