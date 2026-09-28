@@ -381,3 +381,1079 @@ class QuickAddDialog extends DialogComponent {
 if (!customElements.get('quick-add-dialog')) {
   customElements.define('quick-add-dialog', QuickAddDialog);
 }
+/**
+ * ON REPEAT MOBILE QUICK ADD
+ * Desktop keeps the theme's native Quick Add.
+ * Mobile opens a size + fit bottom sheet.
+ */
+(() => {
+  'use strict';
+
+  if (window.__ON_REPEAT_MOBILE_QUICK_ADD__) return;
+  window.__ON_REPEAT_MOBILE_QUICK_ADD__ = true;
+
+  const MOBILE_QUERY = '(max-width: 749px)';
+  const SIZES = ['S', 'M', 'L', 'XL'];
+
+  const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
+
+  const normalize = (value) =>
+    String(value ?? '').trim().toLowerCase();
+
+  const formatMoney = (amount) => {
+    const currency = window.Shopify?.currency?.active || 'INR';
+
+    try {
+      return new Intl.NumberFormat(
+        document.documentElement.lang || 'en-IN',
+        {
+          style: 'currency',
+          currency,
+          maximumFractionDigits: 0,
+        }
+      ).format(Number(amount || 0) / 100);
+    } catch {
+      return `₹${Math.round(
+        Number(amount || 0) / 100
+      ).toLocaleString('en-IN')}`;
+    }
+  };
+
+  const getProductUrl = (quickAdd) => {
+    const url = quickAdd?.productPageUrl || '';
+
+    if (!url) return '';
+
+    try {
+      const parsed = new URL(url, window.location.origin);
+
+      parsed.search = '';
+      parsed.hash = '';
+
+      return parsed.href.replace(/\/$/, '');
+    } catch {
+      return url;
+    }
+  };
+
+  const createSheet = () => {
+    if (document.getElementById('on-repeat-mobile-quick-add')) {
+      return document.getElementById(
+        'on-repeat-mobile-quick-add'
+      );
+    }
+
+    const style = document.createElement('style');
+
+    style.id = 'on-repeat-mobile-quick-add-styles';
+
+    style.textContent = `
+      #on-repeat-mobile-quick-add {
+        display: none;
+      }
+
+      @media (max-width: 749px) {
+
+        #on-repeat-mobile-quick-add {
+          position: fixed;
+          inset: 0;
+          z-index: 999999;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          pointer-events: none;
+          font-family: inherit;
+        }
+
+        #on-repeat-mobile-quick-add.is-open {
+          pointer-events: auto;
+        }
+
+        #on-repeat-mobile-quick-add .or-mqa-backdrop {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, .34);
+          opacity: 0;
+          transition: opacity .25s ease;
+        }
+
+        #on-repeat-mobile-quick-add.is-open
+        .or-mqa-backdrop {
+          opacity: 1;
+        }
+
+        #on-repeat-mobile-quick-add .or-mqa-sheet {
+          position: relative;
+          width: 100%;
+          max-height: 91vh;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          box-sizing: border-box;
+          background: #fff;
+          color: #1f1f1f;
+          padding: 24px 18px 22px;
+          transform: translateY(100%);
+          transition:
+            transform .3s cubic-bezier(.2,.75,.25,1);
+          box-shadow:
+            0 -12px 40px rgba(0,0,0,.12);
+        }
+
+        #on-repeat-mobile-quick-add.is-open
+        .or-mqa-sheet {
+          transform: translateY(0);
+        }
+
+        #on-repeat-mobile-quick-add .or-mqa-close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 42px;
+          height: 42px;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          z-index: 2;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-close::before,
+        #on-repeat-mobile-quick-add
+        .or-mqa-close::after {
+          content: '';
+          position: absolute;
+          top: 20px;
+          left: 9px;
+          width: 24px;
+          height: 1.5px;
+          background: #111;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-close::before {
+          transform: rotate(45deg);
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-close::after {
+          transform: rotate(-45deg);
+        }
+
+        #on-repeat-mobile-quick-add .or-mqa-product {
+          display: grid;
+          grid-template-columns:
+            minmax(0, 42%)
+            minmax(0, 1fr);
+          gap: 18px;
+          align-items: start;
+          padding-top: 12px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-image-wrap {
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          overflow: hidden;
+          background: #f1eee8;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-image {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-info {
+          min-width: 0;
+          padding: 4px 24px 0 0;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-eyebrow {
+          margin: 0 0 14px;
+          font-size: 10px;
+          line-height: 1;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-title {
+          margin: 0;
+          font-size: 19px;
+          line-height: 1.25;
+          font-weight: 400;
+          letter-spacing: -.02em;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-price {
+          margin-top: 16px;
+          font-size: 18px;
+          line-height: 1.1;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-tax {
+          margin-top: 6px;
+          color: #999;
+          font-size: 10px;
+          line-height: 1.35;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-selection {
+          margin-top: 22px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-label {
+          margin: 0 0 11px;
+          font-size: 10px;
+          line-height: 1;
+          letter-spacing: .18em;
+          text-transform: uppercase;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-sizes {
+          display: grid;
+          grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+          gap: 6px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-size,
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-fit {
+          min-height: 50px;
+          box-sizing: border-box;
+          border: 1px solid #c8c8c8;
+          background: #fff;
+          color: #222;
+          font: inherit;
+          font-size: 13px;
+          letter-spacing: .04em;
+          cursor: pointer;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-size.is-selected,
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-fit.is-selected {
+          border-color: #111;
+          box-shadow:
+            inset 0 0 0 1px #111;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-size:disabled {
+          color: #b7b7b7;
+          background: #f8f8f8;
+          text-decoration: line-through;
+          cursor: not-allowed;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-fit-wrap {
+          margin-top: 6px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-fit {
+          width: 100%;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-submit {
+          width: 100%;
+          min-height: 58px;
+          margin-top: 18px;
+          padding: 0 14px;
+          border: 1.5px solid #111;
+          background: #111;
+          color: #fff;
+          font: inherit;
+          font-size: 11px;
+          letter-spacing: .2em;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-submit:disabled {
+          opacity: .4;
+          cursor: not-allowed;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-meta {
+          margin-top: 12px;
+          text-align: center;
+          font-size: 10px;
+          line-height: 1.45;
+          color: #666;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-details {
+          display: block;
+          width: fit-content;
+          margin: 18px auto 0;
+          padding-bottom: 4px;
+          border-bottom: 1px solid #111;
+          color: #111;
+          text-decoration: none;
+          font-size: 10px;
+          letter-spacing: .16em;
+          text-transform: uppercase;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-error {
+          display: none;
+          margin-top: 10px;
+          color: #9a2424;
+          text-align: center;
+          font-size: 11px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-error.is-visible {
+          display: block;
+        }
+
+        body.or-mqa-locked {
+          overflow: hidden !important;
+          touch-action: none;
+        }
+      }
+
+      @media (max-width: 380px) {
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-product {
+          grid-template-columns:
+            minmax(0, 39%)
+            minmax(0, 1fr);
+          gap: 14px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-title {
+          font-size: 17px;
+        }
+
+        #on-repeat-mobile-quick-add
+        .or-mqa-price {
+          font-size: 16px;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+
+    const root = document.createElement('div');
+
+    root.id = 'on-repeat-mobile-quick-add';
+
+    root.setAttribute('aria-hidden', 'true');
+
+    root.innerHTML = `
+      <div
+        class="or-mqa-backdrop"
+        data-mqa-close
+      ></div>
+
+      <div
+        class="or-mqa-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Select product size and fit"
+      >
+
+        <button
+          type="button"
+          class="or-mqa-close"
+          aria-label="Close"
+          data-mqa-close
+        ></button>
+
+        <div class="or-mqa-product">
+
+          <div class="or-mqa-image-wrap">
+            <img
+              class="or-mqa-image"
+              src=""
+              alt=""
+            >
+          </div>
+
+          <div class="or-mqa-info">
+
+            <div class="or-mqa-eyebrow">
+              NEW
+            </div>
+
+            <h2 class="or-mqa-title"></h2>
+
+            <div class="or-mqa-price"></div>
+
+            <div class="or-mqa-tax">
+              MRP incl. taxes for 1 unit
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="or-mqa-selection">
+
+          <div class="or-mqa-label">
+            SELECT SIZE &amp; FIT
+          </div>
+
+          <div class="or-mqa-sizes">
+
+            ${SIZES.map(
+              (size) => `
+                <button
+                  type="button"
+                  class="or-mqa-size"
+                  data-size="${size}"
+                >
+                  ${size}
+                </button>
+              `
+            ).join('')}
+
+          </div>
+
+          <div class="or-mqa-fit-wrap">
+
+            <button
+              type="button"
+              class="or-mqa-fit is-selected"
+              data-fit="Regular"
+            >
+              Regular
+            </button>
+
+          </div>
+
+          <button
+            type="button"
+            class="or-mqa-submit"
+            disabled
+          >
+            SELECT SIZE &amp; FIT
+          </button>
+
+          <div class="or-mqa-meta">
+            Free Shipping • 60-Day Returns &
+            Exchanges • Ships in 24 Hours
+          </div>
+
+          <a
+            href="#"
+            class="or-mqa-details"
+          >
+            VIEW DETAILS &amp; OFFERS
+          </a>
+
+          <div class="or-mqa-error"></div>
+
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(root);
+
+    return root;
+  };
+
+  const root = createSheet();
+
+  const image =
+    root.querySelector('.or-mqa-image');
+
+  const title =
+    root.querySelector('.or-mqa-title');
+
+  const price =
+    root.querySelector('.or-mqa-price');
+
+  const details =
+    root.querySelector('.or-mqa-details');
+
+  const submit =
+    root.querySelector('.or-mqa-submit');
+
+  const errorBox =
+    root.querySelector('.or-mqa-error');
+
+  const sizeButtons = [
+    ...root.querySelectorAll('.or-mqa-size')
+  ];
+
+  const fitButtons = [
+    ...root.querySelectorAll('.or-mqa-fit')
+  ];
+
+  let product = null;
+  let productUrl = '';
+  let selectedSize = '';
+  let selectedFit = 'Regular';
+  let selectedVariant = null;
+
+  const setError = (message = '') => {
+    errorBox.textContent = message;
+
+    errorBox.classList.toggle(
+      'is-visible',
+      Boolean(message)
+    );
+  };
+
+  const findOptionIndex = (names) => {
+    if (!product?.options) return -1;
+
+    return product.options.findIndex(
+      (option) =>
+        names.includes(
+          normalize(option.name)
+        )
+    );
+  };
+
+  const variantMatches = (
+    variant,
+    size,
+    fit
+  ) => {
+    if (!variant?.available) return false;
+
+    const sizeIndex = findOptionIndex([
+      'size',
+      'sizes'
+    ]);
+
+    const fitIndex = findOptionIndex([
+      'fit',
+      'fits'
+    ]);
+
+    const sizeMatches =
+      sizeIndex === -1 ||
+      normalize(
+        variant.options[sizeIndex]
+      ) === normalize(size);
+
+    const fitMatches =
+      fitIndex === -1 ||
+      normalize(
+        variant.options[fitIndex]
+      ) === normalize(fit);
+
+    return sizeMatches && fitMatches;
+  };
+
+  const findVariant = () => {
+    if (!product || !selectedSize) {
+      return null;
+    }
+
+    return (
+      product.variants?.find(
+        (variant) =>
+          variantMatches(
+            variant,
+            selectedSize,
+            selectedFit
+          )
+      ) || null
+    );
+  };
+
+  const sizeIsAvailable = (size) => {
+    if (!product?.variants) return false;
+
+    return product.variants.some(
+      (variant) =>
+        variantMatches(
+          variant,
+          size,
+          selectedFit
+        )
+    );
+  };
+
+  const refresh = () => {
+
+    sizeButtons.forEach((button) => {
+
+      const size =
+        button.dataset.size || '';
+
+      const available =
+        sizeIsAvailable(size);
+
+      button.disabled = !available;
+
+      button.classList.toggle(
+        'is-selected',
+        normalize(size) ===
+          normalize(selectedSize)
+      );
+
+    });
+
+    fitButtons.forEach((button) => {
+
+      button.classList.toggle(
+        'is-selected',
+        normalize(button.dataset.fit) ===
+          normalize(selectedFit)
+      );
+
+    });
+
+    selectedVariant = findVariant();
+
+    submit.disabled = !selectedVariant;
+
+    submit.textContent =
+      selectedVariant
+        ? 'ADD TO CART'
+        : 'SELECT SIZE & FIT';
+
+    if (
+      selectedSize &&
+      !selectedVariant
+    ) {
+      setError(
+        'This size is currently unavailable.'
+      );
+    } else {
+      setError('');
+    }
+  };
+
+  const open = (
+    quickAdd,
+    data
+  ) => {
+
+    product = data;
+
+    productUrl =
+      getProductUrl(quickAdd);
+
+    selectedSize = '';
+    selectedFit = 'Regular';
+    selectedVariant = null;
+
+    image.src =
+      product.featured_image ||
+      product.images?.[0] ||
+      '';
+
+    image.alt =
+      product.title || '';
+
+    title.textContent =
+      product.title ||
+      quickAdd.dataset.productTitle ||
+      '';
+
+    price.textContent =
+      formatMoney(product.price);
+
+    details.href =
+      productUrl || '#';
+
+    submit.disabled = true;
+
+    submit.textContent =
+      'SELECT SIZE & FIT';
+
+    setError('');
+
+    root.classList.add('is-open');
+
+    root.setAttribute(
+      'aria-hidden',
+      'false'
+    );
+
+    document.body.classList.add(
+      'or-mqa-locked'
+    );
+
+    refresh();
+  };
+
+  const close = () => {
+
+    root.classList.remove(
+      'is-open'
+    );
+
+    root.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+
+    document.body.classList.remove(
+      'or-mqa-locked'
+    );
+
+    product = null;
+    productUrl = '';
+    selectedSize = '';
+    selectedVariant = null;
+  };
+
+  const loadProduct = async (
+    url
+  ) => {
+
+    const response =
+      await fetch(
+        `${url}.js`,
+        {
+          headers: {
+            Accept:
+              'application/json'
+          },
+          credentials:
+            'same-origin',
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        'Product could not be loaded.'
+      );
+    }
+
+    return response.json();
+  };
+
+  const dispatchCartUpdate = () => {
+
+    const promise =
+      Promise.resolve({
+        detail: {
+          didError: false
+        }
+      });
+
+    const event =
+      new CustomEvent(
+        StandardEvents.cartLinesUpdate,
+        {
+          bubbles: true,
+          detail: {
+            promise
+          },
+        }
+      );
+
+    event.promise = promise;
+
+    document.dispatchEvent(event);
+
+    document.dispatchEvent(
+      new CustomEvent(
+        'cart:updated',
+        {
+          bubbles: true
+        }
+      )
+    );
+  };
+
+  const openCartDrawer = () => {
+
+    const drawer =
+      document.querySelector(
+        'cart-drawer-component, cart-drawer, [data-cart-drawer]'
+      );
+
+    if (!drawer) return;
+
+    const openMethod =
+      drawer.open ||
+      drawer.showDialog ||
+      drawer.openDrawer;
+
+    if (
+      typeof openMethod ===
+      'function'
+    ) {
+
+      try {
+
+        openMethod.call(drawer);
+
+        return;
+
+      } catch {
+        // Fallback below.
+      }
+    }
+
+    const cartButton =
+      document.querySelector(
+        'button[aria-label*="cart" i]:not([aria-label*="close" i]), a[href$="/cart"]'
+      );
+
+    cartButton?.click();
+  };
+
+  const addToCart = async () => {
+
+    if (!selectedVariant) return;
+
+    submit.disabled = true;
+
+    submit.textContent =
+      'ADDING...';
+
+    setError('');
+
+    try {
+
+      const response =
+        await fetch(
+          '/cart/add.js',
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type':
+                'application/json',
+
+              Accept:
+                'application/json',
+            },
+
+            credentials:
+              'same-origin',
+
+            body: JSON.stringify({
+              items: [
+                {
+                  id:
+                    selectedVariant.id,
+
+                  quantity: 1
+                }
+              ]
+            }),
+          }
+        );
+
+      if (!response.ok) {
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+        throw new Error(
+          data.description ||
+          data.message ||
+          'Unable to add this product.'
+        );
+      }
+
+      close();
+
+      dispatchCartUpdate();
+
+      window.setTimeout(
+        () => {
+          openCartDrawer();
+        },
+        100
+      );
+
+    } catch (error) {
+
+      submit.disabled = false;
+
+      submit.textContent =
+        'ADD TO CART';
+
+      setError(
+        error?.message ||
+        'Unable to add this product.'
+      );
+    }
+  };
+
+  document.addEventListener(
+    'click',
+    async (event) => {
+
+      if (!isMobile()) return;
+
+      const target =
+        event.target instanceof Element
+          ? event.target
+          : null;
+
+      const chooseButton =
+        target?.closest(
+          '.quick-add__button--choose'
+        );
+
+      if (!chooseButton) return;
+
+      const quickAdd =
+        chooseButton.closest(
+          'quick-add-component'
+        );
+
+      if (
+        !quickAdd ||
+        quickAdd.dataset
+          .usesSellingPlans === 'true'
+      ) {
+        return;
+      }
+
+      const url =
+        getProductUrl(quickAdd);
+
+      if (!url) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      chooseButton.setAttribute(
+        'aria-busy',
+        'true'
+      );
+
+      try {
+
+        const data =
+          await loadProduct(url);
+
+        open(
+          quickAdd,
+          data
+        );
+
+      } catch (error) {
+
+        console.error(
+          '[ON REPEAT Quick Add]',
+          error
+        );
+
+      } finally {
+
+        chooseButton.removeAttribute(
+          'aria-busy'
+        );
+      }
+    },
+    true
+  );
+
+  sizeButtons.forEach(
+    (button) => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          if (button.disabled) return;
+
+          selectedSize =
+            button.dataset.size || '';
+
+          refresh();
+        }
+      );
+
+    }
+  );
+
+  fitButtons.forEach(
+    (button) => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          selectedFit =
+            button.dataset.fit ||
+            'Regular';
+
+          refresh();
+        }
+      );
+
+    }
+  );
+
+  root.addEventListener(
+    'click',
+    (event) => {
+
+      const target =
+        event.target instanceof Element
+          ? event.target
+          : null;
+
+      if (
+        target?.closest(
+          '[data-mqa-close]'
+        )
+      ) {
+        close();
+        return;
+      }
+
+      if (
+        target?.closest(
+          '.or-mqa-submit'
+        )
+      ) {
+        void addToCart();
+      }
+    }
+  );
+
+  document.addEventListener(
+    'keydown',
+    (event) => {
+
+      if (
+        event.key === 'Escape' &&
+        root.classList.contains(
+          'is-open'
+        )
+      ) {
+        close();
+      }
+
+    }
+  );
+
+})();
