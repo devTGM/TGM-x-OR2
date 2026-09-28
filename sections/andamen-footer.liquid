@@ -1154,522 +1154,474 @@
 
 
   /* =========================================================
-   MOBILE - ANDAMEN INSPIRED LAYOUT
+   ON REPEAT
+   MOBILE FOOTER
    ========================================================= */
 
 @media screen and (max-width: 749px) {
 
-  /* ---------------------------------------------------------
-     MAIN MOBILE STRUCTURE
-     Panel first
-     Shop second
-     Info + Manage third
-     Contact last
-     --------------------------------------------------------- */
+  /* =======================================================
+     MAIN STRUCTURE
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid !important;
+
+    grid-template-columns: 1fr 1fr !important;
+
     grid-template-areas:
       "panel panel"
       "shop shop"
       "info manage"
-      "contact contact";
-    min-height: auto;
-    border-top: 0;
-    background: var(--or-footer-bg);
+      "contact contact" !important;
+
+    min-height: 0 !important;
+
+    border-top: 0 !important;
   }
 
 
-  /* Reset desktop column borders */
-  #on-repeat-footer-{{ section.id }} .or-footer-column {
-    border-right: 0;
-    border-bottom: 0;
-  }
-
-
-  /* =========================================================
-     MEMBERSHIP / NEWSLETTER PANEL
-     ========================================================= */
+  /* =======================================================
+     MEMBERSHIP PANEL
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-panel {
-    grid-area: panel;
+    grid-area: panel !important;
 
-    min-height: auto;
+    display: block !important;
 
-    padding:
-      34px
-      45px
-      0;
+    width: 100% !important;
 
-    background: var(--or-footer-bg);
+    min-height: 0 !important;
 
-    border: 0;
+    padding: 34px 45px 0 !important;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    background: var(--or-footer-bg) !important;
+
+    border: 0 !important;
   }
 
 
-  /* Hide eyebrow on mobile */
+  /* Remove "Stay In The Loop" */
   #on-repeat-footer-{{ section.id }} .or-panel-eyebrow {
-    display: none;
+    display: none !important;
   }
 
 
+  /* Main heading */
   #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
-    margin: 0;
+    max-width: 345px !important;
 
-    max-width: 340px;
+    margin: 0 !important;
 
-    font-family: var(--or-font);
+    font-size: 30px !important;
 
-    font-size: 29px;
-    font-weight: 400;
-    line-height: 1.45;
+    font-weight: 400 !important;
 
-    letter-spacing: -0.025em;
+    line-height: 1.45 !important;
 
-    color: var(--or-footer-text);
+    letter-spacing: -0.02em !important;
+
+    color: var(--or-footer-text) !important;
   }
 
 
+  /* Description */
   #on-repeat-footer-{{ section.id }} .or-panel-description {
-    max-width: 340px;
+    max-width: 350px !important;
 
-    margin-top: 25px;
+    margin-top: 24px !important;
 
-    font-family: var(--or-font);
+    font-size: 18px !important;
 
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.75;
+    line-height: 1.7 !important;
 
-    color: var(--or-footer-text);
+    color: var(--or-footer-text) !important;
   }
 
 
-  /* ---------------------------------------------------------
-     Newsletter field
-     --------------------------------------------------------- */
+  /* =======================================================
+     HIDE NEWSLETTER
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-newsletter-form {
-    width: 100%;
-    max-width: none;
-
-    margin-top: 26px;
+    display: none !important;
   }
 
 
-  #on-repeat-footer-{{ section.id }} .or-newsletter-field {
-    display: flex;
-
-    width: 100%;
-
-    border-bottom: 1px solid var(--or-footer-border);
-  }
-
-
-  #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
-    min-width: 0;
-    flex: 1;
-
-    height: 52px;
-
-    border: 0;
-    outline: 0;
-
-    padding: 0;
-
-    background: transparent;
-
-    color: var(--or-footer-text);
-
-    font-family: var(--or-font);
-    font-size: 14px;
-  }
-
-
-  #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
-    width: auto;
-    height: auto;
-
-    border: 0;
-
-    padding: 0 4px;
-
-    background: transparent;
-
-    color: var(--or-footer-text);
-
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-
-
-  /* ---------------------------------------------------------
-     Become Member / Secondary button
-     --------------------------------------------------------- */
+  /* =======================================================
+     BECOME A MEMBER BUTTON
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-panel-button {
-    width: 100%;
-    max-width: 305px;
+    display: flex !important;
 
-    min-height: 68px;
+    width: 100% !important;
 
-    margin-top: 26px;
+    max-width: 305px !important;
 
-    padding: 0 42px;
+    height: 68px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    min-height: 68px !important;
 
-    border: 1px solid var(--or-footer-text);
+    margin-top: 27px !important;
 
-    background: transparent;
+    padding: 0 28px !important;
 
-    color: var(--or-footer-text);
+    align-items: center !important;
 
-    font-family: var(--or-font);
+    justify-content: space-between !important;
 
-    font-size: 12px;
-    font-weight: 500;
+    border: 1px solid var(--or-footer-text) !important;
 
-    letter-spacing: 0.20em;
+    background: transparent !important;
 
-    text-transform: uppercase;
+    color: var(--or-footer-text) !important;
+
+    font-size: 12px !important;
+
+    letter-spacing: 0.20em !important;
+
+    text-transform: uppercase !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-panel-arrow {
-    font-size: 20px;
+    font-size: 20px !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      SHOP
-     ========================================================= */
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(2) {
-    grid-area: shop;
+  .or-footer-main > .or-footer-menu:nth-child(2) {
 
-    padding:
-      76px
-      45px
-      0;
+    grid-area: shop !important;
+
+    padding: 77px 45px 0 !important;
+
+    border: 0 !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      INFO
-     ========================================================= */
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(3) {
-    grid-area: info;
+  .or-footer-main > .or-footer-menu:nth-child(3) {
 
-    padding:
-      75px
-      15px
-      0
-      45px;
+    grid-area: info !important;
+
+    padding: 76px 15px 0 45px !important;
+
+    border: 0 !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      MANAGE
-     ========================================================= */
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(4) {
-    grid-area: manage;
+  .or-footer-main > .or-footer-menu:nth-child(4) {
 
-    padding:
-      75px
-      30px
-      0
-      15px;
+    grid-area: manage !important;
+
+    padding: 76px 30px 0 15px !important;
+
+    border: 0 !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      MENU HEADINGS
-     ========================================================= */
+     ======================================================= */
 
-  #on-repeat-footer-{{ section.id }} .or-footer-heading {
-    margin: 0 0 25px;
+  #on-repeat-footer-{{ section.id }} .or-footer-menu .or-footer-heading {
 
-    font-family: var(--or-font);
+    margin: 0 0 25px !important;
 
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 15px !important;
 
-    line-height: 1.2;
+    font-weight: 400 !important;
 
-    letter-spacing: 0.18em;
+    line-height: 1.2 !important;
 
-    text-transform: uppercase;
+    letter-spacing: 0.20em !important;
 
-    color: var(--or-footer-muted);
+    text-transform: uppercase !important;
+
+    color: var(--or-footer-muted) !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      MENU LINKS
-     ========================================================= */
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu ul {
-    margin: 0;
-    padding: 0;
 
-    list-style: none;
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    list-style: none !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu li {
-    margin: 0 0 16px;
+
+    margin: 0 0 16px !important;
+
+    padding: 0 !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu a {
-    font-family: var(--or-font);
 
-    font-size: 16px;
-    font-weight: 400;
+    display: inline-block !important;
 
-    line-height: 1.45;
+    font-size: 16px !important;
 
-    color: var(--or-footer-text);
+    line-height: 1.45 !important;
+
+    font-weight: 400 !important;
+
+    color: var(--or-footer-text) !important;
+
+    text-decoration: none !important;
   }
 
 
-  /* Remove desktop hover underline on mobile */
+  /* Remove desktop underline animation */
   #on-repeat-footer-{{ section.id }} .or-footer-menu a::after {
-    display: none;
+
+    display: none !important;
   }
 
 
-  /* =========================================================
-     CONTACT / NEED HELP
-     ========================================================= */
+  /* =======================================================
+     CONTACT
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-contact {
-    grid-area: contact;
 
-    padding:
-      105px
-      25px
-      45px;
+    grid-area: contact !important;
 
-    border: 0;
+    display: grid !important;
 
-    text-align: center;
+    grid-template-columns: repeat(3, 1fr) !important;
 
-    display: grid;
+    column-gap: 8px !important;
 
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
+    align-items: start !important;
 
-    column-gap: 10px;
+    padding: 108px 25px 48px !important;
 
-    align-items: start;
+    border: 0 !important;
+
+    text-align: center !important;
   }
 
 
-  /* NEED HELP heading */
+  /* NEED HELP */
   #on-repeat-footer-{{ section.id }}
-  .or-footer-contact > .or-footer-heading:first-child {
-    grid-column: 1 / -1;
+  .or-footer-contact > .or-footer-heading {
 
-    margin: 0 0 35px;
+    grid-column: 1 / -1 !important;
 
-    text-align: center;
+    margin: 0 0 36px !important;
 
-    font-size: 15px;
-    font-weight: 400;
+    text-align: center !important;
 
-    letter-spacing: 0.18em;
+    font-size: 15px !important;
 
-    color: var(--or-footer-muted);
+    letter-spacing: 0.20em !important;
+
+    color: var(--or-footer-muted) !important;
   }
 
 
-  /* Contact item */
+  /* Contact items */
   #on-repeat-footer-{{ section.id }} .or-contact-item {
-    display: flex;
 
-    flex-direction: column;
+    display: flex !important;
 
-    align-items: center;
+    flex-direction: column !important;
 
-    justify-content: flex-start;
+    align-items: center !important;
 
-    gap: 0;
+    justify-content: flex-start !important;
 
-    margin: 0;
+    gap: 0 !important;
 
-    padding: 0 3px;
+    margin: 0 !important;
 
-    text-align: center;
+    padding: 0 2px !important;
 
-    color: var(--or-footer-text);
+    text-align: center !important;
+
+    color: var(--or-footer-text) !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-item:hover {
-    opacity: 1;
-    transform: none;
+
+    opacity: 1 !important;
+
+    transform: none !important;
   }
 
 
-  /* Contact icons */
+  /* Icons */
   #on-repeat-footer-{{ section.id }} .or-contact-icon {
-    width: 38px;
-    height: 38px;
 
-    flex: 0 0 38px;
+    width: 38px !important;
 
-    display: flex;
+    height: 38px !important;
 
-    align-items: center;
-    justify-content: center;
+    flex: 0 0 38px !important;
 
-    margin: 0 0 14px;
+    margin: 0 auto 15px !important;
 
-    color: var(--or-footer-text);
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    color: var(--or-footer-text) !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-icon svg {
-    width: 34px;
-    height: 34px;
 
-    display: block;
+    width: 34px !important;
+
+    height: 34px !important;
   }
 
 
-  /* Contact text */
+  /* Contact copy */
   #on-repeat-footer-{{ section.id }} .or-contact-copy {
-    display: flex;
 
-    flex-direction: column;
+    display: flex !important;
 
-    align-items: center;
+    flex-direction: column !important;
 
-    gap: 7px;
+    align-items: center !important;
 
-    width: 100%;
+    gap: 7px !important;
+
+    width: 100% !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-copy strong {
-    font-family: var(--or-font);
 
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 15px !important;
 
-    line-height: 1.35;
+    font-weight: 400 !important;
 
-    white-space: nowrap;
+    line-height: 1.35 !important;
 
-    color: var(--or-footer-text);
+    white-space: nowrap !important;
+
+    color: var(--or-footer-text) !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-copy small {
-    font-family: var(--or-font);
 
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 13px !important;
 
-    line-height: 1.55;
+    line-height: 1.6 !important;
 
-    color: var(--or-footer-muted);
+    color: var(--or-footer-muted) !important;
   }
 
 
-  /* Hide actual phone number / email address so the contact
-     area matches the reference: icon + title + hours */
-
+  /* Hide phone number under Call Us */
   #on-repeat-footer-{{ section.id }}
   .or-footer-contact
   .or-contact-item:nth-of-type(2)
-  .or-contact-copy small:first-of-type,
+  .or-contact-copy small:first-of-type {
 
+    display: none !important;
+  }
+
+
+  /* Hide email address under Email Us */
   #on-repeat-footer-{{ section.id }}
   .or-footer-contact
   .or-contact-item:nth-of-type(3)
   .or-contact-copy small:first-of-type {
-    display: none;
+
+    display: none !important;
   }
 
 
-  /* =========================================================
-     SOCIAL LINKS
-     The reference doesn't show social links in this area.
-     ========================================================= */
+  /* =======================================================
+     SOCIAL ICONS
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-social-heading,
   #on-repeat-footer-{{ section.id }} .or-social-links {
-    display: none;
+
+    display: none !important;
   }
 
 
-  /* =========================================================
+  /* =======================================================
      BOTTOM FOOTER
-     ========================================================= */
+     ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-footer-bottom {
-    border-top: 1px solid var(--or-footer-border);
+
+    border-top: 0 !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-bottom-inner {
-    min-height: auto;
 
-    padding:
-      26px
-      30px
-      30px;
+    min-height: 0 !important;
 
-    display: flex;
+    padding: 25px 30px 30px !important;
 
-    flex-direction: column;
+    display: flex !important;
 
-    align-items: center;
+    flex-direction: column !important;
 
-    gap: 16px;
+    align-items: center !important;
 
-    text-align: center;
+    gap: 15px !important;
+
+    text-align: center !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-copyright {
-    font-size: 10px;
 
-    line-height: 1.5;
+    font-size: 10px !important;
 
-    text-align: center;
+    text-align: center !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-legal-links {
-    display: flex;
 
-    justify-content: center;
+    justify-content: center !important;
 
-    gap: 10px 16px;
-
-    width: 100%;
+    gap: 10px 16px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-legal-links a {
-    font-size: 10px;
+
+    font-size: 10px !important;
   }
 
 }
@@ -1682,76 +1634,92 @@
 @media screen and (max-width: 420px) {
 
   #on-repeat-footer-{{ section.id }} .or-footer-panel {
-    padding-left: 30px;
-    padding-right: 30px;
+
+    padding-left: 30px !important;
+    padding-right: 30px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
-    font-size: 27px;
+
+    font-size: 28px !important;
+
+    line-height: 1.45 !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-panel-description {
-    font-size: 16px;
+
+    font-size: 17px !important;
+
+    line-height: 1.7 !important;
   }
 
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(2) {
-    padding-left: 30px;
-    padding-right: 30px;
+  .or-footer-main > .or-footer-menu:nth-child(2) {
+
+    padding-left: 30px !important;
+    padding-right: 30px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(3) {
-    padding-left: 30px;
-    padding-right: 10px;
+  .or-footer-main > .or-footer-menu:nth-child(3) {
+
+    padding-left: 30px !important;
+    padding-right: 10px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }}
-  .or-footer-menu:nth-of-type(4) {
-    padding-left: 10px;
-    padding-right: 20px;
+  .or-footer-main > .or-footer-menu:nth-child(4) {
+
+    padding-left: 10px !important;
+    padding-right: 20px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-menu a {
-    font-size: 15px;
+
+    font-size: 15px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-footer-contact {
-    padding-left: 12px;
-    padding-right: 12px;
 
-    column-gap: 5px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+
+    column-gap: 3px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-copy strong {
-    font-size: 14px;
+
+    font-size: 14px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-copy small {
-    font-size: 12px;
+
+    font-size: 12px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-icon {
-    width: 34px;
-    height: 34px;
 
-    flex-basis: 34px;
+    width: 34px !important;
+    height: 34px !important;
+
+    flex-basis: 34px !important;
   }
 
 
   #on-repeat-footer-{{ section.id }} .or-contact-icon svg {
-    width: 31px;
-    height: 31px;
+
+    width: 30px !important;
+    height: 30px !important;
   }
 
 }
