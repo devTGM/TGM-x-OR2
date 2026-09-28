@@ -83,37 +83,33 @@
       assign current_color = 'Terracotta'
     endif
 
-    # Known ON REPEAT shirt family models — STRICT handle prefix to avoid cross-family color mixing
+    # Known shirt family models — only set base_title here.
+    # base_handle_prefix is already set correctly by the dynamic color-strip logic above.
+    # DO NOT override base_handle_prefix here — it would break 'classic-linen-shirt' → 'classic-shirt' etc.
     if h_lower contains 'smart-casual'
       assign base_title = 'The Smart Casual Shirt'
-      assign base_handle_prefix = 'the-smart-casual-shirt'
     elsif h_lower contains 'popover'
       assign base_title = 'The Popover Shirt'
-      assign base_handle_prefix = 'the-popover-shirt'
     elsif h_lower contains 'cuban'
       assign base_title = 'The Cuban Collar Shirt'
-      assign base_handle_prefix = 'the-cuban-collar-shirt'
     elsif h_lower contains 'resort'
       assign base_title = 'The Resort Shirt'
-      if h_lower contains 'the-resort'
-        assign base_handle_prefix = 'the-resort-shirt'
-      else
-        assign base_handle_prefix = 'resort-shirt'
-      endif
     elsif h_lower contains 'modern'
       assign base_title = 'The Modern Shirt'
-      if h_lower contains 'the-modern'
-        assign base_handle_prefix = 'the-modern-shirt'
-      else
-        assign base_handle_prefix = 'modern-shirt'
-      endif
     elsif h_lower contains 'classic'
       assign base_title = 'Classic Shirt'
-      assign base_handle_prefix = 'classic-shirt'
       if h_lower contains 'the-classic'
         assign base_title = 'The Classic Shirt'
-        assign base_handle_prefix = 'the-classic-shirt'
       endif
+    endif
+
+    # Extract first meaningful word of base_title (skip leading 'The')
+    # Used as the sibling-matching key: user wants all colours sharing the same first word
+    assign base_title_lower = base_title | downcase
+    assign base_title_words = base_title_lower | split: ' '
+    assign first_word_key = base_title_words[0]
+    if first_word_key == 'the'
+      assign first_word_key = base_title_words[1] | default: base_title_words[0]
     endif
 
     # Check for single-product Color variant option
@@ -172,14 +168,23 @@
     if target_collection != blank and target_collection.products.size > 0
       for p in target_collection.products
         assign is_sibling = false
-        # Primary match: handle must share the exact base_handle_prefix (most reliable)
+
+        # Primary: same handle prefix (e.g. 'classic-linen-shirt' matches all classic linen colors)
         if p.handle contains base_handle_prefix and base_handle_prefix != ''
           assign is_sibling = true
-        # Secondary match: title must start with base_title (same product family)
-        # Require base_title > 10 chars to avoid short/generic names matching across families
-        elsif p.title contains base_title and base_title != '' and base_title.size > 10 and base_title != p.title
-          assign is_sibling = true
-        # NOTE: product.type match intentionally removed — too broad, mixes all shirt families
+        else
+          # Secondary: first meaningful word of title must match
+          # e.g. 'Classic Linen Shirt - Aegean Blue' → first word 'classic'
+          # This is what the user expects: same first word = same family
+          assign p_title_lower = p.title | downcase
+          assign p_title_words = p_title_lower | split: ' '
+          assign p_first_word = p_title_words[0]
+          if p_first_word == 'the'
+            assign p_first_word = p_title_words[1] | default: p_first_word
+          endif
+          if p_first_word == first_word_key and first_word_key.size > 3
+            assign is_sibling = true
+          endif
         endif
 
         if is_sibling
