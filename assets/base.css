@@ -2077,43 +2077,27 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - QUICK ADD POSITION FIX
+   ON REPEAT - QUICK ADD FINAL FIX
    ========================================================= */
 
-/* Product media must become the positioning container */
-.product-card,
-.product-card__media,
-.card,
-.card__media,
-.card-gallery,
-.product-grid-item {
-  position: relative;
-}
-
-/* Quick Add */
 .quick-add {
   position: absolute !important;
 
-  /* RESET THE THEME'S OLD POSITIONING */
   top: auto !important;
   left: auto !important;
-  inset-block-start: auto !important;
-  inset-inline-start: auto !important;
+  inset: auto 12px 12px auto !important;
 
-  /* NEW POSITION */
-  right: 12px !important;
-  bottom: 12px !important;
-
-  width: 54px !important;
+  width: 132px !important;
+  max-width: calc(100% - 24px) !important;
   height: 54px !important;
 
   margin: 0 !important;
   padding: 0 !important;
 
   z-index: 20 !important;
+  box-sizing: border-box !important;
 }
 
-/* Quick Add button itself */
 .quick-add__button,
 .quick-add__submit {
   position: relative !important;
@@ -2123,57 +2107,74 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   right: auto !important;
   bottom: auto !important;
 
-  width: 54px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+
   height: 54px !important;
-  min-width: 54px !important;
   min-height: 54px !important;
 
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0 14px !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 8px !important;
 
   box-sizing: border-box !important;
+
+  overflow: hidden !important;
+  white-space: nowrap !important;
 }
 
-/* Icon */
+/* Quick Add icon */
 .quick-add svg,
 .quick-add__button svg,
 .quick-add__submit svg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 20px !important;
+  height: 20px !important;
 
+  flex: 0 0 20px !important;
   margin: 0 !important;
-  flex-shrink: 0 !important;
+}
+
+/* Quick Add text */
+.quick-add span,
+.quick-add__button span,
+.quick-add__submit span {
+  max-width: 90px !important;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 /* Mobile */
 @media screen and (max-width: 749px) {
 
   .quick-add {
-    top: auto !important;
-    left: auto !important;
     right: 8px !important;
     bottom: 8px !important;
 
-    width: 46px !important;
+    width: 112px !important;
+    max-width: calc(100% - 16px) !important;
+
     height: 46px !important;
   }
 
   .quick-add__button,
   .quick-add__submit {
-    width: 46px !important;
     height: 46px !important;
-    min-width: 46px !important;
     min-height: 46px !important;
+    padding: 0 10px !important;
   }
 
   .quick-add svg,
   .quick-add__button svg,
   .quick-add__submit svg {
-    width: 19px !important;
-    height: 19px !important;
+    width: 18px !important;
+    height: 18px !important;
+    flex-basis: 18px !important;
   }
 }
