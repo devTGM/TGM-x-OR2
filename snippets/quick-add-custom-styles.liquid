@@ -125,7 +125,7 @@
       border-top-right-radius: 20px !important;
       background: #fff !important;
       max-height: 90svh !important;
-      overflow: hidden !important;
+      /* Do NOT add overflow:hidden — it clips the abs-positioned close button */
     }
 
     /* Drag handle pill */
@@ -373,8 +373,19 @@
 
     /* ── Close button ─────────────────────────────────────────────────── */
     .quick-add-modal .quick-add-modal__close {
-      top: 14px !important;
-      right: 14px !important;
+      position: absolute !important;
+      top: 12px !important;
+      right: 12px !important;
+      z-index: 9999 !important;
+      width: 32px !important;
+      height: 32px !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12) !important;
+      border: none !important;
     }
   }
 {% endstylesheet %}
