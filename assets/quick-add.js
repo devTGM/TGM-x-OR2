@@ -492,7 +492,7 @@ if (!customElements.get('quick-add-dialog')) {
           box-sizing: border-box;
           background: #fff;
           color: #1f1f1f;
-          padding: 24px 18px 22px;
+          padding: 32px 20px 28px;
           transform: translateY(100%);
           transition:
             transform .3s cubic-bezier(.2,.75,.25,1);
@@ -544,11 +544,11 @@ if (!customElements.get('quick-add-dialog')) {
         #on-repeat-mobile-quick-add .or-mqa-product {
           display: grid;
           grid-template-columns:
-            minmax(0, 42%)
+            minmax(0, 45%)
             minmax(0, 1fr);
-          gap: 18px;
+          gap: 20px;
           align-items: start;
-          padding-top: 12px;
+          padding-top: 8px;
         }
 
         #on-repeat-mobile-quick-add
@@ -557,6 +557,7 @@ if (!customElements.get('quick-add-dialog')) {
           aspect-ratio: 4 / 5;
           overflow: hidden;
           background: #f1eee8;
+          border-radius: 4px;
         }
 
         #on-repeat-mobile-quick-add
@@ -570,40 +571,49 @@ if (!customElements.get('quick-add-dialog')) {
         #on-repeat-mobile-quick-add
         .or-mqa-info {
           min-width: 0;
-          padding: 4px 24px 0 0;
+          padding: 6px 32px 0 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
         }
 
         #on-repeat-mobile-quick-add
         .or-mqa-eyebrow {
-          margin: 0 0 14px;
+          margin: 0 0 10px;
           font-size: 10px;
           line-height: 1;
-          letter-spacing: .14em;
+          letter-spacing: .15em;
           text-transform: uppercase;
+          color: #888;
+          font-weight: 500;
         }
 
         #on-repeat-mobile-quick-add
         .or-mqa-title {
           margin: 0;
-          font-size: 19px;
-          line-height: 1.25;
+          font-size: 21px;
+          line-height: 1.22;
           font-weight: 400;
-          letter-spacing: -.02em;
+          letter-spacing: -.025em;
+          color: #111;
         }
 
         #on-repeat-mobile-quick-add
         .or-mqa-price {
-          margin-top: 16px;
-          font-size: 18px;
+          margin-top: 18px;
+          font-size: 22px;
           line-height: 1.1;
+          font-weight: 600;
+          color: #111;
         }
 
         #on-repeat-mobile-quick-add
         .or-mqa-tax {
-          margin-top: 6px;
-          color: #999;
-          font-size: 10px;
+          margin-top: 5px;
+          color: #9ca3af;
+          font-size: 10.5px;
           line-height: 1.35;
+          font-weight: 400;
         }
 
         #on-repeat-mobile-quick-add
