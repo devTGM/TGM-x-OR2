@@ -2167,4 +2167,113 @@
     }
   }
 
+
+
+  /* =========================================================
+     ON REPEAT - CART DRAWER DESKTOP FIX
+     Prevent the empty error row from stretching the product
+     block to fill the entire drawer.
+     ========================================================= */
+  @media screen and (min-width: 750px) {
+    .cart-items__table-row--full-width-variants {
+      grid-template-rows: repeat(4, min-content) !important;
+      grid-template-areas:
+        'media details quantity price'
+        'media variants variants variants'
+        'media unit_price unit_price unit_price'
+        'media error error error' !important;
+      min-height: 0 !important;
+      height: auto !important;
+      align-content: start !important;
+    }
+
+    .cart-items__table-row--full-width-variants .cart-items__quantity {
+      min-height: 0 !important;
+      height: auto !important;
+      margin-top: 0 !important;
+    }
+
+    .cart-items__table-row--full-width-variants .cart-items__quantity-controls {
+      width: fit-content !important;
+      height: auto !important;
+      align-items: center !important;
+    }
+
+    .cart-items__table-row--full-width-variants .quantity-selector {
+      flex: 0 0 105px !important;
+      width: 105px !important;
+      height: var(--button-size-md) !important;
+    }
+
+    .cart-items__table-row--full-width-variants .cart-items__remove {
+      width: var(--button-size-md) !important;
+      height: var(--button-size-md) !important;
+      min-width: var(--button-size-md) !important;
+      min-height: var(--button-size-md) !important;
+      padding: 0 !important;
+    }
+  }
+
 {% endstylesheet %}
+
+<script>
+  (() => {
+    if (window.__onRepeatCartOutsideClickBound) return;
+    window.__onRepeatCartOutsideClickBound = true;
+
+    const getDrawer = () => {
+      return document.querySelector(
+        'cart-drawer-component, .cart-drawer, [data-cart-drawer], dialog.cart-drawer'
+      );
+    };
+
+    const getOpenDialog = () => {
+      return document.querySelector(
+        'cart-drawer-component dialog[open], .cart-drawer dialog[open], [data-cart-drawer] dialog[open], dialog[open][aria-label*="cart" i]'
+      );
+    };
+
+    const closeCart = () => {
+      const drawer = getDrawer();
+      if (!drawer) return;
+
+      const closeButton = drawer.querySelector(
+        'button[aria-label*="close" i], .cart-drawer__close-button, [data-cart-drawer-close], button[command="close"]'
+      );
+
+      if (closeButton) {
+        closeButton.click();
+        return;
+      }
+
+      const dialog = getOpenDialog();
+      if (dialog && typeof dialog.close === 'function') {
+        dialog.close();
+      }
+    };
+
+    document.addEventListener('click', (event) => {
+      const drawer = getDrawer();
+      if (!drawer) return;
+
+      const dialog = getOpenDialog();
+      const drawerPanel = drawer.querySelector(
+        '[role="dialog"], dialog, .cart-drawer__inner, .cart-drawer__content, .cart-drawer__panel'
+      );
+
+      const insideDrawer = drawerPanel
+        ? drawerPanel.contains(event.target)
+        : drawer.contains(event.target);
+
+      if (!insideDrawer) {
+        closeCart();
+        return;
+      }
+
+      // Native dialog backdrop click.
+      if (dialog && event.target === dialog) {
+        closeCart();
+      }
+    }, true);
+  })();
+</script>
