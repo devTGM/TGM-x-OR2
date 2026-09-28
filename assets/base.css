@@ -2077,7 +2077,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - QUICK ADD FINAL FIX
+   ON REPEAT - CIRCULAR QUICK ADD
    ========================================================= */
 
 .quick-add {
@@ -2085,96 +2085,147 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   top: auto !important;
   left: auto !important;
-  inset: auto 12px 12px auto !important;
 
-  width: 132px !important;
-  max-width: calc(100% - 24px) !important;
-  height: 54px !important;
+  right: 14px !important;
+  bottom: 14px !important;
+
+  width: 64px !important;
+  height: 64px !important;
 
   margin: 0 !important;
   padding: 0 !important;
 
   z-index: 20 !important;
+
   box-sizing: border-box !important;
 }
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
 
 .quick-add__button,
 .quick-add__submit {
   position: relative !important;
 
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
+  width: 64px !important;
+  height: 64px !important;
 
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-
-  height: 54px !important;
-  min-height: 54px !important;
+  min-width: 64px !important;
+  min-height: 64px !important;
 
   margin: 0 !important;
-  padding: 0 14px !important;
+  padding: 0 !important;
+
+  border-radius: 50% !important;
+
+  background: #F8F5EF !important;
+  border: 3px solid #806B61 !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important;
 
   box-sizing: border-box !important;
 
   overflow: hidden !important;
-  white-space: nowrap !important;
+
+  box-shadow: none !important;
+
+  font-size: 0 !important;
+  line-height: 0 !important;
+
+  color: #29231F !important;
 }
 
-/* Quick Add icon */
+
+/* =========================================================
+   HIDE QUICK ADD TEXT
+   ========================================================= */
+
+.quick-add__button span,
+.quick-add__submit span,
+.quick-add span {
+  display: none !important;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
 .quick-add svg,
 .quick-add__button svg,
 .quick-add__submit svg {
-  width: 20px !important;
-  height: 20px !important;
+  display: block !important;
 
-  flex: 0 0 20px !important;
+  width: 28px !important;
+  height: 28px !important;
+
+  min-width: 28px !important;
+  min-height: 28px !important;
+
   margin: 0 !important;
+
+  color: #29231F !important;
+
+  fill: none !important;
+
+  flex-shrink: 0 !important;
 }
 
-/* Quick Add text */
-.quick-add span,
-.quick-add__button span,
-.quick-add__submit span {
-  max-width: 90px !important;
 
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.quick-add__button:hover,
+.quick-add__submit:hover {
+  background: #EFE9DF !important;
+  border-color: #6F5B52 !important;
+
+  transform: scale(1.04);
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
-/* Mobile */
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media screen and (max-width: 749px) {
 
   .quick-add {
-    right: 8px !important;
-    bottom: 8px !important;
+    right: 10px !important;
+    bottom: 10px !important;
 
-    width: 112px !important;
-    max-width: calc(100% - 16px) !important;
-
-    height: 46px !important;
+    width: 56px !important;
+    height: 56px !important;
   }
 
   .quick-add__button,
   .quick-add__submit {
-    height: 46px !important;
-    min-height: 46px !important;
-    padding: 0 10px !important;
+    width: 56px !important;
+    height: 56px !important;
+
+    min-width: 56px !important;
+    min-height: 56px !important;
+
+    border-width: 2.5px !important;
   }
 
   .quick-add svg,
   .quick-add__button svg,
   .quick-add__submit svg {
-    width: 18px !important;
-    height: 18px !important;
-    flex-basis: 18px !important;
+    width: 25px !important;
+    height: 25px !important;
+
+    min-width: 25px !important;
+    min-height: 25px !important;
   }
 }
