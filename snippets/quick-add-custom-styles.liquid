@@ -5,6 +5,21 @@
      thumbnail + title/price header, flat size buttons, trust strip.
      ========================================================================== */
 
+  /* ── Always show quick-add button on mobile (triggers custom bottom sheet) ── */
+  @media screen and (max-width: 749px) {
+    /* Override the theme's default hidden state for the quick-add button */
+    button.quick-add__button {
+      --quick-add-mobile-display: flex !important;
+      --quick-add-mobile-opacity: 1 !important;
+      opacity: 1 !important;
+    }
+
+    /* Make sure the card's quick-add overlay is pointer-interactive on mobile */
+    .quick-add {
+      pointer-events: auto;
+    }
+  }
+
   /* ── Mobile bottom sheet overrides ─────────────────────────────────── */
   @media screen and (max-width: 749px) {
     .quick-add-modal {

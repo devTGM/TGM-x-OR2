@@ -451,17 +451,6 @@ if (!customElements.get('quick-add-dialog')) {
       #on-repeat-mobile-quick-add {
         display: none;
       }
-        @media (max-width: 749px) {
-
-  .quick-add {
-    display: none !important;
-  }
-
-  .quick-add__button {
-    display: none !important;
-  }
-
-}
 
       @media (max-width: 749px) {
 
