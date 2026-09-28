@@ -2077,9 +2077,11 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - QUICK ADD BAG ICON
+   ON REPEAT
+   QUICK ADD - FINAL CLEAN VERSION
    ========================================================= */
 
+/* QUICK ADD CONTAINER */
 .quick-add {
   position: absolute !important;
 
@@ -2095,48 +2097,27 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   padding: 0 !important;
 
   z-index: 50 !important;
-}
-
-
-/* CIRCLE */
-.quick-add button,
-.quick-add__button,
-.quick-add__submit {
-  position: relative !important;
-
-  width: 64px !important;
-  height: 64px !important;
-
-  min-width: 64px !important;
-  min-height: 64px !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  border-radius: 50% !important;
-
-  background: #F8F5EF !important;
-  border: 3px solid #806B61 !important;
 
   box-sizing: border-box !important;
+
+  /* Circle */
+  background: #F8F5EF !important;
+  border: 3px solid #806B61 !important;
+  border-radius: 50% !important;
+
+  overflow: hidden !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-
-  overflow: hidden !important;
-
-  font-size: 0 !important;
-  line-height: 0 !important;
-
-  color: transparent !important;
 }
 
 
 /* =========================================================
-   HIDE SHOPIFY'S ORIGINAL CONTENT
+   HIDE EVERYTHING SHOPIFY PUTS INSIDE
    ========================================================= */
 
+.quick-add > *,
 .quick-add button > *,
 .quick-add__button > *,
 .quick-add__submit > * {
@@ -2145,26 +2126,65 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
 
 /* =========================================================
-   CREATE OUR OWN BAG + ICON
+   REMOVE BUTTON'S OWN STYLING
    ========================================================= */
 
-.quick-add button::before,
-.quick-add__button::before,
-.quick-add__submit::before {
-  content: "" !important;
+.quick-add button,
+.quick-add__button,
+.quick-add__submit {
+  position: absolute !important;
+
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+  border-radius: 50% !important;
+
+  background: transparent !important;
+
+  font-size: 0 !important;
+  color: transparent !important;
 
   display: block !important;
+}
+
+
+/* =========================================================
+   OUR OWN BAG + PLUS ICON
+   ========================================================= */
+
+.quick-add::before {
+  content: "" !important;
+
+  position: absolute !important;
+
+  top: 50% !important;
+  left: 50% !important;
 
   width: 30px !important;
   height: 30px !important;
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 11h18l-1.5 15h-15L7 11Z'/%3E%3Cpath d='M11 11V8a5 5 0 0 1 10 0v3'/%3E%3Cpath d='M23 20v8'/%3E%3Cpath d='M19 24h8'/%3E%3C/svg%3E") !important;
+  transform: translate(-50%, -50%) !important;
+
+  display: block !important;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 11h18l-1.5 15h-15L7 11Z'/%3E%3Cpath d='M11 11V8a5 5 0 0 1 10 0v3'/%3E%3Cpath d='M23 20v8'/%3E%3Cpath d='M19 24h8'/%3E%3C/svg%3E") !important;
 
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: contain !important;
 
-  flex-shrink: 0 !important;
+  pointer-events: none !important;
+
+  z-index: 10 !important;
 }
 
 
@@ -2172,9 +2192,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
    HOVER
    ========================================================= */
 
-.quick-add button:hover,
-.quick-add__button:hover,
-.quick-add__submit:hover {
+.quick-add:hover {
   background: #EFE9DF !important;
   border-color: #6F5B52 !important;
 }
@@ -2192,23 +2210,11 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
     width: 56px !important;
     height: 56px !important;
-  }
-
-  .quick-add button,
-  .quick-add__button,
-  .quick-add__submit {
-    width: 56px !important;
-    height: 56px !important;
-
-    min-width: 56px !important;
-    min-height: 56px !important;
 
     border-width: 2.5px !important;
   }
 
-  .quick-add button::before,
-  .quick-add__button::before,
-  .quick-add__submit::before {
+  .quick-add::before {
     width: 26px !important;
     height: 26px !important;
   }
