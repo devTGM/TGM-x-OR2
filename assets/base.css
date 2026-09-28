@@ -2077,7 +2077,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - ICON ONLY QUICK ADD
+   ON REPEAT - QUICK ADD BAG ICON
    ========================================================= */
 
 .quick-add {
@@ -2094,10 +2094,11 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   margin: 0 !important;
   padding: 0 !important;
 
-  z-index: 20 !important;
+  z-index: 50 !important;
 }
 
-/* Button */
+
+/* CIRCLE */
 .quick-add button,
 .quick-add__button,
 .quick-add__submit {
@@ -2109,67 +2110,68 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   min-width: 64px !important;
   min-height: 64px !important;
 
-  padding: 0 !important;
   margin: 0 !important;
+  padding: 0 !important;
 
   border-radius: 50% !important;
 
   background: #F8F5EF !important;
   border: 3px solid #806B61 !important;
 
+  box-sizing: border-box !important;
+
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
-  box-sizing: border-box !important;
-
   overflow: hidden !important;
 
-  color: #29231F !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+
+  color: transparent !important;
 }
 
-/* Hide ALL text inside Quick Add */
-.quick-add button span,
-.quick-add button div,
-.quick-add button p,
-.quick-add__button span,
-.quick-add__button div,
-.quick-add__button p,
-.quick-add__submit span,
-.quick-add__submit div,
-.quick-add__submit p {
+
+/* =========================================================
+   HIDE SHOPIFY'S ORIGINAL CONTENT
+   ========================================================= */
+
+.quick-add button > *,
+.quick-add__button > *,
+.quick-add__submit > * {
   display: none !important;
 }
 
-/* Hide text nodes by making button font invisible */
-.quick-add button {
-  font-size: 0 !important;
-  line-height: 0 !important;
-  text-indent: -9999px !important;
-}
 
-/* Bring icon back */
-.quick-add button svg,
-.quick-add__button svg,
-.quick-add__submit svg {
+/* =========================================================
+   CREATE OUR OWN BAG + ICON
+   ========================================================= */
+
+.quick-add button::before,
+.quick-add__button::before,
+.quick-add__submit::before {
+  content: "" !important;
+
   display: block !important;
 
-  width: 28px !important;
-  height: 28px !important;
+  width: 30px !important;
+  height: 30px !important;
 
-  min-width: 28px !important;
-  min-height: 28px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 11h18l-1.5 15h-15L7 11Z'/%3E%3Cpath d='M11 11V8a5 5 0 0 1 10 0v3'/%3E%3Cpath d='M23 20v8'/%3E%3Cpath d='M19 24h8'/%3E%3C/svg%3E") !important;
 
-  margin: 0 !important;
-
-  color: #29231F !important;
-
-  text-indent: 0 !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
 
   flex-shrink: 0 !important;
 }
 
-/* Hover */
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
 .quick-add button:hover,
 .quick-add__button:hover,
 .quick-add__submit:hover {
@@ -2177,7 +2179,11 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   border-color: #6F5B52 !important;
 }
 
-/* Mobile */
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media screen and (max-width: 749px) {
 
   .quick-add {
@@ -2200,13 +2206,10 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
     border-width: 2.5px !important;
   }
 
-  .quick-add button svg,
-  .quick-add__button svg,
-  .quick-add__submit svg {
-    width: 25px !important;
-    height: 25px !important;
-
-    min-width: 25px !important;
-    min-height: 25px !important;
+  .quick-add button::before,
+  .quick-add__button::before,
+  .quick-add__submit::before {
+    width: 26px !important;
+    height: 26px !important;
   }
 }
