@@ -2077,21 +2077,20 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - QUICK ADD
-   FINAL VERSION
+   ON REPEAT - MINIMAL QUICK ADD
    ========================================================= */
 
-/* Quick Add container */
 .quick-add {
   position: absolute !important;
 
   top: auto !important;
   left: auto !important;
-  right: 14px !important;
-  bottom: 14px !important;
 
-  width: 60px !important;
-  height: 60px !important;
+  right: 12px !important;
+  bottom: 12px !important;
+
+  width: 44px !important;
+  height: 44px !important;
 
   margin: 0 !important;
   padding: 0 !important;
@@ -2100,39 +2099,19 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   box-sizing: border-box !important;
 
-  background: #F8F5EF !important;
-  border: 2px solid #806B61 !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #292929 !important;
   border-radius: 50% !important;
-
-  overflow: hidden !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease !important;
+  overflow: hidden !important;
 }
 
 
-/* =========================================================
-   HIDE SHOPIFY'S ORIGINAL BUTTON CONTENT
-   ========================================================= */
-
-.quick-add > *,
-.quick-add button > *,
-.quick-add__button > *,
-.quick-add__submit > * {
-  display: none !important;
-}
-
-
-/* =========================================================
-   RESET NATIVE BUTTON
-   ========================================================= */
-
+/* Remove Shopify's original button styling */
 .quick-add button,
 .quick-add__button,
 .quick-add__submit {
@@ -2165,8 +2144,16 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 
+/* Hide Shopify's existing icon/text */
+.quick-add button > *,
+.quick-add__button > *,
+.quick-add__submit > * {
+  display: none !important;
+}
+
+
 /* =========================================================
-   CUSTOM BAG + PLUS ICON
+   MINIMAL SHOPPING BAG ICON
    ========================================================= */
 
 .quick-add::before {
@@ -2177,14 +2164,14 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   top: 50% !important;
   left: 50% !important;
 
-  width: 22px !important;
-  height: 22px !important;
+  width: 21px !important;
+  height: 21px !important;
 
   transform: translate(-50%, -50%) !important;
 
   display: block !important;
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%2329231F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 12h16l-1.2 14H9.2L8 12Z'/%3E%3Cpath d='M12 12V9a4 4 0 0 1 8 0v3'/%3E%3Cpath d='M23 22v6' stroke-width='1.5'/%3E%3Cpath d='M20 25h6' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23292929' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 12H6L5 8Z'/%3E%3Cpath d='M9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E") !important;
 
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -2201,8 +2188,8 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
    ========================================================= */
 
 .quick-add:hover {
-  background: #EFE9DF !important;
-  border-color: #6F5B52 !important;
+  background: #F7F7F7 !important;
+  border-color: #111111 !important;
 }
 
 
@@ -2213,17 +2200,17 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 @media screen and (max-width: 749px) {
 
   .quick-add {
-    right: 10px !important;
-    bottom: 10px !important;
+    right: 8px !important;
+    bottom: 8px !important;
 
-    width: 52px !important;
-    height: 52px !important;
+    width: 40px !important;
+    height: 40px !important;
 
-    border-width: 2px !important;
+    border-width: 1.5px !important;
   }
 
   .quick-add::before {
-    width: 20px !important;
-    height: 20px !important;
+    width: 19px !important;
+    height: 19px !important;
   }
 }
