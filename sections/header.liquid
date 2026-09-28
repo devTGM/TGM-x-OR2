@@ -1836,4 +1836,75 @@
   ],
   "presets": []
 }
+/* =========================================================
+   ON REPEAT - REMOVE TOP WHITE SPACE
+   ========================================================= */
+
+
+
 {% endschema %}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Force the header group to start at the viewport */
+body:has(#header-component[transparent]) #header-group {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Header section itself */
+body:has(#header-component[transparent])
+  #header-group > .header-section {
+  position: relative !important;
+  top: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Header component */
+body:has(#header-component[transparent])
+  #header-component {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Transparent header */
+body:has(#header-component[transparent])
+  .header[transparent] {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* First page section */
+body:has(#header-component[transparent])
+  .content-for-layout
+  > .shopify-section:first-child {
+  margin-top: 0 !important;
+}
+
+/* Hero */
+body:has(#header-component[transparent])
+  .hero-wrapper:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  --hero-height-offset: 0px !important;
+}
