@@ -2077,7 +2077,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 }
 
 /* =========================================================
-   ON REPEAT - CIRCULAR QUICK ADD
+   ON REPEAT - ICON ONLY QUICK ADD
    ========================================================= */
 
 .quick-add {
@@ -2085,7 +2085,6 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   top: auto !important;
   left: auto !important;
-
   right: 14px !important;
   bottom: 14px !important;
 
@@ -2096,15 +2095,10 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   padding: 0 !important;
 
   z-index: 20 !important;
-
-  box-sizing: border-box !important;
 }
 
-
-/* =========================================================
-   BUTTON
-   ========================================================= */
-
+/* Button */
+.quick-add button,
 .quick-add__button,
 .quick-add__submit {
   position: relative !important;
@@ -2115,8 +2109,8 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
   min-width: 64px !important;
   min-height: 64px !important;
 
-  margin: 0 !important;
   padding: 0 !important;
+  margin: 0 !important;
 
   border-radius: 50% !important;
 
@@ -2131,31 +2125,31 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   overflow: hidden !important;
 
-  box-shadow: none !important;
-
-  font-size: 0 !important;
-  line-height: 0 !important;
-
   color: #29231F !important;
 }
 
-
-/* =========================================================
-   HIDE QUICK ADD TEXT
-   ========================================================= */
-
+/* Hide ALL text inside Quick Add */
+.quick-add button span,
+.quick-add button div,
+.quick-add button p,
 .quick-add__button span,
+.quick-add__button div,
+.quick-add__button p,
 .quick-add__submit span,
-.quick-add span {
+.quick-add__submit div,
+.quick-add__submit p {
   display: none !important;
 }
 
+/* Hide text nodes by making button font invisible */
+.quick-add button {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: -9999px !important;
+}
 
-/* =========================================================
-   ICON
-   ========================================================= */
-
-.quick-add svg,
+/* Bring icon back */
+.quick-add button svg,
 .quick-add__button svg,
 .quick-add__submit svg {
   display: block !important;
@@ -2170,34 +2164,20 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
 
   color: #29231F !important;
 
-  fill: none !important;
+  text-indent: 0 !important;
 
   flex-shrink: 0 !important;
 }
 
-
-/* =========================================================
-   HOVER
-   ========================================================= */
-
+/* Hover */
+.quick-add button:hover,
 .quick-add__button:hover,
 .quick-add__submit:hover {
   background: #EFE9DF !important;
   border-color: #6F5B52 !important;
-
-  transform: scale(1.04);
-
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease;
 }
 
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
+/* Mobile */
 @media screen and (max-width: 749px) {
 
   .quick-add {
@@ -2208,6 +2188,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
     height: 56px !important;
   }
 
+  .quick-add button,
   .quick-add__button,
   .quick-add__submit {
     width: 56px !important;
@@ -2219,7 +2200,7 @@ body:has(#header-component[transparent]) #MainContent > .shopify-section:first-c
     border-width: 2.5px !important;
   }
 
-  .quick-add svg,
+  .quick-add button svg,
   .quick-add__button svg,
   .quick-add__submit svg {
     width: 25px !important;
