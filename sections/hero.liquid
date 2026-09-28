@@ -335,85 +335,97 @@
   {% if media_1 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_1 != blank %}
+      {{ media_slot_1 }}
+      {%- if section.settings.slide_link_1 != blank -%}
         <a
           href="{{ section.settings.slide_link_1 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_1_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 1 destination"
+          {%- if section.settings.slide_open_new_tab_1 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_1 }}
+      {%- endif -%}
     </div>
   {% endif %}
   {% if media_2 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_2 != blank %}
+      {{ media_slot_2 }}
+      {%- if section.settings.slide_link_2 != blank -%}
         <a
           href="{{ section.settings.slide_link_2 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_2_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 2 destination"
+          {%- if section.settings.slide_open_new_tab_2 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_2 }}
+      {%- endif -%}
     </div>
   {% endif %}
   {% if media_3 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_3 != blank %}
+      {{ media_slot_3 }}
+      {%- if section.settings.slide_link_3 != blank -%}
         <a
           href="{{ section.settings.slide_link_3 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_3_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 3 destination"
+          {%- if section.settings.slide_open_new_tab_3 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_3 }}
+      {%- endif -%}
     </div>
   {% endif %}
   {% if media_4 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_4 != blank %}
+      {{ media_slot_4 }}
+      {%- if section.settings.slide_link_4 != blank -%}
         <a
           href="{{ section.settings.slide_link_4 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_4_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 4 destination"
+          {%- if section.settings.slide_open_new_tab_4 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_4 }}
+      {%- endif -%}
     </div>
   {% endif %}
   {% if media_5 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_5 != blank %}
+      {{ media_slot_5 }}
+      {%- if section.settings.slide_link_5 != blank -%}
         <a
           href="{{ section.settings.slide_link_5 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_5_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 5 destination"
+          {%- if section.settings.slide_open_new_tab_5 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_5 }}
+      {%- endif -%}
     </div>
   {% endif %}
   {% if media_6 != 'none' %}
     {% assign slide_index = slide_index | plus: 1 %}
     <div class="hero__media-item{% if slide_index == 1 %} hero__media-item--active{% endif %}" data-slide-index="{{ slide_index | minus: 1 }}">
-      {% if section.settings.slide_link_6 != blank %}
+      {{ media_slot_6 }}
+      {%- if section.settings.slide_link_6 != blank -%}
         <a
           href="{{ section.settings.slide_link_6 }}"
           class="hero__slide-link"
-          aria-label="Open slide {{ slide_index }}"
-          {% if section.settings.slide_link_6_new_tab %}target="_blank" rel="noopener"{% endif %}
+          aria-label="Go to slide 6 destination"
+          {%- if section.settings.slide_open_new_tab_6 -%}
+            target="_blank" rel="noopener"
+          {%- endif -%}
         ></a>
-      {% endif %}
-      {{ media_slot_6 }}
+      {%- endif -%}
     </div>
   {% endif %}
 
@@ -672,7 +684,7 @@
     {%- if section.settings.link != blank -%}
       <a
         href="{{ section.settings.link }}"
-        class="hero__link hero__link--fallback"
+        class="hero__link"
         {% if section.settings.open_in_new_tab %}
           target="_blank" rel="noopener"
         {% endif %}
@@ -988,18 +1000,6 @@
     grid-column: 1 / -1;
   }
 
-  /* Individual slide links */
-  .hero__slide-link {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    display: block;
-    width: 100%;
-    height: 100%;
-    pointer-events: auto;
-    cursor: pointer;
-  }
-
   .hero__media-grid,
   .hero__content-wrapper {
     pointer-events: none;
@@ -1100,6 +1100,21 @@
     border-radius: inherit;
   }
 
+  /* Individual clickable banner links */
+  .hero__slide-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 20;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .hero__slide-link:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -4px;
+  }
+
   /* When media_layout is slideshow or fade */
   .hero[data-media-layout='slideshow'] .hero__media-grid,
   .hero[data-media-layout='fade'] .hero__media-grid {
@@ -1164,8 +1179,8 @@
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
-    z-index: var(--layer-flat);
-    pointer-events: auto;
+    z-index: 50 !important;
+    pointer-events: auto !important;
   }
 
   .hero__indicator-dot {
@@ -1176,6 +1191,10 @@
     background: rgba(255, 255, 255, 0.35);
     cursor: pointer;
     padding: 0;
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none;
     transition: background 0.3s, transform 0.3s, width 0.3s;
   }
 
@@ -1189,6 +1208,35 @@
     border-radius: 5px;
   }
 
+  /* Keep navigation above the hero content layer */
+  #Hero-{{ section.id }} .hero__indicators,
+  #Hero-{{ section.id }} .hero__nav-arrows {
+    z-index: 100 !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    #Hero-{{ section.id }} .hero__indicators {
+      bottom: 16px !important;
+      z-index: 100 !important;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    #Hero-{{ section.id }} .hero__nav-arrows {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 100 !important;
+      padding: 0 10px !important;
+    }
+
+    #Hero-{{ section.id }} .hero__nav-arrow {
+      width: 38px !important;
+      height: 38px !important;
+    }
+  }
+
   /* Nav arrows */
   .hero__nav-arrows {
     position: absolute;
@@ -1198,7 +1246,7 @@
     align-items: center;
     padding: 0 20px;
     pointer-events: none;
-    z-index: var(--layer-flat);
+    z-index: 50 !important;
   }
 
   .hero__nav-arrow {
@@ -1713,17 +1761,6 @@
       "visible_if": "{{ section.settings.media_type_1 == 'video' }}"
     },
     {
-      "type": "url",
-      "id": "slide_link_1",
-      "label": "Slide 1 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_1_new_tab",
-      "label": "Open slide 1 link in new tab",
-      "default": false
-    },
-    {
       "type": "header",
       "content": "t:content.media_2"
     },
@@ -1754,17 +1791,6 @@
       "id": "video_2",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_2 == 'video' }}"
-    },
-    {
-      "type": "url",
-      "id": "slide_link_2",
-      "label": "Slide 2 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_2_new_tab",
-      "label": "Open slide 2 link in new tab",
-      "default": false
     },
     {
       "type": "header",
@@ -1799,17 +1825,6 @@
       "visible_if": "{{ section.settings.media_type_3 == 'video' }}"
     },
     {
-      "type": "url",
-      "id": "slide_link_3",
-      "label": "Slide 3 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_3_new_tab",
-      "label": "Open slide 3 link in new tab",
-      "default": false
-    },
-    {
       "type": "header",
       "content": "Media 4"
     },
@@ -1840,17 +1855,6 @@
       "id": "video_4",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_4 == 'video' }}"
-    },
-    {
-      "type": "url",
-      "id": "slide_link_4",
-      "label": "Slide 4 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_4_new_tab",
-      "label": "Open slide 4 link in new tab",
-      "default": false
     },
     {
       "type": "header",
@@ -1885,17 +1889,6 @@
       "visible_if": "{{ section.settings.media_type_5 == 'video' }}"
     },
     {
-      "type": "url",
-      "id": "slide_link_5",
-      "label": "Slide 5 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_5_new_tab",
-      "label": "Open slide 5 link in new tab",
-      "default": false
-    },
-    {
       "type": "header",
       "content": "Media 6"
     },
@@ -1926,17 +1919,6 @@
       "id": "video_6",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_6 == 'video' }}"
-    },
-    {
-      "type": "url",
-      "id": "slide_link_6",
-      "label": "Slide 6 link"
-    },
-    {
-      "type": "checkbox",
-      "id": "slide_link_6_new_tab",
-      "label": "Open slide 6 link in new tab",
-      "default": false
     },
     {
       "type": "header",
@@ -2160,12 +2142,82 @@
     },
     {
       "type": "header",
-      "content": "Overall section link (fallback)"
+      "content": "Slide links"
+    },
+    {
+      "type": "url",
+      "id": "slide_link_1",
+      "label": "Slide 1 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_1",
+      "label": "Open Slide 1 link in new tab",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "slide_link_2",
+      "label": "Slide 2 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_2",
+      "label": "Open Slide 2 link in new tab",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "slide_link_3",
+      "label": "Slide 3 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_3",
+      "label": "Open Slide 3 link in new tab",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "slide_link_4",
+      "label": "Slide 4 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_4",
+      "label": "Open Slide 4 link in new tab",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "slide_link_5",
+      "label": "Slide 5 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_5",
+      "label": "Open Slide 5 link in new tab",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "slide_link_6",
+      "label": "Slide 6 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_open_new_tab_6",
+      "label": "Open Slide 6 link in new tab",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_link"
     },
     {
       "type": "url",
       "id": "link",
-      "label": "Overall section link"
+      "label": "t:settings.link"
     },
     {
       "type": "checkbox",
