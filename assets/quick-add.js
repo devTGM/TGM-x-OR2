@@ -393,7 +393,7 @@ if (!customElements.get('quick-add-dialog')) {
   window.__ON_REPEAT_MOBILE_QUICK_ADD__ = true;
 
   const MOBILE_QUERY = '(max-width: 749px)';
-  const SIZES = ['S', 'M', 'L', 'XL'];
+  // Sizes are populated dynamically from product data — no hardcoded list.
 
   const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
 
@@ -912,13 +912,7 @@ if (!customElements.get('quick-add-dialog')) {
   const errorBox =
     root.querySelector('.or-mqa-error');
 
-  const sizeButtons = [
-    ...root.querySelectorAll('.or-mqa-size')
-  ];
 
-  const fitButtons = [
-    ...root.querySelectorAll('.or-mqa-fit')
-  ];
 
   let product = null;
   let productUrl = '';
@@ -1010,6 +1004,9 @@ if (!customElements.get('quick-add-dialog')) {
 
   const refresh = () => {
 
+    const sizeButtons = [...root.querySelectorAll('.or-mqa-size')];
+    const fitButtons = [...root.querySelectorAll('.or-mqa-fit')];
+
     sizeButtons.forEach((button) => {
 
       const size =
@@ -1098,6 +1095,75 @@ if (!customElements.get('quick-add-dialog')) {
       'SELECT SIZE & FIT';
 
     setError('');
+
+    // ── Dynamically rebuild size buttons from product options ──────────
+    const sizeOption = product.options?.find(
+      (opt) => ['size', 'sizes'].includes(normalize(opt))
+    );
+    const fitOption = product.options?.find(
+      (opt) => ['fit', 'fits'].includes(normalize(opt))
+    );
+
+    const sizesContainer = root.querySelector('.or-mqa-sizes');
+    const fitWrap = root.querySelector('.or-mqa-fit-wrap');
+
+    if (sizesContainer && sizeOption) {
+      const sizeIndex = product.options.indexOf(sizeOption);
+      // Collect unique size labels from variants in order
+      const seen = new Set();
+      const sizeValues = [];
+      (product.variants || []).forEach((v) => {
+        const val = v.options?.[sizeIndex];
+        if (val && !seen.has(val)) {
+          seen.add(val);
+          sizeValues.push(val);
+        }
+      });
+
+      sizesContainer.innerHTML = sizeValues
+        .map(
+          (size) => `<button type="button" class="or-mqa-size" data-size="${size}">${size}</button>`
+        )
+        .join('');
+    }
+
+    if (fitWrap && fitOption) {
+      const fitIndex = product.options.indexOf(fitOption);
+      const seen = new Set();
+      const fitValues = [];
+      (product.variants || []).forEach((v) => {
+        const val = v.options?.[fitIndex];
+        if (val && !seen.has(val)) {
+          seen.add(val);
+          fitValues.push(val);
+        }
+      });
+
+      fitWrap.innerHTML = fitValues
+        .map(
+          (fit) => `<button type="button" class="or-mqa-fit${fit === 'Regular' ? ' is-selected' : ''}" data-fit="${fit}">${fit}</button>`
+        )
+        .join('');
+    } else if (fitWrap) {
+      // No fit option on this product — hide the fit row
+      fitWrap.innerHTML = '';
+    }
+
+    // Re-bind click handlers on freshly created buttons
+    root.querySelectorAll('.or-mqa-size').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.disabled) return;
+        selectedSize = button.dataset.size || '';
+        refresh();
+      });
+    });
+
+    root.querySelectorAll('.or-mqa-fit').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedFit = button.dataset.fit || 'Regular';
+        refresh();
+      });
+    });
 
     root.classList.add('is-open');
 
@@ -1386,42 +1452,8 @@ if (!customElements.get('quick-add-dialog')) {
     true
   );
 
-  sizeButtons.forEach(
-    (button) => {
-
-      button.addEventListener(
-        'click',
-        () => {
-
-          if (button.disabled) return;
-
-          selectedSize =
-            button.dataset.size || '';
-
-          refresh();
-        }
-      );
-
-    }
-  );
-
-  fitButtons.forEach(
-    (button) => {
-
-      button.addEventListener(
-        'click',
-        () => {
-
-          selectedFit =
-            button.dataset.fit ||
-            'Regular';
-
-          refresh();
-        }
-      );
-
-    }
-  );
+  // Note: size/fit button listeners are bound dynamically in open() since
+  // buttons are rebuilt from product data on each invocation.
 
   root.addEventListener(
     'click',
