@@ -83,7 +83,7 @@
       assign current_color = 'Terracotta'
     endif
 
-    # Known ON REPEAT shirt family models
+    # Known ON REPEAT shirt family models — STRICT handle prefix to avoid cross-family color mixing
     if h_lower contains 'smart-casual'
       assign base_title = 'The Smart Casual Shirt'
       assign base_handle_prefix = 'the-smart-casual-shirt'
@@ -93,6 +93,20 @@
     elsif h_lower contains 'cuban'
       assign base_title = 'The Cuban Collar Shirt'
       assign base_handle_prefix = 'the-cuban-collar-shirt'
+    elsif h_lower contains 'resort'
+      assign base_title = 'The Resort Shirt'
+      if h_lower contains 'the-resort'
+        assign base_handle_prefix = 'the-resort-shirt'
+      else
+        assign base_handle_prefix = 'resort-shirt'
+      endif
+    elsif h_lower contains 'modern'
+      assign base_title = 'The Modern Shirt'
+      if h_lower contains 'the-modern'
+        assign base_handle_prefix = 'the-modern-shirt'
+      else
+        assign base_handle_prefix = 'modern-shirt'
+      endif
     elsif h_lower contains 'classic'
       assign base_title = 'Classic Shirt'
       assign base_handle_prefix = 'classic-shirt'
@@ -158,15 +172,14 @@
     if target_collection != blank and target_collection.products.size > 0
       for p in target_collection.products
         assign is_sibling = false
-        # Primary match: handle must contain the base_handle_prefix
+        # Primary match: handle must share the exact base_handle_prefix (most reliable)
         if p.handle contains base_handle_prefix and base_handle_prefix != ''
           assign is_sibling = true
         # Secondary match: title must start with base_title (same product family)
-        elsif p.title contains base_title and base_title != '' and base_title != p.title
+        # Require base_title > 10 chars to avoid short/generic names matching across families
+        elsif p.title contains base_title and base_title != '' and base_title.size > 10 and base_title != p.title
           assign is_sibling = true
-        # Tertiary match: same product.type AND current product has a recognised type
-        elsif p.type == current_prod.type and current_prod.type != blank and p.type != blank
-          assign is_sibling = true
+        # NOTE: product.type match intentionally removed — too broad, mixes all shirt families
         endif
 
         if is_sibling
