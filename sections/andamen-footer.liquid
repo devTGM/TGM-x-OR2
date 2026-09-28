@@ -1154,212 +1154,607 @@
 
 
   /* =========================================================
-     MOBILE
-     ========================================================= */
-
-  @media screen and (max-width: 749px) {
-
-    #on-repeat-footer-{{ section.id }} .or-footer-main {
-
-      display: block;
-
-      min-height: auto;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-column {
-
-      padding: 42px 24px;
-
-      border-right: 0;
-
-      border-bottom: 1px solid var(--or-footer-border);
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-contact {
-
-      padding-left: 24px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-heading {
-
-      margin-bottom: 24px;
-
-      font-size: 10px;
-
-      letter-spacing: 0.18em;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-contact-item {
-
-      margin-bottom: 20px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-social-heading {
-
-      margin-top: 40px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-menu {
-
-      padding-top: 34px;
-
-      padding-bottom: 34px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-menu li {
-
-      margin-bottom: 13px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-menu a {
-
-      font-size: 14px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-panel {
-
-      padding: 50px 24px;
-
-      min-height: auto;
-
-      border-top: 0;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-panel-eyebrow {
-
-      margin-bottom: 17px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
-
-      font-size: 31px;
-
-      line-height: 1.13;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-panel-description {
-
-      font-size: 13px;
-
-      line-height: 1.65;
-
-      margin-top: 18px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-newsletter-form {
-
-      margin-top: 25px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-panel-button {
-
-      max-width: none;
-
-      margin-top: 25px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-footer-bottom-inner {
-
-      min-height: auto;
-
-      padding: 25px 24px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: flex-start;
-
-      gap: 18px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-legal-links {
-
-      justify-content: flex-start;
-
-      gap: 12px 18px;
-
-    }
-
+   MOBILE - ANDAMEN INSPIRED LAYOUT
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  /* ---------------------------------------------------------
+     MAIN MOBILE STRUCTURE
+     Panel first
+     Shop second
+     Info + Manage third
+     Contact last
+     --------------------------------------------------------- */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "panel panel"
+      "shop shop"
+      "info manage"
+      "contact contact";
+    min-height: auto;
+    border-top: 0;
+    background: var(--or-footer-bg);
+  }
+
+
+  /* Reset desktop column borders */
+  #on-repeat-footer-{{ section.id }} .or-footer-column {
+    border-right: 0;
+    border-bottom: 0;
   }
 
 
   /* =========================================================
-     SMALL MOBILE
+     MEMBERSHIP / NEWSLETTER PANEL
      ========================================================= */
 
-  @media screen and (max-width: 420px) {
+  #on-repeat-footer-{{ section.id }} .or-footer-panel {
+    grid-area: panel;
 
-    #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
+    min-height: auto;
 
-      font-size: 28px;
+    padding:
+      34px
+      45px
+      0;
 
-    }
+    background: var(--or-footer-bg);
 
+    border: 0;
 
-    #on-repeat-footer-{{ section.id }} .or-newsletter-field {
-
-      display: block;
-
-      border-bottom: 0;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
-
-      width: 100%;
-
-      border-bottom: 1px solid var(--or-footer-border);
-
-      margin-bottom: 14px;
-
-    }
-
-
-    #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
-
-      width: 100%;
-
-      height: 46px;
-
-      border: 1px solid var(--or-footer-accent);
-
-    }
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
+
+
+  /* Hide eyebrow on mobile */
+  #on-repeat-footer-{{ section.id }} .or-panel-eyebrow {
+    display: none;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
+    margin: 0;
+
+    max-width: 340px;
+
+    font-family: var(--or-font);
+
+    font-size: 29px;
+    font-weight: 400;
+    line-height: 1.45;
+
+    letter-spacing: -0.025em;
+
+    color: var(--or-footer-text);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-panel-description {
+    max-width: 340px;
+
+    margin-top: 25px;
+
+    font-family: var(--or-font);
+
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+
+    color: var(--or-footer-text);
+  }
+
+
+  /* ---------------------------------------------------------
+     Newsletter field
+     --------------------------------------------------------- */
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-form {
+    width: 100%;
+    max-width: none;
+
+    margin-top: 26px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field {
+    display: flex;
+
+    width: 100%;
+
+    border-bottom: 1px solid var(--or-footer-border);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
+    min-width: 0;
+    flex: 1;
+
+    height: 52px;
+
+    border: 0;
+    outline: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    color: var(--or-footer-text);
+
+    font-family: var(--or-font);
+    font-size: 14px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
+    width: auto;
+    height: auto;
+
+    border: 0;
+
+    padding: 0 4px;
+
+    background: transparent;
+
+    color: var(--or-footer-text);
+
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+
+  /* ---------------------------------------------------------
+     Become Member / Secondary button
+     --------------------------------------------------------- */
+
+  #on-repeat-footer-{{ section.id }} .or-panel-button {
+    width: 100%;
+    max-width: 305px;
+
+    min-height: 68px;
+
+    margin-top: 26px;
+
+    padding: 0 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid var(--or-footer-text);
+
+    background: transparent;
+
+    color: var(--or-footer-text);
+
+    font-family: var(--or-font);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 0.20em;
+
+    text-transform: uppercase;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-panel-arrow {
+    font-size: 20px;
+  }
+
+
+  /* =========================================================
+     SHOP
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(2) {
+    grid-area: shop;
+
+    padding:
+      76px
+      45px
+      0;
+  }
+
+
+  /* =========================================================
+     INFO
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(3) {
+    grid-area: info;
+
+    padding:
+      75px
+      15px
+      0
+      45px;
+  }
+
+
+  /* =========================================================
+     MANAGE
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(4) {
+    grid-area: manage;
+
+    padding:
+      75px
+      30px
+      0
+      15px;
+  }
+
+
+  /* =========================================================
+     MENU HEADINGS
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-heading {
+    margin: 0 0 25px;
+
+    font-family: var(--or-font);
+
+    font-size: 15px;
+    font-weight: 400;
+
+    line-height: 1.2;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    color: var(--or-footer-muted);
+  }
+
+
+  /* =========================================================
+     MENU LINKS
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu li {
+    margin: 0 0 16px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a {
+    font-family: var(--or-font);
+
+    font-size: 16px;
+    font-weight: 400;
+
+    line-height: 1.45;
+
+    color: var(--or-footer-text);
+  }
+
+
+  /* Remove desktop hover underline on mobile */
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a::after {
+    display: none;
+  }
+
+
+  /* =========================================================
+     CONTACT / NEED HELP
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-contact {
+    grid-area: contact;
+
+    padding:
+      105px
+      25px
+      45px;
+
+    border: 0;
+
+    text-align: center;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    column-gap: 10px;
+
+    align-items: start;
+  }
+
+
+  /* NEED HELP heading */
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-contact > .or-footer-heading:first-child {
+    grid-column: 1 / -1;
+
+    margin: 0 0 35px;
+
+    text-align: center;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    letter-spacing: 0.18em;
+
+    color: var(--or-footer-muted);
+  }
+
+
+  /* Contact item */
+  #on-repeat-footer-{{ section.id }} .or-contact-item {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 0;
+
+    margin: 0;
+
+    padding: 0 3px;
+
+    text-align: center;
+
+    color: var(--or-footer-text);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-item:hover {
+    opacity: 1;
+    transform: none;
+  }
+
+
+  /* Contact icons */
+  #on-repeat-footer-{{ section.id }} .or-contact-icon {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 0 14px;
+
+    color: var(--or-footer-text);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-icon svg {
+    width: 34px;
+    height: 34px;
+
+    display: block;
+  }
+
+
+  /* Contact text */
+  #on-repeat-footer-{{ section.id }} .or-contact-copy {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+    width: 100%;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy strong {
+    font-family: var(--or-font);
+
+    font-size: 15px;
+    font-weight: 400;
+
+    line-height: 1.35;
+
+    white-space: nowrap;
+
+    color: var(--or-footer-text);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy small {
+    font-family: var(--or-font);
+
+    font-size: 13px;
+    font-weight: 400;
+
+    line-height: 1.55;
+
+    color: var(--or-footer-muted);
+  }
+
+
+  /* Hide actual phone number / email address so the contact
+     area matches the reference: icon + title + hours */
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-contact
+  .or-contact-item:nth-of-type(2)
+  .or-contact-copy small:first-of-type,
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-contact
+  .or-contact-item:nth-of-type(3)
+  .or-contact-copy small:first-of-type {
+    display: none;
+  }
+
+
+  /* =========================================================
+     SOCIAL LINKS
+     The reference doesn't show social links in this area.
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }} .or-social-heading,
+  #on-repeat-footer-{{ section.id }} .or-social-links {
+    display: none;
+  }
+
+
+  /* =========================================================
+     BOTTOM FOOTER
+     ========================================================= */
+
+  #on-repeat-footer-{{ section.id }} .or-footer-bottom {
+    border-top: 1px solid var(--or-footer-border);
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-bottom-inner {
+    min-height: auto;
+
+    padding:
+      26px
+      30px
+      30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 16px;
+
+    text-align: center;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-copyright {
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    text-align: center;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-legal-links {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px 16px;
+
+    width: 100%;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-legal-links a {
+    font-size: 10px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 420px) {
+
+  #on-repeat-footer-{{ section.id }} .or-footer-panel {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-panel h2 {
+    font-size: 27px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-panel-description {
+    font-size: 16px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(2) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(3) {
+    padding-left: 30px;
+    padding-right: 10px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }}
+  .or-footer-menu:nth-of-type(4) {
+    padding-left: 10px;
+    padding-right: 20px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-menu a {
+    font-size: 15px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-footer-contact {
+    padding-left: 12px;
+    padding-right: 12px;
+
+    column-gap: 5px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy strong {
+    font-size: 14px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-copy small {
+    font-size: 12px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
+  }
+
+
+  #on-repeat-footer-{{ section.id }} .or-contact-icon svg {
+    width: 31px;
+    height: 31px;
+  }
+
+}
 
 </style>
 
