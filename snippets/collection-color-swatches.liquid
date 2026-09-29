@@ -136,75 +136,107 @@
       assign current_color = current_title
     endif
 
-    # 2. Discover Sibling Products in the same collection
-    assign target_collection = blank
-
-    # From active collection URL
-    if collection != blank and collection.products.size > 1
-      assign target_collection = collection
-    endif
-
-    # From block settings override
-    if target_collection == blank and block_settings.collection != blank
-      assign target_collection = block_settings.collection
-    endif
-
-    # From product's own collections — prefer the most specific (smallest) collection
-    if target_collection == blank and current_prod.collections.size > 0
-      assign best_coll_size = 9999
-      for coll in current_prod.collections
-        if coll.handle != 'all' and coll.handle != 'frontpage'
-          if coll.products.size >= 2 and coll.products.size < best_coll_size
-            assign target_collection = coll
-            assign best_coll_size = coll.products.size
-          endif
-        endif
-      endfor
-    endif
-
-    # Collect sibling handles — STRICT matching: only products that share the base handle prefix
+    # 2. Discover Sibling Products
+    # Search ALL collections the product belongs to — not just the smallest.
+    # A small "new-arrivals" collection shouldn't cap color swatches at 2.
     assign siblings_list = ''
 
-    if target_collection != blank and target_collection.products.size > 0
-      for p in target_collection.products
-        assign is_sibling = false
+    # Helper: inline sibling-check used in every collection loop below
+    # Rule A — handle shares the computed base_handle_prefix
+    # Rule B — first meaningful word of title matches first_word_key
 
-        # Primary: same handle prefix (e.g. 'classic-linen-shirt' matches all classic linen colors)
+    # Priority 1: active collection URL (user is browsing a category page)
+    if collection != blank and collection.products.size > 1
+      for p in collection.products
+        assign is_sibling = false
         if p.handle contains base_handle_prefix and base_handle_prefix != ''
           assign is_sibling = true
         else
-          # Secondary: first meaningful word of title must match
-          # e.g. 'Classic Linen Shirt - Aegean Blue' → first word 'classic'
-          # This is what the user expects: same first word = same family
           assign p_title_lower = p.title | downcase
-          assign p_title_words = p_title_lower | split: ' '
-          assign p_first_word = p_title_words[0]
-          if p_first_word == 'the'
-            assign p_first_word = p_title_words[1] | default: p_first_word
+          assign p_words = p_title_lower | split: ' '
+          assign p_fw = p_words[0]
+          if p_fw == 'the'
+            assign p_fw = p_words[1] | default: p_fw
           endif
-          if p_first_word == first_word_key and first_word_key.size > 3
+          if p_fw == first_word_key and first_word_key.size > 3
             assign is_sibling = true
           endif
         endif
-
         if is_sibling
           assign siblings_list = siblings_list | append: p.handle | append: ','
         endif
       endfor
     endif
 
-    # Known catalog families for ON REPEAT shirts as fallback guarantee (only if no siblings found in collection)
+    # Priority 2: ALL collections this product belongs to (scan every one, deduplicate)
+    if current_prod.collections.size > 0
+      for coll in current_prod.collections
+        if coll.handle != 'all' and coll.handle != 'frontpage' and coll.products.size > 0
+          for p in coll.products
+            assign is_sibling = false
+            if p.handle contains base_handle_prefix and base_handle_prefix != ''
+              assign is_sibling = true
+            else
+              assign p_title_lower = p.title | downcase
+              assign p_words = p_title_lower | split: ' '
+              assign p_fw = p_words[0]
+              if p_fw == 'the'
+                assign p_fw = p_words[1] | default: p_fw
+              endif
+              if p_fw == first_word_key and first_word_key.size > 3
+                assign is_sibling = true
+              endif
+            endif
+            if is_sibling
+              # Only append if not already in list (deduplication)
+              assign check_handle = p.handle | append: ','
+              unless siblings_list contains check_handle
+                assign siblings_list = siblings_list | append: p.handle | append: ','
+              endunless
+            endif
+          endfor
+        endif
+      endfor
+    endif
+
+    # Priority 3: block setting collection override
+    if siblings_list == blank and block_settings.collection != blank
+      for p in block_settings.collection.products
+        assign is_sibling = false
+        if p.handle contains base_handle_prefix and base_handle_prefix != ''
+          assign is_sibling = true
+        else
+          assign p_title_lower = p.title | downcase
+          assign p_words = p_title_lower | split: ' '
+          assign p_fw = p_words[0]
+          if p_fw == 'the'
+            assign p_fw = p_words[1] | default: p_fw
+          endif
+          if p_fw == first_word_key and first_word_key.size > 3
+            assign is_sibling = true
+          endif
+        endif
+        if is_sibling
+          assign check_handle = p.handle | append: ','
+          unless siblings_list contains check_handle
+            assign siblings_list = siblings_list | append: p.handle | append: ','
+          endunless
+        endif
+      endfor
+    endif
+
+    # Fallback: hardcoded known families (if collections returned nothing)
     if siblings_list == blank
       if h_lower contains 'smart-casual'
-        assign siblings_list = siblings_list | append: 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,'
+        assign siblings_list = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,'
       elsif h_lower contains 'popover'
-        assign siblings_list = siblings_list | append: 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,'
+        assign siblings_list = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,'
       elsif h_lower contains 'cuban'
-        assign siblings_list = siblings_list | append: 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,'
+        assign siblings_list = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,'
       endif
     endif
 
-    # Search store collections if still only 1
+    # Last resort: search well-known store collection handles
     if siblings_list == blank
       assign fallback_colls = 'shirts,the-classic,the-modern,bestsellers,all' | split: ','
       for fc in fallback_colls
