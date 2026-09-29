@@ -596,21 +596,99 @@
     color: var(--luxury-footer-text);
   }
 
-  /* Mobile Adjustments */
+  /* ─── Mobile Optimisations (≤ 767px) ───────────────────────────────── */
   @media screen and (max-width: 767px) {
+
+    /* Container: tighter side padding */
+    .luxury-footer__container {
+      padding-left: 1.125rem;
+      padding-right: 1.125rem;
+    }
+
+    /* Logo: mobile size already driven by CSS var, just center it */
     .luxury-footer__logo-img {
       width: var(--luxury-footer-logo-w-mobile);
     }
 
-    .luxury-footer__bottom-bar {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      flex-direction: column-reverse;
-      gap: 1.25rem;
+    /* Main grid: tighter gap between brand col and menus */
+    .luxury-footer__grid {
+      gap: 1.75rem;
     }
 
+    /* Brand bio: limit to 3 lines with a gradient fade-out */
+    .luxury-footer__brand-bio {
+      font-size: 0.8125rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      position: relative;
+      max-width: 100%;
+    }
+
+    /* Menus: reduce the gap between the two columns */
+    .luxury-footer__menus-wrapper {
+      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Column headings: slightly smaller on mobile */
+    .luxury-footer__col-heading {
+      font-size: 0.9375rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Links: larger tap targets (min 44px via padding) */
+    .luxury-footer__link {
+      font-size: 0.875rem;
+      padding: 6px 0;
+      display: block;
+    }
+
+    .luxury-footer__link-list {
+      gap: 0.25rem; /* padding on link handles the visual gap */
+    }
+
+    /* Bottom bar: clean stacking — AI pill on top, copyright, then policies */
+    .luxury-footer__bottom-bar {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--luxury-footer-border);
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Order: AI pill → copyright → policies */
+    .luxury-footer__bottom-center { order: 1; }
+    .luxury-footer__bottom-right  { order: 2; }
+    .luxury-footer__bottom-left   { order: 3; }
+
     .luxury-footer__bottom-center {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    /* Policy trigger: slightly larger text on mobile */
+    .luxury-footer__policy-trigger {
+      font-size: 0.8125rem;
+      padding: 8px 0;
+    }
+
+    /* AI pill: full-width feel on small screens */
+    .luxury-footer__ai-pill {
+      font-size: 0.8125rem;
+      padding: 5px 16px 5px 5px;
+    }
+
+    .luxury-footer__ai-icon-badge {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Copyright / credit: slightly smaller */
+    .luxury-footer__copyright,
+    .luxury-footer__credit {
+      font-size: 0.6875rem;
     }
   }
 </style>
