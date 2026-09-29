@@ -1242,11 +1242,61 @@
 
 
   /* =======================================================
-     HIDE NEWSLETTER
+     NEWSLETTER FORM — shown on mobile, compact style
      ======================================================= */
 
   #on-repeat-footer-{{ section.id }} .or-newsletter-form {
-    display: none !important;
+    display: block !important;
+
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    margin-top: 18px !important;
+  }
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field {
+    display: flex !important;
+
+    width: 100% !important;
+
+    border-bottom: 1px solid var(--or-footer-border) !important;
+  }
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field input {
+    flex: 1 !important;
+
+    height: 44px !important;
+
+    padding: 0 !important;
+
+    font-size: 13px !important;
+
+    background: transparent !important;
+
+    border: 0 !important;
+
+    outline: 0 !important;
+
+    color: var(--or-footer-text) !important;
+  }
+
+  #on-repeat-footer-{{ section.id }} .or-newsletter-field button {
+    padding: 0 6px !important;
+
+    font-size: 9px !important;
+
+    letter-spacing: 0.15em !important;
+
+    text-transform: uppercase !important;
+
+    background: transparent !important;
+
+    border: 0 !important;
+
+    color: var(--or-footer-text) !important;
+
+    cursor: pointer !important;
   }
 
 
