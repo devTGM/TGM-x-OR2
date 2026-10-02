@@ -1,14 +1,23 @@
 {%- liquid
   assign desktop_image = blank
-  if section.settings.show_collection_image and collection.image != blank
-    assign desktop_image = collection.image
+  if section.settings.image_desktop != blank
+    assign desktop_image = section.settings.image_desktop
   elsif section.settings.image != blank
     assign desktop_image = section.settings.image
+  elsif section.settings.show_collection_image and collection.image != blank
+    assign desktop_image = collection.image
   elsif collection.image != blank
     assign desktop_image = collection.image
   endif
 
-  assign mobile_image = section.settings.image_mobile
+  assign mobile_image = blank
+  if section.settings.image_mobile != blank
+    assign mobile_image = section.settings.image_mobile
+  elsif collection.metafields.custom.mobile_image != blank
+    assign mobile_image = collection.metafields.custom.mobile_image
+  elsif collection.metafields.custom.mobile_banner != blank
+    assign mobile_image = collection.metafields.custom.mobile_banner
+  endif
 
   assign banner_ratio_desktop = section.settings.banner_ratio_desktop | default: section.settings.banner_ratio | default: '2/1'
   assign banner_ratio_mobile = section.settings.banner_ratio_mobile | default: section.settings.banner_ratio | default: '2/1'
@@ -32,6 +41,9 @@
     assign mobile_ratio_css = '2 / 1'
     assign mobile_pct = 50
   endif
+
+  assign desktop_pos = section.settings.image_position_desktop | default: section.settings.image_position | default: 'center'
+  assign mobile_pos = section.settings.image_position_mobile | default: section.settings.image_position | default: 'center'
 -%}
 
 {%- style -%}
@@ -80,8 +92,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: {{ section.settings.image_position | default: 'center' }};
+    object-position: {{ mobile_pos }};
     display: block;
+  }
+
+  @media screen and (min-width: 750px) {
+    .collection-banner-{{ section.id }} .collection-banner__image {
+      object-position: {{ desktop_pos }};
+    }
   }
 
   .collection-banner-{{ section.id }} .collection-banner__overlay {
@@ -162,13 +180,13 @@
 <div class="collection-banner-{{ section.id }} {% if section.settings.section_width == 'page-width' %}page-width{% endif %}">
   <div class="collection-banner__container">
     <div class="collection-banner__media-wrapper">
-      {%- if desktop_image != blank -%}
-        {%- if mobile_image != blank -%}
+      {%- if desktop_image != blank or mobile_image != blank -%}
+        {%- if mobile_image != blank and desktop_image != blank -%}
           <picture class="collection-banner__picture">
             <source
               media="(max-width: 749px)"
               srcset="
-                {%- for width in '400,600,800,1000,1200' | split: ',' -%}
+                {%- for width in '400,600,800,1000,1200,1600' | split: ',' -%}
                   {{ mobile_image | image_url: width: width }} {{ width }}w{% unless forloop.last %},{% endunless %}
                 {%- endfor -%}
               "
@@ -188,7 +206,19 @@
                 alt: collection.title | escape
             }}
           </picture>
-        {%- else -%}
+        {%- elsif mobile_image != blank -%}
+          {{
+            mobile_image
+            | image_url: width: 2400
+            | image_tag:
+              class: 'collection-banner__image',
+              widths: '400, 600, 800, 1000, 1200, 1600, 2000, 2400',
+              sizes: '100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: collection.title | escape
+          }}
+        {%- elsif desktop_image != blank -%}
           {{
             desktop_image
             | image_url: width: 3840
@@ -236,31 +266,18 @@
   "settings": [
     {
       "type": "header",
-      "content": "Banner images"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collection_image",
-      "label": "Use collection featured image",
-      "info": "Uses the collection image set in Shopify Admin (Products > Collections)",
-      "default": true
+      "content": "Desktop Banner Image"
     },
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Desktop banner fallback / custom image",
-      "info": "Used if collection has no image, or to override collection image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_mobile",
-      "label": "Mobile banner image (optional)",
-      "info": "Leave blank to automatically adjust desktop banner in 2:1 size on mobile"
+      "id": "image_desktop",
+      "label": "Desktop image",
+      "info": "Upload an image specifically for desktop screens. Leave blank to use the collection's featured image."
     },
     {
       "type": "select",
       "id": "banner_ratio_desktop",
-      "label": "Desktop banner aspect ratio",
+      "label": "Desktop aspect ratio",
       "options": [
         {
           "value": "2/1",
@@ -276,12 +293,42 @@
         }
       ],
       "default": "2/1",
-      "info": "Aspect ratio of the collection banner on desktop screens (750px+)"
+      "info": "Aspect ratio of the banner on desktop screens (750px+)"
+    },
+    {
+      "type": "select",
+      "id": "image_position_desktop",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Upload a different image specifically for mobile screens. Leave blank to automatically use the desktop image."
     },
     {
       "type": "select",
       "id": "banner_ratio_mobile",
-      "label": "Mobile banner aspect ratio",
+      "label": "Mobile aspect ratio",
       "options": [
         {
           "value": "2/1",
@@ -294,19 +341,60 @@
         {
           "value": "1/1",
           "label": "1:1 (Square)"
+        },
+        {
+          "value": "4/5",
+          "label": "4:5 (Portrait)"
         }
       ],
       "default": "2/1",
-      "info": "Aspect ratio of the collection banner on mobile screens"
+      "info": "Aspect ratio of the banner on mobile screens"
+    },
+    {
+      "type": "select",
+      "id": "image_position_mobile",
+      "label": "Mobile image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Fallback & Legacy Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Use collection featured image as desktop fallback",
+      "info": "When no custom desktop image is uploaded, use the featured image set in Products > Collections.",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Legacy custom image",
+      "info": "Kept for backwards compatibility"
     },
     {
       "type": "select",
       "id": "banner_ratio",
-      "label": "Banner aspect ratio (fallback)",
+      "label": "Legacy aspect ratio fallback",
       "options": [
         {
           "value": "2/1",
-          "label": "2:1 (Recommended)"
+          "label": "2:1"
         },
         {
           "value": "16/9",
@@ -317,13 +405,12 @@
           "label": "3:1"
         }
       ],
-      "default": "2/1",
-      "info": "Fallback aspect ratio if device-specific ratio is not set"
+      "default": "2/1"
     },
     {
       "type": "select",
       "id": "image_position",
-      "label": "Image focal position",
+      "label": "Legacy image position fallback",
       "options": [
         {
           "value": "center",
