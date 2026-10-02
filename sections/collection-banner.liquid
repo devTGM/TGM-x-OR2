@@ -10,15 +10,26 @@
 
   assign mobile_image = section.settings.image_mobile
 
-  assign banner_ratio = section.settings.banner_ratio | default: '2/1'
-  assign ratio_parts = banner_ratio | split: '/'
-  assign r_w = ratio_parts[0] | times: 1.0
-  assign r_h = ratio_parts[1] | times: 1.0
-  if r_w > 0 and r_h > 0
-    assign ratio_css = r_w | append: ' / ' | append: r_h
-    assign mobile_pct = r_h | divided_by: r_w | times: 100
+  assign banner_ratio_desktop = section.settings.banner_ratio_desktop | default: section.settings.banner_ratio | default: '2/1'
+  assign banner_ratio_mobile = section.settings.banner_ratio_mobile | default: section.settings.banner_ratio | default: '2/1'
+
+  assign d_parts = banner_ratio_desktop | split: '/'
+  assign d_w = d_parts[0] | times: 1.0
+  assign d_h = d_parts[1] | times: 1.0
+  if d_w > 0 and d_h > 0
+    assign desktop_ratio_css = d_parts[0] | append: ' / ' | append: d_parts[1]
   else
-    assign ratio_css = '2 / 1'
+    assign desktop_ratio_css = '2 / 1'
+  endif
+
+  assign m_parts = banner_ratio_mobile | split: '/'
+  assign m_w = m_parts[0] | times: 1.0
+  assign m_h = m_parts[1] | times: 1.0
+  if m_w > 0 and m_h > 0
+    assign mobile_ratio_css = m_parts[0] | append: ' / ' | append: m_parts[1]
+    assign mobile_pct = m_h | divided_by: m_w | times: 100
+  else
+    assign mobile_ratio_css = '2 / 1'
     assign mobile_pct = 50
   endif
 -%}
@@ -29,14 +40,24 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
+  .collection-banner-{{ section.id }}.page-width,
+  .collection-banner-{{ section.id }} .page-width {
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding-inline: var(--page-margin, clamp(16px, 4vw, 40px));
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .collection-banner-{{ section.id }} .collection-banner__container {
     width: 100%;
+    margin-inline: auto;
   }
 
   .collection-banner-{{ section.id }} .collection-banner__media-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: {{ ratio_css }};
+    aspect-ratio: {{ mobile_ratio_css }};
     min-height: {{ mobile_pct }}vw;
     border-radius: {{ section.settings.corner_radius }}px;
     overflow: hidden;
@@ -45,7 +66,9 @@
 
   @media screen and (min-width: 750px) {
     .collection-banner-{{ section.id }} .collection-banner__media-wrapper {
+      aspect-ratio: {{ desktop_ratio_css }};
       min-height: unset;
+      height: auto;
     }
   }
 
@@ -236,8 +259,8 @@
     },
     {
       "type": "select",
-      "id": "banner_ratio",
-      "label": "Banner aspect ratio",
+      "id": "banner_ratio_desktop",
+      "label": "Desktop banner aspect ratio",
       "options": [
         {
           "value": "2/1",
@@ -253,7 +276,49 @@
         }
       ],
       "default": "2/1",
-      "info": "Maintains exact 2:1 proportion on mobile and desktop"
+      "info": "Aspect ratio of the collection banner on desktop screens (750px+)"
+    },
+    {
+      "type": "select",
+      "id": "banner_ratio_mobile",
+      "label": "Mobile banner aspect ratio",
+      "options": [
+        {
+          "value": "2/1",
+          "label": "2:1 (Recommended)"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "1/1",
+          "label": "1:1 (Square)"
+        }
+      ],
+      "default": "2/1",
+      "info": "Aspect ratio of the collection banner on mobile screens"
+    },
+    {
+      "type": "select",
+      "id": "banner_ratio",
+      "label": "Banner aspect ratio (fallback)",
+      "options": [
+        {
+          "value": "2/1",
+          "label": "2:1 (Recommended)"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "3/1",
+          "label": "3:1"
+        }
+      ],
+      "default": "2/1",
+      "info": "Fallback aspect ratio if device-specific ratio is not set"
     },
     {
       "type": "select",
