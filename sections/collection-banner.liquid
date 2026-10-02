@@ -25,7 +25,9 @@
   assign d_parts = banner_ratio_desktop | split: '/'
   assign d_w = d_parts[0] | times: 1.0
   assign d_h = d_parts[1] | times: 1.0
-  if d_w > 0 and d_h > 0
+  if banner_ratio_desktop == 'adapt' and desktop_image != blank
+    assign desktop_ratio_css = desktop_image.aspect_ratio
+  elsif d_w > 0 and d_h > 0
     assign desktop_ratio_css = d_parts[0] | append: ' / ' | append: d_parts[1]
   else
     assign desktop_ratio_css = '2 / 1'
@@ -34,7 +36,18 @@
   assign m_parts = banner_ratio_mobile | split: '/'
   assign m_w = m_parts[0] | times: 1.0
   assign m_h = m_parts[1] | times: 1.0
-  if m_w > 0 and m_h > 0
+  if banner_ratio_mobile == 'adapt'
+    if mobile_image != blank
+      assign mobile_ratio_css = mobile_image.aspect_ratio
+      assign mobile_pct = 1 | divided_by: mobile_image.aspect_ratio | times: 100
+    elsif desktop_image != blank
+      assign mobile_ratio_css = desktop_image.aspect_ratio
+      assign mobile_pct = 1 | divided_by: desktop_image.aspect_ratio | times: 100
+    else
+      assign mobile_ratio_css = '2 / 1'
+      assign mobile_pct = 50
+    endif
+  elsif m_w > 0 and m_h > 0
     assign mobile_ratio_css = m_parts[0] | append: ' / ' | append: m_parts[1]
     assign mobile_pct = m_h | divided_by: m_w | times: 100
   else
@@ -91,7 +104,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: {{ section.settings.image_fit | default: 'cover' }};
     object-position: {{ mobile_pos }};
     display: block;
   }
@@ -284,6 +297,10 @@
           "label": "2:1 (Recommended)"
         },
         {
+          "value": "adapt",
+          "label": "Adapt to image ratio"
+        },
+        {
           "value": "16/9",
           "label": "16:9"
         },
@@ -316,6 +333,23 @@
       "default": "center"
     },
     {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit style",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover (Fill entire banner)"
+        },
+        {
+          "value": "contain",
+          "label": "Contain (Fit full image without crop)"
+        }
+      ],
+      "default": "cover",
+      "info": "For 2:1 images with 2:1 ratio, Cover displays 100% of the image perfectly."
+    },
+    {
       "type": "header",
       "content": "Mobile Banner Image"
     },
@@ -333,6 +367,10 @@
         {
           "value": "2/1",
           "label": "2:1 (Recommended)"
+        },
+        {
+          "value": "adapt",
+          "label": "Adapt to image ratio"
         },
         {
           "value": "16/9",
