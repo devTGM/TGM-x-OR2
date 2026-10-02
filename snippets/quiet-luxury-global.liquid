@@ -74,6 +74,8 @@
   html body {
     --transparent-header-offset-boolean: 0 !important;
     --section-top-offset: 0px !important;
+    --margin-block-start: 0px !important;
+    --padding-block-start: 0px !important;
   }
 
   /* Header group & header components strictly flush with zero extra space */
@@ -343,7 +345,7 @@
     min-height: 0 !important;
   }
 
-  /* Universal flush hero & banner rules — applies to ALL heroes across the site */
+  /* Universal flush hero & banner rules — applies to ALL heroes & banners across the site */
   .hero-wrapper,
   .hero-wrapper .hero,
   .hero-wrapper .hero__container,
@@ -352,7 +354,12 @@
   .hero__container,
   .hero__media-grid,
   .brand-banners-section,
-  .layered-slideshow-section {
+  .layered-slideshow-section,
+  .collection-banner-section,
+  [class*="collection-banner"],
+  .collection-banner,
+  .collection-banner__container,
+  .collection-banner__media-wrapper {
     margin-top: 0 !important;
     padding-top: 0 !important;
     margin-block-start: 0 !important;
@@ -364,7 +371,8 @@
 
   .hero .hero__container.spacing-style,
   .hero-wrapper .hero__container.spacing-style,
-  .hero__container.spacing-style {
+  .hero__container.spacing-style,
+  .collection-banner .collection-banner__container {
     padding-block-start: 0 !important;
     margin-block-start: 0 !important;
     padding-top: 0 !important;
@@ -382,15 +390,18 @@
   #MainContent > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   #MainContent > .hero-wrapper:first-of-type,
   #MainContent > .shopify-section:has(.hero):first-of-type,
+  #MainContent > .shopify-section:has([class*="collection-banner"]):first-of-type,
   .content-for-layout > *:first-child,
   .content-for-layout > .shopify-section:first-child,
   .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   .content-for-layout > .hero-wrapper:first-of-type,
   .shopify-section:has(.hero):first-of-type,
+  .shopify-section:has([class*="collection-banner"]):first-of-type,
   .hero-wrapper:first-of-type,
   #MainContent > .shopify-section:first-child > *:first-child,
   #MainContent > .shopify-section:first-of-type > .hero,
-  main > .shopify-section:first-child > *:first-child {
+  main > .shopify-section:first-child > *:first-child,
+  main > .shopify-section:first-child > * {
     margin-top: 0 !important;
     padding-top: 0 !important;
     margin-block-start: 0 !important;
@@ -406,8 +417,14 @@
      3. Sticky scroll activates solid white background and fixed positioning */
   body.template-index #header-group,
   body.template-index .header-section,
+  body.template-collection #header-group,
+  body.template-collection .header-section,
   body:has(#header-component[transparent]) #header-group,
   body:has(#header-component[transparent]) .header-section,
+  body:has(.collection-banner) #header-group,
+  body:has(.collection-banner) .header-section,
+  body:has([class*="collection-banner"]) #header-group,
+  body:has([class*="collection-banner"]) .header-section,
   #header-group:has(#header-component[transparent]),
   .header-section:has(#header-component[transparent]),
   .header-section:has(> #header-component[transparent]),
@@ -430,14 +447,21 @@
 
   body.template-index #header-group > *,
   body.template-index #header-component,
+  body.template-collection #header-group > *,
+  body.template-collection #header-component,
   body:has(#header-component[transparent]) #header-group > *,
   body:has(#header-component[transparent]) #header-component,
+  body:has(.collection-banner) #header-component,
+  body:has([class*="collection-banner"]) #header-component,
   #header-group:has(#header-component[transparent]) #header-component {
     pointer-events: auto !important;
   }
 
   body.template-index #header-component,
+  body.template-collection #header-component,
   body:has(#header-component[transparent]) #header-component,
+  body:has(.collection-banner) #header-component,
+  body:has([class*="collection-banner"]) #header-component,
   #header-component[transparent] {
     position: absolute !important;
     top: 0 !important;
@@ -490,6 +514,8 @@
 
   body.template-index #MainContent,
   body.template-index .content-for-layout,
+  body.template-collection #MainContent,
+  body.template-collection .content-for-layout,
   body:has(#header-component[transparent]) #MainContent,
   body:has(#header-component[transparent]) .content-for-layout {
     margin-top: 0 !important;
@@ -510,6 +536,10 @@
   body.template-index .hero-wrapper:first-child .hero,
   body.template-index .hero-wrapper:first-child .hero__container,
   body.template-index .hero-wrapper:first-child .hero__media-grid,
+  body.template-collection #MainContent > .shopify-section:first-child,
+  body.template-collection .content-for-layout > .shopify-section:first-child,
+  body.template-collection main > .shopify-section:first-child,
+  body.template-collection main > .shopify-section:first-child > *,
   body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child,
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:first-child,
   body:has(#header-component[transparent]) .hero-wrapper:first-of-type,
@@ -519,7 +549,14 @@
   body:has(#header-component[transparent]) .hero-wrapper:first-of-type .hero__media-grid,
   body:has(#header-component[transparent]) .hero-wrapper:first-child .hero,
   body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__container,
-  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__media-grid {
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__media-grid,
+  body:has(.collection-banner) #MainContent > .shopify-section:first-child,
+  body:has([class*="collection-banner"]) #MainContent > .shopify-section:first-child,
+  .collection-banner-section,
+  [class*="collection-banner"],
+  .collection-banner,
+  .collection-banner__container,
+  .collection-banner__media-wrapper {
     margin-top: 0 !important;
     padding-top: 0 !important;
     margin-block-start: 0 !important;
@@ -531,11 +568,13 @@
     top: 0 !important;
   }
 
-  /* If a disabled section sits at :first-child, also target the first visible hero */
+  /* If a disabled section sits at :first-child, also target the first visible hero or banner */
   body.template-index .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   body.template-index .hero-wrapper:not([style*="display: none"]):first-of-type,
+  body.template-collection .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
   body:has(#header-component[transparent]) .content-for-layout > .shopify-section:not([style*="display: none"]):not(:empty):first-of-type,
-  body:has(#header-component[transparent]) .hero-wrapper:not([style*="display: none"]):first-of-type {
+  body:has(#header-component[transparent]) .hero-wrapper:not([style*="display: none"]):first-of-type,
+  body:has(#header-component[transparent]) .collection-banner-section:not([style*="display: none"]):first-of-type {
     margin-top: 0 !important;
     padding-top: 0 !important;
     margin-block-start: 0 !important;
@@ -901,9 +940,16 @@
   }
 
   #header-component[transparent] .header__underlay-closed,
+  #header-component[transparent] .header__underlay,
   #header-component[transparent]:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__underlay-closed,
   #header-component[transparent]:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__underlay-open,
-  #header-component[transparent]:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__underlay-open::after {
+  #header-component[transparent]:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__underlay-open::after,
+  body.template-index #header-component:not([data-sticky-state='active']) .header__underlay-closed,
+  body.template-index #header-component:not([data-sticky-state='active']) .header__underlay,
+  body.template-collection #header-component:not([data-sticky-state='active']) .header__underlay-closed,
+  body.template-collection #header-component:not([data-sticky-state='active']) .header__underlay,
+  body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) .header__underlay-closed,
+  body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) .header__underlay {
     background: transparent !important;
     display: none !important;
     box-shadow: none !important;
@@ -1699,7 +1745,9 @@
   function clampHeaderHeights() {
     var header = document.querySelector('#header-component');
     var isHome = (document.body && document.body.classList.contains('template-index')) || window.location.pathname === '/' || window.location.pathname === '';
-    var isTransparent = (header && header.hasAttribute('transparent')) || isHome;
+    var isCollection = (document.body && document.body.classList.contains('template-collection')) || window.location.pathname.indexOf('/collections') !== -1;
+    var hasTopBanner = !!document.querySelector('.collection-banner-section, [class*="collection-banner"], .hero-wrapper');
+    var isTransparent = (header && header.hasAttribute('transparent')) || isHome || (isCollection && hasTopBanner);
 
     // Always ensure skip-to-content-link never displaces page wrapper
     var skipLink = document.querySelector('.skip-to-content-link');
@@ -1761,13 +1809,22 @@
         mainContent.style.setProperty('--margin-block-start', '0px');
         mainContent.style.setProperty('--padding-block-start', '0px');
       }
-      var heroWrapper = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper');
-      if (heroWrapper) {
-        heroWrapper.style.setProperty('--hero-height-offset', '0px');
-        heroWrapper.style.setProperty('--margin-block-start', '0px');
-        heroWrapper.style.setProperty('--padding-block-start', '0px');
-        heroWrapper.style.marginTop = '0px';
-        heroWrapper.style.paddingTop = '0px';
+      var firstSection = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper') || document.querySelector('.collection-banner-section') || document.querySelector('[class*="collection-banner"]');
+      if (firstSection) {
+        firstSection.style.setProperty('--hero-height-offset', '0px');
+        firstSection.style.setProperty('--margin-block-start', '0px');
+        firstSection.style.setProperty('--padding-block-start', '0px');
+        firstSection.style.setProperty('--section-top-offset', '0px');
+        firstSection.style.marginTop = '0px';
+        firstSection.style.paddingTop = '0px';
+      }
+      var bannerEl = document.querySelector('[class*="collection-banner"], .collection-banner__container, .collection-banner__media-wrapper');
+      if (bannerEl) {
+        bannerEl.style.setProperty('--margin-block-start', '0px');
+        bannerEl.style.setProperty('--padding-block-start', '0px');
+        bannerEl.style.setProperty('--section-top-offset', '0px');
+        bannerEl.style.marginTop = '0px';
+        bannerEl.style.paddingTop = '0px';
       }
     }
   }

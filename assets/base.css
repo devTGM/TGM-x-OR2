@@ -1967,16 +1967,26 @@ main > :first-child {
 }
 
 /* =========================================================
+/* =========================================================
    ON REPEAT
-   TRANSPARENT HOME HEADER
-   REMOVE WHITE STRIP ABOVE HERO
+   TRANSPARENT HEADER (HOME & COLLECTION)
+   REMOVE WHITE STRIP ABOVE HERO & BANNER
    ========================================================= */
 
 /* Zero flow height for header containers when transparent */
 body.template-index #header-group,
 body.template-index .header-section,
+body.template-collection #header-group,
+body.template-collection .header-section,
 body:has(#header-component[transparent]) #header-group,
-body:has(#header-component[transparent]) .header-section {
+body:has(#header-component[transparent]) .header-section,
+body:has(.collection-banner) #header-group,
+body:has(.collection-banner) .header-section,
+body:has([class*="collection-banner"]) #header-group,
+body:has([class*="collection-banner"]) .header-section,
+#header-group:has(#header-component[transparent]),
+.header-section:has(#header-component[transparent]),
+.header-section:has(.header[transparent]) {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
@@ -1994,12 +2004,19 @@ body:has(#header-component[transparent]) .header-section {
 }
 
 body.template-index #header-component,
-body:has(#header-component[transparent]) #header-component {
+body.template-collection #header-component,
+body:has(#header-component[transparent]) #header-component,
+body:has(.collection-banner) #header-component,
+body:has([class*="collection-banner"]) #header-component,
+#header-component[transparent] {
   pointer-events: auto !important;
 }
 
 body.template-index #header-component *,
-body:has(#header-component[transparent]) #header-component * {
+body.template-collection #header-component *,
+body:has(#header-component[transparent]) #header-component *,
+body:has(.collection-banner) #header-component *,
+body:has([class*="collection-banner"]) #header-component * {
   pointer-events: auto !important;
 }
 
@@ -2011,6 +2028,13 @@ body.template-index #header-component:not(:hover):not(:focus-within):not([data-s
 body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row,
 body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--top,
 body.template-index #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--bottom,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]),
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::before,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::after,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--top,
+body.template-collection #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]) .header__row--bottom,
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open]),
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::before,
 body:has(#header-component[transparent]) #header-component:not(:hover):not(:focus-within):not([data-sticky-state='active']):not([data-submenu-open])::after,
@@ -2025,9 +2049,31 @@ body:has(#header-component[transparent]) #header-component:not(:hover):not(:focu
   box-shadow: none !important;
 }
 
+/* Eliminate rogue underlay heights & white backgrounds that leak at page top */
+#header-component:not([data-sticky-state='active']) .header__underlay-closed,
+#header-component:not([data-sticky-state='active']) .header__underlay-open,
+#header-component:not([data-sticky-state='active']) .header__underlay-open::after,
+#header-component:not([data-sticky-state='active']) .header__underlay,
+#header-component[transparent]:not([data-sticky-state='active']) .header__underlay-closed,
+#header-component[transparent]:not([data-sticky-state='active']) .header__underlay,
+body.template-index #header-component:not([data-sticky-state='active']) .header__underlay-closed,
+body.template-collection #header-component:not([data-sticky-state='active']) .header__underlay-closed,
+body:has(#header-component[transparent]) #header-component:not([data-sticky-state='active']) .header__underlay-closed {
+  display: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+}
+
 /* Transparent header: absolute at top, fixed slide-down on scroll up, hidden on scroll down */
 body.template-index #header-component,
-body:has(#header-component[transparent]) #header-component {
+body.template-collection #header-component,
+body:has(#header-component[transparent]) #header-component,
+body:has(.collection-banner) #header-component,
+body:has([class*="collection-banner"]) #header-component,
+#header-component[transparent] {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
@@ -2039,6 +2085,7 @@ body:has(#header-component[transparent]) #header-component {
 }
 
 body.template-index #header-component[data-sticky-state='active'],
+body.template-collection #header-component[data-sticky-state='active'],
 body:has(#header-component[transparent]) #header-component[data-sticky-state='active'],
 #header-component[data-sticky-state='active'] {
   position: fixed !important;
@@ -2051,6 +2098,7 @@ body:has(#header-component[transparent]) #header-component[data-sticky-state='ac
 }
 
 body.template-index #header-component[data-sticky-state='idle'],
+body.template-collection #header-component[data-sticky-state='idle'],
 body:has(#header-component[transparent]) #header-component[data-sticky-state='idle'],
 #header-component[data-sticky-state='idle'] {
   position: fixed !important;
@@ -2059,21 +2107,47 @@ body:has(#header-component[transparent]) #header-component[data-sticky-state='id
   pointer-events: none !important;
 }
 
-/* Ensure the first page section starts at the very top */
+/* Ensure the first page section starts flush at the very top */
 body.template-index main,
 body.template-index #MainContent,
+body.template-collection main,
+body.template-collection #MainContent,
 body:has(#header-component[transparent]) main,
-body:has(#header-component[transparent]) #MainContent {
+body:has(#header-component[transparent]) #MainContent,
+main,
+#MainContent {
   margin-top: 0 !important;
   padding-top: 0 !important;
+  margin-block-start: 0 !important;
+  padding-block-start: 0 !important;
+  --margin-block-start: 0px !important;
+  --padding-block-start: 0px !important;
 }
 
 body.template-index main > .hero-wrapper:first-child,
 body.template-index #MainContent > .shopify-section:first-child,
+body.template-collection main > .shopify-section:first-child,
+body.template-collection #MainContent > .shopify-section:first-child,
 body:has(#header-component[transparent]) main > .hero-wrapper:first-child,
-body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child {
+body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child,
+main > .shopify-section:first-child,
+main > .shopify-section:first-child > *,
+#MainContent > .shopify-section:first-child,
+#MainContent > .shopify-section:first-child > *,
+.collection-banner-section,
+[class*="collection-banner"],
+.collection-banner,
+.collection-banner__container,
+.collection-banner__media-wrapper,
+.hero-wrapper,
+.hero {
   margin-top: 0 !important;
   padding-top: 0 !important;
+  margin-block-start: 0 !important;
+  padding-block-start: 0 !important;
+  --margin-block-start: 0px !important;
+  --padding-block-start: 0px !important;
+  --section-top-offset: 0px !important;
 }
 
 /* =========================================================

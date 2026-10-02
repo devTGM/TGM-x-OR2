@@ -65,6 +65,35 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
+  /* Ensure collection banner at page top sits completely flush at top: 0 with zero white gap */
+  #MainContent > .shopify-section:first-child .collection-banner-{{ section.id }},
+  #MainContent > .shopify-section:first-of-type .collection-banner-{{ section.id }},
+  .content-for-layout > .shopify-section:first-child .collection-banner-{{ section.id }},
+  .content-for-layout > .shopify-section:first-of-type .collection-banner-{{ section.id }},
+  body:has(#header-component[transparent]) .collection-banner-{{ section.id }},
+  body:has(#header-component[transparent]) .collection-banner__container,
+  body:has(#header-component[transparent]) .collection-banner__media-wrapper,
+  body.template-collection .collection-banner-{{ section.id }},
+  body.template-collection .collection-banner__container,
+  body.template-collection .collection-banner__media-wrapper,
+  .collection-banner-{{ section.id }} .collection-banner__container,
+  .collection-banner-{{ section.id }} .collection-banner__media-wrapper {
+    margin-top: 0 !important;
+    margin-block-start: 0 !important;
+    --margin-block-start: 0px !important;
+    --section-top-offset: 0px !important;
+  }
+
+  #MainContent > .shopify-section:first-child .collection-banner-{{ section.id }},
+  #MainContent > .shopify-section:first-of-type .collection-banner-{{ section.id }},
+  .content-for-layout > .shopify-section:first-child .collection-banner-{{ section.id }},
+  body:has(#header-component[transparent]) .collection-banner-{{ section.id }},
+  body.template-collection .collection-banner-{{ section.id }} {
+    padding-top: 0 !important;
+    padding-block-start: 0 !important;
+    --padding-block-start: 0px !important;
+  }
+
   .collection-banner-{{ section.id }}.page-width,
   .collection-banner-{{ section.id }} .page-width {
     max-width: var(--page-width, 1440px);
@@ -190,7 +219,7 @@
   }
 {%- endstyle -%}
 
-<div class="collection-banner-{{ section.id }} {% if section.settings.section_width == 'page-width' %}page-width{% endif %}">
+<div class="collection-banner-{{ section.id }} collection-banner disable-section-top-offset {% if section.settings.section_width == 'page-width' %}page-width{% endif %}">
   <div class="collection-banner__container">
     <div class="collection-banner__media-wrapper">
       {%- if desktop_image != blank or mobile_image != blank -%}
@@ -595,7 +624,7 @@
       "max": 60,
       "step": 4,
       "unit": "px",
-      "default": 16
+      "default": 0
     },
     {
       "type": "range",

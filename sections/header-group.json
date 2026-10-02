@@ -98,8 +98,8 @@
         "product_inverse_logo": false,
         "text_color_transparent_product": "#ffffff",
 
-        "enable_transparent_header_collection": false,
-        "collection_inverse_logo": false,
+        "enable_transparent_header_collection": true,
+        "collection_inverse_logo": true,
         "text_color_transparent_collection": "#ffffff"
       }
     }
