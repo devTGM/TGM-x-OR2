@@ -356,27 +356,137 @@
           </span>
         </button>
       </div>
+
+      <div class="size-guide-modal__nav" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected="true"
+          class="size-guide-nav-btn active"
+          onclick="
+            const m = this.closest('.size-guide-modal');
+            m.querySelectorAll('.size-guide-nav-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            m.querySelector('.size-guide-panel--chart').style.display = 'block';
+            m.querySelector('.size-guide-panel--measure').style.display = 'none';
+          "
+        >
+          Size Chart
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          class="size-guide-nav-btn"
+          onclick="
+            const m = this.closest('.size-guide-modal');
+            m.querySelectorAll('.size-guide-nav-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            m.querySelector('.size-guide-panel--chart').style.display = 'none';
+            m.querySelector('.size-guide-panel--measure').style.display = 'block';
+          "
+        >
+          How to Measure
+        </button>
+      </div>
+
       <div class="size-guide-modal__body">
-        <p class="size-guide-modal__tip">Measurements are in inches. Regular Fit.</p>
-        <div class="size-guide-modal__table-wrapper">
-          <table class="size-guide-table">
-            <thead>
-              <tr>
-                <th>Size</th>
-                <th>Chest (in)</th>
-                <th>Shoulder (in)</th>
-                <th>Length (in)</th>
-                <th>Sleeve (in)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>S</td><td>38 - 40</td><td>17.5</td><td>28.5</td><td>25.0</td></tr>
-              <tr><td>M</td><td>40 - 42</td><td>18.0</td><td>29.0</td><td>25.5</td></tr>
-              <tr><td>L</td><td>42 - 44</td><td>18.5</td><td>29.5</td><td>26.0</td></tr>
-              <tr><td>XL</td><td>44 - 46</td><td>19.0</td><td>30.0</td><td>26.5</td></tr>
-              <tr><td>XXL</td><td>46 - 48</td><td>19.5</td><td>30.5</td><td>27.0</td></tr>
-            </tbody>
-          </table>
+        <!-- Panel 1: Size Chart Table -->
+        <div class="size-guide-panel size-guide-panel--chart" role="tabpanel">
+          <p class="size-guide-modal__tip">Measurements are in inches. Regular Fit. Shirt laid flat.</p>
+          <div class="size-guide-modal__table-wrapper">
+            <table class="size-guide-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Chest (A)</th>
+                  <th>Length (B)</th>
+                  <th>Shoulder (C)</th>
+                  <th>Sleeve (D)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>S</td><td>38 - 40"</td><td>28.5"</td><td>17.5"</td><td>25.0"</td></tr>
+                <tr><td>M</td><td>40 - 42"</td><td>29.0"</td><td>18.0"</td><td>25.5"</td></tr>
+                <tr><td>L</td><td>42 - 44"</td><td>29.5"</td><td>18.5"</td><td>26.0"</td></tr>
+                <tr><td>XL</td><td>44 - 46"</td><td>30.0"</td><td>19.0"</td><td>26.5"</td></tr>
+                <tr><td>XXL</td><td>46 - 48"</td><td>30.5"</td><td>19.5"</td><td>27.0"</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="size-guide-modal__measure-cta">
+            <button
+              type="button"
+              class="button-unstyled size-guide-modal__cta-link"
+              onclick="
+                const m = this.closest('.size-guide-modal');
+                const btns = m.querySelectorAll('.size-guide-nav-btn');
+                if (btns[1]) btns[1].click();
+              "
+            >
+              <span class="size-guide-modal__cta-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </span>
+              <span>Need help measuring? <strong>View How to Measure Guide &rarr;</strong></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel 2: How to Measure Diagram & Instructions -->
+        <div class="size-guide-panel size-guide-panel--measure" role="tabpanel" style="display: none;">
+          <div class="size-guide-modal__diagram-wrapper">
+            <img
+              src="{{ 'how-to-measure.jpg' | asset_url }}"
+              alt="How to Measure - Shirt Laid Flat"
+              class="size-guide-modal__diagram-img"
+              loading="lazy"
+              width="460"
+              height="512"
+            >
+          </div>
+
+          <div class="size-guide-modal__measure-list">
+            <div class="size-guide-modal__measure-item">
+              <div class="size-guide-modal__measure-badge">A</div>
+              <div class="size-guide-modal__measure-text">
+                <strong class="size-guide-modal__measure-name">Garment Chest</strong>
+                <p class="size-guide-modal__measure-desc">Lay the shirt flat and buttoned, measure straight across from armpit to armpit, then double it for the full chest.</p>
+              </div>
+            </div>
+
+            <div class="size-guide-modal__measure-item">
+              <div class="size-guide-modal__measure-badge">B</div>
+              <div class="size-guide-modal__measure-text">
+                <strong class="size-guide-modal__measure-name">Front Length</strong>
+                <p class="size-guide-modal__measure-desc">Measure from the highest point of the shoulder, next to the collar, straight down to the bottom of the hem.</p>
+              </div>
+            </div>
+
+            <div class="size-guide-modal__measure-item">
+              <div class="size-guide-modal__measure-badge">C</div>
+              <div class="size-guide-modal__measure-text">
+                <strong class="size-guide-modal__measure-name">Across Shoulder</strong>
+                <p class="size-guide-modal__measure-desc">Measure straight across from one shoulder seam to the other.</p>
+              </div>
+            </div>
+
+            <div class="size-guide-modal__measure-item">
+              <div class="size-guide-modal__measure-badge">D</div>
+              <div class="size-guide-modal__measure-text">
+                <strong class="size-guide-modal__measure-name">Sleeve Length</strong>
+                <p class="size-guide-modal__measure-desc">Measure along the outer edge of the sleeve, from the shoulder seam to the end of the cuff (or the sleeve hem on the Cuban).</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="size-guide-modal__measure-note">ALL MEASUREMENTS IN INCHES &middot; SHIRT LAID FLAT</p>
         </div>
       </div>
     </div>

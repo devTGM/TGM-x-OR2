@@ -560,22 +560,28 @@
   /* Size Guide Modal Dialog */
   .size-guide-modal {
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 0;
-    max-width: 520px;
-    width: 90vw;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+    max-width: 540px;
+    width: 92vw;
+    max-height: 88vh;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
     background: #ffffff;
-    color: #222222;
+    color: #1C1C1C;
+    overflow: hidden;
   }
 
   .size-guide-modal::backdrop {
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
   }
 
   .size-guide-modal__inner {
-    padding: 24px;
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    max-height: 88vh;
+    box-sizing: border-box;
   }
 
   .size-guide-modal__header {
@@ -583,13 +589,16 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 12px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #ECECEC;
+    flex-shrink: 0;
   }
 
   .size-guide-modal__title {
     margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1C1C1C;
   }
 
   .size-guide-modal__close {
@@ -600,6 +609,14 @@
     justify-content: center;
     background: transparent;
     border: none;
+    color: #1C1C1C;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .size-guide-modal__close:hover {
+    opacity: 1;
+    transform: scale(1.1);
   }
 
   .size-guide-modal__close svg {
@@ -607,35 +624,203 @@
     height: 16px;
   }
 
+  /* Size Guide Navigation Tabs */
+  .size-guide-modal__nav {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 16px;
+    border-bottom: 1px solid #ECECEC;
+    flex-shrink: 0;
+  }
+
+  .size-guide-nav-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #767676;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    font-family: inherit;
+  }
+
+  .size-guide-nav-btn:hover {
+    color: #1C1C1C;
+  }
+
+  .size-guide-nav-btn.active {
+    color: #1C1C1C;
+    font-weight: 700;
+    border-bottom-color: #1C1C1C;
+  }
+
+  .size-guide-modal__body {
+    overflow-y: auto;
+    padding-right: 2px;
+    flex-grow: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .size-guide-modal__tip {
     font-size: 13px;
-    color: #666;
-    margin: 12px 0 16px;
+    color: #666666;
+    margin: 0 0 14px;
   }
 
   .size-guide-modal__table-wrapper {
     overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #EEEEEE;
   }
 
   .size-guide-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 13.5px;
     text-align: center;
   }
 
   .size-guide-table th {
-    background-color: #f7f7f7;
-    padding: 10px 8px;
+    background-color: #F8F8F8;
+    padding: 10px 10px;
     font-weight: 600;
-    border-bottom: 2px solid #e0e0e0;
-    color: #333;
+    border-bottom: 1px solid #E5E5E5;
+    color: #1C1C1C;
+    white-space: nowrap;
   }
 
   .size-guide-table td {
-    padding: 10px 8px;
-    border-bottom: 1px solid #eee;
-    color: #444;
+    padding: 11px 10px;
+    border-bottom: 1px solid #EEEEEE;
+    color: #333333;
+  }
+
+  .size-guide-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .size-guide-table tbody tr:hover td {
+    background-color: #FAFAFA;
+  }
+
+  /* CTA to How to Measure */
+  .size-guide-modal__measure-cta {
+    margin-top: 16px;
+    padding: 11px 14px;
+    background: #F9F9F9;
+    border-radius: 8px;
+    border: 1px solid #ECECEC;
+  }
+
+  .size-guide-modal__cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #1C1C1C;
+    cursor: pointer;
+    text-decoration: none;
+    width: 100%;
+    font-family: inherit;
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .size-guide-modal__cta-link:hover strong {
+    text-decoration: underline;
+  }
+
+  .size-guide-modal__cta-icon {
+    display: flex;
+    align-items: center;
+    color: #1C1C1C;
+    flex-shrink: 0;
+  }
+
+  /* How to Measure Panel */
+  .size-guide-modal__diagram-wrapper {
+    text-align: center;
+    background: #FAFAFA;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ECECEC;
+  }
+
+  .size-guide-modal__diagram-img {
+    max-width: 100%;
+    max-height: 290px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: inline-block;
+  }
+
+  .size-guide-modal__measure-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .size-guide-modal__measure-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 12px;
+    background: #FAFAFA;
+    border-radius: 8px;
+    border: 1px solid #F0F0F0;
+  }
+
+  .size-guide-modal__measure-badge {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #1C1C1C;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  .size-guide-modal__measure-text {
+    flex-grow: 1;
+  }
+
+  .size-guide-modal__measure-name {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1C1C1C;
+    margin-bottom: 3px;
+  }
+
+  .size-guide-modal__measure-desc {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #555555;
+  }
+
+  .size-guide-modal__measure-note {
+    margin: 16px 0 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #888888;
+    text-align: center;
+    text-transform: uppercase;
   }
 
   /* Circular Swatches */
