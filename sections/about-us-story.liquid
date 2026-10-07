@@ -355,7 +355,16 @@
     background-color: var(--color-accent);
   }
 
-  /* Responsive */
+  /* Reduced motion accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .ora-fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* Responsive — Tablet & Mobile (< 768px) */
   @media (max-width: 768px) {
     .ora-hero {
       grid-template-columns: 1fr;
@@ -363,36 +372,171 @@
     }
     .ora-hero__image-col {
       order: -1;
-      height: 70vw;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
       min-height: auto;
+      max-height: none;
+      position: relative;
+    }
+    .ora-hero__badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      padding: 0.65rem 1.1rem;
+      bottom: 1.25rem;
+      max-width: calc(100% - 2rem);
+      white-space: normal;
+      text-align: center;
+      line-height: 1.4;
     }
     .ora-hero__text-col {
-      padding: 3rem 1.5rem;
+      padding: 3rem 1.5rem 3.5rem;
     }
-    .ora-split {
-      grid-template-columns: 1fr;
+    .ora-hero__overline {
+      margin-bottom: 1.25rem;
+      font-size: 0.68rem;
     }
+    .ora-hero__sub {
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .ora-scroll-cta {
+      margin-top: 1.5rem;
+      font-size: 0.62rem;
+    }
+
+    /* Cohesive editorial chapter flow: Image first, Story text second */
+    .ora-split,
     .ora-split--reversed {
       grid-template-columns: 1fr;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
     }
     .ora-split__image {
-      height: 70vw;
+      order: 1;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      min-height: 320px;
+      max-height: 480px;
+      width: 100%;
     }
     .ora-split__text {
-      padding: 3rem 1.5rem;
+      order: 2;
+      padding: 3rem 1.5rem 3.5rem;
     }
+
+    .ora-split__number {
+      font-size: clamp(3.2rem, 15vw, 4.2rem);
+      top: 1.25rem;
+      right: 1.25rem;
+      line-height: 1;
+    }
+
+    .ora-heading {
+      font-size: clamp(1.8rem, 6.8vw, 2.3rem);
+      line-height: 1.16;
+      margin-bottom: 1.25rem;
+    }
+
+    .ora-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .ora-label {
+      font-size: 0.72rem;
+      margin-bottom: 1rem;
+    }
+
+    .ora-divider {
+      margin: 1.5rem 0;
+      width: 2.5rem;
+    }
+
+    .ora-caption {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-top: 1.25rem;
+    }
+
+    /* Manifesto section */
     .ora-manifesto {
-      padding: 5rem 1.5rem;
+      padding: 4.5rem 1.5rem;
     }
+    .ora-manifesto__quote {
+      font-size: clamp(1.4rem, 5.5vw, 1.95rem);
+      line-height: 1.35;
+      margin: 0 auto 2rem auto;
+    }
+    .ora-manifesto__attr {
+      font-size: 0.68rem;
+    }
+
+    /* Edition section */
     .ora-edition {
-      padding: 4rem 1.5rem;
+      padding: 4.5rem 1.5rem;
     }
     .ora-edition__grid {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2.25rem;
     }
+    .ora-edition__huge-num {
+      font-size: clamp(5.5rem, 24vw, 8rem);
+      line-height: 0.85;
+    }
+    .ora-edition__suffix {
+      font-size: 0.78rem;
+      margin-top: 0.75rem;
+    }
+    .ora-edition__list {
+      margin: 1.5rem 0 0 0;
+    }
+    .ora-edition__list li {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Closing section */
     .ora-closing {
-      padding: 6rem 1.5rem;
+      padding: 5rem 1.5rem 6rem;
+    }
+    .ora-closing__text {
+      font-size: clamp(1.4rem, 5.5vw, 1.95rem);
+      line-height: 1.35;
+      margin: 0 auto 2.5rem auto;
+    }
+    .ora-btn {
+      width: 100%;
+      max-width: 300px;
+      padding: 1.15rem 2rem;
+      font-size: 0.68rem;
+      text-align: center;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 48px;
+    }
+  }
+
+  /* Compact Mobile (< 480px) */
+  @media (max-width: 480px) {
+    .ora-hero__text-col,
+    .ora-split__text,
+    .ora-manifesto,
+    .ora-edition,
+    .ora-closing {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+    .ora-hero__image-col {
+      aspect-ratio: 4 / 5;
+    }
+    .ora-split__image {
+      aspect-ratio: 4 / 5;
     }
   }
 </style>
@@ -555,24 +699,40 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      root: null,
-      threshold: 0.15,
-      rootMargin: "0px 0px -50px 0px"
-    });
+  (function() {
+    function initStoryAnimations() {
+      const elements = document.querySelectorAll('.ora-fade-in');
+      if (!elements.length) return;
 
-    document.querySelectorAll('.ora-fade-in').forEach((el) => {
-      observer.observe(el);
-    });
-  });
+      if (!('IntersectionObserver' in window)) {
+        elements.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0.05,
+        rootMargin: "0px 0px 40px 0px"
+      });
+
+      elements.forEach(el => observer.observe(el));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", initStoryAnimations);
+    } else {
+      initStoryAnimations();
+    }
+
+    document.addEventListener("shopify:section:load", initStoryAnimations);
+  })();
 </script>
 
 {% schema %}
