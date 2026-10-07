@@ -21,17 +21,22 @@
     data-maintain-ratio
   {% endif %}
 >
-  <span class="cart-bubble__background"></span>
+  <span
+    class="cart-bubble__background"
+    style="position: absolute !important; inset: 0 !important; background-color: #1C1C1C !important; z-index: 1 !important; border-radius: 50% !important; pointer-events: none !important;"
+  ></span>
   <span
     ref="cartBubbleText"
     id="cart-bubble-text"
     class="cart-bubble__text"
+    style="position: relative !important; z-index: 2 !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; display: flex !important; align-items: center !important; justify-content: center !important; pointer-events: none !important; width: 100% !important; height: 100% !important;"
   >
     <span
       class="cart-bubble__text-count{% if cart == empty %} hidden{% endif %}"
       ref="cartBubbleCount"
       aria-hidden="true"
       data-testid="cart-bubble"
+      style="position: relative !important; z-index: 2 !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-size: 11px !important; font-weight: 700 !important; line-height: 1 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; pointer-events: none !important;"
     >
       {%- if limit == blank or cart.item_count < limit %}
         {{- cart.item_count -}}

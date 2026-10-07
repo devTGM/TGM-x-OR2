@@ -102,30 +102,30 @@ class CartIcon extends Component {
   /**
    * Checks if the cart count is correct.
    */
-  ensureCartBubbleIsCorrect = () => {
+  ensureCartBubbleIsCorrect = async () => {
     // Ensure refs are available
     if (!this.refs.cartBubbleCount) return;
 
     const sessionStorageCount = sessionStorage.getItem('cart-count');
 
-    // If no session storage data, nothing to check
-    if (sessionStorageCount === null) return;
-
-    const visibleCount = this.refs.cartBubbleCount.textContent;
-
-    try {
-      const { value, timestamp } = JSON.parse(sessionStorageCount);
-
-      // Check if the stored count matches what's visible
-      if (value === visibleCount) return;
-
-      // Only update if timestamp is recent (within 10 seconds)
-      if (Date.now() - timestamp < 10000) {
+    if (sessionStorageCount !== null) {
+      try {
+        const { value } = JSON.parse(sessionStorageCount);
         const count = parseInt(value, 10);
-
-        if (count >= 0) {
+        if (!isNaN(count) && count >= 0) {
           this.renderCartBubble(count, false);
         }
+      } catch (_) {
+        // no-op
+      }
+    }
+
+    try {
+      const response = await fetch(`${window.Shopify?.routes?.root || '/'}cart.js`);
+      if (response.ok) {
+        const cart = await response.json();
+        const itemCount = cart.item_count ?? cart.total_quantity ?? 0;
+        this.renderCartBubble(itemCount, false);
       }
     } catch (_) {
       // no-op
