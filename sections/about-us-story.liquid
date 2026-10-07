@@ -70,8 +70,10 @@
     margin-bottom: 2rem;
   }
 
-  .ora-dark-bg .ora-body {
-    color: rgba(245,240,232,0.8);
+  .ora-dark-bg .ora-body,
+  .ora-dark-bg .ora-body p,
+  .ora-dark-bg .ora-body * {
+    color: #ffffff !important;
   }
 
   .ora-divider {
@@ -201,7 +203,7 @@
   }
   
   .ora-dark-bg .ora-split__number {
-    color: rgba(255,255,255,0.05);
+    color: rgba(255, 255, 255, 0.14) !important;
   }
 
   .ora-split__content {
@@ -216,19 +218,35 @@
     margin-top: 1.5rem;
   }
   
-  .ora-dark-bg .ora-caption {
-    color: rgba(245,240,232,0.5);
+  .ora-dark-bg .ora-caption,
+  .ora-dark-bg .ora-caption * {
+    color: #ffffff !important;
   }
 
   .ora-dark-bg {
     background-color: var(--color-charcoal);
-    color: var(--color-cream);
+    color: #ffffff;
+  }
+
+  .ora-dark-bg .ora-heading,
+  .ora-dark-bg h1,
+  .ora-dark-bg h2,
+  .ora-dark-bg h3 {
+    color: #ffffff !important;
+  }
+
+  .ora-dark-bg .ora-label {
+    color: var(--color-accent) !important;
+  }
+
+  .ora-dark-bg .ora-divider {
+    background-color: var(--color-accent) !important;
   }
 
   /* 3. MANIFESTO */
   .ora-manifesto {
     background-color: var(--color-charcoal);
-    color: var(--color-cream);
+    color: #ffffff;
     padding: 8rem 2rem;
     text-align: center;
     display: flex;
@@ -236,7 +254,8 @@
     align-items: center;
     justify-content: center;
   }
-  .ora-manifesto__quote {
+  .ora-manifesto__quote,
+  .ora-manifesto__quote * {
     font-family: var(--font-heading);
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-style: italic;
@@ -244,12 +263,13 @@
     line-height: 1.2;
     max-width: 900px;
     margin: 0 auto 2.5rem auto;
+    color: #ffffff !important;
   }
   .ora-manifesto__attr {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
   }
 
   /* 5. EDITION */
@@ -508,7 +528,9 @@
       <div class="ora-split__number">03</div>
       <div class="ora-split__content">
         <span class="ora-label ora-fade-in">{{ section.settings.ch3_label }}</span>
-        <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.ch3_heading }}</h2>
+        {%- if section.settings.ch3_heading != blank -%}
+          <h2 class="ora-heading ora-fade-in ora-delay-1">{{ section.settings.ch3_heading }}</h2>
+        {%- endif -%}
         <div class="ora-body ora-fade-in ora-delay-2">
           {{ section.settings.ch3_body }}
         </div>
