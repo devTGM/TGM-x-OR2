@@ -43,13 +43,14 @@
         "edition_detail_2": "Garment washed for softness",
         "edition_detail_3": "3 styles, 11 colours",
         "edition_detail_4": "Designed for everyday wear",
+        "ch3_image": "shopify://shop_images/Relaxed_Linen_Portrait_in_Warm_Light.png",
         "ch3_label": "The Standard",
         "ch3_heading": "Designed forNothing inParticular.",
         "ch3_body": "<p>We don't want linen to look overly perfect. The natural texture and wrinkles are part of the fabric. We want our clothes to feel lived in. Wear them. Move in them. Travel in them. Wash them. Wear them again.</p>",
         "ch3_caption": "The more you wear them, the more they become yours.",
         "closing_text": "Because the best clothes are not the ones hanging untouched in your wardrobe. They are the ones you keep reaching for.",
         "closing_cta_label": "Shop the Collection",
-        "closing_cta_link": ""
+        "closing_cta_link": "shopify://collections/all"
       }
     }
   },
