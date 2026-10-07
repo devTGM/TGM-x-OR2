@@ -269,9 +269,18 @@
     }
   }
 
-  .header-actions__cart-icon .cart-bubble__text {
+  .header-actions__cart-icon .cart-bubble__text,
+  .header-actions__cart-icon .cart-bubble__text-count {
     font-family: var(--font-paragraph--family);
-    font-weight: var(--font-paragraph--weight);
+    font-weight: 600;
+    font-size: 11px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
   }
 
   .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {

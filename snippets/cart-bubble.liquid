@@ -70,14 +70,28 @@
     inset: 0;
     background-color: var(--cart-bubble-background, var(--cart-bubble-background-fallback));
     border-radius: var(--style-border-radius-lg);
+    z-index: 1;
+    pointer-events: none;
   }
 
   .cart-bubble__text {
-    font-size: var(--font-size--3xs);
-    z-index: var(--layer-flat);
+    font-size: var(--font-size--3xs, 11px);
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
+  }
+
+  .cart-bubble__text-count {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
 {% endstylesheet %}
