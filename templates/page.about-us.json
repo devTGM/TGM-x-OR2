@@ -11,7 +11,43 @@
   "sections": {
     "about_story_main": {
       "type": "about-us-story",
-      "settings": {}
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#1c1c1c",
+        "accent_color": "#c5a880",
+        "hero_overline": "ON REPEAT",
+        "hero_heading_line1": "Everyday Linen.",
+        "hero_heading_line2": "Worn on Repeat.",
+        "hero_sub": "100% European Flax Linen",
+        "hero_body": "We started with a simple idea — the best clothes are the ones you keep reaching for. ON REPEAT was born from the conviction that everyday clothing could carry the weight of tradition while moving effortlessly through the modern world.",
+        "hero_badge": "ON REPEAT  ·  Collection 01  ·  2026",
+        "ch1_label": "The Fabric",
+        "ch1_heading": "Where It AllBegins",
+        "ch1_body": "<p>Our shirts are made using 100% pure European flax linen in 60 Lea. We chose the fabric very carefully because comfort is one of the most important things for us. The fabric is soft, breathable and has the natural texture that makes linen what it is.</p>",
+        "ch1_caption": "Garment washed for softness from the first wear — no breaking-in period required.",
+        "manifesto_quote": "We didn't set out to make a shirt. We set out to make the shirt — the one you reach for without thinking, the one that carries you from morning light into evening.",
+        "manifesto_attribution": "— ON REPEAT, Founding Notes",
+        "ch2_label": "The Wear",
+        "ch2_heading": "Worn In.Never Out.",
+        "ch2_body": "<p>There's something about linen that resists overthinking. It doesn't demand a certain occasion or a particular mood. Pair it with cream trousers and leather loafers on a slow afternoon, or let the sleeves fall loose at dinner. ON REPEAT was designed around the idea that great clothes should disappear into your life — not interrupt it.</p>",
+        "ch2_caption": "Shot in natural sunlight. No artificial lighting was used — the fabric speaks for itself.",
+        "edition_number": "01",
+        "edition_suffix": "Collection",
+        "edition_label": "The Beginning",
+        "edition_heading": "A Number With Meaning",
+        "edition_body": "Collection 01 is our first release — not as a marketing device, but as a commitment: to quality that cannot be scaled, to craft that demands time, and to the people who understand the difference.",
+        "edition_detail_1": "100% European flax linen, 60 Lea",
+        "edition_detail_2": "Garment washed for softness",
+        "edition_detail_3": "3 styles, 11 colours",
+        "edition_detail_4": "Designed for everyday wear",
+        "ch3_label": "The Standard",
+        "ch3_heading": "Designed forNothing inParticular.",
+        "ch3_body": "<p>We don't want linen to look overly perfect. The natural texture and wrinkles are part of the fabric. We want our clothes to feel lived in. Wear them. Move in them. Travel in them. Wash them. Wear them again.</p>",
+        "ch3_caption": "The more you wear them, the more they become yours.",
+        "closing_text": "Because the best clothes are not the ones hanging untouched in your wardrobe. They are the ones you keep reaching for.",
+        "closing_cta_label": "Shop the Collection",
+        "closing_cta_link": ""
+      }
     }
   },
   "order": [
