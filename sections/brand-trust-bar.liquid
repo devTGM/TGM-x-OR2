@@ -1,0 +1,384 @@
+{% comment %}
+  ON REPEAT — Brand Trust & Value Propositions Bar
+  Quiet luxury aesthetic, responsive (4-in-a-row ribbon or 2x2 grid on mobile),
+  with built-in vector line art and custom image upload support.
+{% endcomment %}
+
+{% liquid
+  assign bg_color = section.settings.bg_color | default: '#FAF9F6'
+  assign border_color = section.settings.border_color | default: 'rgba(28, 28, 28, 0.08)'
+  assign text_color = section.settings.text_color | default: '#1C1C1C'
+  assign mobile_layout = section.settings.mobile_layout | default: '4_col'
+%}
+
+<div class="or-trust-bar or-trust-bar--m-{{ mobile_layout }}" id="TrustBar-{{ section.id }}" style="--tb-bg: {{ bg_color }}; --tb-border: {{ border_color }}; --tb-text: {{ text_color }};">
+  <div class="or-trust-bar__inner page-width">
+    {% for block in section.blocks %}
+      {% if block.settings.link != blank %}
+        <a href="{{ block.settings.link }}" class="or-trust-bar__item" {{ block.shopify_attributes }}>
+      {% else %}
+        <div class="or-trust-bar__item" {{ block.shopify_attributes }}>
+      {% endif %}
+
+        <div class="or-trust-bar__icon-wrap" aria-hidden="true">
+          {% if block.settings.image_upload != blank %}
+            <img
+              src="{{ block.settings.image_upload | image_url: width: 120 }}"
+              alt="{{ block.settings.title | escape }}"
+              class="or-trust-bar__icon-img"
+              width="32"
+              height="32"
+              loading="lazy"
+            >
+          {% else %}
+            {% case block.settings.icon %}
+              {% when 'truck' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                  <path d="M15 18H9"/>
+                  <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14v10"/>
+                  <circle cx="7" cy="18" r="2"/>
+                  <circle cx="17" cy="18" r="2"/>
+                </svg>
+              {% when 'return' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 14 4 9 9 4"/>
+                  <path d="M20 20v-7a4 4 0 0 0-4-4H4"/>
+                </svg>
+              {% when 'cash' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+              {% when 'linen' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a5 5 0 0 0-5 5v1a5 5 0 0 0 5 5 5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/>
+                  <path d="M12 13v9"/>
+                  <path d="M8 17l4 2 4-2"/>
+                </svg>
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+            {% endcase %}
+          {% endif %}
+        </div>
+
+        <div class="or-trust-bar__text">
+          <span class="or-trust-bar__title">{{ block.settings.title }}</span>
+          {% if block.settings.subtitle != blank %}
+            <span class="or-trust-bar__subtitle">{{ block.settings.subtitle }}</span>
+          {% endif %}
+        </div>
+
+      {% if block.settings.link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .or-trust-bar {
+    background-color: var(--tb-bg, #FAF9F6);
+    border-top: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+    border-bottom: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+    color: var(--tb-text, #1C1C1C);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .or-trust-bar__inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .or-trust-bar__item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4px 14px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+
+  .or-trust-bar__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: var(--tb-border, rgba(28, 28, 28, 0.08));
+    pointer-events: none;
+  }
+
+  .or-trust-bar__icon-wrap {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+    color: var(--tb-text, #1C1C1C);
+  }
+
+  .or-trust-bar__icon-wrap svg {
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+  }
+
+  .or-trust-bar__icon-img {
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+  }
+
+  .or-trust-bar__item:hover .or-trust-bar__icon-img,
+  .or-trust-bar__item:hover .or-trust-bar__icon-wrap svg {
+    transform: translateY(-2px);
+  }
+
+  .or-trust-bar__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .or-trust-bar__title {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: inherit;
+    line-height: 1.35;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .or-trust-bar__subtitle {
+    font-size: 0.6875rem;
+    color: #63605B;
+    margin-top: 2px;
+  }
+
+  /* MOBILE: 4-in-a-row layout */
+  @media screen and (max-width: 767px) {
+    .or-trust-bar--m-4_col .or-trust-bar__inner {
+      padding: 10px 4px;
+      gap: 0;
+    }
+    .or-trust-bar--m-4_col .or-trust-bar__item {
+      padding: 4px 2px;
+    }
+    .or-trust-bar--m-4_col .or-trust-bar__icon-wrap {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+    .or-trust-bar--m-4_col .or-trust-bar__icon-wrap svg,
+    .or-trust-bar--m-4_col .or-trust-bar__icon-img {
+      width: 22px;
+      height: 22px;
+      max-width: 22px;
+      max-height: 22px;
+    }
+    .or-trust-bar--m-4_col .or-trust-bar__title {
+      font-size: 0.625rem; /* 10px */
+      letter-spacing: 0.04em;
+      line-height: 1.22;
+    }
+    .or-trust-bar--m-4_col .or-trust-bar__item:not(:last-child)::after {
+      top: 8%;
+      height: 84%;
+    }
+
+    /* MOBILE: 2x2 grid layout */
+    .or-trust-bar--m-2x2_grid .or-trust-bar__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__item {
+      flex-direction: row;
+      gap: 10px;
+      padding: 12px 14px;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__item:not(:last-child)::after {
+      display: none;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__item:nth-child(1) {
+      border-right: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+      border-bottom: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__item:nth-child(2) {
+      border-bottom: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__item:nth-child(3) {
+      border-right: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__icon-wrap {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__icon-wrap svg,
+    .or-trust-bar--m-2x2_grid .or-trust-bar__icon-img {
+      width: 20px;
+      height: 20px;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__text {
+      align-items: flex-start;
+      text-align: left;
+    }
+    .or-trust-bar--m-2x2_grid .or-trust-bar__title {
+      font-size: 0.6875rem; /* 11px */
+      white-space: nowrap;
+      text-align: left;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Brand Trust Bar",
+  "tag": "section",
+  "class": "section-brand-trust-bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAF9F6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1C1C1C"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border & Divider Color",
+      "default": "#EAE6E1"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout",
+      "options": [
+        {
+          "value": "4_col",
+          "label": "Compact 4 in a row"
+        },
+        {
+          "value": "2x2_grid",
+          "label": "2x2 Quadrant Grid"
+        }
+      ],
+      "default": "4_col"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Value Proposition",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_upload",
+          "label": "Custom Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Vector Icon (if no image)",
+          "options": [
+            { "value": "truck", "label": "Shipping Truck" },
+            { "value": "return", "label": "Return Arrow" },
+            { "value": "cash", "label": "Cash on Delivery" },
+            { "value": "linen", "label": "Pure Linen Plant" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle (Optional)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Trust Bar",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "link": "/policies/shipping-policy"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "return",
+            "title": "Easy Returns",
+            "link": "/policies/refund-policy"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "link": "/policies/shipping-policy"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "linen",
+            "title": "100% Pure Linen"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
