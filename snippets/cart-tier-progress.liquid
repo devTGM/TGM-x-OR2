@@ -1,0 +1,455 @@
+{%- comment -%}
+  ON REPEAT — Cart Tier Progress Bar
+  "Add 1 more shirt and get 12% off"
+  Pushes customers from 1 shirt to 2 shirts to complete their linen wardrobe.
+{%- endcomment -%}
+
+{%- liquid
+  assign shirt_count = 0
+  for item in cart.items
+    assign h = item.product.handle | downcase
+    assign t = item.product.title | downcase
+    assign pt = item.product.type | downcase
+    if h contains 'shirt' or t contains 'shirt' or pt contains 'shirt' or h contains 'smart-casual' or h contains 'popover' or h contains 'cuban'
+      assign shirt_count = shirt_count | plus: item.quantity
+    else
+      assign shirt_count = shirt_count | plus: item.quantity
+    endif
+  endfor
+
+  assign percent = 0
+  if shirt_count == 1
+    assign percent = 50
+  elsif shirt_count >= 2
+    assign percent = 100
+  endif
+-%}
+
+<div
+  class="cart-tier-progress{% if shirt_count >= 2 %} is-unlocked{% elsif shirt_count == 1 %} is-halfway{% else %} is-start{% endif %}"
+  data-cart-tier-progress
+  data-target="2"
+  data-count="{{ shirt_count }}"
+  aria-live="polite"
+>
+  <div class="cart-tier-progress__header">
+    <div class="cart-tier-progress__headline">
+      <span class="cart-tier-progress__icon" aria-hidden="true">
+        <svg class="cart-tier-svg--gift" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 12 20 22 4 22 4 12"></polyline>
+          <rect x="2" y="7" width="20" height="5"></rect>
+          <line x1="12" y1="22" x2="12" y2="7"></line>
+          <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+          <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+        </svg>
+        <svg class="cart-tier-svg--unlocked" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="8 12 11 15 16 9"></polyline>
+        </svg>
+      </span>
+      <span class="cart-tier-progress__title" data-tier-title>
+        {% if shirt_count == 0 %}
+          Add 2 shirts and get 12% off
+        {% elsif shirt_count == 1 %}
+          Add 1 more shirt and get 12% off
+        {% else %}
+          You've unlocked 12% off!
+        {% endif %}
+      </span>
+    </div>
+    <span class="cart-tier-progress__pill" data-tier-pill>
+      {% if shirt_count == 0 %}
+        0/2 SHIRTS
+      {% elsif shirt_count == 1 %}
+        1/2 SHIRTS
+      {% else %}
+        12% OFF UNLOCKED
+      {% endif %}
+    </span>
+  </div>
+
+  <!-- Progress Track -->
+  <div class="cart-tier-progress__track-container">
+    <div
+      class="cart-tier-progress__track"
+      role="progressbar"
+      aria-valuenow="{{ percent }}"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-label="12% discount progress"
+    >
+      <div
+        class="cart-tier-progress__fill"
+        style="width: {{ percent }}%;"
+        data-tier-fill
+      ></div>
+    </div>
+
+    <!-- Milestones -->
+    <div class="cart-tier-progress__milestones" aria-hidden="true">
+      <div class="cart-tier-milestone cart-tier-milestone--1{% if shirt_count >= 1 %} is-reached{% endif %}" data-milestone="1">
+        <span class="cart-tier-milestone__dot"></span>
+        <span class="cart-tier-milestone__label">1 Shirt</span>
+      </div>
+      <div class="cart-tier-milestone cart-tier-milestone--2{% if shirt_count >= 2 %} is-reached{% endif %}" data-milestone="2">
+        <span class="cart-tier-milestone__dot"></span>
+        <span class="cart-tier-milestone__label">2 Shirts &bull; <strong>12% Off</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subtitle note -->
+  <div class="cart-tier-progress__subtext" data-tier-subtext>
+    {% if shirt_count == 0 %}
+      Mix &amp; match any 2 styles to unlock 12% bundle savings
+    {% elsif shirt_count == 1 %}
+      Complete the set &mdash; add 1 more style to save 12%
+    {% else %}
+      🎉 12% bundle discount unlocked &bull; Applied at checkout
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  /* ==========================================================================
+     ON REPEAT — CART TIER PROGRESS BAR STYLES
+     ========================================================================== */
+  .cart-tier-progress {
+    display: block;
+    margin: 14px var(--cart-drawer-padding, 20px) 14px var(--cart-drawer-padding, 20px);
+    padding: 13px 15px 12px 15px;
+    background: #FAF9F6;
+    border: 1px solid #EAE6DF;
+    border-radius: 9px;
+    box-sizing: border-box;
+    font-family: var(--font-body--family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1C1C1C;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Cart page context adjustments */
+  .cart-page .cart-tier-progress {
+    margin: 0 0 24px 0;
+    max-width: 100%;
+  }
+
+  /* Halfway state */
+  .cart-tier-progress.is-halfway {
+    background: #FAF8F4;
+    border-color: #E2DBD0;
+  }
+
+  /* Unlocked celebration state */
+  .cart-tier-progress.is-unlocked {
+    background: #F4F8F5;
+    border-color: #CFE3D5;
+    box-shadow: 0 2px 8px rgba(46, 74, 62, 0.05);
+  }
+
+  .cart-tier-progress__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+
+  .cart-tier-progress__headline {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+  }
+
+  .cart-tier-progress__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #1C1C1C;
+    flex-shrink: 0;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__icon {
+    color: #2E4A3E;
+  }
+
+  .cart-tier-svg--unlocked {
+    display: none;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-svg--gift {
+    display: none;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-svg--unlocked {
+    display: inline-block;
+  }
+
+  .cart-tier-progress__title {
+    font-family: var(--font-heading--family), "Cormorant Garamond", Georgia, serif !important;
+    font-size: 15.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.25 !important;
+    color: #1C1C1C !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__title {
+    color: #223D32 !important;
+  }
+
+  .cart-tier-progress__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 7px;
+    background: #1C1C1C;
+    color: #FFFFFF;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__pill {
+    background: #2E4A3E;
+    color: #FFFFFF;
+    box-shadow: 0 1px 4px rgba(46, 74, 62, 0.2);
+  }
+
+  /* Progress track */
+  .cart-tier-progress__track-container {
+    position: relative;
+    margin-bottom: 8px;
+    padding-top: 2px;
+  }
+
+  .cart-tier-progress__track {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: #E8E3DC;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__track {
+    background: #D9E8DF;
+  }
+
+  .cart-tier-progress__fill {
+    height: 100%;
+    background: #1C1C1C;
+    border-radius: 999px;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+    position: relative;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__fill {
+    background: #2E4A3E;
+  }
+
+  /* Milestones underneath track */
+  .cart-tier-progress__milestones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+
+  .cart-tier-milestone {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    color: #8C8275;
+    transition: color 0.2s ease;
+  }
+
+  .cart-tier-milestone__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #C4BCB1;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .cart-tier-milestone.is-reached {
+    color: #1C1C1C;
+    font-weight: 500;
+  }
+
+  .cart-tier-milestone.is-reached .cart-tier-milestone__dot {
+    background: #1C1C1C;
+    transform: scale(1.2);
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-milestone.cart-tier-milestone--2.is-reached {
+    color: #2E4A3E;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-milestone.cart-tier-milestone--2.is-reached .cart-tier-milestone__dot {
+    background: #2E4A3E;
+  }
+
+  /* Subtitle text */
+  .cart-tier-progress__subtext {
+    font-size: 11px;
+    color: #736B63;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    padding-top: 1px;
+  }
+
+  .cart-tier-progress.is-unlocked .cart-tier-progress__subtext {
+    color: #2D5243;
+    font-weight: 500;
+  }
+
+  @media screen and (max-width: 480px) {
+    .cart-tier-progress {
+      padding: 11px 12px 10px 12px;
+      margin: 10px var(--cart-drawer-padding, 16px) 12px var(--cart-drawer-padding, 16px);
+    }
+
+    .cart-tier-progress__title {
+      font-size: 14.5px !important;
+    }
+
+    .cart-tier-progress__pill {
+      font-size: 8.5px;
+      padding: 2.5px 6px;
+    }
+
+    .cart-tier-milestone {
+      font-size: 9.5px;
+    }
+
+    .cart-tier-progress__subtext {
+      font-size: 10.5px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function updateCartTierProgress(cart) {
+      if (!cart || !Array.isArray(cart.items)) return;
+
+      var shirtCount = 0;
+      for (var i = 0; i < cart.items.length; i++) {
+        var it = cart.items[i];
+        var h = (it.handle || '').toLowerCase();
+        var t = (it.title || '').toLowerCase();
+        var pt = (it.product_type || '').toLowerCase();
+        if (h.indexOf('shirt') !== -1 || t.indexOf('shirt') !== -1 || pt.indexOf('shirt') !== -1 ||
+            h.indexOf('smart-casual') !== -1 || h.indexOf('popover') !== -1 || h.indexOf('cuban') !== -1) {
+          shirtCount += (it.quantity || 1);
+        } else {
+          shirtCount += (it.quantity || 1);
+        }
+      }
+
+      var progressElements = document.querySelectorAll('[data-cart-tier-progress]');
+      progressElements.forEach(function(el) {
+        el.setAttribute('data-count', shirtCount);
+
+        var percent = 0;
+        var titleText = '';
+        var pillText = '';
+        var subtext = '';
+
+        el.classList.remove('is-start', 'is-halfway', 'is-unlocked');
+
+        if (shirtCount === 0) {
+          percent = 0;
+          titleText = 'Add 2 shirts and get 12% off';
+          pillText = '0/2 SHIRTS';
+          subtext = 'Mix & match any 2 styles to unlock 12% bundle savings';
+          el.classList.add('is-start');
+        } else if (shirtCount === 1) {
+          percent = 50;
+          titleText = 'Add 1 more shirt and get 12% off';
+          pillText = '1/2 SHIRTS';
+          subtext = 'Complete the set — add 1 more style to save 12%';
+          el.classList.add('is-halfway');
+        } else {
+          percent = 100;
+          titleText = "You've unlocked 12% off!";
+          pillText = '12% OFF UNLOCKED';
+          subtext = '🎉 12% bundle discount unlocked • Applied at checkout';
+          el.classList.add('is-unlocked');
+        }
+
+        var titleEl = el.querySelector('[data-tier-title]');
+        if (titleEl) titleEl.textContent = titleText;
+
+        var pillEl = el.querySelector('[data-tier-pill]');
+        if (pillEl) pillEl.textContent = pillText;
+
+        var subEl = el.querySelector('[data-tier-subtext]');
+        if (subEl) subEl.innerHTML = subtext;
+
+        var fillEl = el.querySelector('[data-tier-fill]');
+        if (fillEl) fillEl.style.width = percent + '%';
+
+        var trackEl = el.querySelector('.cart-tier-progress__track');
+        if (trackEl) trackEl.setAttribute('aria-valuenow', percent);
+
+        var ms1 = el.querySelector('[data-milestone="1"]');
+        var ms2 = el.querySelector('[data-milestone="2"]');
+        if (ms1) {
+          if (shirtCount >= 1) ms1.classList.add('is-reached');
+          else ms1.classList.remove('is-reached');
+        }
+        if (ms2) {
+          if (shirtCount >= 2) ms2.classList.add('is-reached');
+          else ms2.classList.remove('is-reached');
+        }
+      });
+    }
+
+    // Global helper
+    window.refreshCartTierProgress = function() {
+      fetch('/cart.js')
+        .then(function(res) { return res.json(); })
+        .then(function(cart) { updateCartTierProgress(cart); })
+        .catch(function(err) { console.warn('Cart progress sync error:', err); });
+    };
+
+    // Listen to standard cart events
+    document.addEventListener('cart:updated', window.refreshCartTierProgress);
+    document.addEventListener('cart:refresh', window.refreshCartTierProgress);
+
+    // Intercept standard fetch calls to cart mutation endpoints
+    if (!window._cartTierFetchHooked) {
+      window._cartTierFetchHooked = true;
+      var originalFetch = window.fetch;
+      window.fetch = function() {
+        var args = arguments;
+        var url = args[0];
+        var isCartMutation = typeof url === 'string' && (
+          url.indexOf('/cart/add') !== -1 ||
+          url.indexOf('/cart/change') !== -1 ||
+          url.indexOf('/cart/clear') !== -1 ||
+          url.indexOf('/cart/update') !== -1
+        );
+
+        return originalFetch.apply(this, args).then(function(response) {
+          if (isCartMutation) {
+            setTimeout(window.refreshCartTierProgress, 100);
+          }
+          return response;
+        });
+      };
+    }
+  })();
+</script>

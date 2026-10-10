@@ -27,6 +27,7 @@
         <div class="cart-page__title">
           {%- content_for 'block', id: 'cart-page-title', type: '_cart-title', force_empty: true %}
         </div>
+        {% render 'cart-tier-progress' %}
         <div class="cart-page__items">
           {%- content_for 'block', id: 'cart-page-items', type: '_cart-products', force_empty: true %}
         </div>
@@ -46,6 +47,7 @@
       <div class="cart-page__title">
         {%- content_for 'block', id: 'cart-page-title', type: '_cart-title' %}
       </div>
+      {% render 'cart-tier-progress' %}
 
       <div class="cart-page__items">
         {%- content_for 'block', id: 'cart-page-items', type: '_cart-products' %}

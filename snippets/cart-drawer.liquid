@@ -34,6 +34,8 @@
         {{ 'content.your_cart_is_empty' | t }}
       </h2>
 
+      {% render 'cart-tier-progress' %}
+
       <div class="cart-drawer__items">
         {% render 'cart-products', force_empty: true, context: 'drawer' %}
       </div>
@@ -110,6 +112,8 @@
                 class="cart-drawer__content"
                 aria-label="{{ 'accessibility.cart' | t }}"
               >
+                {% render 'cart-tier-progress' %}
+
                 <scroll-hint class="cart-drawer__items">
                   {% render 'cart-products', context: 'drawer' %}
                 </scroll-hint>

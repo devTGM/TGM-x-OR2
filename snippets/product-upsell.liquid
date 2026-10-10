@@ -11,65 +11,53 @@
   assign block_settings = block.settings
   assign current_prod = product | default: closest.product
   assign current_id = current_prod.id
+  assign current_handle = current_prod.handle | downcase
+  assign current_title = current_prod.title | downcase
 
-  # Product 1 selection
+  # Detect current shirt style (smart-casual, popover, or cuban)
+  assign current_style = 'smart-casual'
+  if current_handle contains 'popover' or current_title contains 'popover'
+    assign current_style = 'popover'
+  elsif current_handle contains 'cuban' or current_title contains 'cuban'
+    assign current_style = 'cuban'
+  elsif current_handle contains 'smart-casual' or current_title contains 'smart-casual'
+    assign current_style = 'smart-casual'
+  endif
+
+  # Define candidate handles for the 3 core linen shirt styles
+  assign smart_casual_handles = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose' | split: ','
+  assign popover_handles = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze' | split: ','
+  assign cuban_handles = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow' | split: ','
+
+  # Map candidate pools for the other two styles
+  if current_style == 'smart-casual'
+    assign pool_1 = popover_handles
+    assign pool_2 = cuban_handles
+  elsif current_style == 'popover'
+    assign pool_1 = smart_casual_handles
+    assign pool_2 = cuban_handles
+  elsif current_style == 'cuban'
+    assign pool_1 = smart_casual_handles
+    assign pool_2 = popover_handles
+  endif
+
+  # Allow explicit block overrides from Theme Editor settings if provided
   assign prod_1 = block_settings.upsell_product_1 | default: block_settings.upsell_product
-  # Product 2 selection
   assign prod_2 = block_settings.upsell_product_2
-  assign upsell_coll = block_settings.upsell_collection
 
-  assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-dusty-olive,the-smart-casual-shirt-dune,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-smart-casual-shirt-sunset-rose,the-cuban-collar-shirt-solar-yellow,the-popover-shirt-midnight-breeze' | split: ','
-
-  # Resolve Product 1 if blank
+  # Resolve Product 1 (First complementary style)
   if prod_1 == blank
-    if upsell_coll != blank
-      for p in upsell_coll.products
-        if p.id != current_id and p.available
-          assign prod_1 = p
-          break
-        endif
-      endfor
-    endif
-
-    if prod_1 == blank and current_prod.collections.size > 0
-      for coll in current_prod.collections
-        assign store_coll = collections[coll.handle]
-        if store_coll != blank
-          for p in store_coll.products
-            if p.id != current_id and p.available
-              assign prod_1 = p
-              break
-            endif
-          endfor
-        endif
-        if prod_1 != blank
-          break
-        endif
-      endfor
-    endif
-
+    for h in pool_1
+      assign candidate = all_products[h]
+      if candidate != blank and candidate.id != current_id and candidate.available
+        assign prod_1 = candidate
+        break
+      endif
+    endfor
     if prod_1 == blank
-      assign coll_handles = 'the-classic,the-modern,the-modern-1,bestsellers,all' | split: ','
-      for c_handle in coll_handles
-        assign store_coll = collections[c_handle]
-        if store_coll != blank
-          for p in store_coll.products
-            if p.id != current_id and p.available
-              assign prod_1 = p
-              break
-            endif
-          endfor
-        endif
-        if prod_1 != blank
-          break
-        endif
-      endfor
-    endif
-
-    if prod_1 == blank
-      for handle in store_handles
-        assign candidate = all_products[handle]
-        if candidate != blank and candidate.id != current_id and candidate.available
+      for h in pool_1
+        assign candidate = all_products[h]
+        if candidate != blank and candidate.id != current_id
           assign prod_1 = candidate
           break
         endif
@@ -77,56 +65,19 @@
     endif
   endif
 
-  # Resolve Product 2 if blank (must be distinct from current_id AND prod_1.id)
+  # Resolve Product 2 (Second complementary style)
   if prod_2 == blank
-    if upsell_coll != blank
-      for p in upsell_coll.products
-        if p.id != current_id and p.id != prod_1.id and p.available
-          assign prod_2 = p
-          break
-        endif
-      endfor
-    endif
-
-    if prod_2 == blank and current_prod.collections.size > 0
-      for coll in current_prod.collections
-        assign store_coll = collections[coll.handle]
-        if store_coll != blank
-          for p in store_coll.products
-            if p.id != current_id and p.id != prod_1.id and p.available
-              assign prod_2 = p
-              break
-            endif
-          endfor
-        endif
-        if prod_2 != blank
-          break
-        endif
-      endfor
-    endif
-
+    for h in pool_2
+      assign candidate = all_products[h]
+      if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id and candidate.available
+        assign prod_2 = candidate
+        break
+      endif
+    endfor
     if prod_2 == blank
-      assign coll_handles = 'the-classic,the-modern,the-modern-1,bestsellers,all' | split: ','
-      for c_handle in coll_handles
-        assign store_coll = collections[c_handle]
-        if store_coll != blank
-          for p in store_coll.products
-            if p.id != current_id and p.id != prod_1.id and p.available
-              assign prod_2 = p
-              break
-            endif
-          endfor
-        endif
-        if prod_2 != blank
-          break
-        endif
-      endfor
-    endif
-
-    if prod_2 == blank
-      for handle in store_handles
-        assign candidate = all_products[handle]
-        if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id and candidate.available
+      for h in pool_2
+        assign candidate = all_products[h]
+        if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id
           assign prod_2 = candidate
           break
         endif
@@ -134,14 +85,53 @@
     endif
   endif
 
-  # Fallback safety
-  if prod_1 == blank and current_prod != blank
-    assign prod_1 = current_prod
+  # Resilient fallback safety
+  if prod_1 == blank
+    assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-cuban-collar-shirt-dusty-olive' | split: ','
+    for h in store_handles
+      assign candidate = all_products[h]
+      if candidate != blank and candidate.id != current_id
+        assign prod_1 = candidate
+        break
+      endif
+    endfor
+  endif
+
+  if prod_2 == blank
+    assign store_handles = 'the-cuban-collar-shirt-dusty-olive,the-popover-shirt-raw-oat,the-smart-casual-shirt-optic-white' | split: ','
+    for h in store_handles
+      assign candidate = all_products[h]
+      if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id
+        assign prod_2 = candidate
+        break
+      endif
+    endfor
   endif
 
   assign variant_1 = prod_1.selected_or_first_available_variant | default: prod_1.variants.first
   assign variant_2 = prod_2.selected_or_first_available_variant | default: prod_2.variants.first
   assign uid = block.id | default: 'upsell-inline'
+
+  # Style kicker and tag resolution
+  assign p1_h = prod_1.handle | downcase
+  assign p1_style_tag = 'The Popover Shirt'
+  if p1_h contains 'smart-casual'
+    assign p1_style_tag = 'The Smart-Casual Shirt'
+  elsif p1_h contains 'cuban'
+    assign p1_style_tag = 'The Cuban Collar Shirt'
+  elsif p1_h contains 'popover'
+    assign p1_style_tag = 'The Popover Shirt'
+  endif
+
+  assign p2_h = prod_2.handle | downcase
+  assign p2_style_tag = 'The Cuban Collar Shirt'
+  if p2_h contains 'smart-casual'
+    assign p2_style_tag = 'The Smart-Casual Shirt'
+  elsif p2_h contains 'popover'
+    assign p2_style_tag = 'The Popover Shirt'
+  elsif p2_h contains 'cuban'
+    assign p2_style_tag = 'The Cuban Collar Shirt'
+  endif
 -%}
 
 {%- if prod_1 != blank and variant_1 != blank -%}
@@ -150,13 +140,13 @@
     data-upsell-block
     {% if block %} {{ block.shopify_attributes }} {% endif %}
   >
-    <!-- Section Header (Matches EXCLUSIVE OFFERS header) -->
+    <!-- Section Header (Matches COMPLETE THE SET requirement) -->
     <div class="luxury-upsell__header">
       <div class="luxury-upsell__label">
         <span class="luxury-upsell__dot"></span>
-        <span class="luxury-upsell__title">{{ block_settings.badge_text | default: 'COMPLETE THE LOOK' }}</span>
+        <span class="luxury-upsell__title">{{ block_settings.badge_text | default: 'COMPLETE THE SET' }}</span>
       </div>
-      <span class="luxury-upsell__sublabel">Pair it with</span>
+      <span class="luxury-upsell__sublabel">{{ block_settings.heading | default: 'Add 1 more shirt to get 12% off' }}</span>
     </div>
 
     <!-- Unified Luxury Card -->
@@ -176,11 +166,12 @@
           {% else %}
             <div class="luxury-upsell-item__placeholder"></div>
           {% endif %}
-          <span class="luxury-upsell-item__tag">100% Linen</span>
+          <span class="luxury-upsell-item__tag">{{ p1_style_tag }}</span>
         </a>
 
         <div class="luxury-upsell-item__content">
           <div class="luxury-upsell-item__meta">
+            <div class="luxury-upsell-item__style-kicker">{{ p1_style_tag }}</div>
             <h3 class="luxury-upsell-item__title">
               <a href="{{ prod_1.url }}">{{ prod_1.title }}</a>
             </h3>
@@ -189,6 +180,7 @@
               {% if variant_1.compare_at_price > variant_1.price %}
                 <span class="luxury-upsell-item__compare-price" id="UpsellComparePrice-{{ uid }}-1">{{ variant_1.compare_at_price | money }}</span>
               {% endif %}
+              <span class="luxury-upsell-item__bundle-badge">12% off with 2 shirts</span>
             </div>
           </div>
 
@@ -287,11 +279,12 @@
             {% else %}
               <div class="luxury-upsell-item__placeholder"></div>
             {% endif %}
-            <span class="luxury-upsell-item__tag">100% Linen</span>
+            <span class="luxury-upsell-item__tag">{{ p2_style_tag }}</span>
           </a>
 
           <div class="luxury-upsell-item__content">
             <div class="luxury-upsell-item__meta">
+              <div class="luxury-upsell-item__style-kicker">{{ p2_style_tag }}</div>
               <h3 class="luxury-upsell-item__title">
                 <a href="{{ prod_2.url }}">{{ prod_2.title }}</a>
               </h3>
@@ -300,6 +293,7 @@
                 {% if variant_2.compare_at_price > variant_2.price %}
                   <span class="luxury-upsell-item__compare-price" id="UpsellComparePrice-{{ uid }}-2">{{ variant_2.compare_at_price | money }}</span>
                 {% endif %}
+                <span class="luxury-upsell-item__bundle-badge">12% off with 2 shirts</span>
               </div>
             </div>
 
@@ -533,6 +527,32 @@
 
     .luxury-upsell-item__meta {
       margin-bottom: 7px;
+    }
+
+    .luxury-upsell-item__style-kicker {
+      font-family: var(--font-body--family), sans-serif;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8C8275;
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+
+    .luxury-upsell-item__bundle-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1.5px 5.5px;
+      background: #FAF6ED;
+      color: #7A5B28;
+      border: 1px solid #EADBBE;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      margin-left: 3px;
     }
 
     /* Title in Cormorant Garamond Serif */
@@ -834,6 +854,10 @@
           // Dispatch standard cart refresh events
           document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
           document.dispatchEvent(new CustomEvent('cart:updated', { bubbles: true }));
+
+          if (typeof window.refreshCartTierProgress === 'function') {
+            window.refreshCartTierProgress();
+          }
 
           // Refresh cart counter bubbles
           fetch('/cart.js')
