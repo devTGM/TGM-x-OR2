@@ -1,0 +1,27 @@
+{% comment %}
+  ON REPEAT — Main Shipping Policy Section
+  Supports custom settings, editorial styling, and block customization.
+{% endcomment %}
+
+<div class="main-shipping-policy-section" id="ShippingPolicy-{{ section.id }}" {{ section.shopify_attributes }}>
+  {% render 'shipping-policy-content' %}
+</div>
+
+{% schema %}
+{
+  "name": "Shipping Policy",
+  "tag": "section",
+  "class": "section-main-shipping-policy",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Displays ON REPEAT's official Shipping Policy with complimentary pan-India logistics, COD handling, and concierge support."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shipping Policy"
+    }
+  ]
+}
+{% endschema %}
