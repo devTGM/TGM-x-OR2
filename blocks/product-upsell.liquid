@@ -3,7 +3,7 @@
   Renders an in-line upsell card ("Complete the Look" / "Pair It With") directly below buy buttons.
 {% enddoc %}
 
-{% render 'product-upsell', block: block %}
+{% render 'product-upsell', block: block, product: closest.product %}
 
 {% schema %}
 {

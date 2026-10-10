@@ -10,6 +10,9 @@
 {%- liquid
   assign block_settings = block.settings
   assign current_prod = product | default: closest.product
+  if current_prod == blank
+    assign current_prod = collections.all.products.first | default: collections['all'].products.first
+  endif
   assign current_id = current_prod.id
   assign current_handle = current_prod.handle | downcase
   assign current_title = current_prod.title | downcase
@@ -18,76 +21,161 @@
   assign current_style = 'smart-casual'
   if current_handle contains 'popover' or current_title contains 'popover'
     assign current_style = 'popover'
-  elsif current_handle contains 'cuban' or current_title contains 'cuban'
+  elsif current_handle contains 'cuban' or current_title contains 'cuban' or current_handle contains 'resort' or current_title contains 'resort'
     assign current_style = 'cuban'
-  elsif current_handle contains 'smart-casual' or current_title contains 'smart-casual'
+  elsif current_handle contains 'smart-casual' or current_title contains 'smart-casual' or current_handle contains 'classic' or current_title contains 'classic'
     assign current_style = 'smart-casual'
   endif
 
-  # Define candidate handles for the 3 core linen shirt styles
-  assign smart_casual_handles = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose' | split: ','
-  assign popover_handles = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze' | split: ','
-  assign cuban_handles = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow' | split: ','
-
-  # Map candidate pools for the other two styles
+  # Define the two target other styles to recommend
   if current_style == 'smart-casual'
-    assign pool_1 = popover_handles
-    assign pool_2 = cuban_handles
+    assign target_style_1 = 'popover'
+    assign target_style_2 = 'cuban'
+    assign p1_fallback_tag = 'The Popover Shirt'
+    assign p2_fallback_tag = 'The Cuban Collar Shirt'
+    assign pool_1_handles = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,popover-shirt-raw-oat' | split: ','
+    assign pool_2_handles = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,the-resort-shirt-dusty-olive' | split: ','
   elsif current_style == 'popover'
-    assign pool_1 = smart_casual_handles
-    assign pool_2 = cuban_handles
+    assign target_style_1 = 'smart-casual'
+    assign target_style_2 = 'cuban'
+    assign p1_fallback_tag = 'The Smart-Casual Shirt'
+    assign p2_fallback_tag = 'The Cuban Collar Shirt'
+    assign pool_1_handles = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,classic-linen-shirt-optic-white,classic-linen-shirt-aegean-blue' | split: ','
+    assign pool_2_handles = 'the-cuban-collar-shirt-dusty-olive,the-cuban-collar-shirt-terracotta,the-cuban-collar-shirt-mist-green,the-cuban-collar-shirt-solar-yellow,the-resort-shirt-dusty-olive' | split: ','
   elsif current_style == 'cuban'
-    assign pool_1 = smart_casual_handles
-    assign pool_2 = popover_handles
+    assign target_style_1 = 'smart-casual'
+    assign target_style_2 = 'popover'
+    assign p1_fallback_tag = 'The Smart-Casual Shirt'
+    assign p2_fallback_tag = 'The Popover Shirt'
+    assign pool_1_handles = 'the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-smart-casual-shirt-dune,the-smart-casual-shirt-sunset-rose,classic-linen-shirt-optic-white,classic-linen-shirt-aegean-blue' | split: ','
+    assign pool_2_handles = 'the-popover-shirt-raw-oat,the-popover-shirt-cacao,the-popover-shirt-midnight-breeze,popover-shirt-raw-oat' | split: ','
   endif
 
-  # Allow explicit block overrides from Theme Editor settings if provided
+  # Merchant overrides from block settings if defined
   assign prod_1 = block_settings.upsell_product_1 | default: block_settings.upsell_product
   assign prod_2 = block_settings.upsell_product_2
+  assign upsell_coll = block_settings.upsell_collection
 
-  # Resolve Product 1 (First complementary style)
+  # -------------------------------------------------------------------------
+  # RESOLVE PRODUCT 1 (Target Style 1)
+  # -------------------------------------------------------------------------
+  if prod_1 == blank and upsell_coll != blank
+    for p in upsell_coll.products
+      if p.id != current_id and p.available
+        assign prod_1 = p
+        break
+      endif
+    endfor
+  endif
+
+  # Search current product's collections for Target Style 1
+  if prod_1 == blank and current_prod.collections.size > 0
+    for coll in current_prod.collections
+      assign store_coll = collections[coll.handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.available
+            assign p_h = p.handle | downcase
+            assign p_t = p.title | downcase
+            if target_style_1 == 'popover' and p_h contains 'popover' or p_t contains 'popover'
+              assign prod_1 = p
+              break
+            elsif target_style_1 == 'cuban' and p_h contains 'cuban' or p_t contains 'cuban' or p_h contains 'resort' or p_t contains 'resort'
+              assign prod_1 = p
+              break
+            elsif target_style_1 == 'smart-casual' and p_h contains 'smart-casual' or p_t contains 'smart-casual' or p_h contains 'classic' or p_t contains 'classic'
+              assign prod_1 = p
+              break
+            endif
+          endif
+        endfor
+      endif
+      if prod_1 != blank
+        break
+      endif
+    endfor
+  endif
+
+  # Search standard collections for Target Style 1
   if prod_1 == blank
-    for h in pool_1
+    assign check_colls = 'the-classic,the-modern,the-modern-1,bestsellers,shirts,all' | split: ','
+    for c_handle in check_colls
+      assign store_coll = collections[c_handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.available
+            assign p_h = p.handle | downcase
+            assign p_t = p.title | downcase
+            if target_style_1 == 'popover' and p_h contains 'popover' or p_t contains 'popover'
+              assign prod_1 = p
+              break
+            elsif target_style_1 == 'cuban' and p_h contains 'cuban' or p_t contains 'cuban' or p_h contains 'resort' or p_t contains 'resort'
+              assign prod_1 = p
+              break
+            elsif target_style_1 == 'smart-casual' and p_h contains 'smart-casual' or p_t contains 'smart-casual' or p_h contains 'classic' or p_t contains 'classic'
+              assign prod_1 = p
+              break
+            endif
+          endif
+        endfor
+      endif
+      if prod_1 != blank
+        break
+      endif
+    endfor
+  endif
+
+  # Try all_products candidate handles for Target Style 1
+  if prod_1 == blank
+    for h in pool_1_handles
       assign candidate = all_products[h]
       if candidate != blank and candidate.id != current_id and candidate.available
         assign prod_1 = candidate
         break
       endif
     endfor
-    if prod_1 == blank
-      for h in pool_1
-        assign candidate = all_products[h]
-        if candidate != blank and candidate.id != current_id
-          assign prod_1 = candidate
+  endif
+
+  # Resilient fallback for prod_1: ANY available product in collections
+  if prod_1 == blank
+    if current_prod.collections.size > 0
+      for coll in current_prod.collections
+        assign store_coll = collections[coll.handle]
+        if store_coll != blank and store_coll.products.size > 0
+          for p in store_coll.products
+            if p.id != current_id and p.available
+              assign prod_1 = p
+              break
+            endif
+          endfor
+        endif
+        if prod_1 != blank
           break
         endif
       endfor
     endif
   endif
 
-  # Resolve Product 2 (Second complementary style)
-  if prod_2 == blank
-    for h in pool_2
-      assign candidate = all_products[h]
-      if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id and candidate.available
-        assign prod_2 = candidate
+  if prod_1 == blank
+    assign check_colls = 'the-classic,the-modern,the-modern-1,bestsellers,shirts,all' | split: ','
+    for c_handle in check_colls
+      assign store_coll = collections[c_handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.available
+            assign prod_1 = p
+            break
+          endif
+        endfor
+      endif
+      if prod_1 != blank
         break
       endif
     endfor
-    if prod_2 == blank
-      for h in pool_2
-        assign candidate = all_products[h]
-        if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id
-          assign prod_2 = candidate
-          break
-        endif
-      endfor
-    endif
   endif
 
-  # Resilient fallback safety
   if prod_1 == blank
-    assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-cuban-collar-shirt-dusty-olive' | split: ','
+    assign store_handles = 'the-smart-casual-shirt-optic-white,the-popover-shirt-raw-oat,the-cuban-collar-shirt-dusty-olive,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-terracotta' | split: ','
     for h in store_handles
       assign candidate = all_products[h]
       if candidate != blank and candidate.id != current_id
@@ -97,8 +185,131 @@
     endfor
   endif
 
+  # Absolute safety fallback for prod_1
+  if prod_1 == blank and current_prod != blank
+    assign prod_1 = current_prod
+  endif
+
+  # -------------------------------------------------------------------------
+  # RESOLVE PRODUCT 2 (Target Style 2)
+  # -------------------------------------------------------------------------
+  if prod_2 == blank and upsell_coll != blank
+    for p in upsell_coll.products
+      if p.id != current_id and p.id != prod_1.id and p.available
+        assign prod_2 = p
+        break
+      endif
+    endfor
+  endif
+
+  # Search current product's collections for Target Style 2
+  if prod_2 == blank and current_prod.collections.size > 0
+    for coll in current_prod.collections
+      assign store_coll = collections[coll.handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.id != prod_1.id and p.available
+            assign p_h = p.handle | downcase
+            assign p_t = p.title | downcase
+            if target_style_2 == 'cuban' and p_h contains 'cuban' or p_t contains 'cuban' or p_h contains 'resort' or p_t contains 'resort'
+              assign prod_2 = p
+              break
+            elsif target_style_2 == 'popover' and p_h contains 'popover' or p_t contains 'popover'
+              assign prod_2 = p
+              break
+            elsif target_style_2 == 'smart-casual' and p_h contains 'smart-casual' or p_t contains 'smart-casual' or p_h contains 'classic' or p_t contains 'classic'
+              assign prod_2 = p
+              break
+            endif
+          endif
+        endfor
+      endif
+      if prod_2 != blank
+        break
+      endif
+    endfor
+  endif
+
+  # Search standard collections for Target Style 2
   if prod_2 == blank
-    assign store_handles = 'the-cuban-collar-shirt-dusty-olive,the-popover-shirt-raw-oat,the-smart-casual-shirt-optic-white' | split: ','
+    assign check_colls = 'the-classic,the-modern,the-modern-1,bestsellers,shirts,all' | split: ','
+    for c_handle in check_colls
+      assign store_coll = collections[c_handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.id != prod_1.id and p.available
+            assign p_h = p.handle | downcase
+            assign p_t = p.title | downcase
+            if target_style_2 == 'cuban' and p_h contains 'cuban' or p_t contains 'cuban' or p_h contains 'resort' or p_t contains 'resort'
+              assign prod_2 = p
+              break
+            elsif target_style_2 == 'popover' and p_h contains 'popover' or p_t contains 'popover'
+              assign prod_2 = p
+              break
+            elsif target_style_2 == 'smart-casual' and p_h contains 'smart-casual' or p_t contains 'smart-casual' or p_h contains 'classic' or p_t contains 'classic'
+              assign prod_2 = p
+              break
+            endif
+          endif
+        endfor
+      endif
+      if prod_2 != blank
+        break
+      endif
+    endfor
+  endif
+
+  # Try all_products candidate handles for Target Style 2
+  if prod_2 == blank
+    for h in pool_2_handles
+      assign candidate = all_products[h]
+      if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id and candidate.available
+        assign prod_2 = candidate
+        break
+      endif
+    endfor
+  endif
+
+  # Resilient fallback for prod_2: ANY distinct product from collections
+  if prod_2 == blank
+    if current_prod.collections.size > 0
+      for coll in current_prod.collections
+        assign store_coll = collections[coll.handle]
+        if store_coll != blank and store_coll.products.size > 0
+          for p in store_coll.products
+            if p.id != current_id and p.id != prod_1.id and p.available
+              assign prod_2 = p
+              break
+            endif
+          endfor
+        endif
+        if prod_2 != blank
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if prod_2 == blank
+    assign check_colls = 'the-classic,the-modern,the-modern-1,bestsellers,shirts,all' | split: ','
+    for c_handle in check_colls
+      assign store_coll = collections[c_handle]
+      if store_coll != blank and store_coll.products.size > 0
+        for p in store_coll.products
+          if p.id != current_id and p.id != prod_1.id and p.available
+            assign prod_2 = p
+            break
+          endif
+        endfor
+      endif
+      if prod_2 != blank
+        break
+      endif
+    endfor
+  endif
+
+  if prod_2 == blank
+    assign store_handles = 'the-cuban-collar-shirt-dusty-olive,the-popover-shirt-raw-oat,the-smart-casual-shirt-optic-white,the-smart-casual-shirt-aegean-blue,the-popover-shirt-cacao,the-cuban-collar-shirt-terracotta' | split: ','
     for h in store_handles
       assign candidate = all_products[h]
       if candidate != blank and candidate.id != current_id and candidate.id != prod_1.id
@@ -108,28 +319,35 @@
     endfor
   endif
 
+  # Absolute safety fallback for prod_2
+  if prod_2 == blank and prod_1 != blank
+    assign prod_2 = prod_1
+  endif
+
   assign variant_1 = prod_1.selected_or_first_available_variant | default: prod_1.variants.first
   assign variant_2 = prod_2.selected_or_first_available_variant | default: prod_2.variants.first
   assign uid = block.id | default: 'upsell-inline'
 
   # Style kicker and tag resolution
   assign p1_h = prod_1.handle | downcase
-  assign p1_style_tag = 'The Popover Shirt'
-  if p1_h contains 'smart-casual'
+  assign p1_t = prod_1.title | downcase
+  assign p1_style_tag = p1_fallback_tag
+  if p1_h contains 'smart-casual' or p1_t contains 'smart-casual' or p1_h contains 'classic' or p1_t contains 'classic'
     assign p1_style_tag = 'The Smart-Casual Shirt'
-  elsif p1_h contains 'cuban'
+  elsif p1_h contains 'cuban' or p1_t contains 'cuban' or p1_h contains 'resort' or p1_t contains 'resort'
     assign p1_style_tag = 'The Cuban Collar Shirt'
-  elsif p1_h contains 'popover'
+  elsif p1_h contains 'popover' or p1_t contains 'popover'
     assign p1_style_tag = 'The Popover Shirt'
   endif
 
   assign p2_h = prod_2.handle | downcase
-  assign p2_style_tag = 'The Cuban Collar Shirt'
-  if p2_h contains 'smart-casual'
+  assign p2_t = prod_2.title | downcase
+  assign p2_style_tag = p2_fallback_tag
+  if p2_h contains 'smart-casual' or p2_t contains 'smart-casual' or p2_h contains 'classic' or p2_t contains 'classic'
     assign p2_style_tag = 'The Smart-Casual Shirt'
-  elsif p2_h contains 'popover'
+  elsif p2_h contains 'popover' or p2_t contains 'popover'
     assign p2_style_tag = 'The Popover Shirt'
-  elsif p2_h contains 'cuban'
+  elsif p2_h contains 'cuban' or p2_t contains 'cuban' or p2_h contains 'resort' or p2_t contains 'resort'
     assign p2_style_tag = 'The Cuban Collar Shirt'
   endif
 -%}
