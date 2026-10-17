@@ -38,6 +38,7 @@
   html,
   body,
   .page-wrapper {
+    position: relative !important;
     margin: 0 !important;
     padding: 0 !important;
     margin-top: 0 !important;
@@ -76,6 +77,7 @@
     --section-top-offset: 0px !important;
     --margin-block-start: 0px !important;
     --padding-block-start: 0px !important;
+    --hero-height-offset: 0px !important;
   }
 
   /* Header group & header components strictly flush with zero extra space */
@@ -1793,28 +1795,73 @@
   }
 
   /* ------------------------------------------------------------------
-     15. MOBILE HERO GAP — DEFINITIVE FIX
-     Override --hero-height-offset directly at the point of consumption
-     in hero.liquid.
-     When header is transparent: hero takes full viewport (0px offset).
-     When header is solid: hero takes calc(100svh - 44px).
+     15. HERO GAP & TRANSPARENT HEADER — UNIVERSAL DEFINITIVE FIX
+     Applies to all viewports (desktop & mobile).
+     When header is transparent: hero is flush at y = 0 (0px offset).
+     When header is solid: hero takes calc(100svh - 44px) on mobile.
   ------------------------------------------------------------------ */
+  /* For transparent headers across all viewports: flush hero behind floating header */
+  body:has(#header-component[transparent]) .hero-wrapper:first-child,
+  body.template-index .hero-wrapper:first-child,
+  body.template-index #MainContent > .shopify-section:first-child,
+  body:has(#header-component[transparent]) #MainContent > .shopify-section:first-child,
+  body:has(.collection-banner) #MainContent > .shopify-section:first-child,
+  body:has([class*="collection-banner"]) #MainContent > .shopify-section:first-child {
+    --hero-height-offset: 0px !important;
+    --section-top-offset: 0px !important;
+    --header-group-height: 0px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    top: 0 !important;
+  }
+
+  body:has(#header-component[transparent]) .hero-wrapper:first-child > .hero,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__container,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__media-grid,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__media-item,
+  body:has(#header-component[transparent]) .hero-wrapper:first-child .hero__media-wrapper,
+  body.template-index .hero-wrapper:first-child > .hero,
+  body.template-index .hero-wrapper:first-child .hero,
+  body.template-index .hero-wrapper:first-child .hero__container,
+  body.template-index .hero-wrapper:first-child .hero__media-grid,
+  body.template-index .hero-wrapper:first-child .hero__media-item,
+  body.template-index .hero-wrapper:first-child .hero__media-wrapper,
+  body:has(#header-component[transparent]) .hero,
+  body:has(#header-component[transparent]) .hero__container,
+  body:has(#header-component[transparent]) .hero__media-grid,
+  body:has(#header-component[transparent]) .hero__media-item,
+  body:has(#header-component[transparent]) .hero__media-wrapper,
+  body.template-index .hero,
+  body.template-index .hero__container,
+  body.template-index .hero__media-grid,
+  body.template-index .hero__media-item,
+  body.template-index .hero__media-wrapper {
+    --hero-height-offset: 0px !important;
+    --section-top-offset: 0px !important;
+    --hero-border-radius: 0px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    top: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
   @media screen and (max-width: 749px) {
-    /* For solid headers, offset hero by 44px mobile header height */
-    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child {
+    /* For solid headers on mobile, offset hero by 44px mobile header height */
+    body:not(:has(#header-component[transparent])):not(.template-index) .hero-wrapper:first-child {
       --hero-height-offset: 44px !important;
     }
-    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child > .hero,
-    body:not(:has(#header-component[transparent])) .hero-wrapper:first-child .hero {
+    body:not(:has(#header-component[transparent])):not(.template-index) .hero-wrapper:first-child > .hero,
+    body:not(:has(#header-component[transparent])):not(.template-index) .hero-wrapper:first-child .hero {
       min-height: calc(100svh - 44px) !important;
     }
 
-    /* For transparent headers, hero goes full height behind the floating header */
-    body:has(#header-component[transparent]) .hero-wrapper:first-child {
-      --hero-height-offset: 0px !important;
-    }
+    /* On mobile transparent headers, ensure full viewport height */
     body:has(#header-component[transparent]) .hero-wrapper:first-child > .hero,
-    body:has(#header-component[transparent]) .hero-wrapper:first-child .hero {
+    body:has(#header-component[transparent]) .hero-wrapper:first-child .hero,
+    body.template-index .hero-wrapper:first-child > .hero,
+    body.template-index .hero-wrapper:first-child .hero {
       min-height: 100svh !important;
     }
   }
@@ -1834,7 +1881,15 @@
     if (prop === '--transparent-header-offset-boolean') {
       value = '0';
     }
-    if ((prop === '--header-group-height' || prop === '--header-height') && window.innerWidth < 750) {
+    var isHome = (document.body && document.body.classList.contains('template-index')) || (typeof window !== 'undefined' && (window.location.pathname === '/' || window.location.pathname === ''));
+    var header = typeof document !== 'undefined' ? document.querySelector('#header-component') : null;
+    var isTransparent = isHome || (header && header.hasAttribute('transparent'));
+
+    if (isTransparent) {
+      if (prop === '--header-group-height' || prop === '--hero-height-offset' || prop === '--section-top-offset') {
+        value = '0px';
+      }
+    } else if ((prop === '--header-group-height' || prop === '--header-height') && window.innerWidth < 750) {
       value = MOBILE_HEADER_HEIGHT;
     }
     return _origSet.call(this, prop, value, priority);
@@ -1861,8 +1916,9 @@
       if (isTransparent) {
         _origSet.call(document.body.style, '--transparent-header-offset-boolean', '0');
         _origSet.call(document.body.style, '--section-top-offset', '0px');
-      }
-      if (window.innerWidth < 750) {
+        _origSet.call(document.body.style, '--header-group-height', '0px');
+        _origSet.call(document.body.style, '--hero-height-offset', '0px');
+      } else if (window.innerWidth < 750) {
         _origSet.call(document.body.style, '--header-group-height', MOBILE_HEADER_HEIGHT);
         _origSet.call(document.body.style, '--header-height', MOBILE_HEADER_HEIGHT);
       }
@@ -1908,14 +1964,21 @@
         mainContent.style.setProperty('--margin-block-start', '0px');
         mainContent.style.setProperty('--padding-block-start', '0px');
       }
-      var firstSection = document.querySelector('#MainContent > .shopify-section:first-child') || document.querySelector('.hero-wrapper') || document.querySelector('.collection-banner-section') || document.querySelector('[class*="collection-banner"]');
-      if (firstSection) {
-        firstSection.style.setProperty('--hero-height-offset', '0px');
-        firstSection.style.setProperty('--margin-block-start', '0px');
-        firstSection.style.setProperty('--padding-block-start', '0px');
-        firstSection.style.setProperty('--section-top-offset', '0px');
-        firstSection.style.marginTop = '0px';
-        firstSection.style.paddingTop = '0px';
+      var heroEls = document.querySelectorAll(
+        '.hero, .hero__container, .hero__media-grid, .hero__media-item, .hero__media-wrapper, .hero-wrapper, #MainContent > .shopify-section:first-child'
+      );
+      if (heroEls && heroEls.length > 0) {
+        for (var i = 0; i < heroEls.length; i++) {
+          var el = heroEls[i];
+          el.style.setProperty('--hero-height-offset', '0px');
+          el.style.setProperty('--section-top-offset', '0px');
+          el.style.setProperty('--margin-block-start', '0px');
+          el.style.setProperty('--padding-block-start', '0px');
+          el.style.marginTop = '0px';
+          el.style.paddingTop = '0px';
+          el.style.borderTopLeftRadius = '0px';
+          el.style.borderTopRightRadius = '0px';
+        }
       }
       var bannerEl = document.querySelector('[class*="collection-banner"], .collection-banner__container, .collection-banner__media-wrapper');
       if (bannerEl) {
@@ -1924,6 +1987,8 @@
         bannerEl.style.setProperty('--section-top-offset', '0px');
         bannerEl.style.marginTop = '0px';
         bannerEl.style.paddingTop = '0px';
+        bannerEl.style.borderTopLeftRadius = '0px';
+        bannerEl.style.borderTopRightRadius = '0px';
       }
     }
   }
