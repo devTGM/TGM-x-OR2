@@ -2159,6 +2159,44 @@ main > .shopify-section:first-child > *,
   border-top-right-radius: 0 !important;
 }
 
+/* Universal hero media flush lock - eliminate whitespace inline box */
+.hero__media-item {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+.hero__media-item picture.hero__media,
+picture.hero__media {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+.hero__media-item img.hero__media,
+picture.hero__media img,
+img.hero__media,
+video.hero__media {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+.hero__media-wrapper--desktop {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* =========================================================
    ON REPEAT - MINIMAL QUICK ADD
    ========================================================= */
