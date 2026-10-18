@@ -5,7 +5,7 @@
 {% endcomment %}
 
 {% liquid
-  assign bg_color = section.settings.bg_color | default: '#FAF9F6'
+  assign bg_color = section.settings.bg_color | default: '#FFFFFF'
   assign border_color = section.settings.border_color | default: 'rgba(28, 28, 28, 0.08)'
   assign text_color = section.settings.text_color | default: '#1C1C1C'
   assign mobile_layout = section.settings.mobile_layout | default: '4_col'
@@ -83,7 +83,7 @@
 
 <style>
   .or-trust-bar {
-    background-color: var(--tb-bg, #FAF9F6);
+    background-color: var(--tb-bg, #FFFFFF);
     border-top: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
     border-bottom: 1px solid var(--tb-border, rgba(28, 28, 28, 0.08));
     color: var(--tb-text, #1C1C1C);
@@ -270,7 +270,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#FAF9F6"
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
