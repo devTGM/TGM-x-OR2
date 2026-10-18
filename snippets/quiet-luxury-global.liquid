@@ -1894,6 +1894,34 @@
     background-color: #ffffff !important;
   }
 
+  /* Universal "Add to Cart" and "Add to Bag" Button Color Theme: White Background, Black Text */
+  .add-to-cart-button,
+  button[name="add"],
+  .luxury-upsell-item__add-btn {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1C1C1C !important;
+    border: 1px solid #1C1C1C !important;
+  }
+
+  .add-to-cart-button:hover,
+  button[name="add"]:hover,
+  .luxury-upsell-item__add-btn:hover:not(:disabled) {
+    background-color: #f5f5f5 !important;
+    background: #f5f5f5 !important;
+    color: #1C1C1C !important;
+    border-color: #1C1C1C !important;
+  }
+
+  .add-to-cart-button .add-to-cart-icon svg,
+  .add-to-cart-button svg,
+  .luxury-upsell-item__add-btn svg,
+  .luxury-upsell-item__add-btn .upsell-btn__icon,
+  .luxury-upsell-item__add-btn .upsell-btn__added {
+    stroke: #1C1C1C !important;
+    color: #1C1C1C !important;
+  }
+
   @media screen and (max-width: 749px) {
     /* For solid headers on mobile, offset hero by 44px mobile header height */
     body:not(:has(#header-component[transparent])):not(.template-index) .hero-wrapper:first-child {

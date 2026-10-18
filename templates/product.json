@@ -266,10 +266,10 @@
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
-                    "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}"
+                    "style_class": "button-secondary",
+                    "custom_button_background": "#ffffff",
+                    "custom_button_text": "#1c1c1c",
+                    "custom_button_border": "#1c1c1c"
                   },
                   "blocks": {}
                 },
