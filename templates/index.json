@@ -125,7 +125,7 @@
         "slide_open_new_tab_1": false,
         "slide_link_2": "shopify://collections/the-modern",
         "slide_open_new_tab_2": false,
-        "slide_link_3": "shopify://collections/all",
+        "slide_link_3": "shopify://collections/all-of-on-repeat",
         "slide_open_new_tab_3": false,
         "slide_link_4": "shopify://collections/the-modern-1",
         "slide_open_new_tab_4": false,
@@ -534,7 +534,7 @@
         "border": "solid",
         "border_width": 1,
         "border_opacity": 100,
-        "border_color": "rgba(28, 28, 28, 0.08)",
+        "border_color": "#1c1c1c14",
         "border_radius": 0,
         "padding-block-start": 0,
         "padding-block-end": 0
